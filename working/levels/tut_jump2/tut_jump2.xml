@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Tutorial - Crate Jumping</name>
+	</info>
+	<resources>
+		<script file="tut_jump2.lua" />
+		<scene file="tut_jump2.irr" />
+		<collision file="tut_jump2.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<box name="crate">
+			<mesh file="cube.irrbmesh" scale="2" />
+			<shape w="2" h="2" l="2" />
+			<physics mass="3.0" />
+			<texture t1="crate0.jpg" />
+		</box>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="0.5" z="0" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="0" y="0.5" z="16" />
+		</object>
+	</objects>
+</level>

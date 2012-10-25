@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Tutorial - Hillclimbing</name>
+	</info>
+	<resources>
+		<script file="tut_move2.lua" />
+		<scene file="tut_move2.irr" />
+		<collision file="tut_move2.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<box name="crate_medium">
+			<mesh file="cube.irrbmesh" scale="1.5" />
+			<shape w="1.5" h="1.5" l="1.5" />
+			<texture t1="crate0.jpg" />
+		</box>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="0.5" z="0" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="0" y="21.5" z="37" />
+		</object>
+	</objects>
+</level>

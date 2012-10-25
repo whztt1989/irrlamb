@@ -1,0 +1,68 @@
+irrlamb 0.1.1 - 
+- Added audio (OpenAL)
+- Added screen fading
+- Added shader support
+- Added support for customlevels
+- Save data now in %APPDATA%/irrlamb for windows
+- Converted meshes to a binary format for faster loading
+- Fixed a Lua API bug in Object.GetPosition
+- Added cmake support for linux, removed scons
+
+irrlamb 0.1.0 - 1/6/2010
+- Completely updated the game's graphics
+- Added 12 tutorial levels + 2 skate levels
+- Added ability to set shadows, filtering, and AA in config file
+- Added cylinder objects
+- Physics are now framerate independent
+- Cleaned up level format
+- Cleaned up Lua API
+- Reduced replay file size
+- Removed boost dependencies
+- Updated irrlicht to 1.6
+- Updated bullet to 2.75
+- Added SQLite for level stats
+- Fixed various bugs
+- Removed audio, old levels, and grapple for now
+- Refactored lots of code
+
+irrlamb 0.0.5 - 8/27/2007
+- New gameplay mechanic: grapple
+- Added more levels
+- Added springs
+- Added basic sounds
+- Added code to limit frame rate
+- Changed replay file structure. Old replays are incompatible
+
+irrlamb 0.0.4 - 7/9/2007
+- Added level unlocking
+- Added high score list
+- Added support for constraints/joints
+- Added a lose screen
+- Added stats tracking
+- Added another level
+- Hit F12 to take screenshots
+- Added more Lua functions
+- Added basic replay controls
+- Added fonts for various resolutions
+- Fixed some compile/scons issues
+- Upgraded to GPL version 3
+
+irrlamb 0.0.3 - 6/17/2007
+- Added replays
+- Added pause and win screen
+- Added two new levels
+- Levels are now stored as xml files
+- Fixed some bugs
+
+irrlamb 0.0.2 - 6/3/2007
+- Added video and control options
+- Added level selection menu
+- Added one new level
+- Physics should now be deterministic
+- Added zone triggers
+- Windows version no longer requires VS2005 runtime libraries
+- Added more scripting functions
+- Misc. bug fixes
+
+irrlamb 0.0.1 - 5/22/2007
+- First release

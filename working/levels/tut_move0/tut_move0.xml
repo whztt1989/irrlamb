@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Tutorial - Basic Movement</name>
+	</info>
+	<resources>
+		<script file="tut_move0.lua" />
+		<scene file="tut_move0.irr" />
+		<collision file="tut_move0.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<box name="crate_medium">
+			<mesh file="cube.irrbmesh" scale="1.5" />
+			<shape w="1.5" h="1.5" l="1.5" />
+			<texture t1="crate0.jpg" />
+		</box>
+		<cylinder name="log">
+			<mesh file="cylinder.irrbmesh" scale="1" />
+			<shape w="1" h="2" />
+			<physics mass="0.25" />
+			<texture t1="woodfloor0.jpg" />
+		</cylinder>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="0.5" z="0" />
+		</object>
+		<object name="tube" template="log">
+			<position x="0" y="1" z="22" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="0" y="2.5" z="22" />
+		</object>
+		<object name="box0" template="crate_medium">
+			<position x="-4" y="0.75" z="15" />
+		</object>
+		<object name="box1" template="crate_medium">
+			<position x="4" y="0.75" z="15" />
+		</object>
+	</objects>
+</level>

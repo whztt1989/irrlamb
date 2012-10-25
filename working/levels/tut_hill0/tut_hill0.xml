@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Tutorial - Hillclimbing</name>
+	</info>
+	<resources>
+		<script file="tut_hill0.lua" />
+		<scene file="tut_hill0.irr" />
+		<collision file="tut_hill0.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="0.5" z="0" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="-5.7" y="21.5" z="31.9" />
+		</object>
+	</objects>
+</level>

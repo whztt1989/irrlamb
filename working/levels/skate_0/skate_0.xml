@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Skate Park I</name>
+	</info>
+	<resources>
+		<script file="a_skate0.lua" />
+		<scene file="a_skate0.irr" />
+		<collision file="a_skate0.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<box name="crate">
+			<mesh file="cube.irrbmesh" scale="1" />
+			<shape w="1" h="1" l="1" />
+			<texture t1="crate0.jpg" />
+			<physics mass="0.5" />
+		</box>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="14.5" y="5.5" z="-24.5" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="15.5" y="6.5" z="0" />
+		</object>
+		<object name="orb1" template="orb">
+			<position x="-15.5" y="6.5" z="0" />
+		</object>
+		<object name="orb2" template="orb">
+			<position x="0" y="5.5" z="25.25" />
+		</object>
+		<object name="orb2" template="orb">
+			<position x="0" y="4.5" z="0" />
+		</object>
+	</objects>
+</level>

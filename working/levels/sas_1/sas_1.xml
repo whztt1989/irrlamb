@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Caves</name>
+	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
+	<resources>
+		<script file="sas_1.lua" />
+		<scene file="sas_1.irr" />
+		<collision file="sas_1.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="-0.478" y="-1.468" z="0" />
+		</object>
+		<!--
+
+		<object name="player" template="player">
+		Start Position:
+			<position x="-0.478" y="-1.468" z="0" />
+		Upper test:
+			<position x="-4.08" y="15.436" z="53.523" />
+		</object>
+
+		<object name="orb0" template="orb">
+			<position x="-56.812" y="-10.594" z="-54.233" />
+		</object>
+		<object name="orb1" template="orb">
+			<position x="-67.027" y="-21.332" z="64.512" />
+		</object>
+		<object name="orb2" template="orb">
+			<position x="67.065" y="-20.452" z="56.777" />
+		</object>
+		<object name="orb3" template="orb">
+			<position x="49.392" y="-11.781" z="-69.656" />
+		</object>
+		-->
+	</objects>
+</level>

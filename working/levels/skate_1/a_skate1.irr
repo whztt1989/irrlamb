@@ -1,0 +1,981 @@
+<?xml version="1.0"?>
+<!-- Created 05/16/2010 23:27 by irrb v0.5 - "Irrlicht/Blender Exporter" -->
+<irr_scene>
+   <attributes>
+      <string name="Name" value="root"/>
+      <int name="Id" value="-1"/>
+      <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
+      <vector3d name="Rotation" value="0.000000, 0.000000, 0.000000"/>
+      <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+      <colorf name="AmbientLight" value="0.500000, 0.500000, 0.500000 1.000000"/>
+      <bool name="AutomaticCulling" value="true"/>
+      <bool name="DebugDataVisible" value="false"/>
+      <bool name="IsDebugObject" value="false"/>
+      <bool name="Visible" value="true"/>
+   </attributes>
+   <userData>
+      <attributes>
+         <string name="Exporter" value="irrb"/>
+         <string name="Exporter.Version" value="0.5"/>
+         <float name="Gravity" value="-9.800000"/>
+         <int name="OccludesLight" value="0"/>
+         <int name="Physics.Enabled" value="0"/>
+      </attributes>
+   </userData>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.019"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="23.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.015"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="23.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 89.999939, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.018"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="18.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.017"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="8.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.014"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="3.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000045, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.015"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="3.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.014"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="3.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.013"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="3.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.012"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.007"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="3.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -89.999969, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.011"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="8.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.010"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="23.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.006"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="23.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.009"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="18.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r.005"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.999861, 11.000000, 0.005215"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="6.500000, 0.000000, 0.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="18.000000, 18.000000, 18.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_ramp0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.001"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="5.000000, 0.000000, 0.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="4.900000, 4.900000, 4.900000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_ramp0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="light">
+      <attributes>
+         <string name="Name" value="Lamp"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="0.000000, 18.497013, 0.000000"/>
+         <vector3d name="Rotation" value="90.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <enum name="LightType" value="Point"/>
+         <colorf name="AmbientColor" value="0.000000,0.000000, 0.000000, 1.000000"/>
+         <colorf name="DiffuseColor" value="1.000000, 1.000000, 1.000000 1.000000"/>
+         <colorf name="SpecularColor" value="1.000000,1.000000, 1.000000, 1.000000"/>
+         <vector3d name="Attenuation" value="0.000000 0.109654 0.000000"/>
+         <float name="Radius" value="200.00"/>
+         <bool name="CastShadows" value="true"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.023861, 5.000000, -19.944786"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r.004"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.023861, 5.000000, 20.055214"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r.001"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.023861, 5.000000, -9.944785"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r.002"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.023861, 5.000000, 0.055215"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="r.003"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.023861, 5.000000, 10.055215"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_rail1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.013"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.000000, 0.000000, -10.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 89.999969, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.025"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, 5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.024"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, 5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.012"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.000000, 0.000000, -10.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.023"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.022"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.021"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.011"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.010"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -89.999969, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.020"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, -15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.009"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 180.000000, -0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.008"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, -20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.016"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.008"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.007"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, -5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.006"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.005"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, -5.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.005"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.004"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-11.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.004"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.000000, 0.000000, 10.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.003"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.003"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="-0.000000, 90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.001"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-17.000000, 0.000000, 10.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="q.002"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, 15.000000"/>
+         <vector3d name="Rotation" value="-0.000000, -90.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_quarterpipe0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="c.002"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="-23.000000, 0.000000, 20.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="5.000000, 5.000000, 5.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_corner0.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="skate_1"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="0.000000, 12.500000, 0.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/skate_1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+</irr_scene>

@@ -1,0 +1,12 @@
+irrlamb - 3D physics game
+by Alan Witkowski
+
+Latest version can be found at:
+http://irrlamb.googlecode.com
+
+Source code at:
+https://github.com/jazztickets/irrlamb
+
+Command-line arguments
+-level [.xml file]		Loads a level directly
+-replay [.replay file]	Views a replay directly

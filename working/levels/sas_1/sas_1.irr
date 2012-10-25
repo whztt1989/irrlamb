@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- Created 06/03/2010 18:04 by irrb v0.5 - "Irrlicht/Blender Exporter" -->
+<irr_scene>
+   <attributes>
+      <string name="Name" value="root"/>
+      <int name="Id" value="-1"/>
+      <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
+      <vector3d name="Rotation" value="0.000000, 0.000000, 0.000000"/>
+      <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+      <colorf name="AmbientLight" value="0.326087, 0.326087, 0.371015 1.000000"/>
+      <bool name="AutomaticCulling" value="true"/>
+      <bool name="DebugDataVisible" value="false"/>
+      <bool name="IsDebugObject" value="false"/>
+      <bool name="Visible" value="true"/>
+      <enum name="FogType" value="FogExp"/>
+      <float name="FogStart" value="0.000000"/>
+      <float name="FogEnd" value="50.000000"/>
+      <float name="FogHeight" value="0.000000"/>
+      <float name="FogDensity" value="0.15"/>
+      <colorf name="FogColor" value="0.000000, 0.000000, 0.000000, 1.000000"/>
+      <bool name="FogPixel" value="false"/>
+      <bool name="FogRange" value="false"/>
+   </attributes>
+   <userData>
+      <attributes>
+         <string name="Exporter" value="irrb"/>
+         <string name="Exporter.Version" value="0.5"/>
+         <float name="Gravity" value="-9.800000"/>
+         <int name="OccludesLight" value="0"/>
+         <int name="Physics.Enabled" value="0"/>
+      </attributes>
+   </userData>
+   <node type="mesh">
+      <attributes>
+         <string name="Name" value="a_caves0"/>
+         <int name="Id" value="-1"/>
+         <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
+         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
+         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
+         <bool name="Visible" value="true"/>
+         <enum name="AutomaticCulling" value="frustum_box"/>
+         <bool name="DebugDataVisible" value="false"/>
+         <bool name="IsDebugObject" value="false"/>
+         <bool name="ReadOnlyMaterials" value="false"/>
+         <string name="Mesh" value="meshes/sas_1.irrbmesh"/>
+      </attributes>
+      <userData>
+         <attributes>
+         </attributes>
+      </userData>
+   </node>
+</irr_scene>

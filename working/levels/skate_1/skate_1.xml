@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Skate Park II</name>
+	</info>
+	<resources>
+		<script file="a_skate1.lua" />
+		<scene file="a_skate1.irr" />
+		<collision file="a_skate1.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<zone name="bigair">
+			<shape w="5" h="10" l="5" />
+		</zone>
+		<box name="crate">
+			<mesh file="cube.irrbmesh" scale="2" />
+			<shape w="2" h="2" l="2" />
+			<texture t1="crate0.jpg" />
+			<physics mass="0.5" />
+		</box>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="38" y="12.5" z="0.0" />
+		</object>
+		<object name="orb_farjump" template="orb">
+			<position x="-29.4" y="12.5" z="0.0" />
+		</object>
+		<object name="orb_farrail" template="orb">
+			<position x="-17" y="6.5" z="0.0" />
+		</object>
+		<object name="orb_cornerleft" template="orb">
+			<position x="29.5" y="12.5" z="-26.5" />
+		</object>
+		<object name="orb_cornerright" template="orb">
+			<position x="29.5" y="12.5" z="26.5" />
+		</object>
+		<object name="orb_railleft" template="orb">
+			<position x="-4.0" y="6.5" z="-22.5" />
+		</object>
+		<object name="orb_railright" template="orb">
+			<position x="-4.0" y="6.5" z="22.5" />
+		</object>
+		<object name="bigair" template="bigair">
+			<position x="-17" y="20.5" z="0.0" />
+		</object>
+	</objects>
+</level>

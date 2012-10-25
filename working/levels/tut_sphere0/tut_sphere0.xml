@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Tutorial - Sphere Rolling</name>
+	</info>
+	<resources>
+		<script file="tut_sphere0.lua" />
+		<scene file="tut_sphere0.irr" />
+		<collision file="tut_sphere0.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<box name="crate">
+			<mesh file="cube.irrbmesh" scale="2" />
+			<shape w="2" h="2" l="2" />
+			<physics mass="3.0" />
+			<texture t1="crate0.jpg" />
+		</box>
+		<sphere name="ball">
+			<mesh file="sphere.irrbmesh" scale="10" />
+			<shape r="5" />
+			<physics mass="1.5" />
+			<texture t1="tiles0.jpg" />
+		</sphere>
+		<zone name="losezone">
+			<shape w="50" h="2" l="50" />
+		</zone>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="0.5" z="0" />
+		</object>
+		<object name="orb0" template="orb">
+			<position x="0" y="0.5" z="22" />
+		</object>
+		<object name="ball" template="ball">
+			<position x="0" y="-3" z="7" />
+			<rotation x="0" y="0" z="90" />
+		</object>
+		<object name="losezone" template="losezone">
+			<position x="0" y="-7" z="7" />
+		</object>
+	</objects>
+</level>
