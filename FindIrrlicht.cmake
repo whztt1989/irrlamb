@@ -18,8 +18,12 @@ find_path(
 		irrlicht.h
 	HINTS
 		ENV IRRLICHT_ROOT
+	PATHS
+		/usr
+		/usr/local
 	PATH_SUFFIXES
 		include
+		irrlicht
 )
 
 # find libraries
@@ -27,6 +31,9 @@ find_library(
 		IRRLICHT_LIBRARIES Irrlicht
 	HINTS
 		ENV IRRLICHT_ROOT
+	PATHS
+		/usr/lib
+		/usr/local/lib
 	PATH_SUFFIXES
 		lib/Win32-visualstudio
 )
