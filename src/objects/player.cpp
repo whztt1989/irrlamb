@@ -44,7 +44,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 	Node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	Node->setMaterialFlag(EMF_LIGHTING, false);
 	Node->setMaterialType(EMT_ONETEXTURE_BLEND);
-	Node->getMaterial(0).MaterialTypeParam = pack_texureBlendFunc(EBF_ONE, EBF_ONE);
+	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
 
 	// Emit Light
 	if(Object.Template->EmitLight)
@@ -57,7 +57,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 	InnerNode->setMaterialFlag(EMF_ZBUFFER, false);
 	InnerNode->setMaterialTexture(0, irrDriver->getTexture("textures/player_glow0.png"));
 	InnerNode->setMaterialType(EMT_ONETEXTURE_BLEND);
-	InnerNode->getMaterial(0).MaterialTypeParam = pack_texureBlendFunc(EBF_ONE, EBF_ONE);
+	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
 
 	// Particle system
 	IParticleSystemSceneNode *ParticleSystem = irrScene->addParticleSystemSceneNode(false, Node);
