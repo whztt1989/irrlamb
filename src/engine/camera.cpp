@@ -1,0 +1,122 @@
+/*************************************************************************************
+*	irrlamb - http://irrlamb.googlecode.com
+*	Copyright (C) 2011  Alan Witkowski
+*
+*	This program is free software: you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation, either version 3 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License
+*	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+**************************************************************************************/
+#include "camera.h"
+#include "replay.h"
+#include "globals.h"
+#include "audio.h"
+#include "physics.h"
+#include "namespace.h"
+
+// Constructor
+CameraClass::CameraClass()
+:	Node(NULL),
+	Yaw(0.0f),
+	MovementChanged(true),
+	Pitch(30.0f),
+	MaxDistance(5.0f),
+	Distance(5.0f) {
+
+	Node = irrScene->addCameraSceneNode();
+	Node->setNearValue(0.1f);
+	Node->setFarValue(1000.0f);
+}
+
+// Destructor
+CameraClass::~CameraClass() {
+
+	Node->remove();
+}
+
+// Updates the camera based on the mouse
+void CameraClass::HandleMouseMotion(float UpdateX, float UpdateY) {
+
+	Yaw += UpdateX;
+	Pitch += UpdateY;
+
+	if(Pitch > 89.0f)
+		Pitch = 89.0f;
+	else if(Pitch <= -89.0f)
+		Pitch = -89.0f;
+}
+
+// Updates the camera
+void CameraClass::Update(const vector3df &Target) {
+	
+	// Get camera rotation
+	Transform.makeIdentity();
+    Transform.setRotationDegrees(vector3df(Pitch, Yaw, 0.0f)); 
+
+	// Set distance from object
+	Distance = MaxDistance;
+
+	// Get camera offset
+	vector3df Offset(0.0f, 0.0f, 1.0f);
+	Transform.transformVect(Offset);
+
+	// Set listener direction
+	Audio::Instance().SetDirection(Offset.X, Offset.Y, Offset.Z);
+
+	// Position the camera
+	Offset *= -Distance;
+
+	// Set camera target
+	Node->setTarget(Target);
+
+	// Get ray intervals
+	btVector3 RayStart(Target.X, Target.Y, Target.Z), RayEnd(RayStart);
+	RayEnd[0] += Offset.X;
+	RayEnd[1] += Offset.Y;
+	RayEnd[2] += Offset.Z;
+	
+	// Get point on wall where ray collides
+	btVector3 HitNormal;
+	Physics::Instance().RaycastWorld(RayStart, RayEnd, HitNormal);
+	
+	// Shorten the offset a little bit
+	btVector3 NewOffset = RayEnd - RayStart;
+	NewOffset *= 0.9f;
+
+	//printf("%f %f %f\n", NewOffset[0], NewOffset[1], NewOffset[2]);
+	//printf("%f %f %f\n", RayEnd[0], RayEnd[1], RayEnd[2]);
+
+	// Set the new position
+	RayEnd = RayStart + NewOffset;
+	Node->setPosition(vector3df(RayEnd[0], RayEnd[1], RayEnd[2]));
+
+	// Note changes
+	if(!MovementChanged && (PreviousPosition != Node->getPosition() || PreviousLookAt != Node->getTarget()))
+		MovementChanged = true;
+
+	PreviousPosition = Node->getPosition();
+	PreviousLookAt = Node->getTarget();
+}
+
+// Record the camera
+void CameraClass::RecordReplay() {
+	
+	// Write replay
+	if(Replay::Instance().NeedsPacket() && MovementChanged) {
+		MovementChanged = false;
+
+		// Write replay information
+		FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+		Replay::Instance().WriteEvent(ReplayClass::PACKET_CAMERA);
+		ReplayStream.WriteData((void *)&Node->getPosition(), sizeof(vector3df));
+		ReplayStream.WriteData((void *)&Node->getTarget(), sizeof(vector3df));
+	}
+}
