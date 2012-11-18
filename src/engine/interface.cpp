@@ -232,7 +232,7 @@ void InterfaceClass::DrawTextBox(int PositionX, int PositionY, int Width, int He
 
 // Load GUI sounds
 void InterfaceClass::LoadSounds() {
-	Sounds[SOUND_CONFIRM] = new AudioSourceClass(Audio::Instance().GetBuffer("confirm.ogg"), false, 0.0f, 0.85f);
+	Sounds[SOUND_CONFIRM] = new AudioSourceClass(Audio::Instance().GetBuffer("confirm.ogg"), false, 0.0f, 0.75f);
 }
 
 // Unload GUI sounds
