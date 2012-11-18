@@ -90,6 +90,8 @@ void InterfaceClass::ChangeSkin(SkinType Type) {
 	Skin->setColor(EGDC_BUTTON_TEXT, SColor(255, 255, 255, 255));
 	Skin->setColor(EGDC_WINDOW, SColor(255, 0, 0, 20));	
 	Skin->setColor(EGDC_WINDOW_SYMBOL, SColor(255, 0, 0, 0));
+	Skin->setColor(EGDC_FOCUSED_EDITABLE, SColor(255, 0, 0, 0));
+	Skin->setColor(EGDC_GRAY_EDITABLE, SColor(255, 0, 0, 0));
 	
 	switch(Type) {
 		case SKIN_MENU:
