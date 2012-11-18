@@ -190,14 +190,14 @@ void PlayerClass::HandleInput() {
 	// Get input direction
 	vector3df Push(0.0f, 0.0f, 0.0f);
 	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVEFORWARD]))
-		Push.Z = 1.0f;
-	else if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVEBACK]))
-		Push.Z = -1.0f;
+		Push.Z += 1.0f;
+	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVEBACK]))
+		Push.Z += -1.0f;
 
 	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVELEFT]))
-		Push.X = -1.0f;
-	else if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVERIGHT]))
-		Push.X = 1.0f;
+		Push.X += -1.0f;
+	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVERIGHT]))
+		Push.X += 1.0f;
 
 	// Push the player
 	if(!Push.equals(vector3df())) {
