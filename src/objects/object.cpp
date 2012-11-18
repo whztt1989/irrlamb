@@ -35,8 +35,9 @@ ObjectClass::ObjectClass()
 	TouchingWall(false),
 	NeedsReplayPacket(false),
 	Node(NULL),
-	RigidBody(NULL),
-	LastPosition(0.0f, 0.0f, 0.0f) {
+	RigidBody(NULL) {
+
+	LastOrientation.setIdentity();
 
 }
 
@@ -120,7 +121,7 @@ void ObjectClass::SetProperties(const SpawnStruct &Object) {
 	if(RigidBody) {
 		RigidBody->setFriction(Template->Friction);
 		RigidBody->setDamping(Template->LinearDamping, Template->AngularDamping);
-		LastPosition = GetPosition();
+		LastOrientation.setOrigin(GetPosition());
 	}
 
 	// Collision
@@ -169,7 +170,7 @@ void ObjectClass::Stop() {
 
 // Sets the position of the body
 void ObjectClass::SetPosition(const btVector3 &Position) {
-	LastPosition = Position;
+	LastOrientation.setOrigin(Position);
 	RigidBody->getWorldTransform().setOrigin(Position);
 }
 
@@ -195,8 +196,7 @@ void ObjectClass::HandleCollision(ObjectClass *OtherObject, const btPersistentMa
 void ObjectClass::BeginFrame() {
 	TouchingGround = TouchingWall = false;
 	if(RigidBody) {
-		LastPosition = RigidBody->getWorldTransform().getOrigin();
-		LastRotation = RigidBody->getWorldTransform().getRotation();
+		LastOrientation = RigidBody->getWorldTransform();
 	}
 }
 
@@ -204,7 +204,7 @@ void ObjectClass::BeginFrame() {
 void ObjectClass::EndFrame() {
 
 	// Note changes for replays
-	if(Node && RigidBody && !NeedsReplayPacket && (LastPosition != GetPosition() || LastRotation != GetRotation())) {
+	if(Node && RigidBody && !NeedsReplayPacket && !(LastOrientation == RigidBody->getWorldTransform())) {
 		NeedsReplayPacket = true;
 	}
 }

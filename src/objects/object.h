@@ -121,8 +121,7 @@ class ObjectClass : public btMotionState {
 		// Physics and graphics
 		irr::scene::ISceneNode *Node;
 		btRigidBody *RigidBody;
-		btVector3 LastPosition;
-		btQuaternion LastRotation;
+		btTransform LastOrientation;
 		btTransform CenterOfMassTransform;
 
 		// Replays
