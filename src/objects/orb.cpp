@@ -69,7 +69,7 @@ OrbClass::OrbClass(const SpawnStruct &Object)
 		CreateRigidBody(Object, Shape);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("orb.ogg"), true, 0.0f, 0.45f, 8.0f, 16.0f);
+		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("orb.ogg"), true, 0.0f, 0.40f, 8.0f, 16.0f);
 		Sound->SetPitch(ORB_PITCH);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();

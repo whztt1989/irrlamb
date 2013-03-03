@@ -27,7 +27,6 @@ endif()
 set(BULLET_ROOT "$ENV{BULLET_ROOT}")
 find_package(Irrlicht REQUIRED)
 find_package(OpenAL REQUIRED)
-#find_package(Lua51 REQUIRED)
 find_package(Bullet REQUIRED)
 
 # include paths
@@ -68,7 +67,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL})
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY})
 
-# copy irrlamb DLLs to working directory
+# copy irrlicht DLLs to working directory
 if(WIN32)
 	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win32-VisualStudio/Irrlicht.dll" ${PROJECT_SOURCE_DIR}/working)
 endif()

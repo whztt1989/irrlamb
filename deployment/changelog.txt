@@ -6,7 +6,7 @@ irrlamb 0.1.1 -
 - Save data now in %APPDATA%/irrlamb for windows
 - Converted meshes to a binary format for faster loading
 - Fixed a Lua API bug in Object.GetPosition
-- Added cmake support for linux, removed scons
+- Removed scons, added cmake.
 
 irrlamb 0.1.0 - 1/6/2010
 - Completely updated the game's graphics

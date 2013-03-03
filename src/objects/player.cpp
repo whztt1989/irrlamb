@@ -95,7 +95,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 		RigidBody->setSleepingThresholds(0.1f, 0.1f);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("player.ogg"), true, 0.0, 0.55f);
+		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("player.ogg"), true, 0.0, 0.50f);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();
 	}
