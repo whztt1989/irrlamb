@@ -1,6 +1,6 @@
 /*************************************************************************************
 *	irrlamb - http://irrlamb.googlecode.com
-*	Copyright (C) 2011  Alan Witkowski
+*	Copyright (C) 2013  Alan Witkowski
 *
 *	This program is free software: you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ CylinderClass::CylinderClass(const SpawnStruct &Object)
 
 	// Add shadows
 	if(Config::Instance().Shadows) {
-		((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+		//((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
 	}
 
 	// Set up physics
