@@ -51,6 +51,7 @@ class ConfigClass {
 		// Input
 		int Keys[ACTIONS::COUNT];
 		float MouseScaleX, MouseScaleY;
+		bool InvertMouse;
 
 		// Replays
 		float ReplayInterval;

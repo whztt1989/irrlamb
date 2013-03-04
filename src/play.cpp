@@ -119,6 +119,9 @@ bool PlayState::HandleKeyPress(int Key) {
 					InitPause();
 				break;
 				case KEY_F2:
+					Config::Instance().InvertMouse = !Config::Instance().InvertMouse;
+				break;
+				case KEY_F3:
 					Log.Write("Player: position=%.3f %.3f %.3f", Player->GetPosition()[0], Player->GetPosition()[1], Player->GetPosition()[2]);
 				break;
 				case KEY_F5:

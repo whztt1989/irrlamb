@@ -65,6 +65,8 @@ void ConfigClass::Reset() {
 	MouseScaleX = 1.0f;
 	MouseScaleY = 1.0f;
 
+	InvertMouse = false;
+
 	// Replays
 	ReplayInterval = 0.03f;
 }
@@ -100,7 +102,7 @@ int ConfigClass::ReadConfig() {
 			Element->QueryIntAttribute("width", &ScreenWidth);
 			Element->QueryIntAttribute("height", &ScreenHeight);
 			Element->QueryIntAttribute("fullscreen", &Value);
-			Fullscreen = Value!=0;
+			Fullscreen = !!Value;
 		}
 
 		// Check for the filtering tag
@@ -109,7 +111,7 @@ int ConfigClass::ReadConfig() {
 
 			// Get screen attributes
 			Element->QueryIntAttribute("trilinear", &Value);
-			TrilinearFiltering = Value!=0;
+			TrilinearFiltering = !!Value;
 			Element->QueryIntAttribute("anisotropic", &AnisotropicFiltering);
 			Element->QueryIntAttribute("antialiasing", &AntiAliasing);
 		}
@@ -120,7 +122,7 @@ int ConfigClass::ReadConfig() {
 
 			// Get screen attributes
 			Element->QueryIntAttribute("enabled", &Value);
-			Shadows = Value!=0;
+			Shadows = !!Value;
 		}
 
 		// Check for the shader tag
@@ -129,7 +131,7 @@ int ConfigClass::ReadConfig() {
 
 			// Get screen attributes
 			Element->QueryIntAttribute("enabled", &Value);
-			Shaders = Value!=0;
+			Shaders = !!Value;
 		}
 	}
 
@@ -140,7 +142,7 @@ int ConfigClass::ReadConfig() {
 		
 		// Get audio attributes
 		AudioElement->QueryIntAttribute("enabled", &Value);
-		AudioEnabled = Value!=0;
+		AudioEnabled = !!Value;
 		
 		/*
 		// Get sound element
@@ -164,12 +166,17 @@ int ConfigClass::ReadConfig() {
 	// Get input element
 	TiXmlElement *InputElement = ConfigElement->FirstChildElement("input");
 	if(InputElement) {
+		int Value;
 
 		// Get mouse attributes
 		InputElement->QueryFloatAttribute("mousex", &MouseScaleX);
 
 		// Get mouse attributes
 		InputElement->QueryFloatAttribute("mousey", &MouseScaleY);
+
+		// Get mouse invert
+		InputElement->QueryIntAttribute("invert", &Value);
+		InvertMouse = !!Value;
 	}
 
 	// Get keyboard mapping
@@ -261,6 +268,7 @@ int ConfigClass::WriteConfig() {
 	TiXmlElement *InputElement = new TiXmlElement("input");
 	InputElement->SetDoubleAttribute("mousex", 1.0);
 	InputElement->SetDoubleAttribute("mousey", 1.0);
+	InputElement->SetAttribute("invert", InvertMouse);
 	ConfigElement->LinkEndChild(InputElement);
 
 	// Actions

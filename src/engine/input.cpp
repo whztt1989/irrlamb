@@ -86,9 +86,14 @@ bool InputClass::OnEvent(const SEvent &Event) {
 						// Center the cursor
 						if(!(equals(MouseUpdate.X, 0.5f) && equals(MouseUpdate.Y, 0.5f)))
 							irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);						
+						
+						// Invert mouse
+						float MouseScaleY = Config::Instance().MouseScaleY;
+						if(Config::Instance().InvertMouse)
+							MouseScaleY = -MouseScaleY;
 
 						Game::Instance().GetState()->HandleMouseMotion((MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config::Instance().MouseScaleX,
-																				(MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * Config::Instance().MouseScaleY);
+																				(MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY);
 					}
 				break;
 				case EMIE_MOUSE_WHEEL:

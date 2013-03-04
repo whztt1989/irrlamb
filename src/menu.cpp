@@ -318,6 +318,10 @@ void MenuState::HandleGUI(int EventType, IGUIElement *Element) {
 					for(int i = 0; i < ACTIONS::COUNT; i++)
 						Config::Instance().Keys[i] = CurrentKeys[i];
 
+					// Save invert mouse
+					IGUICheckBox *InvertMouse = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(CONTROLS_INVERTMOUSE));
+					Config::Instance().InvertMouse = InvertMouse->isChecked();
+
 					Config::Instance().WriteConfig();
 
 					State = STATE_INITOPTIONS;
@@ -704,9 +708,9 @@ void MenuState::Update(float FrameTime) {
 
 			// Sound enabled
 			Y += 60;
-			IGUIStaticText *TextFullscreen = irrGUI->addStaticText(L"Audio Enabled", Interface::Instance().GetCenteredRect(X - 65, Y, 110, 25));
-			TextFullscreen->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config::Instance().AudioEnabled, Interface::Instance().GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
+			IGUIStaticText *TextAudioEnabled = irrGUI->addStaticText(L"Audio Enabled", Interface::Instance().GetCenteredRect(X - 65, Y, 110, 25));
+			TextAudioEnabled->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+			IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config::Instance().AudioEnabled, Interface::Instance().GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
 
 			// Save
 			Y += 90;
@@ -751,6 +755,12 @@ void MenuState::Update(float FrameTime) {
 
 				Y += 35;
 			}
+
+			// Invert mouse
+			Y += 5;
+			IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface::Instance().GetCenteredRect(X - 65, Y, 110, 25));
+			TextInvertMouse->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+			IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config::Instance().InvertMouse, Interface::Instance().GetCenteredRect(X + 60, Y, 100, 25), 0, CONTROLS_INVERTMOUSE);
 
 			// Save
 			IGUIButton *ButtonSave = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), 0, CONTROLS_SAVE, L"Save");
