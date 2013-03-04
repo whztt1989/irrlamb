@@ -62,7 +62,7 @@ source_group(stbvorbis FILES ${SRC_STBVORBIS})
 source_group(tinyxml FILES ${SRC_TINYXML})
 
 # create exe
-add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL})
+add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY})

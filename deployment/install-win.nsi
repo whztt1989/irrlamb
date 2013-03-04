@@ -38,6 +38,7 @@
 
 ; MUI end ------
 
+RequestExecutionLevel admin
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "irrlamb-${PRODUCT_VERSION}-setup.exe"
 InstallDir "$PROGRAMFILES\irrlamb"
@@ -46,31 +47,30 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 Section "MainSection" SEC01
+  SetShellVarContext all
   SetOutPath "$INSTDIR"
   File "changelog.txt"
-  File "readme.txt"
   File "license.txt"
-  File "..\projects\Release\irrlamb.exe"
+  File "..\README"
+  File "..\bin\Release\irrlamb.exe"
   CreateDirectory "$SMPROGRAMS\irrlamb"
   CreateShortCut "$SMPROGRAMS\irrlamb\irrlamb.lnk" "$INSTDIR\irrlamb.exe"
   CreateShortCut "$DESKTOP\irrlamb.lnk" "$INSTDIR\irrlamb.exe"
   File "..\working\Irrlicht.dll"
-  File "..\working\lua5.1.dll"
   File "..\working\OpenAL32.dll"
-  File /r "..\Export of working\art"
-  File /r "..\Export of working\campaigns"
-  File /r "..\Export of working\collision"
-  File /r "..\Export of working\fonts"
-  File /r "..\Export of working\levels"
-  File /r "..\Export of working\meshes"
-  File /r "..\Export of working\scenes"
-  File /r "..\Export of working\scripts"
-  File /r "..\Export of working\shaders"
-  File /r "..\Export of working\sounds"
-  File /r "..\Export of working\textures"
+  File /r "..\working\art"
+  File /r "..\working\fonts"
+  File /r "..\working\levels"
+  File /r "..\working\meshes"
+  File /r "..\working\scenes"
+  File /r "..\working\scripts"
+  File /r "..\working\shaders"
+  File /r "..\working\sounds"
+  File /r "..\working\textures"
 SectionEnd
 
 Section -AdditionalIcons
+  SetShellVarContext all
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\irrlamb\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
   CreateShortCut "$SMPROGRAMS\irrlamb\Uninstall.lnk" "$INSTDIR\uninst.exe"
@@ -99,15 +99,15 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
+  SetShellVarContext all
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\Irrlicht.dll"
-  Delete "$INSTDIR\lua5.1.dll"
   Delete "$INSTDIR\OpenAL32.dll"
   Delete "$INSTDIR\irrlamb.exe"
   Delete "$INSTDIR\license.txt"
-  Delete "$INSTDIR\readme.txt"
   Delete "$INSTDIR\changelog.txt"
+  Delete "$INSTDIR\README"
   
   Delete "$SMPROGRAMS\irrlamb\Uninstall.lnk"
   Delete "$SMPROGRAMS\irrlamb\Website.lnk"
@@ -116,8 +116,6 @@ Section Uninstall
   
   RMDir "$SMPROGRAMS\irrlamb"
   RMDir /r "$INSTDIR\art"
-  RMDir /r "$INSTDIR\campaigns"
-  RMDir /r "$INSTDIR\collision"
   RMDir /r "$INSTDIR\fonts"
   RMDir /r "$INSTDIR\levels"
   RMDir /r "$INSTDIR\meshes"
@@ -126,7 +124,9 @@ Section Uninstall
   RMDir /r "$INSTDIR\shaders"
   RMDir /r "$INSTDIR\sounds"
   RMDir /r "$INSTDIR\textures"
-
+  
+  RMDir "$INSTDIR"
+  
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   SetAutoClose true
