@@ -8,7 +8,7 @@ Source code at:
 https://github.com/jazztickets/irrlamb
 
 Command-line arguments
--level [.xml file]        Loads a level directly
+-level [.xml file]        Test a level
 -replay [.replay file]    Views a replay directly
 -noaudio                  Disable audio
 

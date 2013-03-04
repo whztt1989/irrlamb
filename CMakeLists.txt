@@ -25,7 +25,7 @@ endif()
 
 # find libraries
 set(BULLET_ROOT "$ENV{BULLET_ROOT}")
-find_package(Irrlicht REQUIRED)
+find_package(Irrlicht 1.8 REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(Bullet REQUIRED)
 
