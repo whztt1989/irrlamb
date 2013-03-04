@@ -20,7 +20,6 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
 #include <map>
 #include <vector>
 #include <string>

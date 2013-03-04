@@ -21,7 +21,6 @@
 #include "config.h"
 #include "constants.h"
 #include "level.h"
-#include "namespace.h"
 #include <ctime>
 #include <sstream>
 
@@ -69,7 +68,7 @@ bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
 	
 	// Get new file name
 	std::stringstream ReplayFilePath;
-	ReplayFilePath << Save::Instance().GetReplayPath() << (u32)TimeStamp << ".replay";
+	ReplayFilePath << Save::Instance().GetReplayPath() << (unsigned int)TimeStamp << ".replay";
 
 	// Open new file
 	FileClass ReplayFile;
@@ -119,7 +118,7 @@ bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
 
 		if(BytesRead) {
 			//printf("BytesRead=%d\n", BytesRead);
-			ReplayFile.WriteData(Buffer, (u32)BytesRead);
+			ReplayFile.WriteData(Buffer, (unsigned int)BytesRead);
 		}
 	}
 	CurrentReplayFile.close();

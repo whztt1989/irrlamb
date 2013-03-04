@@ -27,6 +27,7 @@
 #include "namespace.h"
 #include <sstream>
 #include <ctime>
+#include <irrlicht.h>
 
 // Initializes the graphics system
 int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {

@@ -28,6 +28,11 @@
 #include "viewreplay.h"
 #include "play.h"
 #include "engine/namespace.h"
+#include <IGUIElement.h>
+#include <IGUIListBox.h>
+#include <IGUIComboBox.h>
+#include <IGUICheckBox.h>
+#include <IGUIStaticText.h>
 
 const int CAMPAIGN_LEVELID = 1000;
 const int PLAY_CAMPAIGNID = 900;
@@ -845,7 +850,7 @@ void MenuState::Draw() {
 						
 						// Number
 						char SmallBuffer[32];
-						sprintf(SmallBuffer, "%d", i+1);
+						sprintf(SmallBuffer, "%d", (int)i+1);
 						Interface::Instance().RenderText(SmallBuffer, HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
 
 						// Time

@@ -18,7 +18,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <irrlicht.h>
+#include <IGUIElement.h>
 
 // Classes
 class StateClass {

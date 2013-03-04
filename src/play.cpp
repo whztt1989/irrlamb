@@ -38,6 +38,7 @@
 #include "menu.h"
 #include "viewreplay.h"
 #include "engine/namespace.h"
+#include <IGUIEditBox.h>
 
 const int WIN_WIDTH = 430;
 const int WIN_HEIGHT = 350;

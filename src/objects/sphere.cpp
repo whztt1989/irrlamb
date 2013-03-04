@@ -21,6 +21,8 @@
 #include "../engine/config.h"
 #include "template.h"
 #include "../engine/namespace.h"
+#include <IAnimatedMeshSceneNode.h>
+#include <IMeshSceneNode.h>
 
 // Constructor
 SphereClass::SphereClass(const SpawnStruct &Object)

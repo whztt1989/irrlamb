@@ -19,8 +19,8 @@
 #define GAME_H
 
 // Libraries
-#include <irrlicht.h>
 #include "singleton.h"
+#include <irrTypes.h>
 #include <string>
 
 // Forward Declarations

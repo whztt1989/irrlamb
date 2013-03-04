@@ -19,9 +19,9 @@
 #define PHYSICS_H
 
 // Libraries
+#include "singleton.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
-#include "singleton.h"
 
 // Custom world that overrides stepSimulation for applications that implement their own fixed time step calculations
 class btFixedWorld : public btDiscreteDynamicsWorld {

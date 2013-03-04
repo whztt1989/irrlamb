@@ -19,7 +19,8 @@
 #define OBJECT_H
 
 // Libraries
-#include <irrlicht.h>
+#include <irrTypes.h>
+#include <ISceneNode.h>
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 #include <string>

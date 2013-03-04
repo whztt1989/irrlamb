@@ -20,7 +20,8 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
+#include <ITexture.h>
+#include <position2d.h>
 
 // Classes
 class FaderClass {

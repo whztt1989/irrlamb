@@ -28,6 +28,10 @@
 #include "springjoint.h"
 #include "template.h"
 #include "../engine/namespace.h"
+#include <IMeshSceneNode.h>
+#include <IBillboardSceneNode.h>
+#include <IParticleEmitter.h>
+#include <IParticleSystemSceneNode.h>
 
 // Constructor
 PlayerClass::PlayerClass(const SpawnStruct &Object)

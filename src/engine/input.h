@@ -20,7 +20,7 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
+#include <IEventReceiver.h>
 
 // Classes
 class InputClass : public irr::IEventReceiver  {

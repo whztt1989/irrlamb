@@ -20,6 +20,7 @@
 
 // Libraries
 #include "object.h"
+#include <IBillboardSceneNode.h>
 
 // Classes
 class OrbClass : public ObjectClass {

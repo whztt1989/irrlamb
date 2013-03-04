@@ -19,7 +19,9 @@
 #define CAMERA_H
 
 // Libraries
-#include <irrlicht.h>
+#include <ICameraSceneNode.h>
+#include <vector3d.h>
+#include <matrix4.h>
 
 // Classes
 class CameraClass {

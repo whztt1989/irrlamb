@@ -20,9 +20,9 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
 #include <string>
 #include <list>
+#include <irrTypes.h>
 
 // Forward Declarations
 class ObjectClass;

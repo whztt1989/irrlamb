@@ -18,7 +18,12 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <irrlicht.h>
+#include <IrrlichtDevice.h>
+#include <IVideoDriver.h>
+#include <ISceneManager.h>
+#include <IGUIEnvironment.h>
+#include <IFileSystem.h>
+#include <ITimer.h>
 
 extern irr::IrrlichtDevice *irrDevice;
 extern irr::video::IVideoDriver *irrDriver;

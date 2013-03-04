@@ -20,8 +20,10 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
 #include <string>
+#include <rect.h>
+#include <ITexture.h>
+#include <IGUIFont.h>
 
 // Forward Declarations
 class AudioSourceClass;

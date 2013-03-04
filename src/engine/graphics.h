@@ -20,7 +20,10 @@
 
 // Libraries
 #include "singleton.h"
-#include <irrlicht.h>
+#include <SColor.h>
+#include <EDriverTypes.h>
+#include <IShaderConstantSetCallBack.h>
+#include <IEventReceiver.h>
 #include <vector>
 #include <string>
 

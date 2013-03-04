@@ -21,6 +21,7 @@
 // Libraries
 #include "engine/state.h"
 #include "engine/actiontypes.h"
+#include <IGUIButton.h>
 #include <vector>
 #include <string>
 

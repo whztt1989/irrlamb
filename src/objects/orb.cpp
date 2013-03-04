@@ -24,6 +24,7 @@
 #include "../engine/audio.h"
 #include "template.h"
 #include "../engine/namespace.h"
+#include <IMeshSceneNode.h>
 
 // Constructor
 OrbClass::OrbClass(const SpawnStruct &Object)
