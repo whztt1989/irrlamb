@@ -2,3 +2,4 @@ bin
 build
 *.dll
 deployment/*.exe
+deployment/*-src

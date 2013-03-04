@@ -92,7 +92,7 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/working/scripts DESTINATION share/games/
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/working/shaders DESTINATION share/games/${CMAKE_PROJECT_NAME})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/working/sounds DESTINATION share/games/${CMAKE_PROJECT_NAME})
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/working/textures DESTINATION share/games/${CMAKE_PROJECT_NAME})
-install(FILES ${PROJECT_SOURCE_DIR}/assets/art/irrlamb.xpm DESTINATION share/pixmaps)
+install(FILES ${PROJECT_SOURCE_DIR}/deployment/irrlamb.xpm DESTINATION share/pixmaps)
 install(FILES ${PROJECT_SOURCE_DIR}/deployment/irrlamb.desktop DESTINATION share/applications)
 install(FILES ${PROJECT_SOURCE_DIR}/deployment/license.txt DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 install(FILES ${PROJECT_SOURCE_DIR}/deployment/changelog.txt DESTINATION share/doc/${CMAKE_PROJECT_NAME})
