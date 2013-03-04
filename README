@@ -8,5 +8,25 @@ Source code at:
 https://github.com/jazztickets/irrlamb
 
 Command-line arguments
--level [.xml file]		Loads a level directly
--replay [.replay file]	Views a replay directly
+-level [.xml file]        Loads a level directly
+-replay [.replay file]    Views a replay directly
+-noaudio                  Disable audio
+
+Keys
+E                         Move Forward
+D                         Move Backwards
+S                         Move Left
+F                         Move Right
+X                         Restart level
+Space                     Jump
+Escape                    Menu (or quit game in test mode)
+F1                        Menu
+F2                        Invert mouse
+F3                        Show position in console
+F5                        Reload level from disk
+F11                       Toggle HUD
+F12                       Screenshot
+
+
+Save data is in %APPDATA%/irrlamb for windows and
+~/.irrlamb for linux.
