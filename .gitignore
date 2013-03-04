@@ -3,3 +3,8 @@ build
 *.dll
 deployment/*.exe
 deployment/*-src
+codelite/debug
+codelite/release
+codelite/*.mk
+codelite/*.tags
+codelite/irrlamb.workspace.*
