@@ -19,7 +19,7 @@
 #define CONSTANTS_H
 
 // Constants
-const char * const GAME_VERSION = "v0.1.1";
+const char * const GAME_VERSION = "v0.1.2";
 const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
 const float FADE_SPEED = 0.05f;
 const int REPLAY_STRINGSIZE = 64;
