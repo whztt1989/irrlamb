@@ -88,7 +88,7 @@ int ConfigClass::ReadConfig() {
 	// Check for a video tag
 	TiXmlElement *VideoElement = ConfigElement->FirstChildElement("video");
 	if(VideoElement) {
-		int Value;
+		int Value = 0;
 		TiXmlElement *Element;
 
 		// Get driver
@@ -138,7 +138,7 @@ int ConfigClass::ReadConfig() {
 	// Check for the audio tag
 	TiXmlElement *AudioElement = ConfigElement->FirstChildElement("audio");
 	if(AudioElement) {
-		int Value;
+		int Value = 0;
 		
 		// Get audio attributes
 		AudioElement->QueryIntAttribute("enabled", &Value);
@@ -166,7 +166,7 @@ int ConfigClass::ReadConfig() {
 	// Get input element
 	TiXmlElement *InputElement = ConfigElement->FirstChildElement("input");
 	if(InputElement) {
-		int Value;
+		int Value = 0;
 
 		// Get mouse attributes
 		InputElement->QueryFloatAttribute("mousex", &MouseScaleX);
