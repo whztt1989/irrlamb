@@ -134,7 +134,7 @@ bool AudioClass::LoadBuffer(const std::string &File) {
 
 	// Free memory
 	stb_vorbis_close(Stream);
-	delete Data;
+	delete[] Data;
 
 	// Add to map
 	Buffers[Path] = Buffer;

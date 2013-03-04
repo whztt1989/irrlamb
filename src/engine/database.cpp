@@ -32,7 +32,7 @@ DatabaseClass::~DatabaseClass() {
 
 	// Close database
 	if(Database)
-		sqlite3_close(Database);
+		sqlite3_close_v2(Database);
 }
 
 // Load a database file
@@ -42,7 +42,7 @@ int DatabaseClass::OpenDatabase(const char *Filename) {
 	int Result = sqlite3_open_v2(Filename, &Database, SQLITE_OPEN_READWRITE, NULL);
 	if(Result != SQLITE_OK) {
 		Log.Write("DatabaseClass::OpenDatabase - %s", sqlite3_errmsg(Database));
-		sqlite3_close(Database);
+		sqlite3_close_v2(Database);
 
 		return 0;
 	}
@@ -57,7 +57,7 @@ int DatabaseClass::OpenDatabaseCreate(const char *Filename) {
 	int Result = sqlite3_open_v2(Filename, &Database, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 	if(Result != SQLITE_OK) {
 		Log.Write("DatabaseClass::OpenDatabaseCreate - %s", sqlite3_errmsg(Database));
-		sqlite3_close(Database);
+		sqlite3_close_v2(Database);
 
 		return 0;
 	}
