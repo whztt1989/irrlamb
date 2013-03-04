@@ -767,6 +767,7 @@ void MenuState::Update(float FrameTime) {
 			IGUIButton *ButtonCancel = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), 0, CONTROLS_CANCEL, L"Cancel");
 			ButtonSave->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON80));
 			ButtonSave->setUseAlphaChannel(true);
+			ButtonSave->setDrawBorder(false);
 			ButtonCancel->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON80));
 			ButtonCancel->setUseAlphaChannel(true);
 			ButtonCancel->setDrawBorder(false);
