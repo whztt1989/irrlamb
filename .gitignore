@@ -1,5 +1,6 @@
 bin
 build
+*.blend[0-9]
 *.dll
 deployment/*.exe
 deployment/*-src
