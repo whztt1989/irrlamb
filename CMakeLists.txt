@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 # project name
 project(irrlamb)
+subdirs(tools)
 
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
