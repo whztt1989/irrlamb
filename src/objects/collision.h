@@ -35,6 +35,7 @@ class CollisionClass : public ObjectClass {
 	protected:
 
 		btTriangleIndexVertexArray *TriangleIndexVertexArray;
+		btTriangleInfoMap *TriangleInfoMap;
 		float *VertexList;
 		int *FaceList;
 

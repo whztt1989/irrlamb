@@ -20,6 +20,17 @@
 #include "../engine/globals.h"
 #include "../engine/filestream.h"
 #include "template.h"
+#include <BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
+
+static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btCollisionObjectWrapper *Object0, int PartID0, int Index0, const btCollisionObjectWrapper *Object1, int PartID1, int Index1) {
+
+	if(1) {
+		btAdjustInternalEdgeContacts(ManifoldPoint, Object1, Object0, PartID1, Index1);
+	}
+
+	return false;
+}
+
 
 // Constructor
 CollisionClass::CollisionClass(const SpawnStruct &Object)
@@ -27,6 +38,8 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 	TriangleIndexVertexArray(NULL),
 	VertexList(NULL),
 	FaceList(NULL) {
+	
+	gContactAddedCallback = CustomMaterialCallback;
 
 	// Load collision mesh file
 	FileClass MeshFile;
@@ -61,10 +74,14 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 
 		// Create bvh shape
 		btBvhTriangleMeshShape *Shape = new btBvhTriangleMeshShape(TriangleIndexVertexArray, true);
+		TriangleInfoMap = new btTriangleInfoMap();
+		btGenerateInternalEdgeInfo(Shape, TriangleInfoMap);
 
 		// Create physics body
 		CreateRigidBody(Object, Shape);
 		SetProperties(Object);
+		
+		RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
 		MeshFile.Close();
 	}
@@ -73,6 +90,7 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 // Destructor
 CollisionClass::~CollisionClass() {
 
+	delete TriangleInfoMap;
 	delete TriangleIndexVertexArray;
 	delete[] VertexList;
 	delete[] FaceList;
