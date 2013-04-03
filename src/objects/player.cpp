@@ -223,6 +223,7 @@ void PlayerClass::HandleInput() {
 // Attempts to jump
 void PlayerClass::Jump() {
 	if(TouchingGround && JumpTimer == 0) {
+		RigidBody->activate();
 		RigidBody->applyCentralImpulse(btVector3(0.0f, 5.0f, 0.0f));
 		JumpTimer = 0.2f;
 	}

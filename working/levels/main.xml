@@ -24,4 +24,7 @@
 		<level unlocked="1">skate_0</level>
 		<level>skate_1</level>
 	</campaign>
+	<campaign name="Challenges">
+		<level unlocked="1">c_roll0</level>
+	</campaign>
 </campaigns>

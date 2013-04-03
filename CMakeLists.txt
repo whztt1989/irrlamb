@@ -101,3 +101,8 @@ else()
 	install(FILES ${PROJECT_SOURCE_DIR}/README DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 	install(PROGRAMS ${PROJECT_SOURCE_DIR}/deployment/irrlamb DESTINATION games)
 endif()
+
+#get_cmake_property(vars VARIABLES)
+#foreach(vars ${vars})
+#    message(STATUS "${vars}=${${vars}}")
+#endforeach()

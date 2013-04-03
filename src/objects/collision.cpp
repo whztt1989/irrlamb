@@ -26,11 +26,14 @@
 static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btCollisionObjectWrapper *Object0, int PartID0, int Index0, const btCollisionObjectWrapper *Object1, int PartID1, int Index1) {
 
 	//if(Object0->getCollisionShape()->getShapeType()TRIANGLE_SHAPE_PROXYTYPE
+	//printf("before %f\n", ManifoldPoint.m_normalWorldOnB[1]);
+	float Before = ManifoldPoint.m_normalWorldOnB[1];
 	if(1) {
-		printf("%d %d %d %d %d %d\n", Object0->getCollisionShape()->getShapeType(), Object1->getCollisionShape()->getShapeType(), PartID0, PartID1, Index0, Index1);
+		//printf("%d %d %d %d %d %d\n", Object0->getCollisionShape()->getShapeType(), Object1->getCollisionShape()->getShapeType(), PartID0, PartID1, Index0, Index1);
 		btAdjustInternalEdgeContacts(ManifoldPoint, Object1, Object0, PartID1, Index1);
 	}
-	
+	float After = ManifoldPoint.m_normalWorldOnB[1];
+	//if(Before != After)	printf("before %f after %f\n", Before, After);
 
 	return false;
 }
@@ -68,9 +71,11 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 		// Read faces
 		int FaceIndex = 0;
 		for(int i = 0; i < FaceCount; i++) {
-			FaceList[FaceIndex++] = MeshFile.ReadInt();
-			FaceList[FaceIndex++] = MeshFile.ReadInt();
-			FaceList[FaceIndex++] = MeshFile.ReadInt();
+			int Indexes[2];
+			FaceList[FaceIndex+2] = MeshFile.ReadInt();
+			FaceList[FaceIndex+1] = MeshFile.ReadInt();
+			FaceList[FaceIndex+0] = MeshFile.ReadInt();
+			FaceIndex += 3;
 		}
 
 		// Create triangle array

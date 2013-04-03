@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <mesh xmlns="http://irrlicht.sourceforge.net/IRRMESH_09_2007" version="1.0">
-<!-- Created 04/03/2013 13:26 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
+<!-- Created 04/03/2013 16:36 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
    <buffer>
       <material bmat="unassigned:crate0.jpg">
          <enum name="Type" value="solid"/>
@@ -55,10 +55,10 @@
          <int name="LODBias4" value="0"/>
       </material>
       <vertices type="standard" vertexCount="4">
-         -2.002152 0 -2.002152 0 1 0 ffffffff 0.0001 0.9999 
-         2.002152 0 -2.002152 0 1 0 ffffffff 0.9999 0.9999 
-         2.002152 0 2.002152 0 1 0 ffffffff 0.9999 0.0001 
-         -2.002152 0 2.002152 0 1 0 ffffffff 0.0001 0.0001 
+         -2.002152 0 -2.002152 0 1 0 ffffffff 0 1 
+         2.002152 0 -2.002152 0 1 0 ffffffff 1 1 
+         2.002152 0 2.002152 0 1 0 ffffffff 1 0 
+         -2.002152 0 2.002152 0 1 0 ffffffff 0 0 
       </vertices>
       <indices indexCount="6">
          2 1 0 2 0 3
