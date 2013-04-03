@@ -53,7 +53,8 @@ int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Dr
 	irrDevice->setWindowCaption(L"irrlamb");
 	irrDevice->setEventReceiver(EventReceiver);
 	irrDevice->getCursorControl()->setVisible(false);
-
+	irrDevice->getLogger()->setLogLevel(ELL_ERROR);
+	
 	// Save off global pointers
 	irrDriver = irrDevice->getVideoDriver();
 	irrScene = irrDevice->getSceneManager();
