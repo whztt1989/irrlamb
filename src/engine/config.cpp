@@ -68,7 +68,7 @@ void ConfigClass::Reset() {
 	InvertMouse = false;
 
 	// Replays
-	ReplayInterval = 0.03f;
+	ReplayInterval = 0.02f;
 }
 
 // Reads the config file
