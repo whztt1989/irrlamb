@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Test</name>
+	</info>
+	<resources>
+		<script file="test.lua" />
+		<scene file="test.irr" />
+		<collision file="test.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="5.5" z="0" />
+		</object>
+	</objects>
+</level>

@@ -27,9 +27,21 @@ find_path(
 		irrlicht
 )
 
-# find libraries
+# find debug library
 find_library(
-		IRRLICHT_LIBRARIES Irrlicht
+		IRRLICHT_DEBUG_LIBRARY Irrlicht_d
+	HINTS
+		ENV IRRLICHT_ROOT
+	PATHS
+		/usr/lib
+		/usr/local/lib
+	PATH_SUFFIXES
+		lib/Win32-visualstudio
+)
+
+# find release library
+find_library(
+		IRRLICHT_RELEASE_LIBRARY Irrlicht
 	HINTS
 		ENV IRRLICHT_ROOT
 	PATHS
@@ -45,6 +57,12 @@ if(IRRLICHT_INCLUDE_DIRS AND EXISTS "${IRRLICHT_INCLUDE_DIRS}/IrrCompileConfig.h
 	string(REGEX REPLACE "^#define[ \t]+IRRLICHT_SDK_VERSION[ \t]+\"([^\"]+)\".*" "\\1" IRRLICHT_VERSION_STRING "${irrlicht_version_str}")
 	unset(irrlicht_version_str)
 endif()
+
+# combine debug and release
+set(IRRLICHT_LIBRARIES
+	debug ${IRRLICHT_DEBUG_LIBRARY}
+	optimized ${IRRLICHT_RELEASE_LIBRARY}
+)
 
 # handle QUIET and REQUIRED
 include(FindPackageHandleStandardArgs)
