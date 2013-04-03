@@ -312,6 +312,7 @@ int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStr
 	if(Element) {
 		Element->QueryFloatAttribute("mass", &Object.Mass);
 		Element->QueryFloatAttribute("friction", &Object.Friction);
+		Element->QueryFloatAttribute("restitution", &Object.Restitution);
 	}
 
 	// Get damping
