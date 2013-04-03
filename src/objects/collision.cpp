@@ -21,12 +21,16 @@
 #include "../engine/filestream.h"
 #include "template.h"
 #include <BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
+#include <BulletCollision/CollisionShapes/btTriangleMeshShape.h>
 
 static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btCollisionObjectWrapper *Object0, int PartID0, int Index0, const btCollisionObjectWrapper *Object1, int PartID1, int Index1) {
 
+	//if(Object0->getCollisionShape()->getShapeType()TRIANGLE_SHAPE_PROXYTYPE
 	if(1) {
+		printf("%d %d %d %d %d %d\n", Object0->getCollisionShape()->getShapeType(), Object1->getCollisionShape()->getShapeType(), PartID0, PartID1, Index0, Index1);
 		btAdjustInternalEdgeContacts(ManifoldPoint, Object1, Object0, PartID1, Index1);
 	}
+	
 
 	return false;
 }

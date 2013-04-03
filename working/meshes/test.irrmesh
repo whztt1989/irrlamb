@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <mesh xmlns="http://irrlicht.sourceforge.net/IRRMESH_09_2007" version="1.0">
-<!-- Created 04/02/2013 20:33 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
+<!-- Created 04/03/2013 13:26 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
    <buffer>
-      <material bmat="Material:grass0.jpg">
+      <material bmat="unassigned:crate0.jpg">
          <enum name="Type" value="solid"/>
          <color name="Ambient" value="ffffffff"/>
-         <color name="Diffuse" value="ffcccccc"/>
+         <color name="Diffuse" value="ffffffff"/>
          <color name="Emissive" value="ff000000"/>
          <color name="Specular" value="ffffffff"/>
          <float name="Shininess" value="0"/>
@@ -13,7 +13,7 @@
          <float name="Param2" value="0"/>
          <bool name="Wireframe" value="false"/>
          <bool name="GouraudShading" value="true"/>
-         <bool name="Lighting" value="true"/>
+         <bool name="Lighting" value="false"/>
          <bool name="ZWriteEnable" value="true"/>
          <int name="ZBuffer" value="1"/>
          <bool name="BackfaceCulling" value="true"/>
@@ -21,11 +21,11 @@
          <bool name="FogEnable" value="false"/>
          <bool name="NormalizeNormals" value="false"/>
          <bool name="UseMipMaps" value="true"/>
-         <int name="AntiAliasing" value="1"/>
+         <int name="AntiAliasing" value="5"/>
          <int name="ColorMask" value="15"/>
          <int name="PolygonOffsetFactor" value="0"/>
          <enum name="PolygonOffsetDirection" value="Front"/>
-         <texture name="Texture1" value="textures/grass0.jpg"/>
+         <texture name="Texture1" value="textures/crate0.jpg"/>
          <enum name="TextureWrapU1" value="texture_clamp_repeat"/>
          <enum name="TextureWrapV1" value="texture_clamp_repeat"/>
          <bool name="BilinearFilter1" value="true"/>
@@ -54,33 +54,14 @@
          <int name="AnisotropicFilter4" value="0"/>
          <int name="LODBias4" value="0"/>
       </material>
-      <vertices type="standard" vertexCount="23">
-         -5 0 -5 -0.577349 0.577349 -0.577349 ffcccccc 0 1 
-         4.999998 0 -5.000002 0.577349 0.577349 -0.577349 ffcccccc 4.999999 1.000001 
-         5 0 4.999999 0.577349 0.577349 0.577349 ffcccccc 5 -4 
-         -5 0 5 -0.577349 0.577349 0.577349 ffcccccc 0 -4 
-         -5.000002 -1 -4.999998 -0.577349 -0.577349 -0.577319 ffcccccc 0.999999 0.999999 
-         -4.999997 -1 5.000003 -0.577349 -0.577349 0.577349 ffcccccc 1.000001 -4.000001 
-         5.000002 -1 4.999998 0.577349 -0.577349 0.577349 ffcccccc 6.000001 -3.999999 
-         5 -1 -5 0.577349 -0.577349 -0.577349 ffcccccc 6 1 
-         -5 0 -5 -0.577349 0.577349 -0.577349 ffcccccc 0 0.5 
-         -5 0 5 -0.577349 0.577349 0.577349 ffcccccc 5 0.5 
-         -4.999997 -1 5.000003 -0.577349 -0.577349 0.577349 ffcccccc 5.000001 1 
-         -5.000002 -1 -4.999998 -0.577349 -0.577349 -0.577319 ffcccccc 0.000001 1 
-         -5 0 5 -0.577349 0.577349 0.577349 ffcccccc 0 0.5 
-         5 0 4.999999 0.577349 0.577349 0.577349 ffcccccc 5 0.5 
-         5.000002 -1 4.999998 0.577349 -0.577349 0.577349 ffcccccc 5.000001 1 
-         -4.999997 -1 5.000003 -0.577349 -0.577349 0.577349 ffcccccc 0.000001 1 
-         5 0 4.999999 0.577349 0.577349 0.577349 ffcccccc 1 0.5 
-         4.999998 0 -5.000002 0.577349 0.577349 -0.577349 ffcccccc -4.000001 0.5 
-         5 -1 -5 0.577349 -0.577349 -0.577349 ffcccccc -4 1 
-         5.000002 -1 4.999998 0.577349 -0.577349 0.577349 ffcccccc 0.999999 1 
-         4.999998 0 -5.000002 0.577349 0.577349 -0.577349 ffcccccc 5.999999 0.5 
-         -5 0 -5 -0.577349 0.577349 -0.577349 ffcccccc 1 0.5 
-         -5.000002 -1 -4.999998 -0.577349 -0.577349 -0.577319 ffcccccc 0.999999 1 
+      <vertices type="standard" vertexCount="4">
+         -2.002152 0 -2.002152 0 1 0 ffffffff 0.0001 0.9999 
+         2.002152 0 -2.002152 0 1 0 ffffffff 0.9999 0.9999 
+         2.002152 0 2.002152 0 1 0 ffffffff 0.9999 0.0001 
+         -2.002152 0 2.002152 0 1 0 ffffffff 0.0001 0.0001 
       </vertices>
-      <indices indexCount="36">
-         2 1 0 2 0 3 6 5 4 6 4 7 10 9 8 10 8 11 14 13 12 14 12 15 18 17 16 18 16 19 22 21 20 22 20 7
+      <indices indexCount="6">
+         2 1 0 2 0 3
       </indices>
    </buffer>
 </mesh>
