@@ -60,7 +60,7 @@ void FaderClass::Update(float FrameTime) {
 				TimeStepAccumulator -= TimeStep;
 
 				// Update fade
-				Fade += Speed;
+				Fade += Speed * TimeStep;
 				if(Fade <= 0.0f) {
 					Fade = 0.0f;
 					State = STATE_WAITFRAME;

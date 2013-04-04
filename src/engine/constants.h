@@ -21,7 +21,7 @@
 // Constants
 const char * const GAME_VERSION = "v0.1.2";
 const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
-const float FADE_SPEED = 0.05f;
+const float FADE_SPEED = 5.0f;
 const int REPLAY_STRINGSIZE = 64;
 const int REPLAY_VERSION = 1;
 const int STATS_VERSION = 0;
