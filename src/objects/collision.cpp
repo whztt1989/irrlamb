@@ -33,7 +33,7 @@ static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btColli
 		btAdjustInternalEdgeContacts(ManifoldPoint, Object1, Object0, PartID1, Index1);
 	}
 	float After = ManifoldPoint.m_normalWorldOnB[1];
-	//if(Before != After)	printf("before %f after %f\n", Before, After);
+	//if(Before != After) printf("before %f after %f\n", Before, After);
 
 	return false;
 }
@@ -71,7 +71,6 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 		// Read faces
 		int FaceIndex = 0;
 		for(int i = 0; i < FaceCount; i++) {
-			int Indexes[2];
 			FaceList[FaceIndex+2] = MeshFile.ReadInt();
 			FaceList[FaceIndex+1] = MeshFile.ReadInt();
 			FaceList[FaceIndex+0] = MeshFile.ReadInt();

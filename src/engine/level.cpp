@@ -387,6 +387,7 @@ int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStr
 	// Validate objects
 	if(ObjectType == "player") {
 		Object.Type = ObjectClass::PLAYER;
+		Object.CollisionGroup &= ~PhysicsClass::FILTER_CAMERA;
 	}
 	else if(ObjectType == "orb") {
 		Object.Type = ObjectClass::ORB;
