@@ -43,6 +43,8 @@
 const int WIN_WIDTH = 430;
 const int WIN_HEIGHT = 350;
 
+PlayerClass *GlobalPlayer = 0;
+
 // Initializes the state
 int PlayState::Init() {
 	Player = NULL;
@@ -657,7 +659,7 @@ void PlayState::ResetLevel() {
 	Level::Instance().RunScripts();
 
 	// Get the player
-	Player = static_cast<PlayerClass *>(ObjectManager::Instance().GetObjectByType(ObjectClass::PLAYER));
+	GlobalPlayer = Player = static_cast<PlayerClass *>(ObjectManager::Instance().GetObjectByType(ObjectClass::PLAYER));
 	if(Player == NULL) {
 		Log.Write("PlayState::ResetLevel - Cannot find player object");
 		return;
