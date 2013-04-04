@@ -19,6 +19,7 @@
 #include "globals.h"
 #include "log.h"
 #include "game.h"
+#include "level.h"
 #include "../tinyxml/tinyxml.h"
 
 // Loads the campaign data
@@ -58,6 +59,9 @@ int CampaignClass::Init() {
 			Level.DataPath = Game::Instance().GetWorkingPath() + "levels/" + Level.File + "/";
 			Level.Unlocked = 0;
 			LevelElement->Attribute("unlocked", &Level.Unlocked);
+
+			Level::Instance().Init(Level.File, true);
+			Level.NiceName = Level::Instance().GetLevelNiceName();
 
 			Campaign.Levels.push_back(Level);
 		}

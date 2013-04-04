@@ -25,7 +25,7 @@
 
 // Structures
 struct LevelStruct {
-	std::string File, DataPath;
+	std::string File, DataPath, NiceName;
 	int Unlocked;
 };
 
@@ -46,6 +46,7 @@ class CampaignClass {
 		const CampaignStruct &GetCampaign(int Index) const { return Campaigns[Index]; }
 
 		const std::string &GetLevel(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].File; }
+		const std::string &GetLevelNiceName(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].NiceName; }
 		int GetLevelCount(int Campaign) const { return Campaigns[Campaign].Levels.size(); }
 
 	private:

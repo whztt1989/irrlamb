@@ -798,9 +798,10 @@ void MenuState::Draw() {
 		if(SelectedLevel != -1) {
 			char Buffer[256];
 			const SaveLevelStruct *Stats = LevelStats[SelectedLevel];
+			const std::string &NiceName = Campaign::Instance().GetLevelNiceName(CampaignIndex, SelectedLevel);
 
 			// Get box position
-			int Width = 210, Height = 285, X, Y;
+			int Width = 250, Height = 305, X, Y;
 			int Left = Input::Instance().GetMouseX() + 20;
 			int Top = Input::Instance().GetMouseY() - 105;
 
@@ -813,11 +814,15 @@ void MenuState::Draw() {
 			// Draw box
 			Interface::Instance().DrawTextBox(Left + Width/2, Top + Height/2, Width, Height);
 			X = Left + Width/2;
-			Y = Top + 17;
+			Y = Top + 10;
 
 			if(Stats->Unlocked) {
 
-				// Load count
+				// Level nice name
+				Interface::Instance().RenderText(NiceName.c_str(), X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, SColor(255, 255, 255, 255));
+				Y += 35;
+
+				// Play time
 				Interface::Instance().RenderText("Play time", X - 10, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
 				Interface::Instance().ConvertSecondsToString(Stats->PlayTime, Buffer);
 				Interface::Instance().RenderText(Buffer, X + 10, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));

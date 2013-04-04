@@ -35,11 +35,12 @@ class LevelClass {
 
 	public:
 
-		int Init(const std::string &LevelName);
+		int Init(const std::string &LevelName, bool HeaderOnly=false);
 		int Close();
 
 		// Properties
 		const std::string &GetLevelName() { return LevelName; }
+		const std::string &GetLevelNiceName() { return LevelNiceName; }
 		int GetLevelVersion() { return LevelVersion; }
 
 		// Objects
@@ -61,7 +62,7 @@ class LevelClass {
 		int GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruct &ObjectSpawn);
 
 		// Level
-		std::string LevelName;
+		std::string LevelName, LevelNiceName;
 		int LevelVersion;
 		bool IsCustomLevel;
 		std::string GameVersion;

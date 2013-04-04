@@ -42,21 +42,20 @@
 #include "namespace.h"
 
 // Loads a level file
-int LevelClass::Init(const std::string &LevelName) {
-	IsCustomLevel = false;
-	Scripts.clear();
-	Scripts.push_back(Game::Instance().GetWorkingPath() + "scripts/default.lua");
-
-	Log.Write("LevelClass::Init - Loading level: %s", LevelName.c_str());
+int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
+	if(!HeaderOnly)
+		Log.Write("LevelClass::Init - Loading level: %s", LevelName.c_str());
 	
 	// Get paths
 	this->LevelName = LevelName;
+	LevelNiceName = "";
 	std::string LevelFile = LevelName + "/" + LevelName + ".xml";
 	std::string FilePath = Game::Instance().GetWorkingPath() + std::string("levels/") + LevelFile;
 	std::string CustomFilePath = Save::Instance().GetCustomLevelsPath() + LevelFile;
 	std::string DataPath = Game::Instance().GetWorkingPath() + std::string("levels/") + LevelName + "/";
 
 	// See if custom level exists first
+	IsCustomLevel = false;
 	std::ifstream CustomLevelExists(CustomFilePath.c_str());
 	if(CustomLevelExists) {
 		IsCustomLevel = true;
@@ -95,6 +94,25 @@ int LevelClass::Init(const std::string &LevelName) {
 		Close();
 		return 0;
 	}
+
+	// Load level info
+	TiXmlElement *InfoElement = LevelElement->FirstChildElement("info");
+	if(InfoElement) {
+		TiXmlElement *NiceNameElement = InfoElement->FirstChildElement("name");
+		if(NiceNameElement) {
+			LevelNiceName = NiceNameElement->GetText();
+		}
+	}
+
+	// Return after header is read
+	if(HeaderOnly) {
+		Close();
+		return true;
+	}
+
+	// Load default lua script
+	Scripts.clear();
+	Scripts.push_back(Game::Instance().GetWorkingPath() + "scripts/default.lua");
 
 	// Options
 	bool Fog = false;
