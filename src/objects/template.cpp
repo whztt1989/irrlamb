@@ -38,7 +38,7 @@ TemplateStruct::TemplateStruct() {
 	Radius = 0.5f;
 	Mass = 1.0f;
 	Friction = 1.0f;
-	Restitution = 0.2f;
+	Restitution = 0.0f;
 	LinearDamping = 0.1f;
 	AngularDamping = 0.3f;
 

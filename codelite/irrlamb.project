@@ -192,7 +192,7 @@
       <CustomBuild Enabled="yes">
         <RebuildCommand/>
         <CleanCommand>make clean</CleanCommand>
-        <BuildCommand>make -j8</BuildCommand>
+        <BuildCommand>make -j`nproc`</BuildCommand>
         <PreprocessFileCommand/>
         <SingleFileCommand/>
         <MakefileGenerationCommand>rm -rf debug; mkdir debug; cd debug &amp;&amp; cmake -DCMAKE_BUILD_TYPE=Debug ../../</MakefileGenerationCommand>
@@ -229,7 +229,7 @@
       <CustomBuild Enabled="yes">
         <RebuildCommand/>
         <CleanCommand>make clean</CleanCommand>
-        <BuildCommand>make -j8</BuildCommand>
+        <BuildCommand>make -j`nproc`</BuildCommand>
         <PreprocessFileCommand/>
         <SingleFileCommand/>
         <MakefileGenerationCommand>rm -rf release; mkdir release; cd release &amp;&amp; cmake -DCMAKE_BUILD_TYPE=Release ../../</MakefileGenerationCommand>

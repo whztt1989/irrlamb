@@ -75,6 +75,7 @@ void ObjectClass::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *S
 	RigidBody = new btRigidBody(Template->Mass, this, Shape, LocalInertia);
 	RigidBody->setUserPointer((void *)this);
 	RigidBody->setFriction(Template->Friction);
+	RigidBody->setRestitution(Template->Restitution);
 	RigidBody->setDamping(Template->LinearDamping, Template->AngularDamping);
 	RigidBody->setSleepingThresholds(0.2f, 0.2f);
 
