@@ -222,7 +222,6 @@ bool PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 	switch(State) {
 		case STATE_PLAY:
 			Scripting::Instance().HandleMousePress(Button, MouseX, MouseY); 
-			Player->HandleMousePress(Button, MouseX, MouseY);
 		break;
 	}
 
@@ -233,8 +232,6 @@ bool PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 void PlayState::HandleMouseLift(int Button, int MouseX, int MouseY) {
 	if(Resetting)
 		return;
-
-	Player->HandleMouseLift(Button, MouseX, MouseY);
 }
 
 // Mouse wheel

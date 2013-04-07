@@ -159,36 +159,6 @@ bool PlayerClass::ProcessKeyPress(int Key) {
 	return true;
 }
 
-// Handles a mouse press
-bool PlayerClass::HandleMousePress(int Button, int MouseX, int MouseY) {
-
-	switch(Button) {
-		// Right button
-		case 1:
-		break;
-		default:
-			return false;
-		break;
-	}
-
-	return true;
-}
-
-// Handles a mouse lift
-bool PlayerClass::HandleMouseLift(int Button, int MouseX, int MouseY) {
-
-	switch(Button) {
-		// Right button
-		case 1:
-		break;
-		default:
-			return false;
-		break;
-	}
-
-	return true;
-}
-
 // Processes input from the keyboard
 void PlayerClass::HandleInput() {
 	vector3df Push(0.0f, 0.0f, 0.0f);

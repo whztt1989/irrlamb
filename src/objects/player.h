@@ -33,8 +33,6 @@ class PlayerClass : public ObjectClass {
 
 		void Update(float FrameTime);
 		bool ProcessKeyPress(int Key);
-		bool HandleMousePress(int Button, int MouseX, int MouseY);
-		bool HandleMouseLift(int Button, int MouseX, int MouseY);
 		void HandleInput();
 
 		void Jump();
