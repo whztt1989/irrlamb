@@ -48,7 +48,7 @@ ObjectClass::~ObjectClass() {
 		Node->remove();
 
 	if(RigidBody) {
-		Physics::Instance().GetWorld()->removeRigidBody(RigidBody);
+		Physics.GetWorld()->removeRigidBody(RigidBody);
 		delete RigidBody->getCollisionShape();
 		delete RigidBody;
 	}
@@ -80,7 +80,7 @@ void ObjectClass::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *S
 	RigidBody->setSleepingThresholds(0.2f, 0.2f);
 
 	// Add body
-	Physics::Instance().GetWorld()->addRigidBody(RigidBody, Template->CollisionGroup, Template->CollisionMask);
+	Physics.GetWorld()->addRigidBody(RigidBody, Template->CollisionGroup, Template->CollisionMask);
 }
 
 // Updates the object
@@ -114,8 +114,8 @@ void ObjectClass::SetProperties(const SpawnStruct &Object) {
 		//Node->setVisible(Template->Visible);
 		Node->setMaterialFlag(EMF_FOG_ENABLE, Template->Fog);
 		Node->setMaterialFlag(EMF_NORMALIZE_NORMALS, true);
-		Node->setMaterialFlag(EMF_TRILINEAR_FILTER, Config::Instance().TrilinearFiltering);
-		Node->getMaterial(0).TextureLayer[0].AnisotropicFilter = Config::Instance().AnisotropicFiltering;
+		Node->setMaterialFlag(EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
+		Node->getMaterial(0).TextureLayer[0].AnisotropicFilter = Config.AnisotropicFiltering;
 	}
 
 	// Physics
@@ -157,7 +157,7 @@ void ObjectClass::setWorldTransform(const btTransform &Transform) {
 		// Rotation
 		btVector3 EulerRotation;
 		btQuaternion RigidRotation = CenterOfMassTransform.getRotation();
-		Physics::Instance().QuaternionToEuler(RigidRotation, EulerRotation);
+		Physics.QuaternionToEuler(RigidRotation, EulerRotation);
 		Node->setRotation(vector3df(EulerRotation[0], EulerRotation[1], EulerRotation[2]));
 	}
 }
@@ -190,7 +190,7 @@ void ObjectClass::HandleCollision(ObjectClass *OtherObject, const btPersistentMa
 	}
 
 	if(CollisionCallback.size())
-		Scripting::Instance().CallCollisionHandler(CollisionCallback, this, OtherObject);
+		Scripting.CallCollisionHandler(CollisionCallback, this, OtherObject);
 }
 
 // Resets the object state before the frame begins

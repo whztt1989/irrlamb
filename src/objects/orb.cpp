@@ -61,7 +61,7 @@ OrbClass::OrbClass(const SpawnStruct &Object)
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture("textures/orb_glow0.png"));
 
 	// Set up physics
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 	
 		// Create shape
 		btSphereShape *Shape = new btSphereShape(Template->Radius);
@@ -70,7 +70,7 @@ OrbClass::OrbClass(const SpawnStruct &Object)
 		CreateRigidBody(Object, Shape);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("orb.ogg"), true, 0.0f, 0.40f, 8.0f, 16.0f);
+		Sound = new AudioSourceClass(Audio.GetBuffer("orb.ogg"), true, 0.0f, 0.40f, 8.0f, 16.0f);
 		Sound->SetPitch(ORB_PITCH);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();
@@ -96,9 +96,9 @@ void OrbClass::StartDeactivation(const std::string &Callback, float Length) {
 		DeactivateLength = Length;
 
 		// Save the event on the replay
-		if(Replay::Instance().IsRecording()) {
-			FileClass &ReplayStream = Replay::Instance().GetReplayStream();
-			Replay::Instance().WriteEvent(ReplayClass::PACKET_ORBDEACTIVATE);
+		if(Replay.IsRecording()) {
+			FileClass &ReplayStream = Replay.GetReplayStream();
+			Replay.WriteEvent(ReplayClass::PACKET_ORBDEACTIVATE);
 			ReplayStream.WriteShortInt(ID);
 			ReplayStream.WriteFloat(DeactivateLength);
 		}
@@ -142,7 +142,7 @@ void OrbClass::UpdateDeactivation(float FrameTime) {
 
 			// Change states
 			if(OrbTime >= DeactivateLength) {
-				Scripting::Instance().CallFunction(DeactivationCallback);
+				Scripting.CallFunction(DeactivationCallback);
 				InnerNode->setVisible(false);
 				State = ORBSTATE_DEACTIVATED;
 				

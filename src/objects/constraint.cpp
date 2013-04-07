@@ -28,13 +28,13 @@ ConstraintClass::ConstraintClass(const ConstraintStruct &Object)
 	TemplateStruct *Template = Object.Template;
 
 	// Attributes
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 
 		switch(Template->Type) {
 			case CONSTRAINT_HINGE: {
 				if(Object.BodyA) {
 					Constraint = new btHingeConstraint(*Object.BodyA->GetBody(), Template->ConstraintData[0], Template->ConstraintData[1]);
-					Physics::Instance().GetWorld()->addConstraint(Constraint);
+					Physics.GetWorld()->addConstraint(Constraint);
 				}
 			} break;
 		}
@@ -74,7 +74,7 @@ ConstraintClass::ConstraintClass(const ConstraintStruct &Object)
 ConstraintClass::~ConstraintClass() {
 
 	if(Constraint) {
-		Physics::Instance().GetWorld()->removeConstraint(Constraint);
+		Physics.GetWorld()->removeConstraint(Constraint);
 
 		delete Constraint;
 	}

@@ -60,7 +60,6 @@
 #ifndef RANDOM_H
 #define RANDOM_H
 
-#include "singleton.h"
 
 typedef unsigned int uint;
 typedef unsigned long ulong;
@@ -189,6 +188,6 @@ inline float RandomClass::GenerateRange(float Min, float Max) {
 }
 
 // Singletons
-typedef SingletonClass<RandomClass> Random;
+extern RandomClass Random;
 
 #endif

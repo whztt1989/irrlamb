@@ -26,7 +26,7 @@ LogClass Log;
 int LogClass::Init() {
 
 	// Open log
-	std::string FilePath = Save::Instance().GetSavePath() + "irrlamb.log";
+	std::string FilePath = Save.GetSavePath() + "irrlamb.log";
 	FileStream.open(FilePath.c_str());
 
 	return 1;

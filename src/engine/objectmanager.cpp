@@ -22,6 +22,8 @@
 #include "../objects/object.h"
 #include "namespace.h"
 
+ObjectManagerClass ObjectManager;
+
 // Constructor
 ObjectManagerClass::ObjectManagerClass()
 :	NextObjectID(0) {
@@ -126,7 +128,7 @@ void ObjectManagerClass::BeginFrame() {
 
 // Performs end frame operations on the objects
 void ObjectManagerClass::EndFrame() {
-	bool UpdateReplay = Replay::Instance().NeedsPacket();
+	bool UpdateReplay = Replay.NeedsPacket();
 	u16 ReplayMovementCount = 0;
 
 	// Get replay update count
@@ -146,8 +148,8 @@ void ObjectManagerClass::EndFrame() {
 	if(UpdateReplay && ReplayMovementCount > 0) {
 
 		// Write replay event
-		FileClass &ReplayStream = Replay::Instance().GetReplayStream();
-		Replay::Instance().WriteEvent(ReplayClass::PACKET_MOVEMENT);
+		FileClass &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(ReplayClass::PACKET_MOVEMENT);
 		ReplayStream.WriteShortInt(ReplayMovementCount);
 
 		// Write the updated objects
@@ -157,7 +159,7 @@ void ObjectManagerClass::EndFrame() {
 			// Save the replay
 			if(Object->ReadyForReplayUpdate()) {
 				btVector3 EulerRotation;
-				Physics::Instance().QuaternionToEuler(Object->GetRotation(), EulerRotation);
+				Physics.QuaternionToEuler(Object->GetRotation(), EulerRotation);
 				
 				// Write object update
 				ReplayStream.WriteShortInt(Object->GetID());
@@ -184,9 +186,9 @@ void ObjectManagerClass::Update(float FrameTime) {
 		if(Object->GetDeleted()) {
 
 			// Write delete events to the replay
-			if(Replay::Instance().IsRecording()) {
-				FileClass &ReplayStream = Replay::Instance().GetReplayStream();
-				Replay::Instance().WriteEvent(ReplayClass::PACKET_DELETE);
+			if(Replay.IsRecording()) {
+				FileClass &ReplayStream = Replay.GetReplayStream();
+				Replay.WriteEvent(ReplayClass::PACKET_DELETE);
 				ReplayStream.WriteShortInt(Object->GetID());
 			}
 
@@ -213,7 +215,7 @@ void ObjectManagerClass::UpdateFromReplay() {
 	vector3df Position, Rotation;
 
 	// Get replay stream and read object count
-	FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+	FileClass &ReplayStream = Replay.GetReplayStream();
 	int ObjectCount = ReplayStream.ReadShortInt();
 
 	// Read first object

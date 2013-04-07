@@ -59,8 +59,8 @@
     <File Name="../src/engine/scripting.cpp"/>
     <File Name="../src/engine/audio.cpp"/>
     <File Name="../src/engine/database.h"/>
-    <File Name="../src/engine/singleton.h"/>
     <File Name="../src/engine/campaign.h"/>
+    <File Name="../src/engine/random.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="irrb">
     <File Name="../src/irrb/CIrrBMeshWriter.h"/>

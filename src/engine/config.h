@@ -19,7 +19,6 @@
 #define CONFIG_H
 
 // Libraries
-#include "singleton.h"
 #include "actions.h"
 
 // Classes
@@ -61,6 +60,6 @@ class ConfigClass {
 };
 
 // Singletons
-typedef SingletonClass<ConfigClass> Config;
+extern ConfigClass Config;
 
 #endif

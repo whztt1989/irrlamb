@@ -19,7 +19,6 @@
 #define SAVE_H
 
 // Libraries
-#include "singleton.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -94,6 +93,6 @@ class SaveClass {
 };
 
 // Singletons
-typedef SingletonClass<SaveClass> Save;
+extern SaveClass Save;
 
 #endif

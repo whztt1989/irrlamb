@@ -29,7 +29,7 @@
 struct SaveLevelStruct;
 
 // Classes
-class MenuState : public StateClass {
+class _MenuState : public StateClass {
 
 	public:
 
@@ -98,7 +98,7 @@ class MenuState : public StateClass {
 			STATE_CONTROLS,
 		};
 
-		MenuState() : TargetState(STATE_NONE) { }
+		_MenuState() : TargetState(STATE_NONE) { }
 
 		int Init();
 		int Close();
@@ -110,11 +110,6 @@ class MenuState : public StateClass {
 		void Draw();
 
 		void SetTargetState(MenuStateType NewState) { TargetState = NewState; }
-		
-		static MenuState *Instance() {
-			static MenuState ClassInstance;
-			return &ClassInstance;
-		}
 
 	private:
 
@@ -144,5 +139,7 @@ class MenuState : public StateClass {
 		std::wstring KeyButtonOldText;
 
 };
+
+extern _MenuState MenuState;
 
 #endif

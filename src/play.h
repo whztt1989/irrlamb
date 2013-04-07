@@ -29,7 +29,7 @@ class CameraClass;
 struct SaveLevelStruct;
 
 // Classes
-class PlayState : public StateClass {
+class _PlayState : public StateClass {
 
 	public:
 
@@ -78,16 +78,11 @@ class PlayState : public StateClass {
 		void InitWin();
 
 		void SetTestLevel(const std::string &Level) { TestLevel = Level; }
-		void SetCampaign(int Value) { Campaign = Value; }
+		void SetCampaign(int Value) { CurrentCampaign = Value; }
 		void SetCampaignLevel(int Value) { CampaignLevel = Value; }
 
 		CameraClass *GetCamera() { return Camera; }
 		float GetTimer() { return Timer; }
-
-		static PlayState *Instance() {
-			static PlayState ClassInstance;
-			return &ClassInstance;
-		}
 
 	private:
 
@@ -106,7 +101,7 @@ class PlayState : public StateClass {
 		bool ShowHUD;
 
 		// Campaign
-		int Campaign, CampaignLevel;
+		int CurrentCampaign, CampaignLevel;
 
 		// High scores
 		const SaveLevelStruct *WinStats;
@@ -115,5 +110,7 @@ class PlayState : public StateClass {
 		PlayerClass *Player;
 		CameraClass *Camera;
 };
+
+extern _PlayState PlayState;
 
 #endif

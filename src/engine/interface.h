@@ -19,7 +19,6 @@
 #define INTERFACE_H
 
 // Libraries
-#include "singleton.h"
 #include <string>
 #include <rect.h>
 #include <ITexture.h>
@@ -117,6 +116,6 @@ class InterfaceClass {
 };
 
 // Singletons
-typedef SingletonClass<InterfaceClass> Interface;
+extern InterfaceClass Interface;
 
 #endif

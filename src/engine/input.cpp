@@ -29,6 +29,8 @@
 	#include <windows.h>
 #endif
 
+InputClass Input;
+
 // Event receiver constructor
 InputClass::InputClass()
 :	MouseLocked(false),
@@ -44,7 +46,7 @@ InputClass::InputClass()
 bool InputClass::OnEvent(const SEvent &Event) {
 	bool Processed = false;
 
-	if(Game::Instance().GetManagerState() != GameClass::STATE_UPDATE)
+	if(Game.GetManagerState() != GameClass::STATE_UPDATE)
 		return false;
 
 	switch(Event.EventType) {
@@ -53,9 +55,9 @@ bool InputClass::OnEvent(const SEvent &Event) {
 
 			// Send key press events
 			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key))
-				Processed = Game::Instance().GetState()->HandleKeyPress(Event.KeyInput.Key);
+				Processed = Game.GetState()->HandleKeyPress(Event.KeyInput.Key);
 			else if(!Event.KeyInput.PressedDown)
-				Processed = Game::Instance().GetState()->HandleKeyLift(Event.KeyInput.Key);
+				Processed = Game.GetState()->HandleKeyLift(Event.KeyInput.Key);
 
 			// Set the current key state
 			SetKeyState(Event.KeyInput.Key, Event.KeyInput.PressedDown);
@@ -70,14 +72,14 @@ bool InputClass::OnEvent(const SEvent &Event) {
 				case EMIE_MMOUSE_PRESSED_DOWN:
 					SetMouseState(Event.MouseInput.Event, true);
 					Actions.MouseEvent(Event.MouseInput.Event, true);
-					return Game::Instance().GetState()->HandleMousePress(Event.MouseInput.Event, Event.MouseInput.X, Event.MouseInput.Y);
+					return Game.GetState()->HandleMousePress(Event.MouseInput.Event, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_LMOUSE_LEFT_UP:
 				case EMIE_RMOUSE_LEFT_UP:
 				case EMIE_MMOUSE_LEFT_UP:
 					SetMouseState(Event.MouseInput.Event - MOUSE_COUNT, false);
 					Actions.MouseEvent(Event.MouseInput.Event - MOUSE_COUNT, false);
-					Game::Instance().GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
+					Game.GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
 
@@ -94,16 +96,16 @@ bool InputClass::OnEvent(const SEvent &Event) {
 							irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);						
 						
 						// Invert mouse
-						float MouseScaleY = Config::Instance().MouseScaleY;
-						if(Config::Instance().InvertMouse)
+						float MouseScaleY = Config.MouseScaleY;
+						if(Config.InvertMouse)
 							MouseScaleY = -MouseScaleY;
 
-						Game::Instance().GetState()->HandleMouseMotion((MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config::Instance().MouseScaleX,
+						Game.GetState()->HandleMouseMotion((MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config.MouseScaleX,
 																				(MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY);
 					}
 				break;
 				case EMIE_MOUSE_WHEEL:
-					Game::Instance().GetState()->HandleMouseWheel(Event.MouseInput.Wheel);
+					Game.GetState()->HandleMouseWheel(Event.MouseInput.Wheel);
 				break;
 				default:
 				break;
@@ -112,7 +114,7 @@ bool InputClass::OnEvent(const SEvent &Event) {
 			return false;
 		break;
 		case EET_GUI_EVENT:
-			Game::Instance().GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
+			Game.GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
 		break;
 		case EET_JOYSTICK_INPUT_EVENT:
 			JoystickState = Event.JoystickEvent;
@@ -199,7 +201,7 @@ void InputClass::SetMouseLocked(bool Value) {
 		#endif
 	}
 
-	Graphics::Instance().ToggleCursor(!Value);
+	Graphics.ToggleCursor(!Value);
 }
 
 // Converts an irrlicht key code into a string

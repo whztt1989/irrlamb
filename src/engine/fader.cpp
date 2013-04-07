@@ -21,6 +21,8 @@
 #include "constants.h"
 #include "namespace.h"
 
+FaderClass Fader;
+
 // Initializes the fader system
 int FaderClass::Init() {
 
@@ -71,7 +73,7 @@ void FaderClass::Update(float FrameTime) {
 				}
 
 				// Change audio
-				Audio::Instance().SetGain(Fade);
+				Audio.SetGain(Fade);
 			}
 
 		break;

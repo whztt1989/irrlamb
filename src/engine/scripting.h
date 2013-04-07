@@ -19,7 +19,6 @@
 #define SCRIPTING_H
 
 // Libraries
-#include "singleton.h"
 #include <lua.hpp>
 #include <map>
 #include <list>
@@ -108,6 +107,6 @@ class ScriptingClass {
 };
 
 // Singletons
-typedef SingletonClass<ScriptingClass> Scripting;
+extern ScriptingClass Scripting;
 
 #endif

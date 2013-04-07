@@ -35,34 +35,36 @@
 #include "menu.h"
 #include "engine/namespace.h"
 
+_ViewReplayState ViewReplayState;
+
 // Initializes the state
-int ViewReplayState::Init() {
+int _ViewReplayState::Init() {
 
 	// Set up state
 	ReplaySpeed = PauseSpeed = 1.0f;
 	Timer = 0.0f;
-	Input::Instance().SetMouseLocked(false);
-	Interface::Instance().ChangeSkin(InterfaceClass::SKIN_GAME);
+	Input.SetMouseLocked(false);
+	Interface.ChangeSkin(InterfaceClass::SKIN_GAME);
 
 	// Set up physics world
-	Physics::Instance().SetEnabled(false);
+	Physics.SetEnabled(false);
 
 	// Load replay
-	if(!Replay::Instance().LoadReplay(CurrentReplay.c_str()))
+	if(!Replay.LoadReplay(CurrentReplay.c_str()))
 		return 0;
 
 	// Read first event
-	Replay::Instance().ReadEvent(NextEvent);
+	Replay.ReadEvent(NextEvent);
 
 	// Load the level
-	if(!Level::Instance().Init(Replay::Instance().GetLevelName()))
+	if(!Level.Init(Replay.GetLevelName()))
 		return 0;
 
 	// Add camera
 	Camera = new CameraClass();
 
 	// Turn off graphics until camera is positioned
-	Graphics::Instance().SetDrawScene(false);
+	Graphics.SetDrawScene(false);
 
 	// Initialize controls
 	SetupGUI();
@@ -71,35 +73,35 @@ int ViewReplayState::Init() {
 }
 
 // Shuts the state down
-int ViewReplayState::Close() {
+int _ViewReplayState::Close() {
 
 	// Stop replay
-	Replay::Instance().StopReplay();
+	Replay.StopReplay();
 
 	// Clear objects
 	delete Camera;
-	Level::Instance().Close();
-	ObjectManager::Instance().ClearObjects();
-	Interface::Instance().Clear();
+	Level.Close();
+	ObjectManager.ClearObjects();
+	Interface.Clear();
 	irrScene->clear();
 	
 	return 1;
 }
 
 // Key presses
-bool ViewReplayState::HandleKeyPress(int Key) {
+bool _ViewReplayState::HandleKeyPress(int Key) {
 
 	bool Processed = true;
 	switch(Key) {
 		case KEY_ESCAPE:
-			MenuState::Instance()->SetTargetState(MenuState::STATE_INITREPLAYS);
-			Game::Instance().ChangeState(MenuState::Instance());
+			MenuState.SetTargetState(_MenuState::STATE_INITREPLAYS);
+			Game.ChangeState(&MenuState);
 		break;
 		case KEY_F1:
-			Game::Instance().ChangeState(MenuState::Instance());
+			Game.ChangeState(&MenuState);
 		break;
 		case KEY_F12:
-			Graphics::Instance().SaveScreenshot();
+			Graphics.SaveScreenshot();
 		break;
 		case KEY_SPACE:
 			Pause();
@@ -122,7 +124,7 @@ bool ViewReplayState::HandleKeyPress(int Key) {
 }
 
 // Mouse wheel
-void ViewReplayState::HandleMouseWheel(float Direction) {
+void _ViewReplayState::HandleMouseWheel(float Direction) {
 
 	if(Direction < 0)
 		ChangeReplaySpeed(-0.25f);
@@ -131,14 +133,14 @@ void ViewReplayState::HandleMouseWheel(float Direction) {
 }
 
 // GUI events
-void ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
+void _ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:
 			switch(Element->getID()) {
 				case MAIN_EXIT:
-					MenuState::Instance()->SetTargetState(MenuState::STATE_INITREPLAYS);
-					Game::Instance().ChangeState(MenuState::Instance());
+					MenuState.SetTargetState(_MenuState::STATE_INITREPLAYS);
+					Game.ChangeState(&MenuState);
 				break;
 				case MAIN_DECREASE:
 					ChangeReplaySpeed(-0.25f);
@@ -150,7 +152,7 @@ void ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
 					Pause();
 				break;
 				case MAIN_RESTART:
-					Game::Instance().ChangeState(this);
+					Game.ChangeState(this);
 				break;
 				case MAIN_SKIP:
 					Skip(1.0f);
@@ -161,31 +163,31 @@ void ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
 }
 
 // Updates the current state
-void ViewReplayState::Update(float FrameTime) {
+void _ViewReplayState::Update(float FrameTime) {
 
 	// Update the replay
 	Timer += FrameTime * ReplaySpeed;
-	while(!Replay::Instance().ReplayStopped() && Timer >= NextEvent.TimeStamp) {
+	while(!Replay.ReplayStopped() && Timer >= NextEvent.TimeStamp) {
 		//printf("Processing header packet: type=%d time=%f\n", NextEvent.Type, NextEvent.TimeStamp);
 		
 		switch(NextEvent.Type) {
 			case ReplayClass::PACKET_MOVEMENT:
-				ObjectManager::Instance().UpdateFromReplay();
+				ObjectManager.UpdateFromReplay();
 			break;
 			case ReplayClass::PACKET_CREATE: {
 				SpawnStruct Spawn;
 
 				// Read replay
-				FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+				FileClass &ReplayStream = Replay.GetReplayStream();
 				int TemplateID = ReplayStream.ReadShortInt();
 				int ObjectID = ReplayStream.ReadShortInt();
 				ReplayStream.ReadData(Spawn.Position, sizeof(btScalar) * 3);
 				ReplayStream.ReadData(Spawn.Rotation, sizeof(btScalar) * 3);
 
 				// Create spawn object
-				Spawn.Template = Level::Instance().GetTemplateFromID(TemplateID);
+				Spawn.Template = Level.GetTemplateFromID(TemplateID);
 				if(Spawn.Template != NULL) {
-					ObjectClass *NewObject = Level::Instance().CreateObject(Spawn);
+					ObjectClass *NewObject = Level.CreateObject(Spawn);
 					NewObject->SetID(ObjectID);
 				}
 			}
@@ -193,25 +195,25 @@ void ViewReplayState::Update(float FrameTime) {
 			case ReplayClass::PACKET_DELETE: {
 
 				// Read replay
-				FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+				FileClass &ReplayStream = Replay.GetReplayStream();
 				int ObjectID = ReplayStream.ReadShortInt();
 
 				// Delete object
-				ObjectManager::Instance().DeleteObjectByID(ObjectID);
+				ObjectManager.DeleteObjectByID(ObjectID);
 			}
 			break;
 			case ReplayClass::PACKET_CAMERA: {
 				
 				// Read replay
 				vector3df Position, LookAt;
-				FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+				FileClass &ReplayStream = Replay.GetReplayStream();
 				ReplayStream.ReadData(&Position.X, sizeof(float) * 3);
 				ReplayStream.ReadData(&LookAt.X, sizeof(float) * 3);
 
 				// Set camera orientation
 				Camera->GetNode()->setPosition(Position);
 				Camera->GetNode()->setTarget(LookAt);
-				Graphics::Instance().SetDrawScene(true);
+				Graphics.SetDrawScene(true);
 				
 				//printf("Camera Position=%f %f %f Target=%f %f %f\n", Position.X, Position.Y, Position.Z, LookAt.X, LookAt.Y, LookAt.Z);
 			}
@@ -219,12 +221,12 @@ void ViewReplayState::Update(float FrameTime) {
 			case ReplayClass::PACKET_ORBDEACTIVATE: {
 
 				// Read replay
-				FileClass &ReplayStream = Replay::Instance().GetReplayStream();
+				FileClass &ReplayStream = Replay.GetReplayStream();
 				int ObjectID = ReplayStream.ReadShortInt();
 				float Length = ReplayStream.ReadFloat();
 
 				// Deactivate orb
-				OrbClass *Orb = static_cast<OrbClass *>(ObjectManager::Instance().GetObjectByID(ObjectID));
+				OrbClass *Orb = static_cast<OrbClass *>(ObjectManager.GetObjectByID(ObjectID));
 				Orb->StartDeactivation("", Length);
 			}
 			break;
@@ -232,93 +234,93 @@ void ViewReplayState::Update(float FrameTime) {
 			break;
 		}
 
-		Replay::Instance().ReadEvent(NextEvent);
+		Replay.ReadEvent(NextEvent);
 	}
 	
-	ObjectManager::Instance().UpdateReplay(FrameTime);
-	Interface::Instance().Update(FrameTime);
+	ObjectManager.UpdateReplay(FrameTime);
+	Interface.Update(FrameTime);
 }
 
 // Draws the current state
-void ViewReplayState::Draw() {
+void _ViewReplayState::Draw() {
 	char Buffer[256];
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 
 	// Draw box
 	int Left = 5, Top = 5, Width = 175, Height = 70;
-	Interface::Instance().DrawTextBox(Left + Width/2, Top + Height/2, Width, Height, SColor(150, 255, 255, 255));
+	Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height, SColor(150, 255, 255, 255));
 
 	// Draw timer
 	float DisplayTime;
-	if(!Replay::Instance().ReplayStopped())
+	if(!Replay.ReplayStopped())
 		DisplayTime = Timer;
 	else
-		DisplayTime = Replay::Instance().GetFinishTime();
+		DisplayTime = Replay.GetFinishTime();
 
 	// Draw time
 	int X = Left + Width/2 - 10, Y = Top + 15;
-	Interface::Instance().RenderText("Time", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
-	Interface::Instance().ConvertSecondsToString(DisplayTime, Buffer);
-	Interface::Instance().RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
+	Interface.RenderText("Time", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
+	Interface.ConvertSecondsToString(DisplayTime, Buffer);
+	Interface.RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
 
 	// Draw controls
 	Y += 17;
-	Interface::Instance().RenderText("Speed", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
+	Interface.RenderText("Speed", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
 	sprintf(Buffer, "%.2f", ReplaySpeed);
-	Interface::Instance().RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
+	Interface.RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
 
 	irrGUI->drawAll();
 }
 
 // Setup GUI controls
-void ViewReplayState::SetupGUI() {
+void _ViewReplayState::SetupGUI() {
 	int Right = irrDriver->getScreenSize().Width;
 
 	// Restart replay
 	int X = Right - 285, Y = 19;
-	IGUIButton *ButtonRewind = irrGUI->addButton(Interface::Instance().GetCenteredRect(X, Y, 34, 34), 0, MAIN_RESTART);
-	ButtonRewind->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_REWIND));
+	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_RESTART);
+	ButtonRewind->setImage(Interface.GetImage(InterfaceClass::IMAGE_REWIND));
 	ButtonRewind->setUseAlphaChannel(true);
 	ButtonRewind->setDrawBorder(false);
 
 	// Decrease replay speed
 	X += 45;
-	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface::Instance().GetCenteredRect(X, Y, 34, 34), 0, MAIN_DECREASE);
-	ButtonDecrease->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_DECREASE));
+	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_DECREASE);
+	ButtonDecrease->setImage(Interface.GetImage(InterfaceClass::IMAGE_DECREASE));
 	ButtonDecrease->setUseAlphaChannel(true);
 	ButtonDecrease->setDrawBorder(false);
 
 	// Increase replay speed
 	X += 37;
-	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface::Instance().GetCenteredRect(X, Y, 34, 34), 0, MAIN_INCREASE);
-	ButtonIncrease->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_INCREASE));
+	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_INCREASE);
+	ButtonIncrease->setImage(Interface.GetImage(InterfaceClass::IMAGE_INCREASE));
 	ButtonIncrease->setUseAlphaChannel(true);
 	ButtonIncrease->setDrawBorder(false);
 
 	// Pause
 	X += 45;
-	IGUIButton *ButtonPause = irrGUI->addButton(Interface::Instance().GetCenteredRect(X, Y, 34, 34), 0, MAIN_PAUSE);
-	ButtonPause->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_PAUSE));
+	IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_PAUSE);
+	ButtonPause->setImage(Interface.GetImage(InterfaceClass::IMAGE_PAUSE));
 	ButtonPause->setUseAlphaChannel(true);
 	ButtonPause->setDrawBorder(false);
 
 	// Skip ahead
 	X += 37;
-	IGUIButton *ButtonSkip = irrGUI->addButton(Interface::Instance().GetCenteredRect(X, Y, 34, 34), 0, MAIN_SKIP);
-	ButtonSkip->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_FASTFORWARD));
+	IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_SKIP);
+	ButtonSkip->setImage(Interface.GetImage(InterfaceClass::IMAGE_FASTFORWARD));
 	ButtonSkip->setUseAlphaChannel(true);
 	ButtonSkip->setDrawBorder(false);
 
 	// Exit
 	X += 45;
-	IGUIButton *ButtonExit = irrGUI->addButton(Interface::Instance().GetCenteredRect(Right - 50, Y, 82, 34), 0, MAIN_EXIT, L"Exit");
-	ButtonExit->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON80));
+	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 82, 34), 0, MAIN_EXIT, L"Exit");
+	ButtonExit->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);
 }
 
 // Change replay speed
-void ViewReplayState::ChangeReplaySpeed(float Amount) {
+void _ViewReplayState::ChangeReplaySpeed(float Amount) {
 	
 	ReplaySpeed += Amount;
 	if(ReplaySpeed >= 10.0f)
@@ -328,7 +330,7 @@ void ViewReplayState::ChangeReplaySpeed(float Amount) {
 }
 
 // Pause the replay
-void ViewReplayState::Pause() {
+void _ViewReplayState::Pause() {
 
 	// Pause or play
 	if(ReplaySpeed == 0.0f) {
@@ -341,7 +343,7 @@ void ViewReplayState::Pause() {
 }
 
 // Skip ahead
-void ViewReplayState::Skip(float Amount) {
+void _ViewReplayState::Skip(float Amount) {
 	Timer += Amount;
-	Replay::Instance().Update(Amount);
+	Replay.Update(Amount);
 }

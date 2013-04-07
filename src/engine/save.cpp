@@ -28,6 +28,8 @@
 	#include <sys/stat.h>
 #endif
 
+SaveClass Save;
+
 // Initializes the save system
 int SaveClass::Init() {
 

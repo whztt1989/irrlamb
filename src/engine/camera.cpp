@@ -69,7 +69,7 @@ void CameraClass::Update(const vector3df &Target) {
 	Transform.transformVect(Offset);
 
 	// Set listener direction
-	Audio::Instance().SetDirection(Offset.X, Offset.Y, Offset.Z);
+	Audio.SetDirection(Offset.X, Offset.Y, Offset.Z);
 
 	// Position the camera
 	Offset *= -Distance;
@@ -85,7 +85,7 @@ void CameraClass::Update(const vector3df &Target) {
 	
 	// Get point on wall where ray collides
 	btVector3 HitNormal;
-	Physics::Instance().RaycastWorld(RayStart, RayEnd, HitNormal);
+	Physics.RaycastWorld(RayStart, RayEnd, HitNormal);
 	
 	// Shorten the offset a little bit
 	btVector3 NewOffset = RayEnd - RayStart;
@@ -110,12 +110,12 @@ void CameraClass::Update(const vector3df &Target) {
 void CameraClass::RecordReplay() {
 	
 	// Write replay
-	if(Replay::Instance().NeedsPacket() && MovementChanged) {
+	if(Replay.NeedsPacket() && MovementChanged) {
 		MovementChanged = false;
 
 		// Write replay information
-		FileClass &ReplayStream = Replay::Instance().GetReplayStream();
-		Replay::Instance().WriteEvent(ReplayClass::PACKET_CAMERA);
+		FileClass &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(ReplayClass::PACKET_CAMERA);
 		ReplayStream.WriteData((void *)&Node->getPosition(), sizeof(vector3df));
 		ReplayStream.WriteData((void *)&Node->getTarget(), sizeof(vector3df));
 	}

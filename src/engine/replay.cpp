@@ -24,6 +24,8 @@
 #include <ctime>
 #include <sstream>
 
+ReplayClass Replay;
+
 // Start recording a replay
 void ReplayClass::StartRecording() {
 	if(State != STATE_NONE)
@@ -36,12 +38,12 @@ void ReplayClass::StartRecording() {
 
 	// Get header information
 	ReplayVersion = REPLAY_VERSION;
-	RecordInterval = Config::Instance().ReplayInterval;
-	LevelVersion = Level::Instance().GetLevelVersion();
-	LevelName = Level::Instance().GetLevelName();
+	RecordInterval = Config.ReplayInterval;
+	LevelVersion = Level.GetLevelVersion();
+	LevelName = Level.GetLevelName();
 
 	// Create replay file for object data
-	ReplayDataFile = Save::Instance().GetReplayPath() + "replay.dat";
+	ReplayDataFile = Save.GetReplayPath() + "replay.dat";
 	if(!ReplayStream.OpenForWrite(ReplayDataFile.c_str())) {
 		Log.Write("ReplayClass::StartRecording - Unable to open %s!", ReplayDataFile.c_str());
 	}
@@ -68,7 +70,7 @@ bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
 	
 	// Get new file name
 	std::stringstream ReplayFilePath;
-	ReplayFilePath << Save::Instance().GetReplayPath() << (unsigned int)TimeStamp << ".replay";
+	ReplayFilePath << Save.GetReplayPath() << (unsigned int)TimeStamp << ".replay";
 
 	// Open new file
 	FileClass ReplayFile;
@@ -193,7 +195,7 @@ bool ReplayClass::LoadReplay(const std::string &ReplayFile, bool HeaderOnly) {
 	ReplayVersion = 0;
 
 	// Get file name
-	std::string FilePath = Save::Instance().GetReplayPath() + ReplayFile;
+	std::string FilePath = Save.GetReplayPath() + ReplayFile;
 
 	// Open the replay
 	if(!ReplayStream.OpenForRead(FilePath.c_str()))

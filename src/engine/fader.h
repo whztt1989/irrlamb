@@ -19,7 +19,6 @@
 #define FADER_H
 
 // Libraries
-#include "singleton.h"
 #include <ITexture.h>
 #include <position2d.h>
 
@@ -57,6 +56,6 @@ class FaderClass {
 };
 
 // Singletons
-typedef SingletonClass<FaderClass> Fader;
+extern FaderClass Fader;
 
 #endif

@@ -41,6 +41,8 @@
 #include "../objects/springjoint.h"
 #include "namespace.h"
 
+LevelClass Level;
+
 // Loads a level file
 int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(!HeaderOnly)
@@ -50,9 +52,9 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 	this->LevelName = LevelName;
 	LevelNiceName = "";
 	std::string LevelFile = LevelName + "/" + LevelName + ".xml";
-	std::string FilePath = Game::Instance().GetWorkingPath() + std::string("levels/") + LevelFile;
-	std::string CustomFilePath = Save::Instance().GetCustomLevelsPath() + LevelFile;
-	std::string DataPath = Game::Instance().GetWorkingPath() + std::string("levels/") + LevelName + "/";
+	std::string FilePath = Game.GetWorkingPath() + std::string("levels/") + LevelFile;
+	std::string CustomFilePath = Save.GetCustomLevelsPath() + LevelFile;
+	std::string DataPath = Game.GetWorkingPath() + std::string("levels/") + LevelName + "/";
 
 	// See if custom level exists first
 	IsCustomLevel = false;
@@ -60,7 +62,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(CustomLevelExists) {
 		IsCustomLevel = true;
 		FilePath = CustomFilePath;
-		DataPath = Save::Instance().GetCustomLevelsPath() + LevelName + "/";
+		DataPath = Save.GetCustomLevelsPath() + LevelName + "/";
 	}
 	CustomLevelExists.close();
 
@@ -112,7 +114,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 
 	// Load default lua script
 	Scripts.clear();
-	Scripts.push_back(Game::Instance().GetWorkingPath() + "scripts/default.lua");
+	Scripts.push_back(Game.GetWorkingPath() + "scripts/default.lua");
 
 	// Options
 	bool Fog = false;
@@ -150,7 +152,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 			if(IsCustomLevel) {
 				irrFile->changeWorkingDirectoryTo(DataPath.c_str());
 				irrScene->loadScene(File.c_str());
-				irrFile->changeWorkingDirectoryTo(Game::Instance().GetWorkingPath().c_str());
+				irrFile->changeWorkingDirectoryTo(Game.GetWorkingPath().c_str());
 			}
 			else {
 				irrScene->loadScene((DataPath + File).c_str());
@@ -160,13 +162,13 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 			array<ISceneNode *> MeshNodes;
 			irrScene->getSceneNodesFromType(ESNT_MESH, MeshNodes);
 			for(u32 i = 0; i < MeshNodes.size(); i++) {
-				if(EmitLight && Config::Instance().Shaders)
-					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics::Instance().GetCustomMaterial());
+				if(EmitLight && Config.Shaders)
+					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics.GetCustomMaterial());
 
-				MeshNodes[i]->setMaterialFlag(EMF_TRILINEAR_FILTER, Config::Instance().TrilinearFiltering);
+				MeshNodes[i]->setMaterialFlag(EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
 				for(u32 j = 0; j < MeshNodes[i]->getMaterialCount(); j++) {
 					for(int k = 0; k < 4; k++) {
-						MeshNodes[i]->getMaterial(j).TextureLayer[k].AnisotropicFilter = Config::Instance().AnisotropicFiltering;
+						MeshNodes[i]->getMaterial(j).TextureLayer[k].AnisotropicFilter = Config.AnisotropicFiltering;
 						if(MeshNodes[i]->getMaterial(j).FogEnable)
 							Fog = true;
 					}
@@ -232,8 +234,8 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 			if(EmitLight) {
 				
 				// Use shaders on materials that receive light
-				if(Config::Instance().Shaders)
-					Template->CustomMaterial = Graphics::Instance().GetCustomMaterial();
+				if(Config.Shaders)
+					Template->CustomMaterial = Graphics.GetCustomMaterial();
 
 				// Set the player to emit light
 				if(Template->Type == ObjectClass::PLAYER)
@@ -375,7 +377,7 @@ int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStr
 
 			const char *Attribute = Element->Attribute(AttributeName);
 			if(Attribute) {
-				Object.Textures[i] = Game::Instance().GetWorkingPath() + std::string("textures/") + Attribute;
+				Object.Textures[i] = Game.GetWorkingPath() + std::string("textures/") + Attribute;
 				if(!irrFile->existFile(Object.Textures[i].c_str())) {
 					Log.Write("Texture file does not exist: %s", Object.Textures[i].c_str());
 					return 0;
@@ -419,7 +421,7 @@ int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStr
 		Object.CollisionGroup = PhysicsClass::FILTER_STATIC | PhysicsClass::FILTER_CAMERA;
 
 		// Prevent collision with other static object
-		Physics::Instance().RemoveFilter(Object.CollisionMask, PhysicsClass::FILTER_STATIC);
+		Physics.RemoveFilter(Object.CollisionMask, PhysicsClass::FILTER_STATIC);
 	}
 	
 	return 1;
@@ -486,34 +488,34 @@ ObjectClass *LevelClass::CreateObject(const SpawnStruct &Object) {
 	ObjectClass *NewObject = NULL;
 	switch(Object.Template->Type) {
 		case ObjectClass::PLAYER:
-			NewObject = ObjectManager::Instance().AddObject(new PlayerClass(Object));
+			NewObject = ObjectManager.AddObject(new PlayerClass(Object));
 		break;
 		case ObjectClass::ORB:
-			NewObject = ObjectManager::Instance().AddObject(new OrbClass(Object));
+			NewObject = ObjectManager.AddObject(new OrbClass(Object));
 		break;
 		case ObjectClass::COLLISION:
-			NewObject = ObjectManager::Instance().AddObject(new CollisionClass(Object));
+			NewObject = ObjectManager.AddObject(new CollisionClass(Object));
 		break;
 		case ObjectClass::SPHERE:
-			NewObject = ObjectManager::Instance().AddObject(new SphereClass(Object));
+			NewObject = ObjectManager.AddObject(new SphereClass(Object));
 		break;
 		case ObjectClass::BOX:
-			NewObject = ObjectManager::Instance().AddObject(new BoxClass(Object));
+			NewObject = ObjectManager.AddObject(new BoxClass(Object));
 		break;
 		case ObjectClass::CYLINDER:
-			NewObject = ObjectManager::Instance().AddObject(new CylinderClass(Object));
+			NewObject = ObjectManager.AddObject(new CylinderClass(Object));
 		break;
 		case ObjectClass::ZONE:
-			NewObject = ObjectManager::Instance().AddObject(new ZoneClass(Object));
+			NewObject = ObjectManager.AddObject(new ZoneClass(Object));
 		break;
 	}
 
 	// Record replay event
-	if(Replay::Instance().IsRecording() && Object.Template->TemplateID != -1) {
+	if(Replay.IsRecording() && Object.Template->TemplateID != -1) {
 		
 		// Write replay information
-		FileClass &ReplayStream = Replay::Instance().GetReplayStream();
-		Replay::Instance().WriteEvent(ReplayClass::PACKET_CREATE);
+		FileClass &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(ReplayClass::PACKET_CREATE);
 		ReplayStream.WriteShortInt(Object.Template->TemplateID);
 		ReplayStream.WriteShortInt(NewObject->GetID());
 		ReplayStream.WriteData((void *)&Object.Position, sizeof(btScalar) * 3);
@@ -527,7 +529,7 @@ ObjectClass *LevelClass::CreateObject(const SpawnStruct &Object) {
 ObjectClass *LevelClass::CreateConstraint(const ConstraintStruct &Object) {
 	
 	// Add object
-	ObjectClass *NewObject = ObjectManager::Instance().AddObject(new ConstraintClass(Object));
+	ObjectClass *NewObject = ObjectManager.AddObject(new ConstraintClass(Object));
 
 	return NewObject;
 }
@@ -562,20 +564,20 @@ TemplateStruct *LevelClass::GetTemplateFromID(int ID) {
 void LevelClass::RunScripts() {
 	
 	// Reset Lua state
-	Scripting::Instance().Reset();
+	Scripting.Reset();
 
 	// Add key names to lua scope
-	Scripting::Instance().DefineLuaVariable("KEY_FORWARD", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_FORWARD]));
-	Scripting::Instance().DefineLuaVariable("KEY_BACK", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_BACK]));
-	Scripting::Instance().DefineLuaVariable("KEY_LEFT", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_LEFT]));
-	Scripting::Instance().DefineLuaVariable("KEY_RIGHT", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_RIGHT]));
-	Scripting::Instance().DefineLuaVariable("KEY_RESET", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::RESET]));
-	Scripting::Instance().DefineLuaVariable("KEY_JUMP", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::JUMP]));
+	Scripting.DefineLuaVariable("KEY_FORWARD", Input.GetKeyName(Config.Keys[_Actions::MOVE_FORWARD]));
+	Scripting.DefineLuaVariable("KEY_BACK", Input.GetKeyName(Config.Keys[_Actions::MOVE_BACK]));
+	Scripting.DefineLuaVariable("KEY_LEFT", Input.GetKeyName(Config.Keys[_Actions::MOVE_LEFT]));
+	Scripting.DefineLuaVariable("KEY_RIGHT", Input.GetKeyName(Config.Keys[_Actions::MOVE_RIGHT]));
+	Scripting.DefineLuaVariable("KEY_RESET", Input.GetKeyName(Config.Keys[_Actions::RESET]));
+	Scripting.DefineLuaVariable("KEY_JUMP", Input.GetKeyName(Config.Keys[_Actions::JUMP]));
 	
 	// Run scripts
 	for(u32 i = 0; i < Scripts.size(); i++) {
 		
 		// Load a level
-		Scripting::Instance().LoadFile(Scripts[i]);
+		Scripting.LoadFile(Scripts[i]);
 	}
 }

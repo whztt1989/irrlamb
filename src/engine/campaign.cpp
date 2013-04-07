@@ -22,6 +22,8 @@
 #include "level.h"
 #include "../tinyxml/tinyxml.h"
 
+CampaignClass Campaign;
+
 // Loads the campaign data
 int CampaignClass::Init() {
 	Campaigns.clear();
@@ -56,12 +58,12 @@ int CampaignClass::Init() {
 		for(; LevelElement != 0; LevelElement = LevelElement->NextSiblingElement("level")) {
 			LevelStruct Level;
 			Level.File = LevelElement->GetText();
-			Level.DataPath = Game::Instance().GetWorkingPath() + "levels/" + Level.File + "/";
+			Level.DataPath = Game.GetWorkingPath() + "levels/" + Level.File + "/";
 			Level.Unlocked = 0;
 			LevelElement->Attribute("unlocked", &Level.Unlocked);
 
-			Level::Instance().Init(Level.File, true);
-			Level.NiceName = Level::Instance().GetLevelNiceName();
+			::Level.Init(Level.File, true);
+			Level.NiceName = ::Level.GetLevelNiceName();
 
 			Campaign.Levels.push_back(Level);
 		}

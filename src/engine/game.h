@@ -19,7 +19,6 @@
 #define GAME_H
 
 // Libraries
-#include "singleton.h"
 #include <irrTypes.h>
 #include <string>
 
@@ -78,6 +77,6 @@ class GameClass {
 };
 
 // Singletons
-typedef SingletonClass<GameClass> Game;
+extern GameClass Game;
 
 #endif

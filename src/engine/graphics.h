@@ -19,7 +19,6 @@
 #define GRAPHICS_H
 
 // Libraries
-#include "singleton.h"
 #include <SColor.h>
 #include <EDriverTypes.h>
 #include <IShaderConstantSetCallBack.h>
@@ -84,6 +83,6 @@ class GraphicsClass {
 };
 
 // Singletons
-typedef SingletonClass<GraphicsClass> Graphics;
+extern GraphicsClass Graphics;
 
 #endif

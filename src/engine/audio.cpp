@@ -20,6 +20,8 @@
 #include "config.h"
 #include "../stb_vorbis/stb_vorbis.h"
 
+AudioClass Audio;
+
 // Initializes the audio system
 int AudioClass::Init(bool Enabled) {
 

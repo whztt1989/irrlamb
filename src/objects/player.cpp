@@ -90,7 +90,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 	ParticleSystem->setMaterialTexture(0, irrDriver->getTexture("textures/player_trail0.png"));
 	ParticleSystem->setMaterialType(EMT_TRANSPARENT_VERTEX_ALPHA);
 
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 
 		// Create shape
 		btSphereShape *Shape = new btSphereShape(Object.Template->Radius);
@@ -100,7 +100,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 		RigidBody->setSleepingThresholds(0.1f, 0.1f);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio::Instance().GetBuffer("player.ogg"), true, 0.0, 0.50f);
+		Sound = new AudioSourceClass(Audio.GetBuffer("player.ogg"), true, 0.0, 0.50f);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();
 	}
@@ -177,11 +177,11 @@ void PlayerClass::HandleInput() {
 	if(!Push.equals(vector3df())) {
 		Push.normalize();
 	}
-	else if(0 && Input::Instance().IsJoystickEnabled()) {
-		Push.X = Input::Instance().GetAxis(0);
-		Push.Z = -Input::Instance().GetAxis(1);
-		//printf("%f %f\n",  Input::Instance().GetAxis(2), Input::Instance().GetAxis(3));
-		//printf("%f %f\n", Input::Instance().GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_X] / 32767.f,  Input::Instance().GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_Y] / 32767.f);
+	else if(0 && Input.IsJoystickEnabled()) {
+		Push.X = Input.GetAxis(0);
+		Push.Z = -Input.GetAxis(1);
+		//printf("%f %f\n",  Input.GetAxis(2), Input.GetAxis(3));
+		//printf("%f %f\n", Input.GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_X] / 32767.f,  Input.GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_Y] / 32767.f);
 	}
 
 	// Push the player

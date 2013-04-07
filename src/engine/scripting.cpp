@@ -30,6 +30,8 @@
 #include "../objects/springjoint.h"
 #include "../play.h"
 
+ScriptingClass Scripting;
+
 // Controls
 luaL_Reg ScriptingClass::CameraFunctions[] = {
 	{"SetYaw", &ScriptingClass::CameraSetYaw},
@@ -278,8 +280,8 @@ int ScriptingClass::CameraSetYaw(lua_State *LuaObject) {
 	
 	float Yaw = (float)lua_tonumber(LuaObject, 1);
 
-	if(PlayState::Instance()->GetCamera())
-		PlayState::Instance()->GetCamera()->SetYaw(Yaw);
+	if(PlayState.GetCamera())
+		PlayState.GetCamera()->SetYaw(Yaw);
 
 	return 0;
 }
@@ -293,8 +295,8 @@ int ScriptingClass::CameraSetPitch(lua_State *LuaObject) {
 	
 	float Pitch = (float)lua_tonumber(LuaObject, 1);
 
-	if(PlayState::Instance()->GetCamera())
-		PlayState::Instance()->GetCamera()->SetPitch(Pitch);
+	if(PlayState.GetCamera())
+		PlayState.GetCamera()->SetPitch(Pitch);
 
 	return 0;
 }
@@ -308,7 +310,7 @@ int ScriptingClass::ObjectGetPointer(lua_State *LuaObject) {
 
 	// Get parameters
 	std::string Name = lua_tostring(LuaObject, 1);
-	ObjectClass *Object = ObjectManager::Instance().GetObjectByName(Name);
+	ObjectClass *Object = ObjectManager.GetObjectByName(Name);
 
 	// Pass pointer
 	lua_pushlightuserdata(LuaObject, (void *)Object);
@@ -433,7 +435,7 @@ int ScriptingClass::ObjectDelete(lua_State *LuaObject) {
 	// Delete object
 	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
 	if(Object != NULL)
-		ObjectManager::Instance().DeleteObject(Object);
+		ObjectManager.DeleteObject(Object);
 
 	return 0;
 }
@@ -461,7 +463,7 @@ int ScriptingClass::OrbDeactivate(lua_State *LuaObject) {
 // Returns a time stamp from the start of the level
 int ScriptingClass::TimerStamp(lua_State *LuaObject) {
 
-	lua_pushnumber(LuaObject, PlayState::Instance()->GetTimer());
+	lua_pushnumber(LuaObject, PlayState.GetTimer());
 
 	return 1;
 }
@@ -478,7 +480,7 @@ int ScriptingClass::TimerDelayedFunction(lua_State *LuaObject) {
 	float Time = (float)lua_tonumber(LuaObject, 2);
 
 	// Add function to list
-	Scripting::Instance().AddTimedCallback(FunctionName, Time);
+	Scripting.AddTimedCallback(FunctionName, Time);
 
 	return 0;
 }
@@ -486,7 +488,7 @@ int ScriptingClass::TimerDelayedFunction(lua_State *LuaObject) {
 // Restarts the level
 int ScriptingClass::LevelLose(lua_State *LuaObject) {
 
-	//PlayState::Instance()->InitLose();
+	//PlayState.InitLose();
 	
 	return 0;
 }
@@ -494,7 +496,7 @@ int ScriptingClass::LevelLose(lua_State *LuaObject) {
 // Wins the level
 int ScriptingClass::LevelWin(lua_State *LuaObject) {
 
-	PlayState::Instance()->InitWin();
+	PlayState.InitWin();
 	
 	return 0;
 }
@@ -510,7 +512,7 @@ int ScriptingClass::LevelGetTemplate(lua_State *LuaObject) {
 	std::string TemplateName = lua_tostring(LuaObject, 1);
 
 	// Send template to Lua
-	lua_pushlightuserdata(LuaObject, Level::Instance().GetTemplate(TemplateName));
+	lua_pushlightuserdata(LuaObject, Level.GetTemplate(TemplateName));
 	
 	return 1;
 }
@@ -550,7 +552,7 @@ int ScriptingClass::LevelCreateObject(lua_State *LuaObject) {
 	Spawn.Rotation.setValue(RotationX, RotationY, RotationZ);
 
 	// Create object
-	ObjectClass *Object = Level::Instance().CreateObject(Spawn);
+	ObjectClass *Object = Level.CreateObject(Spawn);
 
 	// Send new object to Lua
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Object));
@@ -573,7 +575,7 @@ int ScriptingClass::LevelCreateConstraint(lua_State *LuaObject) {
 	Constraint.BodyB = (ObjectClass *)(lua_touserdata(LuaObject, 4));
 
 	// Create object
-	ObjectClass *Object = Level::Instance().CreateConstraint(Constraint);
+	ObjectClass *Object = Level.CreateConstraint(Constraint);
 
 	// Send new object to Lua
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Object));
@@ -599,7 +601,7 @@ int ScriptingClass::GUITutorialText(lua_State *LuaObject) {
 	float Length = (float)lua_tonumber(LuaObject, 2);
 
 	// Show text
-	Interface::Instance().SetTutorialText(Text, Length);
+	Interface.SetTutorialText(Text, Length);
 
 	return 0;
 }
@@ -615,7 +617,7 @@ int ScriptingClass::RandomSeed(lua_State *LuaObject) {
 	ulong Seed = (ulong)lua_tointeger(LuaObject, 1);
 
 	// Set seed
-	Random::Instance().SetSeed(Seed);
+	Random.SetSeed(Seed);
 
 	return 0;
 }
@@ -632,7 +634,7 @@ int ScriptingClass::RandomGetFloat(lua_State *LuaObject) {
 	float Max = (float)lua_tonumber(LuaObject, 2);
 
 	// Send random number to Lua
-	lua_pushnumber(LuaObject, Random::Instance().GenerateRange(Min, Max));
+	lua_pushnumber(LuaObject, Random.GenerateRange(Min, Max));
 
 	return 1;
 }
@@ -649,7 +651,7 @@ int ScriptingClass::RandomGetInt(lua_State *LuaObject) {
 	int Max = (int)lua_tointeger(LuaObject, 2);
 
 	// Send random number to Lua
-	lua_pushnumber(LuaObject, Random::Instance().GenerateRange(Min, Max));
+	lua_pushnumber(LuaObject, Random.GenerateRange(Min, Max));
 
 	return 1;
 }
@@ -663,7 +665,7 @@ void ScriptingClass::AddTimedCallback(const std::string &FunctionName, float Tim
 
 	// Create callback structure
 	TimedCallbackStruct Callback;
-	Callback.TimeStamp = PlayState::Instance()->GetTimer() + Time;
+	Callback.TimeStamp = PlayState.GetTimer() + Time;
 	Callback.Function = FunctionName;
 	
 	// Insert in order
@@ -681,8 +683,8 @@ void ScriptingClass::AddTimedCallback(const std::string &FunctionName, float Tim
 void ScriptingClass::UpdateTimedCallbacks() {
 
 	for(std::list<TimedCallbackStruct>::iterator Iterator(TimedCallbacks.begin()); Iterator != TimedCallbacks.end(); ++Iterator) {
-		if(PlayState::Instance()->GetTimer() >= (*Iterator).TimeStamp) {
-			Scripting::Instance().CallFunction((*Iterator).Function);
+		if(PlayState.GetTimer() >= (*Iterator).TimeStamp) {
+			Scripting.CallFunction((*Iterator).Function);
 
 			// Remove callback
 			Iterator = TimedCallbacks.erase(Iterator);

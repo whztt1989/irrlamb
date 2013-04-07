@@ -19,7 +19,6 @@
 #define AUDIO_H
 
 // Libraries
-#include "singleton.h"
 #include <al.h>
 #include <alc.h>
 #include <map>
@@ -81,6 +80,6 @@ class AudioClass {
 };
 
 // Singletons
-typedef SingletonClass<AudioClass> Audio;
+extern AudioClass Audio;
 
 #endif

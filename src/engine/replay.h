@@ -19,7 +19,6 @@
 #define REPLAY_H
 
 // Libraries
-#include "singleton.h"
 #include "filestream.h"
 #include <ctime>
 #include <string>
@@ -116,6 +115,6 @@ class ReplayClass {
 };
 
 // Singletons
-typedef SingletonClass<ReplayClass> Replay;
+extern ReplayClass Replay;
 
 #endif

@@ -20,6 +20,8 @@
 #include "game.h"
 #include "../objects/object.h"
 
+PhysicsClass Physics;
+
 class DebugDrawerClass : public btIDebugDraw {
 	int m_debugMode;
 

@@ -19,7 +19,6 @@
 #define OBJECTMANAGER_H
 
 // Libraries
-#include "singleton.h"
 #include <string>
 #include <list>
 #include <irrTypes.h>
@@ -63,6 +62,6 @@ class ObjectManagerClass {
 };
 
 // Singletons
-typedef SingletonClass<ObjectManagerClass> ObjectManager;
+extern ObjectManagerClass ObjectManager;
 
 #endif

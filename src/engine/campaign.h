@@ -19,7 +19,6 @@
 #define CAMPAIGN_H
 
 // Libraries
-#include "singleton.h"
 #include <vector>
 #include <string>
 
@@ -55,6 +54,6 @@ class CampaignClass {
 };
 
 // Singletons
-typedef SingletonClass<CampaignClass> Campaign;
+extern CampaignClass Campaign;
 
 #endif

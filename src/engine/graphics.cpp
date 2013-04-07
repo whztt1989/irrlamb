@@ -29,6 +29,8 @@
 #include <ctime>
 #include <irrlicht.h>
 
+GraphicsClass Graphics;
+
 // Initializes the graphics system
 int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {
 	ShowCursor = true;
@@ -41,8 +43,8 @@ int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Dr
 	Parameters.Fullscreen = Fullscreen;
 	Parameters.Bits = 32;
 	Parameters.Vsync = 0;
-	Parameters.Stencilbuffer = Config::Instance().Shadows;
-	Parameters.AntiAlias = Config::Instance().AntiAliasing;
+	Parameters.Stencilbuffer = Config.Shadows;
+	Parameters.AntiAlias = Config.AntiAliasing;
 	Parameters.WindowSize.set(Width, Height);
 
 	// Create the irrlicht device
@@ -98,7 +100,7 @@ int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Dr
 		ShadersSupported = true;
 
 		// Create shader materials
-		if(Config::Instance().Shaders) {
+		if(Config.Shaders) {
 			ShaderCallback *Shader = new ShaderCallback();
 			CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "vertexMain", EVST_VS_1_1, "shaders/lighting.frag", "pixelMain", EPST_PS_1_1, Shader, EMT_SOLID);
 			Shader->drop();
@@ -106,7 +108,7 @@ int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Dr
 	}
 	else {
 		Log.Write("Shaders not supported.");
-		Config::Instance().Shaders = false;
+		Config.Shaders = false;
 	}
 
 	return 1;
@@ -134,9 +136,9 @@ void GraphicsClass::EndFrame() {
 	
 	// Draw cursor
 	if(ShowCursor)
-		Interface::Instance().DrawImage(InterfaceClass::IMAGE_MOUSECURSOR, Input::Instance().GetMouseX(), Input::Instance().GetMouseY(), 16, 16);
+		Interface.DrawImage(InterfaceClass::IMAGE_MOUSECURSOR, Input.GetMouseX(), Input.GetMouseY(), 16, 16);
 
-	Fader::Instance().Draw();
+	Fader.Draw();
 	irrDriver->endScene();
 	
 	// Handle screenshots
@@ -149,7 +151,7 @@ std::size_t GraphicsClass::GetCurrentVideoModeIndex() {
 
 	// Find the video mode
 	for(std::size_t i = 0; i < VideoModes.size(); i++) {
-		if(Config::Instance().ScreenWidth == VideoModes[i].Width && Config::Instance().ScreenHeight == VideoModes[i].Height)
+		if(Config.ScreenWidth == VideoModes[i].Width && Config.ScreenHeight == VideoModes[i].Height)
 			return i;
 	}
 
@@ -174,7 +176,7 @@ void GraphicsClass::CreateScreenshot() {
 
 	// Create image
 	IImage *Image = irrDriver->createScreenShot();
-	std::string FilePath = Save::Instance().GetScreenshotsPath() + Filename;
+	std::string FilePath = Save.GetScreenshotsPath() + Filename;
 	irrDriver->writeImageToFile(Image, FilePath.c_str()); 
 	Image->drop();
 

@@ -19,7 +19,6 @@
 #define INPUT_H
 
 // Libraries
-#include "singleton.h"
 #include <IEventReceiver.h>
 #include <irrArray.h>
 
@@ -74,6 +73,6 @@ class InputClass : public irr::IEventReceiver  {
 };
 
 // Singletons
-typedef SingletonClass<InputClass> Input;
+extern InputClass Input;
 
 #endif

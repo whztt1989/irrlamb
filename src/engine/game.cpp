@@ -37,6 +37,8 @@
 #include "../menu.h"
 #include "namespace.h"
 
+GameClass Game;
+
 // Processes parameters and initializes the game
 int GameClass::Init(int Count, char **Arguments) {
 
@@ -48,11 +50,11 @@ int GameClass::Init(int Count, char **Arguments) {
 	WindowActive = true;
 	MouseWasLocked = false;
 	Done = false;
-	StateClass *FirstState = MenuState::Instance();
+	StateClass *FirstState = &MenuState;
 	E_DRIVER_TYPE DriverType = EDT_NULL;
 	bool AudioEnabled = true;
-	PlayState::Instance()->SetCampaign(-1);
-	PlayState::Instance()->SetCampaignLevel(-1);
+	PlayState.SetCampaign(-1);
+	PlayState.SetCampaignLevel(-1);
 
 	// Process arguments
 	std::string Token;
@@ -61,12 +63,12 @@ int GameClass::Init(int Count, char **Arguments) {
 		Token = std::string(Arguments[i]);
 		TokensRemaining = Count - i - 1;
 		if(Token == "-level" && TokensRemaining > 0) {
-			PlayState::Instance()->SetTestLevel(Arguments[++i]);
-			FirstState = PlayState::Instance();
+			PlayState.SetTestLevel(Arguments[++i]);
+			FirstState = &PlayState;
 		}
 		else if(Token == "-replay" && TokensRemaining > 0) {
-			ViewReplayState::Instance()->SetCurrentReplay(Arguments[++i]);
-			FirstState = ViewReplayState::Instance();
+			ViewReplayState.SetCurrentReplay(Arguments[++i]);
+			FirstState = &ViewReplayState;
 		}
 		else if(Token == "-noaudio") {
 			AudioEnabled = false;
@@ -74,7 +76,7 @@ int GameClass::Init(int Count, char **Arguments) {
 	}
 
 	// Set up the save system
-	if(!Save::Instance().Init())
+	if(!Save.Init())
 		return 0;
 
 	// Initialize logging system
@@ -82,15 +84,15 @@ int GameClass::Init(int Count, char **Arguments) {
 	Log.Write("irrlamb %s", GAME_VERSION);
 
 	// Set up config system
-	if(!Config::Instance().Init())
+	if(!Config.Init())
 		return 0;
 
 	// Read the config file
-	int HasConfigFile = Config::Instance().ReadConfig();
+	int HasConfigFile = Config.ReadConfig();
 
 	// Set up the graphics
-	DriverType = (E_DRIVER_TYPE)Config::Instance().DriverType;
-	if(!Graphics::Instance().Init(Config::Instance().ScreenWidth, Config::Instance().ScreenHeight, Config::Instance().Fullscreen, DriverType, &Input::Instance()))
+	DriverType = (E_DRIVER_TYPE)Config.DriverType;
+	if(!Graphics.Init(Config.ScreenWidth, Config.ScreenHeight, Config.Fullscreen, DriverType, &Input))
 		return 0;
 
 	// Save working path
@@ -98,48 +100,48 @@ int GameClass::Init(int Count, char **Arguments) {
 
 	// Write a config file if none exists
 	if(!HasConfigFile)
-		Config::Instance().WriteConfig();
+		Config.WriteConfig();
 
 	// Initialize level stats
-	if(!Save::Instance().InitStatsDatabase())
+	if(!Save.InitStatsDatabase())
 		return 0;
 
 	// Set random seed
-	Random::Instance().SetSeed(irrTimer->getRealTime());
+	Random.SetSeed(irrTimer->getRealTime());
 
 	// Set up the interface system
-	if(!Interface::Instance().Init())
+	if(!Interface.Init())
 		return 0;
 
 	// Set up audio
-	if(AudioEnabled && Config::Instance().AudioEnabled)
+	if(AudioEnabled && Config.AudioEnabled)
 		EnableAudio();
 
 	// Set up the scripting system
-	if(!Scripting::Instance().Init())
+	if(!Scripting.Init())
 		return 0;
 
 	// Set up the object manager
-	if(!ObjectManager::Instance().Init())
+	if(!ObjectManager.Init())
 		return 0;
 
 	// Set up the object manager
-	if(!Campaign::Instance().Init())
+	if(!Campaign.Init())
 		return 0;
 
 	// Set up physics world
-	if(!Physics::Instance().Init())
+	if(!Physics.Init())
 		return 0;
 
 	// Set up fader
-	if(!Fader::Instance().Init())
+	if(!Fader.Init())
 		return 0;
 
 	// Query joysticks
-	Input::Instance().InitializeJoysticks();
+	Input.InitializeJoysticks();
 
 	// Load stats file
-	Save::Instance().LoadLevelStats();
+	Save.LoadLevelStats();
 
 	// Start the state timer
 	ResetTimer();
@@ -148,14 +150,14 @@ int GameClass::Init(int Count, char **Arguments) {
 	State = FirstState;
 	NewState = NULL;
 	ManagerState = STATE_INIT;
-	Fader::Instance().Start(FADE_SPEED);
+	Fader.Start(FADE_SPEED);
 
 	return 1;
 }
 
 // Requests a state change
 void GameClass::ChangeState(StateClass *State) {
-	Fader::Instance().Start(-FADE_SPEED);
+	Fader.Start(-FADE_SPEED);
 
 	NewState = State;
 	ManagerState = STATE_CLOSE;
@@ -184,32 +186,32 @@ void GameClass::Update() {
 
 	// Check for window focus/blur events
 	if(PreviousWindowActive != WindowActive) {
-		Input::Instance().ResetInputState();
+		Input.ResetInputState();
 
 		if(!WindowActive) {
-			MouseWasLocked = Input::Instance().GetMouseLocked();
-			Input::Instance().SetMouseLocked(false);
+			MouseWasLocked = Input.GetMouseLocked();
+			Input.SetMouseLocked(false);
 		}
 		else {
-			Input::Instance().SetMouseLocked(MouseWasLocked);
+			Input.SetMouseLocked(MouseWasLocked);
 		}
 	}
 
 	// Update fader
-	Fader::Instance().Update(FrameTime);
-	Graphics::Instance().BeginFrame();
+	Fader.Update(FrameTime);
+	Graphics.BeginFrame();
 
 	// Update the current state
 	switch(ManagerState) {
 		case STATE_INIT:
 			ResetGraphics();
-			Input::Instance().ResetInputState();
+			Input.ResetInputState();
 			if(!State->Init()) {
 				Done = true;
 				return;
 			}
 
-			Fader::Instance().Start(FADE_SPEED);
+			Fader.Start(FADE_SPEED);
 			ResetTimer();
 			ManagerState = STATE_UPDATE;
 		break;
@@ -223,7 +225,7 @@ void GameClass::Update() {
 			State->UpdateRender(TimeStepAccumulator);
 		break;
 		case STATE_CLOSE:
-			if(Fader::Instance().IsDoneFading()) {
+			if(Fader.IsDoneFading()) {
 				State->Close();
 				State = NewState;
 				ManagerState = STATE_INIT;
@@ -232,7 +234,7 @@ void GameClass::Update() {
 	}
 
 	State->Draw();
-	Graphics::Instance().EndFrame();
+	Graphics.EndFrame();
 }
 
 // Shuts down the system
@@ -242,16 +244,16 @@ void GameClass::Close() {
 	State->Close();
 
 	// Shut down the system
-	Campaign::Instance().Close();
-	Fader::Instance().Close();
-	Physics::Instance().Close();
-	ObjectManager::Instance().Close();
-	Scripting::Instance().Close();
-	Interface::Instance().Close();
-	Audio::Instance().Close();
-	Graphics::Instance().Close();
-	Config::Instance().Close();
-	Save::Instance().Close();
+	Campaign.Close();
+	Fader.Close();
+	Physics.Close();
+	ObjectManager.Close();
+	Scripting.Close();
+	Interface.Close();
+	Audio.Close();
+	Graphics.Close();
+	Config.Close();
+	Save.Close();
 	Log.Close();
 }
 
@@ -264,22 +266,22 @@ void GameClass::ResetTimer() {
 
 // Resets the graphics for a state
 void GameClass::ResetGraphics() {
-	Graphics::Instance().SetClearColor(SColor(0, 0, 0, 0));
-	Graphics::Instance().SetDrawScene(true);
-	Interface::Instance().Clear();
+	Graphics.SetClearColor(SColor(0, 0, 0, 0));
+	Graphics.SetDrawScene(true);
+	Interface.Clear();
 }
 
 // Initialize the audio system and load basic buffers
 void GameClass::EnableAudio() {
-	Audio::Instance().Init(true);
-	Audio::Instance().LoadBuffer("confirm.ogg");
-	Audio::Instance().LoadBuffer("orb.ogg");
-	Audio::Instance().LoadBuffer("player.ogg");
-	Interface::Instance().LoadSounds();
+	Audio.Init(true);
+	Audio.LoadBuffer("confirm.ogg");
+	Audio.LoadBuffer("orb.ogg");
+	Audio.LoadBuffer("player.ogg");
+	Interface.LoadSounds();
 }
 
 // Disable audio system
 void GameClass::DisableAudio() {
-	Audio::Instance().Close();
-	Interface::Instance().UnloadSounds();
+	Audio.Close();
+	Interface.UnloadSounds();
 }

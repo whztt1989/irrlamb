@@ -42,12 +42,12 @@ BoxClass::BoxClass(const SpawnStruct &Object)
 		Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
 
 	// Add shadows
-	if(Config::Instance().Shadows) {
+	if(Config.Shadows) {
 		((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
 	}
 
 	// Set up physics
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 
 		// Create shape
 		btVector3 HalfExtents = Template->Shape * 0.5f;

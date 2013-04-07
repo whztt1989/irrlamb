@@ -19,7 +19,6 @@
 #define PHYSICS_H
 
 // Libraries
-#include "singleton.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 
@@ -88,6 +87,6 @@ class PhysicsClass {
 };
 
 // Singletons
-typedef SingletonClass<PhysicsClass> Physics;
+extern PhysicsClass Physics;
 
 #endif

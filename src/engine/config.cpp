@@ -21,6 +21,8 @@
 #include "save.h"
 #include "namespace.h"
 
+ConfigClass Config;
+ 
 // Initializes the config system
 int ConfigClass::Init() {
 
@@ -75,7 +77,7 @@ void ConfigClass::Reset() {
 int ConfigClass::ReadConfig() {
 
 	// Open the XML file
-	TiXmlDocument Document(Save::Instance().GetConfigFile().c_str());
+	TiXmlDocument Document(Save.GetConfigFile().c_str());
 	if(!Document.LoadFile()) {
 		return 0;
 	}
@@ -285,7 +287,7 @@ int ConfigClass::WriteConfig() {
 	ConfigElement->LinkEndChild(ReplayElement);
 
 	// Write file
-	Document.SaveFile(Save::Instance().GetConfigFile().c_str());
+	Document.SaveFile(Save.GetConfigFile().c_str());
 
 	return 1;
 }

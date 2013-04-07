@@ -27,7 +27,7 @@ SpringJointClass::SpringJointClass(const SpawnStruct &Object)
 	BodyB(NULL) {
 /*
 	// Attributes
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 		BodyA = TObject.BodyA->GetBody();
 		BodyB = TObject.BodyB->GetBody();
 	}
@@ -48,7 +48,7 @@ SpringJointClass::~SpringJointClass() {
 // Updates the spring system
 void SpringJointClass::Update(float FrameTime) {
 /*
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 
 		// Get direction and length
 		btVector3 Direction = BodyA->getWorldTransform().getOrigin() - BodyB->getWorldTransform().getOrigin();

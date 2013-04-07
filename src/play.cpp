@@ -41,25 +41,27 @@
 #include "engine/namespace.h"
 #include <IGUIEditBox.h>
 
+_PlayState PlayState;
+
 const int WIN_WIDTH = 430;
 const int WIN_HEIGHT = 350;
 
 PlayerClass *GlobalPlayer = 0;
 
 // Initializes the state
-int PlayState::Init() {
+int _PlayState::Init() {
 	Player = NULL;
 	Timer = 0.0f;
 	Resetting = false;
 	WinStats = NULL;
 	ShowHUD = true;
-	Physics::Instance().SetEnabled(true);
-	Interface::Instance().ChangeSkin(InterfaceClass::SKIN_GAME);
+	Physics.SetEnabled(true);
+	Interface.ChangeSkin(InterfaceClass::SKIN_GAME);
 
 	// Set up mapping
 	Actions.ClearMappings();
 	for(int i = 0; i < _Actions::COUNT; i++)
-		Actions.AddKeyMap(Config::Instance().Keys[i], i);
+		Actions.AddKeyMap(Config.Keys[i], i);
 
 	// Add camera
 	Camera = new CameraClass();
@@ -71,10 +73,10 @@ int PlayState::Init() {
 	if(TestLevel != "")
 		LevelFile = TestLevel;
 	else
-		LevelFile = Campaign::Instance().GetLevel(Campaign, CampaignLevel);
+		LevelFile = Campaign.GetLevel(CurrentCampaign, CampaignLevel);
 
 	// Load level
-	if(!Level::Instance().Init(LevelFile))
+	if(!Level.Init(LevelFile))
 		return 0;
 
 	// Reset level
@@ -84,29 +86,29 @@ int PlayState::Init() {
 }
 
 // Shuts the state down
-int PlayState::Close() {
+int _PlayState::Close() {
 
 	// Stop the replay
-	Replay::Instance().StopRecording();
+	Replay.StopRecording();
 
 	// Close the system down
 	delete Camera;
-	Level::Instance().Close();
-	ObjectManager::Instance().ClearObjects();
-	Interface::Instance().Clear();
+	Level.Close();
+	ObjectManager.ClearObjects();
+	Interface.Clear();
 	irrScene->clear();
 
 	// Save stats
 	if(TestLevel == "") {
-		Save::Instance().IncrementLevelPlayTime(Level::Instance().GetLevelName(), Timer);
-		Save::Instance().SaveLevelStats(Level::Instance().GetLevelName());
+		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
+		Save.SaveLevelStats(Level.GetLevelName());
 	}
 
 	return 1;
 }
 
 // Key presses
-bool PlayState::HandleKeyPress(int Key) {
+bool _PlayState::HandleKeyPress(int Key) {
 	if(Resetting)
 		return true;
 
@@ -120,7 +122,7 @@ bool PlayState::HandleKeyPress(int Key) {
 			switch(Key) {
 				case KEY_ESCAPE:
 					if(TestLevel != "")
-						Game::Instance().SetDone(true);
+						Game.SetDone(true);
 					else
 						InitPause();
 				break;
@@ -128,19 +130,19 @@ bool PlayState::HandleKeyPress(int Key) {
 					InitPause();
 				break;
 				case KEY_F2:
-					Config::Instance().InvertMouse = !Config::Instance().InvertMouse;
+					Config.InvertMouse = !Config.InvertMouse;
 				break;
 				case KEY_F3:
 					Log.Write("Player: position=%.3f %.3f %.3f", Player->GetPosition()[0], Player->GetPosition()[1], Player->GetPosition()[2]);
 				break;
 				case KEY_F5:
-					Game::Instance().ChangeState(PlayState::Instance());
+					Game.ChangeState(&PlayState);
 				break;
 				case KEY_F11:
 					ShowHUD = !ShowHUD;
 				break;
 				case KEY_F12:
-					Graphics::Instance().SaveScreenshot();
+					Graphics.SaveScreenshot();
 				break;
 				default:
 					Processed = Player->ProcessKeyPress(Key);
@@ -148,7 +150,7 @@ bool PlayState::HandleKeyPress(int Key) {
 			}
 
 			// Send key presses to Lua
-			LuaProcessed = Scripting::Instance().HandleKeyPress(Key);
+			LuaProcessed = Scripting.HandleKeyPress(Key);
 		break;
 		case STATE_PAUSED:
 			switch(Key) {
@@ -171,12 +173,12 @@ bool PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_LOSE:
-			if(Key == Config::Instance().Keys[_Actions::RESET])
+			if(Key == Config.Keys[_Actions::RESET])
 				StartReset();
 
 			switch(Key) {
 				case KEY_ESCAPE:
-					Game::Instance().ChangeState(MenuState::Instance());
+					Game.ChangeState(&MenuState);
 				break;
 				default:
 					Processed = false;
@@ -184,12 +186,12 @@ bool PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_WIN:
-			if(Key == Config::Instance().Keys[_Actions::RESET])
+			if(Key == Config.Keys[_Actions::RESET])
 				StartReset();
 
 			switch(Key) {
 				case KEY_ESCAPE:
-					Game::Instance().ChangeState(MenuState::Instance());
+					Game.ChangeState(&MenuState);
 				break;
 				default:
 					Processed = false;
@@ -202,7 +204,7 @@ bool PlayState::HandleKeyPress(int Key) {
 }
 
 // Mouse motion
-void PlayState::HandleMouseMotion(float UpdateX, float UpdateY) {
+void _PlayState::HandleMouseMotion(float UpdateX, float UpdateY) {
 	if(Resetting)
 		return;
 
@@ -215,13 +217,13 @@ void PlayState::HandleMouseMotion(float UpdateX, float UpdateY) {
 }
 
 // Mouse buttons
-bool PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
+bool _PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 	if(Resetting)
 		return false;
 
 	switch(State) {
 		case STATE_PLAY:
-			Scripting::Instance().HandleMousePress(Button, MouseX, MouseY); 
+			Scripting.HandleMousePress(Button, MouseX, MouseY); 
 		break;
 	}
 
@@ -229,24 +231,24 @@ bool PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 }
 
 // Mouse buttons
-void PlayState::HandleMouseLift(int Button, int MouseX, int MouseY) {
+void _PlayState::HandleMouseLift(int Button, int MouseX, int MouseY) {
 	if(Resetting)
 		return;
 }
 
 // Mouse wheel
-void PlayState::HandleMouseWheel(float Direction) {
+void _PlayState::HandleMouseWheel(float Direction) {
 
 }
 
 // GUI events
-void PlayState::HandleGUI(int EventType, IGUIElement *Element) {
+void _PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 	if(Resetting)
 		return;
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:
-			Interface::Instance().PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
 
 			switch(Element->getID()) {
 				case PAUSE_RESUME:
@@ -261,8 +263,8 @@ void PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 				break;
 				case PAUSE_MAINMENU:
 					if(TestLevel == "")
-						MenuState::Instance()->SetTargetState(MenuState::STATE_INITLEVELS);
-					Game::Instance().ChangeState(MenuState::Instance());
+						MenuState.SetTargetState(_MenuState::STATE_INITLEVELS);
+					Game.ChangeState(&MenuState);
 				break;
 				case SAVEREPLAY_SAVE:
 					SaveReplay();
@@ -284,16 +286,16 @@ void PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 				break;
 				case LOSE_MAINMENU:
 					if(TestLevel == "")
-						MenuState::Instance()->SetTargetState(MenuState::STATE_INITLEVELS);
-					Game::Instance().ChangeState(MenuState::Instance());
+						MenuState.SetTargetState(_MenuState::STATE_INITLEVELS);
+					Game.ChangeState(&MenuState);
 				break;
 				case WIN_RESTARTLEVEL:
 					StartReset();
 				break;
 				case WIN_NEXTLEVEL:
-					if(CampaignLevel+1 < Campaign::Instance().GetLevelCount(Campaign))
+					if(CampaignLevel+1 < Campaign.GetLevelCount(CurrentCampaign))
 						CampaignLevel++;
-					Game::Instance().ChangeState(PlayState::Instance());
+					Game.ChangeState(&PlayState);
 				break;
 				case WIN_SAVEREPLAY:
 					TargetState = STATE_WIN;
@@ -301,8 +303,8 @@ void PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 				break;
 				case WIN_MAINMENU:
 					if(TestLevel == "")
-						MenuState::Instance()->SetTargetState(MenuState::STATE_INITLEVELS);
-					Game::Instance().ChangeState(MenuState::Instance());
+						MenuState.SetTargetState(_MenuState::STATE_INITLEVELS);
+					Game.ChangeState(&MenuState);
 				break;
 			}
 		break;
@@ -310,10 +312,10 @@ void PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 }
 
 // Updates the current state
-void PlayState::Update(float FrameTime) {
+void _PlayState::Update(float FrameTime) {
 
 	if(Resetting) {
-		if(Fader::Instance().IsDoneFading()) {
+		if(Fader.IsDoneFading()) {
 			ResetLevel();
 		}
 
@@ -327,28 +329,28 @@ void PlayState::Update(float FrameTime) {
 			Timer += FrameTime;
 
 			// Update replay
-			Replay::Instance().Update(FrameTime);
+			Replay.Update(FrameTime);
 
 			// Update game logic
-			ObjectManager::Instance().BeginFrame();
+			ObjectManager.BeginFrame();
 
 			Player->HandleInput();
-			ObjectManager::Instance().Update(FrameTime);
-			Physics::Instance().Update(FrameTime);
-			Interface::Instance().Update(FrameTime);
-			Scripting::Instance().UpdateTimedCallbacks();
+			ObjectManager.Update(FrameTime);
+			Physics.Update(FrameTime);
+			Interface.Update(FrameTime);
+			Scripting.UpdateTimedCallbacks();
 
-			ObjectManager::Instance().EndFrame();
+			ObjectManager.EndFrame();
 
 			// Update audio
 			const btVector3 &Position = Player->GetPosition();
-			Audio::Instance().SetPosition(Position[0], Position[1], Position[2]);
+			Audio.SetPosition(Position[0], Position[1], Position[2]);
 
 			// Update camera for replay
 			Camera->Update(vector3df(Position[0], Position[1], Position[2]));
 			Camera->RecordReplay();
 
-			Replay::Instance().ResetNextPacketTimer();
+			Replay.ResetNextPacketTimer();
 		} break;
 		default:
 		break;
@@ -356,15 +358,15 @@ void PlayState::Update(float FrameTime) {
 }
 
 // Interpolate object positions
-void PlayState::UpdateRender(float TimeStepRemainder) {
+void _PlayState::UpdateRender(float TimeStepRemainder) {
 	if(Resetting)
 		return;
 
 	switch(State) {
 		case STATE_PLAY:
 
-			Physics::Instance().GetWorld()->setTimeStepRemainder(TimeStepRemainder);
-			Physics::Instance().GetWorld()->synchronizeMotionStates();
+			Physics.GetWorld()->setTimeStepRemainder(TimeStepRemainder);
+			Physics.GetWorld()->synchronizeMotionStates();
 
 			// Set camera position
 			btVector3 Position = Player->GetGraphicsPosition();
@@ -374,71 +376,71 @@ void PlayState::UpdateRender(float TimeStepRemainder) {
 }
 
 // Draws the current state
-void PlayState::Draw() {
+void _PlayState::Draw() {
 	char Buffer[256];
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 
 	// Draw interface elements
 	if(ShowHUD)
-		Interface::Instance().Draw();
+		Interface.Draw();
 
 	// Draw timer
 	char TimeString[32];
-	Interface::Instance().ConvertSecondsToString(Timer, TimeString);
+	Interface.ConvertSecondsToString(Timer, TimeString);
 	if(ShowHUD)
-		Interface::Instance().RenderText(TimeString, 10, 10, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_LARGE);
+		Interface.RenderText(TimeString, 10, 10, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_LARGE);
 
 	switch(State) {
 		case STATE_PAUSED:
 		case STATE_SAVEREPLAY:
 		case STATE_LOSE:
-			Interface::Instance().FadeScreen(0.8f);
+			Interface.FadeScreen(0.8f);
 		break;
 		case STATE_WIN: {
-			Interface::Instance().FadeScreen(0.8f);
+			Interface.FadeScreen(0.8f);
 
 			// Draw header
 			int X = CenterX;
 			int Y = CenterY - WIN_HEIGHT / 2 + 15;
-			Interface::Instance().DrawTextBox(CenterX, CenterY, WIN_WIDTH, WIN_HEIGHT);
-			Interface::Instance().RenderText("Level Completed!", X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_LARGE);
+			Interface.DrawTextBox(CenterX, CenterY, WIN_WIDTH, WIN_HEIGHT);
+			Interface.RenderText("Level Completed!", X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_LARGE);
 
 			// Draw time
 			Y += 45;
-			Interface::Instance().RenderText("Your Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
-			Interface::Instance().RenderText(TimeString, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+			Interface.RenderText("Your Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+			Interface.RenderText(TimeString, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
 
 			// Best time
 			Y += 25;
 			if(WinStats->HighScores.size() > 0) {
-				Interface::Instance().RenderText("Best Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
-				Interface::Instance().ConvertSecondsToString(WinStats->HighScores[0].Time, Buffer);
-				Interface::Instance().RenderText(Buffer, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+				Interface.RenderText("Best Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+				Interface.ConvertSecondsToString(WinStats->HighScores[0].Time, Buffer);
+				Interface.RenderText(Buffer, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
 			}
 
 			// High scores
 			int HighX = CenterX - 75, HighY = Y + 48;
 
 			// Draw header
-			Interface::Instance().RenderText("#", HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-			Interface::Instance().RenderText("Time", HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-			Interface::Instance().RenderText("Date", HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("#", HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("Time", HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("Date", HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
 			HighY += 17;
 			for(u32 i = 0; i < WinStats->HighScores.size(); i++) {
 				
 				// Number
 				char SmallBuffer[32];
 				sprintf(SmallBuffer, "%d", i+1);
-				Interface::Instance().RenderText(SmallBuffer, HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.RenderText(SmallBuffer, HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				// Time
-				Interface::Instance().ConvertSecondsToString(WinStats->HighScores[i].Time, Buffer);
-				Interface::Instance().RenderText(Buffer, HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.ConvertSecondsToString(WinStats->HighScores[i].Time, Buffer);
+				Interface.RenderText(Buffer, HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				// Date
 				char DateString[32];
 				strftime(DateString, 32, "%m-%d-%Y", localtime(&WinStats->HighScores[i].DateStamp));
-				Interface::Instance().RenderText(DateString, HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.RenderText(DateString, HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				HighY += 17;
 			}
@@ -450,56 +452,56 @@ void PlayState::Draw() {
 }
 
 // Init play GUI
-void PlayState::InitPlay() {
+void _PlayState::InitPlay() {
 	irrGUI->clear();
 
-	Graphics::Instance().SetClearColor(SColor(255, 0, 0, 0));
-	Input::Instance().SetMouseLocked(true);
+	Graphics.SetClearColor(SColor(255, 0, 0, 0));
+	Input.SetMouseLocked(true);
 
 	State = STATE_PLAY;
 }
 
 // Draws the pause menu
-void PlayState::InitPause() {
+void _PlayState::InitPause() {
 	irrGUI->clear();
 	
 	// Draw interface
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
-	IGUIButton *ButtonResume = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX, CenterY - 75, 130, 34), 0, PAUSE_RESUME, L"Resume");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX, CenterY - 25, 130, 34), 0, PAUSE_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonRestart = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX, CenterY + 25, 130, 34), 0, PAUSE_RESTART, L"Restart Level");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX, CenterY + 75, 130, 34), 0, PAUSE_MAINMENU, L"Main Menu");
-	ButtonResume->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON128));
+	IGUIButton *ButtonResume = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 75, 130, 34), 0, PAUSE_RESUME, L"Resume");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 25, 130, 34), 0, PAUSE_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonRestart = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 25, 130, 34), 0, PAUSE_RESTART, L"Restart Level");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 75, 130, 34), 0, PAUSE_MAINMENU, L"Main Menu");
+	ButtonResume->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
 	ButtonResume->setUseAlphaChannel(true);
 	ButtonResume->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonSaveReplay->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
 	ButtonSaveReplay->setUseAlphaChannel(true);
 	ButtonSaveReplay->setDrawBorder(false);
-	ButtonRestart->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonRestart->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
 	ButtonRestart->setUseAlphaChannel(true);
 	ButtonRestart->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonMainMenu->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
 	ButtonMainMenu->setUseAlphaChannel(true);
 	ButtonMainMenu->setDrawBorder(false);
 	
-	Input::Instance().SetMouseLocked(false);
+	Input.SetMouseLocked(false);
 
 	State = STATE_PAUSED;
 }
 
 // Draws the save replay GUI
-void PlayState::InitSaveReplay() {
+void _PlayState::InitSaveReplay() {
 	irrGUI->clear();
 
 	// Draw interface
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
-	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface::Instance().GetCenteredRect(CenterX, CenterY - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
-	IGUIButton *ButtonSave = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_SAVE, L"Save");
-	IGUIButton *ButtonCancel = irrGUI->addButton(Interface::Instance().GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON80));
+	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(CenterX, CenterY - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
+	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_SAVE, L"Save");
+	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_CANCEL, L"Cancel");
+	ButtonSave->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
 	ButtonSave->setUseAlphaChannel(true);
 	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON80));
+	ButtonCancel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
 	ButtonCancel->setUseAlphaChannel(true);
 	ButtonCancel->setDrawBorder(false);
 
@@ -510,96 +512,96 @@ void PlayState::InitSaveReplay() {
 }
 
 // Draws the lose screen
-void PlayState::InitLose() {
+void _PlayState::InitLose() {
 /*	
 	// Update stats
 	if(TestLevel == "") {
-		Save::Instance().IncrementLevelLoseCount(Level::Instance().GetLevelFile());
-		Save::Instance().SaveLevelStats();
+		Save.IncrementLevelLoseCount(Level.GetLevelFile());
+		Save.SaveLevelStats();
 	}
 
 	// Draw interface
 	irrGUI->clear();
-	IGUIStaticText *TextWin = irrGUI->addStaticText(L"You Lose", Interface::Instance().GetCenteredTextRect(L"You Lose", 0.15f, 0.20f), false, false, 0, -1, false);
-	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface::Instance().GetAbsoluteRectWH(0.4f, 0.3f, 0.2f, 0.05f), 0, LOSE_RESTARTLEVEL, L"Restart Level");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface::Instance().GetAbsoluteRectWH(0.4f, 0.4f, 0.2f, 0.05f), 0, LOSE_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface::Instance().GetAbsoluteRectWH(0.4f, 0.5f, 0.2f, 0.05f), 0, LOSE_MAINMENU, L"Main Menu");
+	IGUIStaticText *TextWin = irrGUI->addStaticText(L"You Lose", Interface.GetCenteredTextRect(L"You Lose", 0.15f, 0.20f), false, false, 0, -1, false);
+	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.3f, 0.2f, 0.05f), 0, LOSE_RESTARTLEVEL, L"Restart Level");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.4f, 0.2f, 0.05f), 0, LOSE_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.5f, 0.2f, 0.05f), 0, LOSE_MAINMENU, L"Main Menu");
 
-	Input::Instance().SetMouseLocked(false);
+	Input.SetMouseLocked(false);
 */
 	State = STATE_LOSE;
 }
 
 // Draws the win screen
-void PlayState::InitWin() {
+void _PlayState::InitWin() {
 	
 	// Skip stats if just testing a level
 	bool LastLevelInCampaign = false;
 	if(TestLevel == "") {
 
 		// Increment win count
-		Save::Instance().IncrementLevelWinCount(Level::Instance().GetLevelName());
+		Save.IncrementLevelWinCount(Level.GetLevelName());
 
 		// Add high score
-		Save::Instance().AddScore(Level::Instance().GetLevelName(), Timer);
+		Save.AddScore(Level.GetLevelName(), Timer);
 
 		// Unlock next level
-		int LevelCount = Campaign::Instance().GetLevelCount(Campaign);
+		int LevelCount = Campaign.GetLevelCount(CurrentCampaign);
 		if(CampaignLevel+1 >= LevelCount) {
 			LastLevelInCampaign = true;
 		}
 		else {
-			const std::string &NextLevelFile = Campaign::Instance().GetLevel(Campaign, CampaignLevel+1);
-			Save::Instance().UnlockLevel(NextLevelFile);
+			const std::string &NextLevelFile = Campaign.GetLevel(CurrentCampaign, CampaignLevel+1);
+			Save.UnlockLevel(NextLevelFile);
 		}
 
 		// Save stats to a file
-		Save::Instance().SaveLevelStats(Level::Instance().GetLevelName());
+		Save.SaveLevelStats(Level.GetLevelName());
 	}
 	else
 		LastLevelInCampaign = true;
 
 	// Get level stats
-	WinStats = Save::Instance().GetLevelStats(Level::Instance().GetLevelName());
+	WinStats = Save.GetLevelStats(Level.GetLevelName());
 	
 	// Clear interface
-	Interface::Instance().Clear();
+	Interface.Clear();
 
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	X = CenterX;
 	Y = CenterY + WIN_HEIGHT / 2 + 25;
-	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface::Instance().GetCenteredRect(X - 165, Y, 102, 34), 0, WIN_RESTARTLEVEL, L"Retry Level");
-	IGUIButton *ButtonNextLevel = irrGUI->addButton(Interface::Instance().GetCenteredRect(X - 55, Y, 102, 34), 0, WIN_NEXTLEVEL, L"Next Level");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface::Instance().GetCenteredRect(X + 55, Y, 102, 34), 0, WIN_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface::Instance().GetCenteredRect(X + 165, Y, 102, 34), 0, WIN_MAINMENU, L"Main Menu");
-	ButtonRestartLevel->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON100));
+	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 165, Y, 102, 34), 0, WIN_RESTARTLEVEL, L"Retry Level");
+	IGUIButton *ButtonNextLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), 0, WIN_NEXTLEVEL, L"Next Level");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), 0, WIN_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), 0, WIN_MAINMENU, L"Main Menu");
+	ButtonRestartLevel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
 	ButtonRestartLevel->setUseAlphaChannel(true);
 	ButtonRestartLevel->setDrawBorder(false);
-	ButtonNextLevel->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonNextLevel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
 	ButtonNextLevel->setUseAlphaChannel(true);
 	ButtonNextLevel->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonSaveReplay->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
 	ButtonSaveReplay->setUseAlphaChannel(true);
 	ButtonSaveReplay->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface::Instance().GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonMainMenu->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
 	ButtonMainMenu->setUseAlphaChannel(true);
 	ButtonMainMenu->setDrawBorder(false);
 	
 	if(LastLevelInCampaign)
 		ButtonNextLevel->setEnabled(false);
 
-	Input::Instance().SetMouseLocked(false);
+	Input.SetMouseLocked(false);
 
 	State = STATE_WIN;
 }
 
 // Saves a replay
-void PlayState::SaveReplay() {
+void _PlayState::SaveReplay() {
 
 	IGUIEditBox *EditName = static_cast<IGUIEditBox *>(irrGUI->getRootGUIElement()->getElementFromId(SAVEREPLAY_NAME));
 	if(EditName != NULL) {
 		irr::core::stringc ReplayTitle(EditName->getText());
-		Replay::Instance().SaveReplay(ReplayTitle.c_str());
+		Replay.SaveReplay(ReplayTitle.c_str());
 	}
 
 	switch(TargetState) {
@@ -624,23 +626,23 @@ void PlayState::SaveReplay() {
 }
 
 // Start resetting the level
-void PlayState::StartReset() {
-	Fader::Instance().Start(-FADE_SPEED);
+void _PlayState::StartReset() {
+	Fader.Start(-FADE_SPEED);
 	Resetting = true;
 }
 
 // Resets the level
-void PlayState::ResetLevel() {
+void _PlayState::ResetLevel() {
 
 	// Handle saves
 	if(TestLevel == "") {
-		Save::Instance().IncrementLevelLoadCount(Level::Instance().GetLevelName());
-		Save::Instance().IncrementLevelPlayTime(Level::Instance().GetLevelName(), Timer);
-		Save::Instance().SaveLevelStats(Level::Instance().GetLevelName());
+		Save.IncrementLevelLoadCount(Level.GetLevelName());
+		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
+		Save.SaveLevelStats(Level.GetLevelName());
 	}
 
 	// Stop recording
-	Replay::Instance().StopRecording();
+	Replay.StopRecording();
 
 	// Set up GUI
 	InitPlay();
@@ -651,20 +653,20 @@ void PlayState::ResetLevel() {
 	Camera->SetDistance(5.0f);
 
 	// Clear objects
-	ObjectManager::Instance().ClearObjects();
-	Physics::Instance().Reset();
+	ObjectManager.ClearObjects();
+	Physics.Reset();
 
 	// Start replay recording
-	Replay::Instance().StartRecording();
+	Replay.StartRecording();
 
 	// Load level objects
-	Level::Instance().SpawnObjects();
-	Level::Instance().RunScripts();
+	Level.SpawnObjects();
+	Level.RunScripts();
 
 	// Get the player
-	GlobalPlayer = Player = static_cast<PlayerClass *>(ObjectManager::Instance().GetObjectByType(ObjectClass::PLAYER));
+	GlobalPlayer = Player = static_cast<PlayerClass *>(ObjectManager.GetObjectByType(ObjectClass::PLAYER));
 	if(Player == NULL) {
-		Log.Write("PlayState::ResetLevel - Cannot find player object");
+		Log.Write("_PlayState::ResetLevel - Cannot find player object");
 		return;
 	}
 	Player->SetCamera(Camera);
@@ -675,7 +677,7 @@ void PlayState::ResetLevel() {
 	Camera->RecordReplay();
 
 	// Reset game timer
-	Game::Instance().ResetTimer();
-	Fader::Instance().Start(FADE_SPEED);
+	Game.ResetTimer();
+	Fader.Start(FADE_SPEED);
 	Resetting = false;
 }

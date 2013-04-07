@@ -22,6 +22,8 @@
 #include "audio.h"
 #include "namespace.h"
 
+InterfaceClass Interface;
+
 // Initializes the graphics system
 int InterfaceClass::Init() {
 		
@@ -154,7 +156,7 @@ void InterfaceClass::Draw() {
 		// Draw tutorial text
 		int Width = 370, Height = 115;
 		DrawTextBox(irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height / 2 - 30, Width, Height, BoxColor);
-		Interface::Instance().RenderText(TutorialText.Text.c_str(), irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height - 13, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, TextColor);
+		Interface.RenderText(TutorialText.Text.c_str(), irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height - 13, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, TextColor);
 	}
 }
 
@@ -236,7 +238,7 @@ void InterfaceClass::DrawTextBox(int PositionX, int PositionY, int Width, int He
 
 // Load GUI sounds
 void InterfaceClass::LoadSounds() {
-	Sounds[SOUND_CONFIRM] = new AudioSourceClass(Audio::Instance().GetBuffer("confirm.ogg"), false, 0.0f, 0.70f);
+	Sounds[SOUND_CONFIRM] = new AudioSourceClass(Audio.GetBuffer("confirm.ogg"), false, 0.0f, 0.70f);
 }
 
 // Unload GUI sounds

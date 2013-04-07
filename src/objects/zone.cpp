@@ -29,7 +29,7 @@ ZoneClass::ZoneClass(const SpawnStruct &Object)
 	Active = Template->Active;
 
 	// Set up physics
-	if(Physics::Instance().IsEnabled()) {
+	if(Physics.IsEnabled()) {
 
 		// Create shape
 		btVector3 HalfExtents = Template->Shape * 0.5f;
@@ -68,7 +68,7 @@ void ZoneClass::HandleCollision(ObjectClass *OtherObject, const btPersistentMani
 
 		// Call Lua function
 		if(CollisionCallback.size())
-			Scripting::Instance().CallZoneHandler(CollisionCallback, 0, this, OtherObject);
+			Scripting.CallZoneHandler(CollisionCallback, 0, this, OtherObject);
 	}
 }
 
@@ -84,7 +84,7 @@ void ZoneClass::EndFrame() {
 				
 				// Call Lua function
 				if(CollisionCallback.size())
-					Scripting::Instance().CallZoneHandler(CollisionCallback, 1, this, (*Iterator).Object);
+					Scripting.CallZoneHandler(CollisionCallback, 1, this, (*Iterator).Object);
 
 				Iterator = TouchState.erase(Iterator);
 			}

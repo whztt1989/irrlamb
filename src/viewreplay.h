@@ -28,7 +28,7 @@ class PlayerClass;
 class CameraClass;
 
 // Classes
-class ViewReplayState : public StateClass {
+class _ViewReplayState : public StateClass {
 
 	public:
 
@@ -53,11 +53,6 @@ class ViewReplayState : public StateClass {
 		
 		void SetCurrentReplay(const std::string &File) { CurrentReplay = File; }
 
-		static ViewReplayState *Instance() {
-			static ViewReplayState ClassInstance;
-			return &ClassInstance;
-		}
-
 	private:
 
 		void SetupGUI();
@@ -79,5 +74,7 @@ class ViewReplayState : public StateClass {
 		// Events
 		int NextPacketType;
 };
+
+extern _ViewReplayState ViewReplayState;
 
 #endif

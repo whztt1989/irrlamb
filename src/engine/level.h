@@ -19,7 +19,6 @@
 #define LEVEL_H
 
 // Libraries
-#include "singleton.h"
 #include <vector>
 #include <string>
 
@@ -76,6 +75,6 @@ class LevelClass {
 };
 
 // Singletons
-typedef SingletonClass<LevelClass> Level;
+extern LevelClass Level;
 
 #endif
