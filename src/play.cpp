@@ -33,6 +33,7 @@
 #include "engine/level.h"
 #include "engine/campaign.h"
 #include "engine/fader.h"
+#include "engine/actions.h"
 #include "engine/save.h"
 #include "objects/player.h"
 #include "menu.h"
@@ -54,6 +55,11 @@ int PlayState::Init() {
 	ShowHUD = true;
 	Physics::Instance().SetEnabled(true);
 	Interface::Instance().ChangeSkin(InterfaceClass::SKIN_GAME);
+
+	// Set up mapping
+	Actions.ClearMappings();
+	for(int i = 0; i < _Actions::COUNT; i++)
+		Actions.AddKeyMap(Config::Instance().Keys[i], i);
 
 	// Add camera
 	Camera = new CameraClass();
@@ -108,7 +114,7 @@ bool PlayState::HandleKeyPress(int Key) {
 	
 	switch(State) {
 		case STATE_PLAY:
-			if(Key == Config::Instance().Keys[ACTIONS::RESET])
+			if(Actions.GetState(_Actions::RESET))
 				StartReset();
 
 			switch(Key) {
@@ -165,7 +171,7 @@ bool PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_LOSE:
-			if(Key == Config::Instance().Keys[ACTIONS::RESET])
+			if(Key == Config::Instance().Keys[_Actions::RESET])
 				StartReset();
 
 			switch(Key) {
@@ -178,7 +184,7 @@ bool PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_WIN:
-			if(Key == Config::Instance().Keys[ACTIONS::RESET])
+			if(Key == Config::Instance().Keys[_Actions::RESET])
 				StartReset();
 
 			switch(Key) {

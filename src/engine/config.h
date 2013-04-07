@@ -20,7 +20,7 @@
 
 // Libraries
 #include "singleton.h"
-#include "actiontypes.h"
+#include "actions.h"
 
 // Classes
 class ConfigClass {
@@ -49,7 +49,7 @@ class ConfigClass {
 		float SoundVolume, MusicVolume;
 
 		// Input
-		int Keys[ACTIONS::COUNT];
+		int Keys[_Actions::COUNT];
 		float MouseScaleX, MouseScaleY;
 		bool InvertMouse;
 

@@ -20,7 +20,7 @@
 
 // Libraries
 #include "engine/state.h"
-#include "engine/actiontypes.h"
+#include "engine/actions.h"
 #include <IGUIButton.h>
 #include <vector>
 #include <string>
@@ -138,8 +138,8 @@ class MenuState : public StateClass {
 		std::vector<const SaveLevelStruct *> LevelStats;
 
 		// Key mapping
-		static const wchar_t *ActionNames[ACTIONS::COUNT];
-		int CurrentKeys[ACTIONS::COUNT];
+		static const wchar_t *ActionNames[_Actions::COUNT];
+		int CurrentKeys[_Actions::COUNT];
 		irr::gui::IGUIButton *KeyButton;
 		std::wstring KeyButtonOldText;
 

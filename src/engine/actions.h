@@ -15,19 +15,53 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef ACTIONTYPES_H
-#define ACTIONTYPES_H
+#pragma once
 
-namespace ACTIONS {
-	enum ActionTypes {
-		MOVEFORWARD,
-		MOVEBACK,
-		MOVELEFT,
-		MOVERIGHT,
+#include <list>
+
+// Constants
+const int ACTIONS_MAX = 64;
+const int ACTIONS_MAXKEYS = 256;
+const int ACTIONS_MAXBUTTONS = 8;
+
+// Handles actions
+class _Actions {
+
+public:
+	
+	enum Types {
+		MOVE_FORWARD,
+		MOVE_BACK,
+		MOVE_LEFT,
+		MOVE_RIGHT,
 		RESET,
 		JUMP,
-		COUNT
+		COUNT,
 	};
-}
 
-#endif
+	_Actions();
+
+	void ResetState() { for(int i = 0; i < ACTIONS_MAX; i++) State[i] = 0; }
+	void ClearMappings();
+
+	// Actions
+	bool GetState(int Action);
+
+	// Maps
+	void AddKeyMap(int Key, int Action);
+	void AddMouseMap(int Button, int Action);
+
+	// Handlers
+	void KeyEvent(int Key, bool Pressed);
+	void MouseEvent(int Key, bool Pressed);
+
+private:
+
+	std::list<int> KeyMap[ACTIONS_MAXKEYS];
+	std::list<int> MouseMap[ACTIONS_MAXBUTTONS];
+	std::list<int>::iterator MapIterator;
+
+	bool State[ACTIONS_MAX];
+};
+
+extern _Actions Actions;

@@ -55,12 +55,12 @@ void ConfigClass::Reset() {
 	MusicVolume = 1.0;
 
 	// Input
-	Keys[ACTIONS::MOVEFORWARD] = KEY_KEY_E;
-	Keys[ACTIONS::MOVEBACK] = KEY_KEY_D;
-	Keys[ACTIONS::MOVELEFT] = KEY_KEY_S;
-	Keys[ACTIONS::MOVERIGHT] = KEY_KEY_F;
-	Keys[ACTIONS::RESET] = KEY_KEY_X;
-	Keys[ACTIONS::JUMP] = KEY_SPACE;
+	Keys[_Actions::MOVE_FORWARD] = KEY_KEY_E;
+	Keys[_Actions::MOVE_BACK] = KEY_KEY_D;
+	Keys[_Actions::MOVE_LEFT] = KEY_KEY_S;
+	Keys[_Actions::MOVE_RIGHT] = KEY_KEY_F;
+	Keys[_Actions::RESET] = KEY_KEY_X;
+	Keys[_Actions::JUMP] = KEY_SPACE;
 
 	MouseScaleX = 1.0f;
 	MouseScaleY = 1.0f;
@@ -193,7 +193,7 @@ int ConfigClass::ReadConfig() {
 			continue;
 
 		// Assign key
-		if(ActionType >= 0 && ActionType < ACTIONS::COUNT && KeyCode >= 0 && KeyCode < KEY_KEY_CODES_COUNT)
+		if(ActionType >= 0 && ActionType < _Actions::COUNT && KeyCode >= 0 && KeyCode < KEY_KEY_CODES_COUNT)
 			Keys[ActionType] = (EKEY_CODE)KeyCode;
 		
 	}
@@ -272,7 +272,7 @@ int ConfigClass::WriteConfig() {
 	ConfigElement->LinkEndChild(InputElement);
 
 	// Actions
-	for(int i = 0; i < ACTIONS::COUNT; i++) {
+	for(int i = 0; i < _Actions::COUNT; i++) {
 		TiXmlElement *ActionElement = new TiXmlElement("action");
 		ActionElement->SetAttribute("type", i);
 		ActionElement->SetAttribute("key", Keys[i]);

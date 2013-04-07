@@ -38,7 +38,7 @@ const int CAMPAIGN_LEVELID = 1000;
 const int PLAY_CAMPAIGNID = 900;
 
 // List of action names
-const wchar_t *MenuState::ActionNames[ACTIONS::COUNT] = {
+const wchar_t *MenuState::ActionNames[_Actions::COUNT] = {
 	L"Move Forward",
 	L"Move Back",
 	L"Move Left",
@@ -160,7 +160,7 @@ bool MenuState::HandleKeyPress(int Key) {
 					int ActionType = KeyButton->getID() - CONTROLS_MOVEFORWARD;
 
 					// Swap if the key already exists
-					for(int i = 0; i < ACTIONS::COUNT; i++) {
+					for(int i = 0; i < _Actions::COUNT; i++) {
 						if(CurrentKeys[i] == Key) {
 							
 							// Get button
@@ -320,7 +320,7 @@ void MenuState::HandleGUI(int EventType, IGUIElement *Element) {
 				case CONTROLS_SAVE: {
 
 					// Write config
-					for(int i = 0; i < ACTIONS::COUNT; i++)
+					for(int i = 0; i < _Actions::COUNT; i++)
 						Config::Instance().Keys[i] = CurrentKeys[i];
 
 					// Save invert mouse
@@ -748,7 +748,7 @@ void MenuState::Update(float FrameTime) {
 			// Create the key buttons
 			X = CenterX;
 			Y = CenterY - 110;
-			for(int i = 0; i < ACTIONS::COUNT; i++) {
+			for(int i = 0; i < _Actions::COUNT; i++) {
 				
 				CurrentKeys[i] = Config::Instance().Keys[i];
 				IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface::Instance().GetCenteredRect(X - 50, Y, 80, 20), false, false);

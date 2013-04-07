@@ -135,6 +135,9 @@ int GameClass::Init(int Count, char **Arguments) {
 	if(!Fader::Instance().Init())
 		return 0;
 
+	// Query joysticks
+	Input::Instance().InitializeJoysticks();
+
 	// Load stats file
 	Save::Instance().LoadLevelStats();
 

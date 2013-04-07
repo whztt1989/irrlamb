@@ -565,12 +565,12 @@ void LevelClass::RunScripts() {
 	Scripting::Instance().Reset();
 
 	// Add key names to lua scope
-	Scripting::Instance().DefineLuaVariable("KEY_FORWARD", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::MOVEFORWARD]));
-	Scripting::Instance().DefineLuaVariable("KEY_BACK", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::MOVEBACK]));
-	Scripting::Instance().DefineLuaVariable("KEY_LEFT", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::MOVELEFT]));
-	Scripting::Instance().DefineLuaVariable("KEY_RIGHT", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::MOVERIGHT]));
-	Scripting::Instance().DefineLuaVariable("KEY_RESET", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::RESET]));
-	Scripting::Instance().DefineLuaVariable("KEY_JUMP", Input::Instance().GetKeyName(Config::Instance().Keys[ACTIONS::JUMP]));
+	Scripting::Instance().DefineLuaVariable("KEY_FORWARD", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_FORWARD]));
+	Scripting::Instance().DefineLuaVariable("KEY_BACK", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_BACK]));
+	Scripting::Instance().DefineLuaVariable("KEY_LEFT", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_LEFT]));
+	Scripting::Instance().DefineLuaVariable("KEY_RIGHT", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::MOVE_RIGHT]));
+	Scripting::Instance().DefineLuaVariable("KEY_RESET", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::RESET]));
+	Scripting::Instance().DefineLuaVariable("KEY_JUMP", Input::Instance().GetKeyName(Config::Instance().Keys[_Actions::JUMP]));
 	
 	// Run scripts
 	for(u32 i = 0; i < Scripts.size(); i++) {

@@ -22,6 +22,8 @@
 #include "graphics.h"
 #include "game.h"
 #include "namespace.h"
+#include "actions.h"
+#include "log.h"
 
 #ifdef _WIN32
 	#include <windows.h>
@@ -31,7 +33,8 @@
 InputClass::InputClass()
 :	MouseLocked(false),
 	MouseX(0),
-	MouseY(0) {
+	MouseY(0),
+	JoystickEnabled(false) {
 
 	// Set up input
 	ResetInputState();
@@ -46,6 +49,7 @@ bool InputClass::OnEvent(const SEvent &Event) {
 
 	switch(Event.EventType) {
 		case EET_KEY_INPUT_EVENT:
+			Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
 
 			// Send key press events
 			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key))
@@ -65,12 +69,14 @@ bool InputClass::OnEvent(const SEvent &Event) {
 				case EMIE_RMOUSE_PRESSED_DOWN:
 				case EMIE_MMOUSE_PRESSED_DOWN:
 					SetMouseState(Event.MouseInput.Event, true);
+					Actions.MouseEvent(Event.MouseInput.Event, true);
 					return Game::Instance().GetState()->HandleMousePress(Event.MouseInput.Event, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_LMOUSE_LEFT_UP:
 				case EMIE_RMOUSE_LEFT_UP:
 				case EMIE_MMOUSE_LEFT_UP:
 					SetMouseState(Event.MouseInput.Event - MOUSE_COUNT, false);
+					Actions.MouseEvent(Event.MouseInput.Event - MOUSE_COUNT, false);
 					Game::Instance().GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
@@ -108,6 +114,8 @@ bool InputClass::OnEvent(const SEvent &Event) {
 		case EET_GUI_EVENT:
 			Game::Instance().GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
 		break;
+		case EET_JOYSTICK_INPUT_EVENT:
+			JoystickState = Event.JoystickEvent;
 		default:
 		break;
 	}
@@ -115,11 +123,64 @@ bool InputClass::OnEvent(const SEvent &Event) {
 	return false;
 }
 
+// Set up joysticks
+void InputClass::InitializeJoysticks() {
+
+	// Find joysticks
+	if(irrDevice->activateJoysticks(Joysticks)) {
+		JoystickEnabled = true;
+		Log.Write("%d joystick(s) found.", Joysticks.size());
+
+		for(u32 i = 0; i < Joysticks.size(); i++) {
+			Log.Write("Joystick %d", i);
+			Log.Write("\tName: %s", Joysticks[i].Name.c_str());
+			Log.Write("\tAxes: %d", Joysticks[i].Axes);
+			Log.Write("\tButtons: %d", Joysticks[i].Buttons);
+
+			switch(Joysticks[i].PovHat) {
+				case SJoystickInfo::POV_HAT_PRESENT:
+					Log.Write("\tHat is present");
+				break;
+				case SJoystickInfo::POV_HAT_ABSENT:
+					Log.Write("\tHat is absent");
+				break;
+				case SJoystickInfo::POV_HAT_UNKNOWN:
+				default:
+					Log.Write("\tHat is unknown");
+				break;
+			}
+		}
+	}
+	else
+		JoystickEnabled = false;
+}
+
+// Return the joystick state
+const irr::SEvent::SJoystickEvent &InputClass::GetJoystickEvent() {
+
+	return JoystickState;
+}
+
+// Get a joystick axis value
+float InputClass::GetAxis(int Axis) {
+	if(!JoystickEnabled)
+		return 0.0f;
+
+	float Value = JoystickState.Axis[Axis] / 32767.f;
+	if(Value < -1.0f)
+		Value = -1.0f;
+	if(Value > 1.0f)
+		Value = 1.0f;
+	return Value;
+}
+
 // Resets the keyboard state
 void InputClass::ResetInputState() {
 
 	for(int i = 0; i < KEY_KEY_CODES_COUNT; i++)
 		Keys[i] = 0;
+
+	Actions.ResetState();
 }
 
 // Enables mouse locking

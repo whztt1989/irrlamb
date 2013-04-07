@@ -17,6 +17,7 @@ set(EXTRA_LIBS)
 # windows only options
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 	
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)

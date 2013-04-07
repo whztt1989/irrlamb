@@ -84,7 +84,7 @@ int DatabaseClass::RunQuery(const char *QueryString) {
 
 	Result = sqlite3_finalize(NewQueryHandle);
 	if(Result != SQLITE_OK) {
-		printf("DatabaseClass::RunQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("DatabaseClass::RunQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 

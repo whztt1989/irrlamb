@@ -21,6 +21,7 @@
 // Libraries
 #include "singleton.h"
 #include <IEventReceiver.h>
+#include <irrArray.h>
 
 // Classes
 class InputClass : public irr::IEventReceiver  {
@@ -38,6 +39,7 @@ class InputClass : public irr::IEventReceiver  {
 		bool OnEvent(const irr::SEvent &Event);
 
 		void ResetInputState();
+		void InitializeJoysticks();
 		bool GetKeyState(int Key) const { return Keys[Key]; }
 		bool GetMouseState(int Button) const { return MouseButtons[Button]; }
 
@@ -46,6 +48,10 @@ class InputClass : public irr::IEventReceiver  {
 
 		int GetMouseX() const { return MouseX; }
 		int GetMouseY() const { return MouseY; }
+
+		bool IsJoystickEnabled() const { return JoystickEnabled; }
+		const irr::SEvent::SJoystickEvent &GetJoystickEvent();
+		float GetAxis(int Axis);
 
 		const char *GetKeyName(int Key);
 
@@ -57,8 +63,13 @@ class InputClass : public irr::IEventReceiver  {
 		// Input
 		bool Keys[irr::KEY_KEY_CODES_COUNT], MouseButtons[MOUSE_COUNT];
 
+		// Joystick
+		irr::core::array<irr::SJoystickInfo> Joysticks;
+		irr::SEvent::SJoystickEvent JoystickState;
+
 		// States
 		bool MouseLocked;
+		bool JoystickEnabled;
 		int MouseX, MouseY;
 };
 

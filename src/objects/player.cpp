@@ -23,6 +23,7 @@
 #include "../engine/config.h"
 #include "../engine/level.h"
 #include "../engine/audio.h"
+#include "../engine/actions.h"
 #include "sphere.h"
 #include "constraint.h"
 #include "springjoint.h"
@@ -149,7 +150,7 @@ void PlayerClass::Update(float FrameTime) {
 // Processes key presses
 bool PlayerClass::ProcessKeyPress(int Key) {
 
-	if(Key == Config::Instance().Keys[ACTIONS::JUMP]) {
+	if(Actions.GetState(_Actions::JUMP)) {
 		Jump();
 	}	
 	else
@@ -190,22 +191,31 @@ bool PlayerClass::HandleMouseLift(int Button, int MouseX, int MouseY) {
 
 // Processes input from the keyboard
 void PlayerClass::HandleInput() {
+	vector3df Push(0.0f, 0.0f, 0.0f);
 	
 	// Get input direction
-	vector3df Push(0.0f, 0.0f, 0.0f);
-	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVEFORWARD]))
+	if(Actions.GetState(_Actions::MOVE_FORWARD))
 		Push.Z += 1.0f;
-	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVEBACK]))
+	if(Actions.GetState(_Actions::MOVE_BACK))
 		Push.Z += -1.0f;
 
-	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVELEFT]))
+	if(Actions.GetState(_Actions::MOVE_LEFT))
 		Push.X += -1.0f;
-	if(Input::Instance().GetKeyState(Config::Instance().Keys[ACTIONS::MOVERIGHT]))
+	if(Actions.GetState(_Actions::MOVE_RIGHT))
 		Push.X += 1.0f;
+
+	if(!Push.equals(vector3df())) {
+		Push.normalize();
+	}
+	else if(0 && Input::Instance().IsJoystickEnabled()) {
+		Push.X = Input::Instance().GetAxis(0);
+		Push.Z = -Input::Instance().GetAxis(1);
+		//printf("%f %f\n",  Input::Instance().GetAxis(2), Input::Instance().GetAxis(3));
+		//printf("%f %f\n", Input::Instance().GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_X] / 32767.f,  Input::Instance().GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_Y] / 32767.f);
+	}
 
 	// Push the player
 	if(!Push.equals(vector3df())) {
-		Push.normalize();
 
 		// Get push direction relative to camera
 		matrix4 DirectionTransform;
