@@ -148,11 +148,6 @@
     <File Name="../src/objects/cylinder.cpp"/>
     <File Name="../src/objects/object.cpp"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="sqlite">
-    <File Name="../src/sqlite/sqlite3ext.h"/>
-    <File Name="../src/sqlite/sqlite3.c"/>
-    <File Name="../src/sqlite/sqlite3.h"/>
-  </VirtualDirectory>
   <VirtualDirectory Name="stb_vorbis">
     <File Name="../src/stb_vorbis/stb_vorbis.h"/>
     <File Name="../src/stb_vorbis/stb_vorbis.c"/>
