@@ -7,6 +7,17 @@ include(AddPCH.cmake)
 project(irrlamb)
 subdirs(tools)
 
+# for codelite clang and ccache integration
+if(DEFINED ENV{CXX})
+    message("-- Using CXX $ENV{CXX} and $ENV{PATH}")
+    set(CMAKE_CXX_COMPILER $ENV{CXX} )
+endif()
+
+if(DEFINED ENV{CC})
+    message("-- Using CC $ENV{CC}")
+    set(CMAKE_CC_COMPILER $ENV{CC} )
+endif()
+
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
 

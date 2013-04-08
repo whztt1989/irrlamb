@@ -8,4 +8,5 @@ codelite/debug
 codelite/release
 codelite/*.mk
 codelite/*.tags
+codelite/*.db
 codelite/irrlamb.workspace.*
