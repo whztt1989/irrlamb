@@ -18,10 +18,6 @@
 #include <stdafx.h>
 #pragma once
 
-// Libraries
-#include <btBulletDynamicsCommon.h>
-#include <string>
-
 // Forward Declarations
 class _Object;
 

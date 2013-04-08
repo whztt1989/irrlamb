@@ -23,9 +23,8 @@
 #include "../engine/replay.h"
 #include "../engine/constants.h"
 #include "../engine/audio.h"
-#include "template.h"
 #include "../engine/namespace.h"
-#include <IMeshSceneNode.h>
+#include "template.h"
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)

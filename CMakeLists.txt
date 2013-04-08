@@ -9,23 +9,30 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
 include(AddPCH.cmake)
 
 # set default build type
-if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release)
-endif()
-
 set(EXTRA_LIBS)
 
 # windows only options
-if(WIN32)
+if(MSVC)
+	SET(ENV{LUA_DIR} ${PROJECT_SOURCE_DIR}/extlibs/)
+	set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/extlibs/include/lua51)
+	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/lua51_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/lua51.lib)
+	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3.lib)
+	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/sqlite")
+	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
-	include_directories("${PROJECT_SOURCE_DIR}/extlibs/include")
 	link_directories("${PROJECT_SOURCE_DIR}/extlibs/")
 	
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)
 else()
+	if(NOT CMAKE_BUILD_TYPE)
+		set(CMAKE_BUILD_TYPE Release)
+	endif()
+	
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
+	set(SQLITE3_LIBRARIES sqlite3)
+	set(SQLITE3_INCLUDE_DIR "/usr/include")
 	
 	# x11
 	find_package(X11 REQUIRED)
@@ -65,6 +72,7 @@ include_directories(${BULLET_INCLUDE_DIRS})
 include_directories(${IRRLICHT_INCLUDE_DIRS})
 include_directories(${OPENAL_INCLUDE_DIR})
 include_directories(${LUA_INCLUDE_DIR})
+include_directories(${SQLITE3_INCLUDE_DIR})
 include_directories("src")
 
 # preprocessor definitions
@@ -93,7 +101,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 add_pch(${CMAKE_PROJECT_NAME} src/stdafx.cpp ${PROJECT_SOURCE_DIR}/src/stdafx.h)
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} sqlite3)
+target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES})
 
 # copy irrlicht DLLs to working directory
 if(WIN32)

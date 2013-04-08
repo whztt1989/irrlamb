@@ -18,10 +18,11 @@
 #include <irrlicht.h>
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
 #include <al.h>
 #include <alc.h>
-#include <sqlite3.h>
 #include <lua.hpp>
+#include "sqlite3.h"
 
 #include <string>
 #include <vector>

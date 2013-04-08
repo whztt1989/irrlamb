@@ -18,13 +18,6 @@
 #include <stdafx.h>
 #pragma once
 
-// Libraries
-#include <irrTypes.h>
-#include <ISceneNode.h>
-#include <btBulletCollisionCommon.h>
-#include <btBulletDynamicsCommon.h>
-#include <string>
-
 // Forward Declarations
 struct SpawnStruct;
 struct ConstraintStruct;

@@ -21,7 +21,6 @@
 // Libraries
 #include "object.h"
 #include "../engine/camera.h"
-#include <ILightSceneNode.h>
 
 // Classes
 class _Player : public _Object {

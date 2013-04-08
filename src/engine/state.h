@@ -18,8 +18,6 @@
 #include <stdafx.h>
 #pragma once
 
-#include <IGUIElement.h>
-
 // Classes
 class _State {
 

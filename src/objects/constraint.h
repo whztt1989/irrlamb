@@ -20,8 +20,6 @@
 
 // Libraries
 #include "object.h"
-#include <btBulletCollisionCommon.h>
-#include <btBulletDynamicsCommon.h>
 
 // Forward Declarations
 struct ConstraintStruct;

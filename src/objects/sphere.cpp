@@ -20,10 +20,8 @@
 #include "../engine/globals.h"
 #include "../engine/physics.h"
 #include "../engine/config.h"
-#include "template.h"
 #include "../engine/namespace.h"
-#include <IAnimatedMeshSceneNode.h>
-#include <IMeshSceneNode.h>
+#include "template.h"
 
 // Constructor
 _Sphere::_Sphere(const SpawnStruct &Object)

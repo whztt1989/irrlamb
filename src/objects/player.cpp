@@ -25,15 +25,11 @@
 #include "../engine/level.h"
 #include "../engine/audio.h"
 #include "../engine/actions.h"
+#include "../engine/namespace.h"
 #include "sphere.h"
 #include "constraint.h"
 #include "springjoint.h"
 #include "template.h"
-#include "../engine/namespace.h"
-#include <IMeshSceneNode.h>
-#include <IBillboardSceneNode.h>
-#include <IParticleEmitter.h>
-#include <IParticleSystemSceneNode.h>
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)
