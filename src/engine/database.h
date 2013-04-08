@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef DATABASE_H
-#define DATABASE_H
+#pragma once
 
 // Libraries
 #include <sqlite3.h>
@@ -49,5 +48,3 @@ class _Database {
 		sqlite3_stmt *QueryHandle[2];
 
 };
-
-#endif

@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef FADER_H
-#define FADER_H
+#pragma once
 
 // Libraries
 #include <ITexture.h>
@@ -57,5 +56,3 @@ class _Fader {
 
 // Singletons
 extern _Fader Fader;
-
-#endif

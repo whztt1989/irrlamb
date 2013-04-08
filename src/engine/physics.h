@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef PHYSICS_H
-#define PHYSICS_H
+#pragma once
 
 // Libraries
 #include <btBulletCollisionCommon.h>
@@ -88,5 +87,3 @@ class _Physics {
 
 // Singletons
 extern _Physics Physics;
-
-#endif

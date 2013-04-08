@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#pragma once
 
 // Libraries
 #include <SColor.h>
@@ -84,5 +83,3 @@ class _Graphics {
 
 // Singletons
 extern _Graphics Graphics;
-
-#endif

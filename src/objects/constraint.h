@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef CONSTRAINT_H
-#define CONSTRAINT_H
+#pragma once
 
 // Libraries
 #include "object.h"
@@ -40,5 +39,3 @@ class _Constraint : public _Object {
 		btTypedConstraint *Constraint;
 	
 };
-
-#endif

@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 // Libraries
 #include <ICameraSceneNode.h>
@@ -59,5 +58,3 @@ class _Camera {
 		bool MovementChanged;
 
 };
-
-#endif

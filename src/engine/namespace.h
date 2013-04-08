@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef NAMESPACE_H
-#define NAMESPACE_H
+#pragma once
 
 // Namespaces
 using namespace irr;
@@ -25,5 +24,3 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
-
-#endif

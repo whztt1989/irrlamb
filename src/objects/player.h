@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 // Libraries
 #include "object.h"
@@ -53,5 +52,3 @@ class _Player : public _Object {
 		// Audio
 		_AudioSource *Sound;
 };
-
-#endif

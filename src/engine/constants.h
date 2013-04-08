@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
 // Constants
 const char * const GAME_VERSION = "v0.1.2";
@@ -29,5 +28,3 @@ const int STATS_MAXSCORES = 10;
 const float ORB_GLOWSIZE = 2.5f;
 const float ORB_PITCH = 2.0f;
 const float ORB_DEACTIVATETIME = 2.0f;
-
-#endif

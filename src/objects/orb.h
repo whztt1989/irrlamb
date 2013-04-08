@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef ORB_H
-#define ORB_H
+#pragma once
 
 // Libraries
 #include "object.h"
@@ -58,5 +57,3 @@ class _Orb : public _Object {
 		// Audio
 		_AudioSource *Sound;
 };
-
-#endif

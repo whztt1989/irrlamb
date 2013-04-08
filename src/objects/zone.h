@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef ZONE_H
-#define ZONE_H
+#pragma once
 
 // Libraries
 #include "object.h"
@@ -52,5 +51,3 @@ class _Zone : public _Object {
 		std::list<ObjectTouchState> TouchState;
 
 };
-
-#endif

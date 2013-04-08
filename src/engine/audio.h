@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef AUDIO_H
-#define AUDIO_H
+#pragma once
 
 // Libraries
 #include <al.h>
@@ -81,5 +80,3 @@ class _Audio {
 
 // Singletons
 extern _Audio Audio;
-
-#endif

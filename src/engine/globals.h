@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#pragma once
 
 #include <IrrlichtDevice.h>
 #include <IVideoDriver.h>
@@ -31,5 +30,3 @@ extern irr::scene::ISceneManager *irrScene;
 extern irr::gui::IGUIEnvironment *irrGUI;
 extern irr::io::IFileSystem *irrFile;
 extern irr::ITimer *irrTimer;
-
-#endif

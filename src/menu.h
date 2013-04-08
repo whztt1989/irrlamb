@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef MENU_H
-#define MENU_H
+#pragma once
 
 // Libraries
 #include "engine/state.h"
@@ -141,5 +140,3 @@ class _MenuState : public _State {
 };
 
 extern _MenuState MenuState;
-
-#endif

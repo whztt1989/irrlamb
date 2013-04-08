@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef INPUT_H
-#define INPUT_H
+#pragma once
 
 // Libraries
 #include <IEventReceiver.h>
@@ -74,5 +73,3 @@ class _Input : public irr::IEventReceiver  {
 
 // Singletons
 extern _Input Input;
-
-#endif

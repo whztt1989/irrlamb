@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef LEVEL_H
-#define LEVEL_H
+#pragma once
 
 // Libraries
 #include <vector>
@@ -76,5 +75,3 @@ class _Level {
 
 // Singletons
 extern _Level Level;
-
-#endif

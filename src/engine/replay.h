@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef REPLAY_H
-#define REPLAY_H
+#pragma once
 
 // Libraries
 #include "filestream.h"
@@ -116,5 +115,3 @@ class _Replay {
 
 // Singletons
 extern _Replay Replay;
-
-#endif

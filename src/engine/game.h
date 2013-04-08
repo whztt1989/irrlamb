@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 // Libraries
 #include <irrTypes.h>
@@ -78,5 +77,3 @@ class _Game {
 
 // Singletons
 extern _Game Game;
-
-#endif

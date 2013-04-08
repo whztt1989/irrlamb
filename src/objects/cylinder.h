@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef CYLINDER_H
-#define CYLINDER_H
+#pragma once
 
 // Libraries
 #include "object.h"
@@ -31,5 +30,3 @@ class _Cylinder : public _Object {
 	private:
 
 };
-
-#endif

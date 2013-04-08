@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef CAMPAIGN_H
-#define CAMPAIGN_H
+#pragma once
 
 // Libraries
 #include <vector>
@@ -55,5 +54,3 @@ class _Campaign {
 
 // Singletons
 extern _Campaign Campaign;
-
-#endif

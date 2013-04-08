@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef PLAY_H
-#define PLAY_H
+#pragma once
 
 // Libraries
 #include "engine/state.h"
@@ -112,5 +111,3 @@ class _PlayState : public _State {
 };
 
 extern _PlayState PlayState;
-
-#endif

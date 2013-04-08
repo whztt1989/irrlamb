@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef SCRIPTING_H
-#define SCRIPTING_H
+#pragma once
 
 // Libraries
 #include <lua.hpp>
@@ -108,5 +107,3 @@ class _Scripting {
 
 // Singletons
 extern _Scripting Scripting;
-
-#endif

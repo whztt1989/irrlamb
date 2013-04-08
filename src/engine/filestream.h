@@ -15,8 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#ifndef FILESTREAM_H
-#define FILESTREAM_H
+#pragma once
 
 // Libraries
 #include <fstream>
@@ -54,5 +53,3 @@ class _File {
 		std::fstream File;
 
 };
-
-#endif
