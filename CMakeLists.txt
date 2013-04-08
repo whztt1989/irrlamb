@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 2.8)
 
-# project name
+# extra modules
+include(AddPCH.cmake)
+
+# projects
 project(irrlamb)
 subdirs(tools)
 
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
-include(AddPCH.cmake)
 
 # set default build type
 set(EXTRA_LIBS)
@@ -97,7 +99,7 @@ source_group(tinyxml FILES ${SRC_TINYXML})
 
 # create exe
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
-add_pch(${CMAKE_PROJECT_NAME} src/stdafx.cpp ${PROJECT_SOURCE_DIR}/src/stdafx.h)
+add_pch(${CMAKE_PROJECT_NAME} src/all.cpp ${PROJECT_SOURCE_DIR}/src/all.h)
 
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES})

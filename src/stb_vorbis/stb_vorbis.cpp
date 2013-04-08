@@ -1,4 +1,4 @@
-#include <stdafx.h>
+#include <all.h>
 // Ogg Vorbis I audio decoder  -- version 0.99996
 //
 // Written in April 2007 by Sean Barrett, sponsored by RAD Game Tools.

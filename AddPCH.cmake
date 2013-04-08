@@ -1,19 +1,22 @@
-# Macro to add precompiled header to project
+# Alan Witkowski - https://github.com/jazztickets
+# This macro adds a precompiled header to the project.
+# It currently doesn't support mixing C/C++ files together
+#
 # target    - name of target to apply pch to (e.g. ${CMAKE_PROJECT_NAME} )
-# sourcecpp - path to pch source file (e.g. src/stdafx.cpp) 
-# header    - path to pch header file (e.g. include/stdafx.h) 
+# sourcecpp - path to pch source file (e.g. src/all.cpp) 
+# header    - path to pch header file (e.g. src/all.h) 
 macro(add_pch target sourcecpp header)
 
 	# Extract header filename from path
 	get_filename_component(headerfile ${header} NAME)
 
-	# Handle visual studio. Currently doesn't support mixing C/C++ files together
+	# Handle visual studio.
 	if(MSVC)
 		set_target_properties(${target} PROPERTIES COMPILE_FLAGS "/Yu${headerfile}")
 		set_source_files_properties(${sourcecpp} PROPERTIES COMPILE_FLAGS "/Yc${headerfile}")
 	
 	# Handle GCC
-	else()
+	elseif(UNIX)
 		
 		# Get compiler flags from build type
 		string(TOUPPER "CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}" compiler_flags)
@@ -48,7 +51,7 @@ macro(add_pch target sourcecpp header)
 		)
 		
 		# Add pch directory to include path
-		include_directories(${EXECUTABLE_OUTPUT_PATH})
+		include_directories(BEFORE ${EXECUTABLE_OUTPUT_PATH})
 	endif()
 	
 endmacro()

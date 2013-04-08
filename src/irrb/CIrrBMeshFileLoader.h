@@ -3,7 +3,7 @@
 // For the full text of the Unlicense, see the file "docs/unlicense.html".
 // Additional Unlicense information may be found at http://unlicense.org.
 //-----------------------------------------------------------------------------
-#include <stdafx.h>
+#include <all.h>
 #ifndef __C_IRRB_MESH_FILE_LOADER_H_INCLUDED__
 #define __C_IRRB_MESH_FILE_LOADER_H_INCLUDED__
 
