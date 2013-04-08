@@ -44,7 +44,6 @@
     <File Name="../src/engine/graphics.h"/>
     <File Name="../src/engine/filestream.h"/>
     <File Name="../src/engine/camera.h"/>
-    <File Name="../src/engine/actiontypes.h"/>
     <File Name="../src/engine/input.h"/>
     <File Name="../src/engine/config.h"/>
     <File Name="../src/engine/audio.h"/>

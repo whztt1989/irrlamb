@@ -15,84 +15,33 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#pragma once
 
-/*
-   A C-program for MT19937, with initialization improved 2002/1/26.
-   Coded by Takuji Nishimura and Makoto Matsumoto.
-
-   Before using, initialize the state by using init_genrand(seed)
-   or init_by_array(init_key, key_length).
-
-   Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
-   All rights reserved.
-
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions
-   are met:
-
-     1. Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-
-     2. Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
-
-     3. The names of its contributors may not be used to endorse or promote 
-        products derived from this software without specific prior written 
-        permission.
-
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-   A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-   Any feedback is very welcome.
-   http://www.math.keio.ac.jp/matumoto/emt.html
-   email: matumoto@math.keio.ac.jp
-*/
-#ifndef RANDOM_H
-#define RANDOM_H
-
-
-typedef unsigned int uint;
-typedef unsigned long ulong;
+typedef unsigned long long u64;
+typedef unsigned int u32;
 
 class _Random {
 
     public:
 
         _Random();
-        _Random(ulong Seed);
+        _Random(u32 TSeed);
 
-        void SetSeed(ulong Seed);
+        void SetSeed(u32 TSeed);
 
-        float Generate();
-        int GenerateMax(int Max);
-        uint GenerateMax(uint Max);
-        int GenerateRange(int Min, int Max);
-        uint GenerateRange(uint Min, uint Max);
-        float GenerateRange(float Min, float Max);
+        double Generate();
+        u32 Generate(u32 TMax);
+        int GenerateRange(int TMin, int TMax);
+        u32 GenerateRange(u32 TMin, u32 TMax);
+        double GenerateRange(double TMin, double TMax);
 	
 	private:
 	
-		// Mersenne Twister variables
-        static const ulong N = 624;
-        static const ulong M = 397;
-        static const ulong MATRIX_A = 0x9908b0dfUL;
-        static const ulong UPPER_MASK = 0x80000000UL;
-        static const ulong LOWER_MASK = 0x7fffffffUL;
+		// Base function
+		u32 GenerateRandomInteger();
 
-        ulong rStateVector[N];
-        ulong rStateVectorIndex;
-        ulong GenerateRandomInteger();
-
+		// Seeds
+		u32 Q[1024];
 };
 
 // Constructor
@@ -102,92 +51,68 @@ inline _Random::_Random() {
 }
 
 // Constructor
-inline _Random::_Random(ulong Seed) {
+inline _Random::_Random(u32 TSeed) {
 
-    SetSeed(Seed);
+    SetSeed(TSeed);
 }
 
 // Sets the seed for the generator
-inline void _Random::SetSeed(ulong Seed) {
+inline void _Random::SetSeed(u32 TSeed) {
 
-    rStateVector[0]= Seed & 0xffffffffUL;
-    for(rStateVectorIndex = 1; rStateVectorIndex < N; ++rStateVectorIndex) {
-        rStateVector[rStateVectorIndex] = (1812433253UL * (rStateVector[rStateVectorIndex-1] ^ (rStateVector[rStateVectorIndex-1] >> 30)) + rStateVectorIndex); 
-        rStateVector[rStateVectorIndex] &= 0xffffffffUL;
-    }
+    for(u32 i = 0; i < 1024; i++){
+		TSeed ^= TSeed << 13;
+		TSeed ^= TSeed >> 17;
+		TSeed ^= TSeed << 5;
+		Q[i] = TSeed;
+	}
 }
 
 // Generates a random integer
-inline ulong _Random::GenerateRandomInteger() {
-    static ulong mag01[2] = {0x0UL, MATRIX_A};
-    ulong y;
+inline u32 _Random::GenerateRandomInteger() {
+   static u32 c = 8471623, i = 1023;
+	u64 t, a = 123471786LL;
+	u32 x, r = 0xfffffffe;
 
-    if(rStateVectorIndex >= N) {
-        uint kk;
+	i = (i + 1) & 1023;
+	t = a * Q[i] + c;
+	c = t >> 32;
+	x = (u32)(t + c);
+	if(x < c) {
+		x++;
+		c++;
+	}
 
-        for(kk = 0; kk < N-M; ++kk) {
-            y = (rStateVector[kk] & UPPER_MASK) | (rStateVector[kk+1] & LOWER_MASK);
-            rStateVector[kk] = rStateVector[kk+M] ^ (y >> 1) ^ mag01[y & 0x1UL];
-        }
-
-        for(;kk < N-1; ++kk) {
-            y = (rStateVector[kk] & UPPER_MASK) | (rStateVector[kk+1] & LOWER_MASK);
-            rStateVector[kk] = rStateVector[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
-        }
-
-        y = (rStateVector[N-1] & UPPER_MASK) | (rStateVector[0] & LOWER_MASK);
-        rStateVector[N-1] = rStateVector[M-1] ^ (y >> 1) ^ mag01[y & 0x1UL];
-
-        rStateVectorIndex = 0;
-    }
-
-    y = rStateVector[rStateVectorIndex++];
-
-    y ^= (y >> 11);
-    y ^= (y << 7) & 0x9d2c5680UL;
-    y ^= (y << 15) & 0xefc60000UL;
-    y ^= (y >> 18);
-
-    return y;
+	return Q[i] = r - x;
 }
 
 // Generates a random number [0, 1)
-inline float _Random::Generate() {
+inline double _Random::Generate() {
 
-	return GenerateRange(0.0f, 0.999999f);
+	return GenerateRandomInteger() / 4294967296.0;
 }
  
-// Generates a random number [0, Max]
-inline int _Random::GenerateMax(int Max) {
+// Generates a random number [0, TMax-1]
+inline u32 _Random::Generate(u32 TMax) {
 
-    return GenerateRandomInteger() % Max;
+    return (u32)(Generate() * TMax);
 }
 
-// Generates a random number [0, Max]
-inline uint _Random::GenerateMax(uint Max) {
+// Generates a random number [TMin, TMax]
+inline int _Random::GenerateRange(int TMin, int TMax) {
 
-    return GenerateRandomInteger() % Max;
+    return (int)(Generate() * (TMax - TMin + 1)) + TMin;
 }
 
-// Generates a random number [Min, Max]
-inline int _Random::GenerateRange(int Min, int Max) {
+// Generates a random number [TMin, TMax]
+inline u32 _Random::GenerateRange(u32 TMin, u32 TMax) {
 
-    return GenerateRandomInteger() % (Max - Min + 1) + Min;
+    return (u32)(Generate() * (TMax - TMin + 1)) + TMin;
 }
 
-// Generates a random number [Min, Max]
-inline uint _Random::GenerateRange(uint Min, uint Max) {
+// Generates a random number [TMin, TMax]
+inline double _Random::GenerateRange(double TMin, double TMax) {
 
-    return GenerateRandomInteger() % (Max - Min + 1) + Min;
+    return (GenerateRandomInteger() / 4294967295.0) * (TMax - TMin) + TMin;
 }
 
-// Generates a random number [Min, Max]
-inline float _Random::GenerateRange(float Min, float Max) {
-
-    return GenerateRandomInteger() * (1.0f / 4294967295.0f) * (Max - Min) + Min;
-}
-
-// Singletons
 extern _Random Random;
-
-#endif
