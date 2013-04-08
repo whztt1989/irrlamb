@@ -144,18 +144,6 @@ void _Player::Update(float FrameTime) {
 		JumpTimer = 0.0f;
 }
 
-// Processes key presses
-bool _Player::ProcessKeyPress(int Key) {
-
-	if(Actions.GetState(_Actions::JUMP)) {
-		Jump();
-	}	
-	else
-		return false;
-	
-	return true;
-}
-
 // Processes input from the keyboard
 void _Player::HandleInput() {
 	vector3df Push(0.0f, 0.0f, 0.0f);

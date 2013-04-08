@@ -106,9 +106,31 @@ int _PlayState::Close() {
 }
 
 // Handle new actions
-void _PlayState::HandleAction(int Action, bool State) {
-	
-	printf("action press %d\n", Action);
+void _PlayState::HandleAction(int Action, bool Pressed) {
+	if(!Pressed)
+		return;
+		
+	switch(State) {
+		case STATE_PLAY:
+			switch(Action) {
+				case _Actions::JUMP:
+					Player->Jump();
+				break;
+				case _Actions::RESET:
+					StartReset();
+				break;
+			}
+		break;
+		case STATE_LOSE:
+		case STATE_WIN:
+			switch(Action) {
+				case _Actions::RESET:
+					StartReset();
+				break;
+			}
+		break;
+	}
+	printf("action press %d %d\n", Action, State);
 }
 
 // Key presses
@@ -120,9 +142,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 	
 	switch(State) {
 		case STATE_PLAY:
-			if(Actions.GetState(_Actions::RESET))
-				StartReset();
-
 			switch(Key) {
 				case KEY_ESCAPE:
 					if(TestLevel != "")
@@ -147,9 +166,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 				break;
 				case KEY_F12:
 					Graphics.SaveScreenshot();
-				break;
-				default:
-					Processed = Player->ProcessKeyPress(Key);
 				break;
 			}
 
@@ -177,9 +193,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_LOSE:
-			if(Key == Config.Keys[_Actions::RESET])
-				StartReset();
-
 			switch(Key) {
 				case KEY_ESCAPE:
 					Game.ChangeState(&MenuState);
@@ -190,9 +203,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 			}
 		break;
 		case STATE_WIN:
-			if(Key == Config.Keys[_Actions::RESET])
-				StartReset();
-
 			switch(Key) {
 				case KEY_ESCAPE:
 					Game.ChangeState(&MenuState);
@@ -339,7 +349,6 @@ void _PlayState::Update(float FrameTime) {
 			ObjectManager.BeginFrame();
 
 			Player->HandleInput();
-			//printf("%d %d\n", Actions.GetState(_Actions::JUMP), Actions.ActionWasPressed(_Actions::JUMP));
 			ObjectManager.Update(FrameTime);
 			Physics.Update(FrameTime);
 			Interface.Update(FrameTime);
@@ -632,6 +641,9 @@ void _PlayState::SaveReplay() {
 
 // Start resetting the level
 void _PlayState::StartReset() {
+	if(Resetting)
+		return;
+		
 	Fader.Start(-FADE_SPEED);
 	Resetting = true;
 }

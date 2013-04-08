@@ -31,7 +31,6 @@ class _Player : public _Object {
 		~_Player();
 
 		void Update(float FrameTime);
-		bool ProcessKeyPress(int Key);
 		void HandleInput();
 
 		void Jump();
