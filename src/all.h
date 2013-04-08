@@ -22,7 +22,7 @@
 #include <al.h>
 #include <alc.h>
 #include <lua.hpp>
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 #include <string>
 #include <vector>
