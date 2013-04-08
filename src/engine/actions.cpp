@@ -44,9 +44,9 @@ void _Actions::ClearMappings() {
 }
 
 // Get action
-bool _Actions::GetState(int Action) {
+float _Actions::GetState(int Action) {
 	if(Action < 0 || Action >= ACTIONS_MAX)
-		return false;
+		return 0.0f;
 
 	return State[Action];
 }
@@ -67,7 +67,7 @@ void _Actions::KeyEvent(int Key, bool Pressed) {
 		return;
 
 	for(MapIterator = KeyMap[Key].begin(); MapIterator != KeyMap[Key].end(); MapIterator++) {
-		State[*MapIterator] = Pressed;
+		State[*MapIterator] = (float)Pressed;
 		Game.GetState()->HandleAction(*MapIterator, Pressed);
 	}
 }
@@ -78,7 +78,7 @@ void _Actions::MouseEvent(int Button, bool Pressed) {
 		return;
 
 	for(MapIterator = MouseMap[Button].begin(); MapIterator != MouseMap[Button].end(); MapIterator++) {
-		State[*MapIterator] = Pressed;
+		State[*MapIterator] = (float)Pressed;
 		Game.GetState()->HandleAction(*MapIterator, Pressed);
 	}
 }

@@ -55,7 +55,7 @@ public:
 	void ClearMappings();
 
 	// Actions
-	bool GetState(int Action);
+	float GetState(int Action);
 
 	// Maps
 	void AddKeyMap(int Key, int Action);
