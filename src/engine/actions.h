@@ -40,7 +40,7 @@ public:
 
 	_Actions();
 
-	void ResetState() { for(int i = 0; i < ACTIONS_MAX; i++) State[i] = 0; }
+	void ResetState();
 	void ClearMappings();
 
 	// Actions

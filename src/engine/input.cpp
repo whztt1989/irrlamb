@@ -48,13 +48,16 @@ bool _Input::OnEvent(const SEvent &Event) {
 
 	switch(Event.EventType) {
 		case EET_KEY_INPUT_EVENT:
-			Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
-
+			
 			// Send key press events
-			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key))
+			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key)) {
 				Processed = Game.GetState()->HandleKeyPress(Event.KeyInput.Key);
-			else if(!Event.KeyInput.PressedDown)
+				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
+			}
+			else if(!Event.KeyInput.PressedDown) {
 				Processed = Game.GetState()->HandleKeyLift(Event.KeyInput.Key);
+				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
+			}
 
 			// Set the current key state
 			SetKeyState(Event.KeyInput.Key, Event.KeyInput.PressedDown);

@@ -30,6 +30,7 @@ class _State {
 		virtual ~_State() { }
 
 		// Events
+		virtual void HandleAction(int Action, bool Pressed) { }
 		virtual bool HandleKeyPress(int Key) { return false; }
 		virtual bool HandleKeyLift(int Key) { return false; }
 		virtual void HandleMouseMotion(float UpdateX, float UpdateY) { }

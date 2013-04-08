@@ -17,6 +17,8 @@
 **************************************************************************************/
 #include <all.h>
 #include "actions.h"
+#include "game.h"
+#include "state.h"
 
 _Actions Actions;
 
@@ -25,6 +27,14 @@ _Actions::_Actions() {
 	ResetState();
 }
 
+// Reset the state
+void _Actions::ResetState() {
+	for(int i = 0; i < ACTIONS_MAX; i++) {
+		State[i] = 0;
+	}
+}
+
+// Clear key and mouse map
 void _Actions::ClearMappings() {
 	for(int i = 0; i < ACTIONS_MAXKEYS; i++)
 		KeyMap[i].clear();
@@ -58,6 +68,7 @@ void _Actions::KeyEvent(int Key, bool Pressed) {
 
 	for(MapIterator = KeyMap[Key].begin(); MapIterator != KeyMap[Key].end(); MapIterator++) {
 		State[*MapIterator] = Pressed;
+		Game.GetState()->HandleAction(*MapIterator, Pressed);
 	}
 }
 
@@ -68,5 +79,6 @@ void _Actions::MouseEvent(int Button, bool Pressed) {
 
 	for(MapIterator = MouseMap[Button].begin(); MapIterator != MouseMap[Button].end(); MapIterator++) {
 		State[*MapIterator] = Pressed;
+		Game.GetState()->HandleAction(*MapIterator, Pressed);
 	}
 }

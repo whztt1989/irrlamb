@@ -46,8 +46,6 @@ _PlayState PlayState;
 const int WIN_WIDTH = 430;
 const int WIN_HEIGHT = 350;
 
-_Player *GlobalPlayer = 0;
-
 // Initializes the state
 int _PlayState::Init() {
 	Player = NULL;
@@ -105,6 +103,12 @@ int _PlayState::Close() {
 	}
 
 	return 1;
+}
+
+// Handle new actions
+void _PlayState::HandleAction(int Action, bool State) {
+	
+	printf("action press %d\n", Action);
 }
 
 // Key presses
@@ -335,6 +339,7 @@ void _PlayState::Update(float FrameTime) {
 			ObjectManager.BeginFrame();
 
 			Player->HandleInput();
+			//printf("%d %d\n", Actions.GetState(_Actions::JUMP), Actions.ActionWasPressed(_Actions::JUMP));
 			ObjectManager.Update(FrameTime);
 			Physics.Update(FrameTime);
 			Interface.Update(FrameTime);
@@ -664,7 +669,7 @@ void _PlayState::ResetLevel() {
 	Level.RunScripts();
 
 	// Get the player
-	GlobalPlayer = Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));
+	Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));
 	if(Player == NULL) {
 		Log.Write("_PlayState::ResetLevel - Cannot find player object");
 		return;
