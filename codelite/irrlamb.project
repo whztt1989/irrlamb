@@ -10,13 +10,13 @@
   <VirtualDirectory Name="src">
     <File Name="../src/menu.cpp"/>
     <File Name="../src/menu.h"/>
-    <File Name="../src/stdafx.h"/>
     <File Name="../src/viewreplay.h"/>
     <File Name="../src/play.h"/>
     <File Name="../src/viewreplay.cpp"/>
     <File Name="../src/main.cpp"/>
     <File Name="../src/play.cpp"/>
-    <File Name="../src/stdafx.cpp"/>
+    <File Name="../src/all.cpp"/>
+    <File Name="../src/all.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="engine">
     <File Name="../src/engine/save.cpp"/>
@@ -100,10 +100,8 @@
     <File Name="../src/stb_vorbis/stb_vorbis.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="tinyxml">
-    <File Name="../src/tinyxml/tinyxml.h"/>
-    <File Name="../src/tinyxml/tinyxmlerror.cpp"/>
-    <File Name="../src/tinyxml/tinyxmlparser.cpp"/>
-    <File Name="../src/tinyxml/tinyxml.cpp"/>
+    <File Name="../src/tinyxml/tinyxml2.cpp"/>
+    <File Name="../src/tinyxml/tinyxml2.h"/>
   </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
@@ -121,7 +119,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="-level test" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="no"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="-level test" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>

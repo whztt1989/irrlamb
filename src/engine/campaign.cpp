@@ -21,9 +21,11 @@
 #include "log.h"
 #include "game.h"
 #include "level.h"
-#include "../tinyxml/tinyxml.h"
+#include <tinyxml/tinyxml2.h>
 
 _Campaign Campaign;
+
+using namespace tinyxml2;
 
 // Loads the campaign data
 int _Campaign::Init() {
@@ -33,35 +35,37 @@ int _Campaign::Init() {
 
 	// Open the XML file
 	std::string LevelFile = std::string("levels/main.xml");
-	TiXmlDocument Document(LevelFile.c_str());
-	if(!Document.LoadFile()) {
-		Log.Write("line %d column %d: %s", Document.ErrorRow(), Document.ErrorCol(), Document.ErrorDesc());
+	XMLDocument Document;
+	if(Document.LoadFile(LevelFile.c_str()) != XML_NO_ERROR) {
+		Log.Write("Error loading level file with error id = %d", Document.ErrorID());
+		Log.Write("Error string 1: %s", Document.GetErrorStr1());
+		Log.Write("Error string 2: %s", Document.GetErrorStr2());
 		Close();
 		return 0;
 	}
 
 	// Check for level tag
-	TiXmlElement *CampaignsElement = Document.FirstChildElement("campaigns");
+	XMLElement *CampaignsElement = Document.FirstChildElement("campaigns");
 	if(!CampaignsElement) {
 		Log.Write("Could not find campaigns tag");
 		return 0;
 	}
 
 	// Load campaigns
-	TiXmlElement *CampaignElement = CampaignsElement->FirstChildElement("campaign");
+	XMLElement *CampaignElement = CampaignsElement->FirstChildElement("campaign");
 	for(; CampaignElement != 0; CampaignElement = CampaignElement->NextSiblingElement("campaign")) {
 
 		CampaignStruct Campaign;
 		Campaign.Name = CampaignElement->Attribute("name");
 
 		// Get levels
-		TiXmlElement *LevelElement = CampaignElement->FirstChildElement("level");
+		XMLElement *LevelElement = CampaignElement->FirstChildElement("level");
 		for(; LevelElement != 0; LevelElement = LevelElement->NextSiblingElement("level")) {
 			LevelStruct Level;
 			Level.File = LevelElement->GetText();
 			Level.DataPath = Game.GetWorkingPath() + "levels/" + Level.File + "/";
 			Level.Unlocked = 0;
-			LevelElement->Attribute("unlocked", &Level.Unlocked);
+			LevelElement->QueryIntAttribute("unlocked", &Level.Unlocked);
 
 			::Level.Init(Level.File, true);
 			Level.NiceName = ::Level.GetLevelNiceName();

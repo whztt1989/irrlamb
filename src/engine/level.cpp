@@ -17,7 +17,6 @@
 **************************************************************************************/
 #include <all.h>
 #include "level.h"
-#include "../tinyxml/tinyxml.h"
 #include "globals.h"
 #include "game.h"
 #include "objectmanager.h"
@@ -41,8 +40,11 @@
 #include "../objects/constraint.h"
 #include "../objects/springjoint.h"
 #include "namespace.h"
+#include <tinyxml/tinyxml2.h>
 
 _Level Level;
+
+using namespace tinyxml2;
 
 // Loads a level file
 int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
@@ -68,15 +70,17 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	CustomLevelExists.close();
 
 	// Open the XML file
-	TiXmlDocument Document(FilePath.c_str());
-	if(!Document.LoadFile()) {
-		Log.Write("line %d column %d: %s", Document.ErrorRow(), Document.ErrorCol(), Document.ErrorDesc());
+	XMLDocument Document;
+	if(Document.LoadFile(FilePath.c_str()) != XML_NO_ERROR) {
+		Log.Write("Error loading level file with error id = %d", Document.ErrorID());
+		Log.Write("Error string 1: %s", Document.GetErrorStr1());
+		Log.Write("Error string 2: %s", Document.GetErrorStr2());
 		Close();
 		return 0;
 	}
 
 	// Check for level tag
-	TiXmlElement *LevelElement = Document.FirstChildElement("level");
+	XMLElement *LevelElement = Document.FirstChildElement("level");
 	if(!LevelElement) {
 		Log.Write("Could not find level tag");
 		Close();
@@ -84,7 +88,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	}
 
 	// Level version
-	if(LevelElement->QueryIntAttribute("version", &LevelVersion) != TIXML_SUCCESS) {
+	if(LevelElement->QueryIntAttribute("version", &LevelVersion) == XML_NO_ATTRIBUTE) {
 		Log.Write("Could not find level version");
 		Close();
 		return 0;
@@ -99,9 +103,9 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	}
 
 	// Load level info
-	TiXmlElement *InfoElement = LevelElement->FirstChildElement("info");
+	XMLElement *InfoElement = LevelElement->FirstChildElement("info");
 	if(InfoElement) {
-		TiXmlElement *NiceNameElement = InfoElement->FirstChildElement("name");
+		XMLElement *NiceNameElement = InfoElement->FirstChildElement("name");
 		if(NiceNameElement) {
 			LevelNiceName = NiceNameElement->GetText();
 		}
@@ -122,12 +126,12 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	bool EmitLight = false;
 
 	// Load options
-	TiXmlElement *OptionsElement = LevelElement->FirstChildElement("options");
+	XMLElement *OptionsElement = LevelElement->FirstChildElement("options");
 	if(OptionsElement) {
 		int Value;
 
 		// Does the player emit light?
-		TiXmlElement *EmitLightElement = OptionsElement->FirstChildElement("emitlight");
+		XMLElement *EmitLightElement = OptionsElement->FirstChildElement("emitlight");
 		if(EmitLightElement) {
 			EmitLightElement->QueryIntAttribute("enabled", &Value);
 			EmitLight = Value!=0;
@@ -135,11 +139,11 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	}
 
 	// Load world
-	TiXmlElement *ResourcesElement = LevelElement->FirstChildElement("resources");
+	XMLElement *ResourcesElement = LevelElement->FirstChildElement("resources");
 	if(ResourcesElement) {
 
 		// Load scenes
-		for(TiXmlElement *SceneElement = ResourcesElement->FirstChildElement("scene"); SceneElement != 0; SceneElement = SceneElement->NextSiblingElement("scene")) {
+		for(XMLElement *SceneElement = ResourcesElement->FirstChildElement("scene"); SceneElement != 0; SceneElement = SceneElement->NextSiblingElement("scene")) {
 
 			// Get file
 			std::string File = SceneElement->Attribute("file");
@@ -178,7 +182,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 		}
 
 		// Load collision
-		for(TiXmlElement *CollisionElement = ResourcesElement->FirstChildElement("collision"); CollisionElement != 0; CollisionElement = CollisionElement->NextSiblingElement("collision")) {
+		for(XMLElement *CollisionElement = ResourcesElement->FirstChildElement("collision"); CollisionElement != 0; CollisionElement = CollisionElement->NextSiblingElement("collision")) {
 
 			// Get file
 			std::string File = CollisionElement->Attribute("file");
@@ -202,7 +206,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 		}
 
 		// Load scripts
-		for(TiXmlElement *ScriptElement = ResourcesElement->FirstChildElement("script"); ScriptElement != 0; ScriptElement = ScriptElement->NextSiblingElement("script")) {
+		for(XMLElement *ScriptElement = ResourcesElement->FirstChildElement("script"); ScriptElement != 0; ScriptElement = ScriptElement->NextSiblingElement("script")) {
 			
 			// Get file
 			std::string File = ScriptElement->Attribute("file");
@@ -217,10 +221,10 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	}
 
 	// Load templates
-	TiXmlElement *TemplatesElement = LevelElement->FirstChildElement("templates");
+	XMLElement *TemplatesElement = LevelElement->FirstChildElement("templates");
 	if(TemplatesElement) {
 		int TemplateID = 0;
-		for(TiXmlElement *TemplateElement = TemplatesElement->FirstChildElement(); TemplateElement != 0; TemplateElement = TemplateElement->NextSiblingElement()) {
+		for(XMLElement *TemplateElement = TemplatesElement->FirstChildElement(); TemplateElement != 0; TemplateElement = TemplateElement->NextSiblingElement()) {
 			
 			// Create a template
 			TemplateStruct *Template = new TemplateStruct;
@@ -250,9 +254,9 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	}
 
 	// Load object spawns
-	TiXmlElement *ObjectsElement = LevelElement->FirstChildElement("objects");
+	XMLElement *ObjectsElement = LevelElement->FirstChildElement("objects");
 	if(ObjectsElement) {
-		for(TiXmlElement *ObjectElement = ObjectsElement->FirstChildElement(); ObjectElement != 0; ObjectElement = ObjectElement->NextSiblingElement()) {
+		for(XMLElement *ObjectElement = ObjectsElement->FirstChildElement(); ObjectElement != 0; ObjectElement = ObjectElement->NextSiblingElement()) {
 			
 			// Create an object spawn
 			SpawnStruct *ObjectSpawn = new SpawnStruct;
@@ -291,8 +295,8 @@ int _Level::Close() {
 }
 
 // Processes a template tag
-int _Level::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStruct &Object) {
-	TiXmlElement *Element;
+int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &Object) {
+	XMLElement *Element;
 	const char *String;
 
 	// Get type
@@ -429,8 +433,8 @@ int _Level::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStruct 
 }
 
 // Processes an object tag
-int _Level::GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruct &ObjectSpawn) {
-	TiXmlElement *Element;
+int _Level::GetObjectSpawnProperties(XMLElement *ObjectElement, SpawnStruct &ObjectSpawn) {
+	XMLElement *Element;
 
 	// Get name
 	ObjectSpawn.Name = ObjectElement->Attribute("name");

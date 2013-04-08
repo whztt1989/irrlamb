@@ -19,7 +19,9 @@
 #pragma once
 
 // Forward Declarations
-class TiXmlElement;
+namespace tinyxml2 {
+	class XMLElement;
+}
 class _Object;
 struct TemplateStruct;
 struct SpawnStruct;
@@ -53,8 +55,8 @@ class _Level {
 	private:
 
 		// Loading
-		int GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStruct &Object);
-		int GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruct &ObjectSpawn);
+		int GetTemplateProperties(tinyxml2::XMLElement *TemplateElement, TemplateStruct &Object);
+		int GetObjectSpawnProperties(tinyxml2::XMLElement *ObjectElement, SpawnStruct &ObjectSpawn);
 
 		// Level
 		std::string LevelName, LevelNiceName;

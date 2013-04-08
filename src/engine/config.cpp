@@ -17,12 +17,14 @@
 **************************************************************************************/
 #include <all.h>
 #include "config.h"
-#include "../tinyxml/tinyxml.h"
+#include <tinyxml/tinyxml2.h>
 #include "globals.h"
 #include "save.h"
 #include "namespace.h"
 
 _Config Config;
+
+using namespace tinyxml2;
  
 // Initializes the config system
 int _Config::Init() {
@@ -78,21 +80,21 @@ void _Config::Reset() {
 int _Config::ReadConfig() {
 
 	// Open the XML file
-	TiXmlDocument Document(Save.GetConfigFile().c_str());
-	if(!Document.LoadFile()) {
+	XMLDocument Document;
+	if(Document.LoadFile(Save.GetConfigFile().c_str()) != XML_NO_ERROR) {
 		return 0;
 	}
 
 	// Check for config tag
-	TiXmlElement *ConfigElement = Document.FirstChildElement("config");
+	XMLElement *ConfigElement = Document.FirstChildElement("config");
 	if(!ConfigElement)
 		return 0;
 
 	// Check for a video tag
-	TiXmlElement *VideoElement = ConfigElement->FirstChildElement("video");
+	XMLElement *VideoElement = ConfigElement->FirstChildElement("video");
 	if(VideoElement) {
 		int Value = 0;
-		TiXmlElement *Element;
+		XMLElement *Element;
 
 		// Get driver
 		//VideoElement->QueryIntAttribute("driver", (int *)(&DriverType));
@@ -139,7 +141,7 @@ int _Config::ReadConfig() {
 	}
 
 	// Check for the audio tag
-	TiXmlElement *AudioElement = ConfigElement->FirstChildElement("audio");
+	XMLElement *AudioElement = ConfigElement->FirstChildElement("audio");
 	if(AudioElement) {
 		int Value = 0;
 		
@@ -149,7 +151,7 @@ int _Config::ReadConfig() {
 		
 		/*
 		// Get sound element
-		TiXmlElement *SoundElement = AudioElement->FirstChildElement("sound");
+		XMLElement *SoundElement = AudioElement->FirstChildElement("sound");
 		if(!SoundElement) {
 
 			// Get sound attributes
@@ -157,7 +159,7 @@ int _Config::ReadConfig() {
 		}
 
 		// Get music element
-		TiXmlElement *MusicElement = AudioElement->FirstChildElement("music");
+		XMLElement *MusicElement = AudioElement->FirstChildElement("music");
 		if(!MusicElement) {
 
 			// Get music attributes
@@ -167,7 +169,7 @@ int _Config::ReadConfig() {
 	}
 
 	// Get input element
-	TiXmlElement *InputElement = ConfigElement->FirstChildElement("input");
+	XMLElement *InputElement = ConfigElement->FirstChildElement("input");
 	if(InputElement) {
 		int Value = 0;
 
@@ -183,16 +185,16 @@ int _Config::ReadConfig() {
 	}
 
 	// Get keyboard mapping
-	for(TiXmlElement *ActionElement = InputElement->FirstChildElement("action"); ActionElement != 0; ActionElement = ActionElement->NextSiblingElement("action")) {
+	for(XMLElement *ActionElement = InputElement->FirstChildElement("action"); ActionElement != 0; ActionElement = ActionElement->NextSiblingElement("action")) {
 	
 		// Get action type
 		int ActionType;
-		if(ActionElement->QueryIntAttribute("type", &ActionType) != TIXML_SUCCESS)
+		if(ActionElement->QueryIntAttribute("type", &ActionType) != XML_NO_ERROR)
 			continue;
 
 		// Get key
 		int KeyCode;
-		if(ActionElement->QueryIntAttribute("key", &KeyCode) != TIXML_SUCCESS)
+		if(ActionElement->QueryIntAttribute("key", &KeyCode) != XML_NO_ERROR)
 			continue;
 
 		// Assign key
@@ -202,7 +204,7 @@ int _Config::ReadConfig() {
 	}
 
 	// Replays
-	TiXmlElement *ReplayElement = ConfigElement->FirstChildElement("replay");
+	XMLElement *ReplayElement = ConfigElement->FirstChildElement("replay");
 	if(ReplayElement) {
 		ReplayElement->QueryFloatAttribute("interval", (float *)(&ReplayInterval));
 	}
@@ -213,82 +215,81 @@ int _Config::ReadConfig() {
 // Writes the config file
 int _Config::WriteConfig() {
 
-	TiXmlDocument Document;
-
-	// Create header
-	Document.LinkEndChild(new TiXmlDeclaration("1.0", "", ""));
+	XMLDocument Document;
+	Document.InsertEndChild(Document.NewDeclaration());
 	
-	// Create config element
-	TiXmlElement *ConfigElement = new TiXmlElement("config");
+	// Config
+	XMLElement *ConfigElement = Document.NewElement("config");
 	ConfigElement->SetAttribute("version", "1.0");
-	Document.LinkEndChild(ConfigElement);
-
+	Document.InsertEndChild(ConfigElement);
+	
 	// Create video element
-	TiXmlElement *VideoElement = new TiXmlElement("video");
+	XMLElement *VideoElement = Document.NewElement("video");
 	//VideoElement->SetAttribute("driver", DriverType);
 	ConfigElement->LinkEndChild(VideoElement);
 
 	// Screen settings
-	TiXmlElement *ScreenElement = new TiXmlElement("screen");
+	XMLElement *ScreenElement = Document.NewElement("screen");
 	ScreenElement->SetAttribute("width", ScreenWidth);
 	ScreenElement->SetAttribute("height", ScreenHeight);
 	ScreenElement->SetAttribute("fullscreen", Fullscreen);
-	VideoElement->LinkEndChild(ScreenElement);
+	ConfigElement->InsertEndChild(ScreenElement);
 
 	// Filtering
-	TiXmlElement *FilteringElement = new TiXmlElement("filtering");
+	XMLElement *FilteringElement = Document.NewElement("filtering");
 	FilteringElement->SetAttribute("trilinear", TrilinearFiltering);
 	FilteringElement->SetAttribute("anisotropic", AnisotropicFiltering);
 	FilteringElement->SetAttribute("antialiasing", AntiAliasing);
 	VideoElement->LinkEndChild(FilteringElement);
 
 	// Shadows
-	TiXmlElement *ShadowsElement = new TiXmlElement("shadows");
+	XMLElement *ShadowsElement = Document.NewElement("shadows");
 	ShadowsElement->SetAttribute("enabled", Shadows);
 	VideoElement->LinkEndChild(ShadowsElement);
 
 	// Shaders
-	TiXmlElement *ShadersElement = new TiXmlElement("shaders");
+	XMLElement *ShadersElement = Document.NewElement("shaders");
 	ShadersElement->SetAttribute("enabled", Shaders);
 	VideoElement->LinkEndChild(ShadersElement);
 
 	// Create audio element
-	TiXmlElement *AudioElement = new TiXmlElement("audio");
+	XMLElement *AudioElement = Document.NewElement("audio");
 	AudioElement->SetAttribute("enabled", AudioEnabled);
 	ConfigElement->LinkEndChild(AudioElement);
 
 	// Sound
-	//TiXmlElement *SoundElement = new TiXmlElement("sound");
+	//XMLElement *SoundElement = Document.NewElement("sound");
 	//SoundElement->SetDoubleAttribute("volume", SoundVolume);
 	//AudioElement->LinkEndChild(SoundElement);
 
 	// Music
-	//TiXmlElement *MusicElement = new TiXmlElement("music");
+	//XMLElement *MusicElement = Document.NewElement("music");
 	//MusicElement->SetDoubleAttribute("volume", MusicVolume);
 	//AudioElement->LinkEndChild(MusicElement);
 
 	// Input
-	TiXmlElement *InputElement = new TiXmlElement("input");
-	InputElement->SetDoubleAttribute("mousex", 1.0);
-	InputElement->SetDoubleAttribute("mousey", 1.0);
+	XMLElement *InputElement = Document.NewElement("input");
+	//Document.pus
+	InputElement->SetAttribute("mousex", 1.0);
+	InputElement->SetAttribute("mousey", 1.0);
 	InputElement->SetAttribute("invert", InvertMouse);
 	ConfigElement->LinkEndChild(InputElement);
 
 	// Actions
 	for(int i = 0; i < _Actions::COUNT; i++) {
-		TiXmlElement *ActionElement = new TiXmlElement("action");
+		XMLElement *ActionElement = Document.NewElement("action");
 		ActionElement->SetAttribute("type", i);
 		ActionElement->SetAttribute("key", Keys[i]);
 		InputElement->LinkEndChild(ActionElement);
 	}
 
 	// Replays
-	TiXmlElement *ReplayElement = new TiXmlElement("replay");
-	ReplayElement->SetDoubleAttribute("interval", ReplayInterval);
+	XMLElement *ReplayElement = Document.NewElement("replay");
+	ReplayElement->SetAttribute("interval", ReplayInterval);
 	ConfigElement->LinkEndChild(ReplayElement);
 
 	// Write file
 	Document.SaveFile(Save.GetConfigFile().c_str());
-
+	
 	return 1;
 }
