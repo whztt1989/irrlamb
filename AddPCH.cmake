@@ -24,11 +24,18 @@ macro(add_pch target sourcecpp header)
 		separate_arguments(compiler_flags)
 
 		# Build list of include dirs separated by -I
-		get_directory_property(include_dirs INCLUDE_DIRECTORIES)
+		get_directory_property(include_dirs DIRECTORY ${CMAKE_SOURCE_DIR} INCLUDE_DIRECTORIES)
 		foreach(path ${include_dirs})
 			set(include_flag "${include_flag}-I${path} ")
 		endforeach()
 		separate_arguments(include_flag)
+
+		# Get definitions
+		get_directory_property(compile_defs DIRECTORY ${CMAKE_SOURCE_DIR} COMPILE_DEFINITIONS)
+		foreach(flag ${compile_defs})
+			set(compiledef_flag "${compiledef_flag}-D${flag} ")
+		endforeach()
+		separate_arguments(compiledef_flag)
 
 		# Add a dependency to main target
 		add_dependencies(${target} ${target}_pre)
@@ -39,7 +46,7 @@ macro(add_pch target sourcecpp header)
 		# Create command to generate pch
 		add_custom_command(
 			OUTPUT ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch
-			COMMAND ${CMAKE_CXX_COMPILER} ${include_flag} -xc++-header ${header} -o ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch ${compiler_flags}
+			COMMAND ${CMAKE_CXX_COMPILER} ${compiledef_flag} ${include_flag} -xc++-header ${header} -o ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch ${compiler_flags}
 			DEPENDS ${header}
 		)
 		
