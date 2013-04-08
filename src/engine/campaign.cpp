@@ -22,13 +22,13 @@
 #include "level.h"
 #include "../tinyxml/tinyxml.h"
 
-CampaignClass Campaign;
+_Campaign Campaign;
 
 // Loads the campaign data
-int CampaignClass::Init() {
+int _Campaign::Init() {
 	Campaigns.clear();
 
-	Log.Write("CampaignClass::Init - Loading file irrlamb.xml");
+	Log.Write("_Campaign::Init - Loading file irrlamb.xml");
 
 	// Open the XML file
 	std::string LevelFile = std::string("levels/main.xml");
@@ -75,7 +75,7 @@ int CampaignClass::Init() {
 }
 
 // Closes the campaign system
-int CampaignClass::Close() {
+int _Campaign::Close() {
 
 	Campaigns.clear();
 

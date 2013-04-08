@@ -25,8 +25,8 @@
 #include <IMeshSceneNode.h>
 
 // Constructor
-SphereClass::SphereClass(const SpawnStruct &Object)
-:	ObjectClass() {
+_Sphere::_Sphere(const SpawnStruct &Object)
+:	_Object() {
 	TemplateStruct *Template = Object.Template;
 
 	// Get file path

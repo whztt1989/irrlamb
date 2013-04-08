@@ -23,7 +23,7 @@
 #include <string>
 
 // Forward Declarations
-class ObjectClass;
+class _Object;
 
 // Structures
 struct TemplateStruct {
@@ -73,7 +73,7 @@ struct ConstraintStruct {
 	ConstraintStruct();
 
 	std::string Name;
-	ObjectClass *BodyA, *BodyB;
+	_Object *BodyA, *BodyB;
 	TemplateStruct *Template;
 };
 

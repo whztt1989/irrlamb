@@ -24,13 +24,13 @@ TemplateStruct::TemplateStruct() {
 	// Generic properties
 	TemplateID = -1;
 	Name = "";
-	Type = ObjectClass::NONE;
+	Type = _Object::NONE;
 	Lifetime = 0.0f;
 
 	// Collisions
 	CollisionCallback = "";
-    CollisionGroup = PhysicsClass::FILTER_RIGIDBODY | PhysicsClass::FILTER_CAMERA;
-    CollisionMask = PhysicsClass::FILTER_BASICBODIES | PhysicsClass::FILTER_ZONE;
+    CollisionGroup = _Physics::FILTER_RIGIDBODY | _Physics::FILTER_CAMERA;
+    CollisionMask = _Physics::FILTER_BASICBODIES | _Physics::FILTER_ZONE;
 
 	// Physical properties
 	CollisionFile = "";

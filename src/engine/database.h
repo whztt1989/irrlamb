@@ -22,12 +22,12 @@
 #include <sqlite3.h>
 
 // Classes
-class DatabaseClass {
+class _Database {
 
 	public:
 
-		DatabaseClass();
-		~DatabaseClass();
+		_Database();
+		~_Database();
 
 		int OpenDatabase(const char *Filename);
 		int OpenDatabaseCreate(const char *Filename);

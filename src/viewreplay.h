@@ -23,12 +23,12 @@
 #include "engine/replay.h"
 
 // Forward Declarations
-class ObjectClass;
-class PlayerClass;
-class CameraClass;
+class _Object;
+class _Player;
+class _Camera;
 
 // Classes
-class _ViewReplayState : public StateClass {
+class _ViewReplayState : public _State {
 
 	public:
 
@@ -65,7 +65,7 @@ class _ViewReplayState : public StateClass {
 		float Timer;
 
 		// Objects
-		CameraClass *Camera;
+		_Camera *Camera;
 	
 		// Replay information
 		ReplayEventStruct NextEvent;

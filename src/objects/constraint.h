@@ -27,12 +27,12 @@
 struct ConstraintStruct;
 
 // Classes
-class ConstraintClass : public ObjectClass {
+class _Constraint : public _Object {
 
 	public:
 
-		ConstraintClass(const ConstraintStruct &Object);
-		~ConstraintClass();
+		_Constraint(const ConstraintStruct &Object);
+		~_Constraint();
 
 	private:
 

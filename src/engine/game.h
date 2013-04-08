@@ -23,9 +23,9 @@
 #include <string>
 
 // Forward Declarations
-class StateClass;
+class _State;
 
-class GameClass {
+class _Game {
 
 	public:
 
@@ -39,8 +39,8 @@ class GameClass {
 		void Update();
 		void Close();
 		
-		void ChangeState(StateClass *State);
-		StateClass *GetState() { return State; }
+		void ChangeState(_State *State);
+		_State *GetState() { return State; }
 
 		bool IsDone() { return Done; }
 		void SetDone(bool Value) { Done = Value; }
@@ -59,7 +59,7 @@ class GameClass {
 
 		// States
 		ManagerStateType ManagerState;
-		StateClass *State, *NewState;
+		_State *State, *NewState;
 		bool PreviousWindowActive, WindowActive;
 
 		// Flags
@@ -77,6 +77,6 @@ class GameClass {
 };
 
 // Singletons
-extern GameClass Game;
+extern _Game Game;
 
 #endif

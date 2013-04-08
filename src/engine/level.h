@@ -24,13 +24,13 @@
 
 // Forward Declarations
 class TiXmlElement;
-class ObjectClass;
+class _Object;
 struct TemplateStruct;
 struct SpawnStruct;
 struct ConstraintStruct;
 
 // Classes
-class LevelClass {
+class _Level {
 
 	public:
 
@@ -44,8 +44,8 @@ class LevelClass {
 
 		// Objects
 		void SpawnObjects();
-		ObjectClass *CreateObject(const SpawnStruct &Object);
-		ObjectClass *CreateConstraint(const ConstraintStruct &Object);
+		_Object *CreateObject(const SpawnStruct &Object);
+		_Object *CreateConstraint(const ConstraintStruct &Object);
 
 		// Templates
 		TemplateStruct *GetTemplate(const std::string &Name);
@@ -75,6 +75,6 @@ class LevelClass {
 };
 
 // Singletons
-extern LevelClass Level;
+extern _Level Level;
 
 #endif

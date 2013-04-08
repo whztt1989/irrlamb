@@ -25,8 +25,8 @@
 #include <IMeshSceneNode.h>
 
 // Constructor
-CylinderClass::CylinderClass(const SpawnStruct &Object)
-:	ObjectClass() {
+_Cylinder::_Cylinder(const SpawnStruct &Object)
+:	_Object() {
 	TemplateStruct *Template = Object.Template;
 
 	// Get file path

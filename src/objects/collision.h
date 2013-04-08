@@ -25,12 +25,12 @@
 class btTriangleIndexVertexArray;
 
 // Classes
-class CollisionClass : public ObjectClass {
+class _Collision : public _Object {
 
 	public:
 
-		CollisionClass(const SpawnStruct &Object);
-		~CollisionClass();
+		_Collision(const SpawnStruct &Object);
+		~_Collision();
 
 	protected:
 

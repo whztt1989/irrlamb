@@ -20,10 +20,10 @@
 #include <iostream>
 #include <cstdarg>
 
-LogClass Log;
+_Log Log;
 
 // Initializes the log system
-int LogClass::Init() {
+int _Log::Init() {
 
 	// Open log
 	std::string FilePath = Save.GetSavePath() + "irrlamb.log";
@@ -33,7 +33,7 @@ int LogClass::Init() {
 }
 
 // Closes the log system
-int LogClass::Close() {
+int _Log::Close() {
 
 	// Close file
 	FileStream.close();
@@ -42,7 +42,7 @@ int LogClass::Close() {
 }
 
 // Writes a string to the log file
-void LogClass::Write(const char *Line, ...) {
+void _Log::Write(const char *Line, ...) {
 	va_list ArgumentList;
 	char Buffer[1024];
 

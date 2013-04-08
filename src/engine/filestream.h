@@ -22,7 +22,7 @@
 #include <fstream>
 
 // Classes
-class FileClass {
+class _File {
 
 	public:
 

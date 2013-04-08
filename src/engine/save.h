@@ -24,7 +24,7 @@
 #include <string>
 
 // Forward Declarations
-class DatabaseClass;
+class _Database;
 
 // Struct for one highscore
 struct HighScoreStruct {
@@ -51,7 +51,7 @@ struct SaveLevelStruct {
 };
 
 // Classes
-class SaveClass {
+class _Save {
 
 	public:
 
@@ -89,10 +89,10 @@ class SaveClass {
 		std::map<std::string, SaveLevelStruct>::iterator LevelStatsIterator;
 
 		// Database
-		DatabaseClass *Database;
+		_Database *Database;
 };
 
 // Singletons
-extern SaveClass Save;
+extern _Save Save;
 
 #endif

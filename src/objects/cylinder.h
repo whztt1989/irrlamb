@@ -22,11 +22,11 @@
 #include "object.h"
 
 // Classes
-class CylinderClass : public ObjectClass {
+class _Cylinder : public _Object {
 
 	public:
 
-		CylinderClass(const SpawnStruct &Object);
+		_Cylinder(const SpawnStruct &Object);
 
 	private:
 

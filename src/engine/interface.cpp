@@ -22,10 +22,10 @@
 #include "audio.h"
 #include "namespace.h"
 
-InterfaceClass Interface;
+_Interface Interface;
 
 // Initializes the graphics system
-int InterfaceClass::Init() {
+int _Interface::Init() {
 		
 	// Get skin
 	IGUISkin *Skin = irrGUI->getSkin();
@@ -33,7 +33,7 @@ int InterfaceClass::Init() {
 	// Set font
 	Fonts[FONT_SMALL] = irrGUI->getFont("fonts/font_small.xml");
 	if(!Fonts[FONT_SMALL]) {
-		Log.Write("InterfaceClass::Init - Unable to load font_small.xml");
+		Log.Write("_Interface::Init - Unable to load font_small.xml");
 		return 0;
 	}
 	Skin->setFont(Fonts[FONT_SMALL]);
@@ -41,14 +41,14 @@ int InterfaceClass::Init() {
 	// Load alternate medium font
 	Fonts[FONT_MEDIUM] = irrGUI->getFont("fonts/font_medium.xml");
 	if(!Fonts[FONT_MEDIUM]) {
-		Log.Write("InterfaceClass::Init - Unable to load font_medium.xml");
+		Log.Write("_Interface::Init - Unable to load font_medium.xml");
 		return 0;
 	}
 
 	// Load alternate large font
 	Fonts[FONT_LARGE] = irrGUI->getFont("fonts/font_large.xml");
 	if(!Fonts[FONT_LARGE]) {
-		Log.Write("InterfaceClass::Init - Unable to load font_large.xml");
+		Log.Write("_Interface::Init - Unable to load font_large.xml");
 		return 0;
 	}
 
@@ -80,13 +80,13 @@ int InterfaceClass::Init() {
 }
 
 // Closes the graphics system
-int InterfaceClass::Close() {
+int _Interface::Close() {
 	
 	return 1;
 }
 
 // Changes irrlicht skins
-void InterfaceClass::ChangeSkin(SkinType Type) {
+void _Interface::ChangeSkin(SkinType Type) {
 
 	IGUISkin *Skin = irrGUI->getSkin();
 	Skin->setColor(EGDC_BUTTON_TEXT, SColor(255, 255, 255, 255));
@@ -116,20 +116,20 @@ void InterfaceClass::ChangeSkin(SkinType Type) {
 }
 
 // Clear all the GUI elements
-void InterfaceClass::Clear() {
+void _Interface::Clear() {
 	irrGUI->clear();
 	TutorialText.Text = "";
 	Timer = 0.0f;
 }
 
 // Adds tutorial text to the screen
-void InterfaceClass::SetTutorialText(const std::string &Text, float Length) {
+void _Interface::SetTutorialText(const std::string &Text, float Length) {
 	TutorialText.Text = Text;
 	TutorialText.DeleteTime = Length + Timer;
 }
 
 // Maintains all of the timed elements
-void InterfaceClass::Update(float FrameTime) {
+void _Interface::Update(float FrameTime) {
 
 	Timer += FrameTime;
 	if(TutorialText.Text.size() > 0) {
@@ -140,7 +140,7 @@ void InterfaceClass::Update(float FrameTime) {
 }
 
 // Draw interface elements
-void InterfaceClass::Draw() {
+void _Interface::Draw() {
 
 	// Draw tutorial text
 	if(TutorialText.Text.size() > 0) {
@@ -156,12 +156,12 @@ void InterfaceClass::Draw() {
 		// Draw tutorial text
 		int Width = 370, Height = 115;
 		DrawTextBox(irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height / 2 - 30, Width, Height, BoxColor);
-		Interface.RenderText(TutorialText.Text.c_str(), irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height - 13, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, TextColor);
+		Interface.RenderText(TutorialText.Text.c_str(), irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height - 13, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, TextColor);
 	}
 }
 
 // Converts milliseconds to a time string
-void InterfaceClass::ConvertSecondsToString(float Time, char *String) {
+void _Interface::ConvertSecondsToString(float Time, char *String) {
 	u32 Minutes = (u32)(Time) / 60;
 	u32 Seconds = (u32)(Time - Minutes * 60);
 	u32 Centiseconds = (u32)((Time - (u32)(Time)) * 100);
@@ -169,24 +169,24 @@ void InterfaceClass::ConvertSecondsToString(float Time, char *String) {
 }
 
 // Gets a rectangle centered around a point
-recti InterfaceClass::GetCenteredRect(int PositionX, int PositionY, int Width, int Height) {
+recti _Interface::GetCenteredRect(int PositionX, int PositionY, int Width, int Height) {
 
 	return recti(PositionX - (Width >> 1), PositionY - (Height >> 1), PositionX + (Width >> 1), PositionY + (Height >> 1));
 }
 
 // Gets a rectangle
-recti InterfaceClass::GetRect(int PositionX, int PositionY, int Width, int Height) {
+recti _Interface::GetRect(int PositionX, int PositionY, int Width, int Height) {
 
 	return recti(PositionX, PositionY, PositionX + Width, PositionY + Height);
 }
 
 // Fades the screen
-void InterfaceClass::FadeScreen(float Amount) {
+void _Interface::FadeScreen(float Amount) {
 	irrDriver->draw2DImage(Images[IMAGE_FADE], position2di(0, 0), recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, SColor((u32)(Amount * 255), 255, 255, 255), true);
 }
 
 // Draws text to the screen
-void InterfaceClass::RenderText(const char *Text, int PositionX, int PositionY, AlignType AlignType, FontType FontType, const SColor &Color) {
+void _Interface::RenderText(const char *Text, int PositionX, int PositionY, AlignType AlignType, FontType FontType, const SColor &Color) {
 
 	// Convert string
 	stringw String(Text);
@@ -210,13 +210,13 @@ void InterfaceClass::RenderText(const char *Text, int PositionX, int PositionY, 
 }
 
 // Draws an interface image centered around a position
-void InterfaceClass::DrawImage(ImageType Type, int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
+void _Interface::DrawImage(ImageType Type, int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
 
 	irrDriver->draw2DImage(Images[Type], position2di(PositionX - (Width >> 1), PositionY - (Height >> 1)), recti(0, 0, Width, Height), 0, Color, true);
 }
 
 // Draws a text box
-void InterfaceClass::DrawTextBox(int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
+void _Interface::DrawTextBox(int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
 	PositionX -= Width >> 1;
 	PositionY -= Height >> 1;
 
@@ -237,12 +237,12 @@ void InterfaceClass::DrawTextBox(int PositionX, int PositionY, int Width, int He
 }
 
 // Load GUI sounds
-void InterfaceClass::LoadSounds() {
-	Sounds[SOUND_CONFIRM] = new AudioSourceClass(Audio.GetBuffer("confirm.ogg"), false, 0.0f, 0.70f);
+void _Interface::LoadSounds() {
+	Sounds[SOUND_CONFIRM] = new _AudioSource(Audio.GetBuffer("confirm.ogg"), false, 0.0f, 0.70f);
 }
 
 // Unload GUI sounds
-void InterfaceClass::UnloadSounds() {
+void _Interface::UnloadSounds() {
 
 	for(int i = 0; i < SOUND_COUNT; i++) {
 		delete Sounds[i];
@@ -251,7 +251,7 @@ void InterfaceClass::UnloadSounds() {
 }
 
 // Play a GUI sound
-void InterfaceClass::PlaySound(SoundType Sound) {
+void _Interface::PlaySound(SoundType Sound) {
 	if(Sounds[Sound])
 		Sounds[Sound]->Play();
 }

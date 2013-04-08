@@ -31,12 +31,12 @@ struct AudioBufferStruct {
 };
 
 // Class for OpenAL sources
-class AudioSourceClass {
+class _AudioSource {
 
 	public:
 
-		AudioSourceClass(const AudioBufferStruct *Buffer, bool Loop=false, float MinGain=0.0f, float MaxGain=1.0f, float ReferenceDistance=1.0f, float RollOff=1.0f);
-		~AudioSourceClass();
+		_AudioSource(const AudioBufferStruct *Buffer, bool Loop=false, float MinGain=0.0f, float MaxGain=1.0f, float ReferenceDistance=1.0f, float RollOff=1.0f);
+		~_AudioSource();
 
 		void Play();
 		void SetPitch(float Value);
@@ -50,7 +50,7 @@ class AudioSourceClass {
 };
 
 // Classes
-class AudioClass {
+class _Audio {
 
 	public:
 
@@ -80,6 +80,6 @@ class AudioClass {
 };
 
 // Singletons
-extern AudioClass Audio;
+extern _Audio Audio;
 
 #endif

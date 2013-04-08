@@ -41,7 +41,7 @@ class ShaderCallback : public irr::video::IShaderConstantSetCallBack {
 };
 
 // Classes
-class GraphicsClass {
+class _Graphics {
 
 	public:
 
@@ -83,6 +83,6 @@ class GraphicsClass {
 };
 
 // Singletons
-extern GraphicsClass Graphics;
+extern _Graphics Graphics;
 
 #endif

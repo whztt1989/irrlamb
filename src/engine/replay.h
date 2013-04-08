@@ -30,7 +30,7 @@ struct ReplayEventStruct {
 };
 
 // Classes
-class ReplayClass {
+class _Replay {
 
 	public:
 
@@ -78,7 +78,7 @@ class ReplayClass {
 		bool NeedsPacket();
 		void ResetNextPacketTimer();
 
-		FileClass &GetReplayStream() { return ReplayStream; }
+		_File &GetReplayStream() { return ReplayStream; }
 		void WriteEvent(int Type);
 		void ReadEvent(ReplayEventStruct &Packet);
 
@@ -104,7 +104,7 @@ class ReplayClass {
 		std::string ReplayDataFile;
 
 		// File stream
-		FileClass ReplayStream;
+		_File ReplayStream;
 
 		// Time management
 		float Time, NextPacketTime;
@@ -115,6 +115,6 @@ class ReplayClass {
 };
 
 // Singletons
-extern ReplayClass Replay;
+extern _Replay Replay;
 
 #endif

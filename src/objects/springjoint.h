@@ -22,12 +22,12 @@
 #include "object.h"
 
 // Classes
-class SpringJointClass : public ObjectClass {
+class _SpringJoint : public _Object {
 
 	public:
 
-		SpringJointClass(const SpawnStruct &Object);
-		~SpringJointClass();
+		_SpringJoint(const SpawnStruct &Object);
+		~_SpringJoint();
 
 		void Update(float FrameTime);
 

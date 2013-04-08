@@ -24,10 +24,10 @@
 #include <ctime>
 #include <sstream>
 
-ReplayClass Replay;
+_Replay Replay;
 
 // Start recording a replay
-void ReplayClass::StartRecording() {
+void _Replay::StartRecording() {
 	if(State != STATE_NONE)
 		return;
 
@@ -45,12 +45,12 @@ void ReplayClass::StartRecording() {
 	// Create replay file for object data
 	ReplayDataFile = Save.GetReplayPath() + "replay.dat";
 	if(!ReplayStream.OpenForWrite(ReplayDataFile.c_str())) {
-		Log.Write("ReplayClass::StartRecording - Unable to open %s!", ReplayDataFile.c_str());
+		Log.Write("_Replay::StartRecording - Unable to open %s!", ReplayDataFile.c_str());
 	}
 }
 
 // Stops the recording process
-void ReplayClass::StopRecording() {
+void _Replay::StopRecording() {
 	
 	if(State == STATE_RECORDING) {
 		State = STATE_NONE;
@@ -60,7 +60,7 @@ void ReplayClass::StopRecording() {
 }
 
 // Saves the current replay out to a file
-bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
+bool _Replay::SaveReplay(const std::string &PlayerDescription) {
 	Description = PlayerDescription;
 	TimeStamp = time(NULL);
 	FinishTime = Time;
@@ -73,9 +73,9 @@ bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
 	ReplayFilePath << Save.GetReplayPath() << (unsigned int)TimeStamp << ".replay";
 
 	// Open new file
-	FileClass ReplayFile;
+	_File ReplayFile;
 	if(!ReplayFile.OpenForWrite(ReplayFilePath.str().c_str())) {
-		Log.Write("ReplayClass::SaveReplay - Unable to open %s for writing!", ReplayFilePath.str().c_str());
+		Log.Write("_Replay::SaveReplay - Unable to open %s for writing!", ReplayFilePath.str().c_str());
 		return false;
 	}
 
@@ -130,7 +130,7 @@ bool ReplayClass::SaveReplay(const std::string &PlayerDescription) {
 }
 
 // Load header data
-void ReplayClass::LoadHeader() {
+void _Replay::LoadHeader() {
 
 	// Write replay version
 	int PacketType;
@@ -170,26 +170,26 @@ void ReplayClass::LoadHeader() {
 }
 
 // Updates the replay timer
-void ReplayClass::Update(float FrameTime) {
+void _Replay::Update(float FrameTime) {
 	Time += FrameTime;
 	NextPacketTime += FrameTime;
 }
 
 // Determines if a packet is required
-bool ReplayClass::NeedsPacket() {
+bool _Replay::NeedsPacket() {
 	
 	return State == STATE_RECORDING && NextPacketTime >= RecordInterval;
 }
 
 // Resets the next packet timer
-void ReplayClass::ResetNextPacketTimer() {
+void _Replay::ResetNextPacketTimer() {
 
 	if(NeedsPacket())
 		NextPacketTime = 0;
 }
 
 // Starts replay
-bool ReplayClass::LoadReplay(const std::string &ReplayFile, bool HeaderOnly) {
+bool _Replay::LoadReplay(const std::string &ReplayFile, bool HeaderOnly) {
 	LevelName = "";
 	LevelVersion = 0;
 	ReplayVersion = 0;
@@ -212,20 +212,20 @@ bool ReplayClass::LoadReplay(const std::string &ReplayFile, bool HeaderOnly) {
 }
 
 // Stops replay
-void ReplayClass::StopReplay() {
+void _Replay::StopReplay() {
 	
 	State = STATE_NONE;
 	ReplayStream.Close();
 }
 
 // Returns true if the replay is done playing
-bool ReplayClass::ReplayStopped() {
+bool _Replay::ReplayStopped() {
 
 	return ReplayStream.Eof();
 }
 
 // Write replay event
-void ReplayClass::WriteEvent(int Type) {
+void _Replay::WriteEvent(int Type) {
 	ReplayStream.WriteChar(Type);
 	ReplayStream.WriteFloat(Time);
 
@@ -233,7 +233,7 @@ void ReplayClass::WriteEvent(int Type) {
 }
 
 // Reads a packet header
-void ReplayClass::ReadEvent(ReplayEventStruct &Packet) {
+void _Replay::ReadEvent(ReplayEventStruct &Packet) {
 	Packet.Type = ReplayStream.ReadChar();
 	Packet.TimeStamp = ReplayStream.ReadFloat();
 }

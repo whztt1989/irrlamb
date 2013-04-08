@@ -22,11 +22,11 @@
 #include "object.h"
 
 // Classes
-class SphereClass : public ObjectClass {
+class _Sphere : public _Object {
 
 	public:
 
-		SphereClass(const SpawnStruct &Object);
+		_Sphere(const SpawnStruct &Object);
 
 	private:
 

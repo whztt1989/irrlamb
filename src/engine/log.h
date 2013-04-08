@@ -22,7 +22,7 @@
 #include <fstream>
 
 // Classes
-class LogClass {
+class _Log {
 
 	public:
 
@@ -37,6 +37,6 @@ class LogClass {
 
 };
 
-extern LogClass Log;
+extern _Log Log;
 
 #endif

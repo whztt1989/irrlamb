@@ -22,11 +22,11 @@
 #include "object.h"
 
 // Classes
-class BoxClass : public ObjectClass {
+class _Box : public _Object {
 
 	public:
 
-		BoxClass(const SpawnStruct &Object);
+		_Box(const SpawnStruct &Object);
 
 	private:
 

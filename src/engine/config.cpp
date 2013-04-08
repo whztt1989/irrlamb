@@ -21,10 +21,10 @@
 #include "save.h"
 #include "namespace.h"
 
-ConfigClass Config;
+_Config Config;
  
 // Initializes the config system
-int ConfigClass::Init() {
+int _Config::Init() {
 
 	Reset();
 
@@ -32,13 +32,13 @@ int ConfigClass::Init() {
 }
 
 // Closes the config system
-int ConfigClass::Close() {
+int _Config::Close() {
 	
 	return 1;
 }
 
 // Resets the configuration to the default values
-void ConfigClass::Reset() {
+void _Config::Reset() {
 	
 	// Video
 	DriverType = EDT_OPENGL;
@@ -74,7 +74,7 @@ void ConfigClass::Reset() {
 }
 
 // Reads the config file
-int ConfigClass::ReadConfig() {
+int _Config::ReadConfig() {
 
 	// Open the XML file
 	TiXmlDocument Document(Save.GetConfigFile().c_str());
@@ -210,7 +210,7 @@ int ConfigClass::ReadConfig() {
 }
 
 // Writes the config file
-int ConfigClass::WriteConfig() {
+int _Config::WriteConfig() {
 
 	TiXmlDocument Document;
 

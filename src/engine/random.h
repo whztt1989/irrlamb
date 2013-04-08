@@ -64,12 +64,12 @@
 typedef unsigned int uint;
 typedef unsigned long ulong;
 
-class RandomClass {
+class _Random {
 
     public:
 
-        RandomClass();
-        RandomClass(ulong Seed);
+        _Random();
+        _Random(ulong Seed);
 
         void SetSeed(ulong Seed);
 
@@ -96,19 +96,19 @@ class RandomClass {
 };
 
 // Constructor
-inline RandomClass::RandomClass() {
+inline _Random::_Random() {
 
     SetSeed(0);
 }
 
 // Constructor
-inline RandomClass::RandomClass(ulong Seed) {
+inline _Random::_Random(ulong Seed) {
 
     SetSeed(Seed);
 }
 
 // Sets the seed for the generator
-inline void RandomClass::SetSeed(ulong Seed) {
+inline void _Random::SetSeed(ulong Seed) {
 
     rStateVector[0]= Seed & 0xffffffffUL;
     for(rStateVectorIndex = 1; rStateVectorIndex < N; ++rStateVectorIndex) {
@@ -118,7 +118,7 @@ inline void RandomClass::SetSeed(ulong Seed) {
 }
 
 // Generates a random integer
-inline ulong RandomClass::GenerateRandomInteger() {
+inline ulong _Random::GenerateRandomInteger() {
     static ulong mag01[2] = {0x0UL, MATRIX_A};
     ulong y;
 
@@ -152,42 +152,42 @@ inline ulong RandomClass::GenerateRandomInteger() {
 }
 
 // Generates a random number [0, 1)
-inline float RandomClass::Generate() {
+inline float _Random::Generate() {
 
 	return GenerateRange(0.0f, 0.999999f);
 }
  
 // Generates a random number [0, Max]
-inline int RandomClass::GenerateMax(int Max) {
+inline int _Random::GenerateMax(int Max) {
 
     return GenerateRandomInteger() % Max;
 }
 
 // Generates a random number [0, Max]
-inline uint RandomClass::GenerateMax(uint Max) {
+inline uint _Random::GenerateMax(uint Max) {
 
     return GenerateRandomInteger() % Max;
 }
 
 // Generates a random number [Min, Max]
-inline int RandomClass::GenerateRange(int Min, int Max) {
+inline int _Random::GenerateRange(int Min, int Max) {
 
     return GenerateRandomInteger() % (Max - Min + 1) + Min;
 }
 
 // Generates a random number [Min, Max]
-inline uint RandomClass::GenerateRange(uint Min, uint Max) {
+inline uint _Random::GenerateRange(uint Min, uint Max) {
 
     return GenerateRandomInteger() % (Max - Min + 1) + Min;
 }
 
 // Generates a random number [Min, Max]
-inline float RandomClass::GenerateRange(float Min, float Max) {
+inline float _Random::GenerateRange(float Min, float Max) {
 
     return GenerateRandomInteger() * (1.0f / 4294967295.0f) * (Max - Min) + Min;
 }
 
 // Singletons
-extern RandomClass Random;
+extern _Random Random;
 
 #endif

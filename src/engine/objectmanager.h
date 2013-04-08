@@ -24,14 +24,14 @@
 #include <irrTypes.h>
 
 // Forward Declarations
-class ObjectClass;
+class _Object;
 
 // Classes
-class ObjectManagerClass {
+class _ObjectManager {
 
 	public:
 
-		ObjectManagerClass();
+		_ObjectManager();
 
 		int Init();
 		int Close();
@@ -43,25 +43,25 @@ class ObjectManagerClass {
 		void BeginFrame();
 		void EndFrame();
 
-		ObjectClass *AddObject(ObjectClass *Object);
-		void DeleteObject(ObjectClass *Object);
+		_Object *AddObject(_Object *Object);
+		void DeleteObject(_Object *Object);
 		void DeleteObjectByID(int ID);
-		ObjectClass *GetObjectByName(const std::string &Name);
-		ObjectClass *GetObjectByType(int Type);
-		ObjectClass *GetObjectByID(int ID);
+		_Object *GetObjectByName(const std::string &Name);
+		_Object *GetObjectByType(int Type);
+		_Object *GetObjectByID(int ID);
 
 		void ClearObjects();
 		size_t GetObjectCount() const { return Objects.size(); }
-		const std::list<ObjectClass *> &GetObjects() const { return Objects; }
+		const std::list<_Object *> &GetObjects() const { return Objects; }
 
 	private:
 
-		std::list<ObjectClass *> Objects;
+		std::list<_Object *> Objects;
 		irr::u16 NextObjectID;
 
 };
 
 // Singletons
-extern ObjectManagerClass ObjectManager;
+extern _ObjectManager ObjectManager;
 
 #endif

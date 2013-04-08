@@ -21,7 +21,7 @@
 #include <IGUIElement.h>
 
 // Classes
-class StateClass {
+class _State {
 
 	public:
 
@@ -29,7 +29,7 @@ class StateClass {
 		virtual int Init() { return 1; }
 		virtual int Close() { return 1; }
 
-		virtual ~StateClass() { }
+		virtual ~_State() { }
 
 		// Events
 		virtual bool HandleKeyPress(int Key) { return false; }

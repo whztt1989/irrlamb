@@ -21,8 +21,8 @@
 #include "template.h"
 
 // Constructor
-ConstraintClass::ConstraintClass(const ConstraintStruct &Object)
-:	ObjectClass(),
+_Constraint::_Constraint(const ConstraintStruct &Object)
+:	_Object(),
 	Constraint(NULL) {
 
 	TemplateStruct *Template = Object.Template;
@@ -71,7 +71,7 @@ ConstraintClass::ConstraintClass(const ConstraintStruct &Object)
 }
 
 // Destructor
-ConstraintClass::~ConstraintClass() {
+_Constraint::~_Constraint() {
 
 	if(Constraint) {
 		Physics.GetWorld()->removeConstraint(Constraint);

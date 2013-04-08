@@ -21,7 +21,7 @@
 using namespace std;
 
 // Open for writing
-int FileClass::OpenForWrite(const char *Filename) {
+int _File::OpenForWrite(const char *Filename) {
 
 	File.open(Filename, ios::out | ios::binary);
 	if(!File.is_open())
@@ -31,7 +31,7 @@ int FileClass::OpenForWrite(const char *Filename) {
 }
 
 // Open for reading
-int FileClass::OpenForRead(const char *Filename) {
+int _File::OpenForRead(const char *Filename) {
 
 	File.open(Filename, ios::in | ios::binary);
 	if(!File.is_open())
@@ -41,14 +41,14 @@ int FileClass::OpenForRead(const char *Filename) {
 }
 
 // Writes a string
-void FileClass::WriteString(const char *Data) {
+void _File::WriteString(const char *Data) {
 
 	File.write(Data, strlen(Data));
 	File.put(0);
 }
 
 // Reads an integer
-int FileClass::ReadInt() {
+int _File::ReadInt() {
 
 	int Data;
 	File.read(reinterpret_cast<char *>(&Data), sizeof(Data));
@@ -57,7 +57,7 @@ int FileClass::ReadInt() {
 }
 
 // Reads an integer
-short int FileClass::ReadShortInt() {
+short int _File::ReadShortInt() {
 
 	short int Data;
 	File.read(reinterpret_cast<char *>(&Data), sizeof(Data));
@@ -66,7 +66,7 @@ short int FileClass::ReadShortInt() {
 }
 
 // Reads a float
-float FileClass::ReadFloat() {
+float _File::ReadFloat() {
 
 	float Data;
 	File.read(reinterpret_cast<char *>(&Data), sizeof(Data));
@@ -75,7 +75,7 @@ float FileClass::ReadFloat() {
 }
 
 // Reads a string
-void FileClass::ReadString(char *Data) {
+void _File::ReadString(char *Data) {
 
 	// Check for null strings
 	if(File.peek() == 0) {

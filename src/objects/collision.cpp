@@ -40,8 +40,8 @@ static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btColli
 
 
 // Constructor
-CollisionClass::CollisionClass(const SpawnStruct &Object)
-:	ObjectClass(),
+_Collision::_Collision(const SpawnStruct &Object)
+:	_Object(),
 	TriangleIndexVertexArray(NULL),
 	VertexList(NULL),
 	FaceList(NULL) {
@@ -49,7 +49,7 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 	gContactAddedCallback = CustomMaterialCallback;
 
 	// Load collision mesh file
-	FileClass MeshFile;
+	_File MeshFile;
 	if(MeshFile.OpenForRead(Object.Template->CollisionFile.c_str())) {
 
 		// Read header
@@ -96,7 +96,7 @@ CollisionClass::CollisionClass(const SpawnStruct &Object)
 }
 
 // Destructor
-CollisionClass::~CollisionClass() {
+_Collision::~_Collision() {
 
 	delete TriangleInfoMap;
 	delete TriangleIndexVertexArray;

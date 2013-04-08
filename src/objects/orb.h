@@ -23,7 +23,7 @@
 #include <IBillboardSceneNode.h>
 
 // Classes
-class OrbClass : public ObjectClass {
+class _Orb : public _Object {
 
 	public:
 
@@ -33,8 +33,8 @@ class OrbClass : public ObjectClass {
 			ORBSTATE_DEACTIVATED,
 		};
 
-		OrbClass(const SpawnStruct &Object);
-		~OrbClass();
+		_Orb(const SpawnStruct &Object);
+		~_Orb();
 
 		void Update(float FrameTime);
 		void UpdateReplay(float FrameTime);
@@ -56,7 +56,7 @@ class OrbClass : public ObjectClass {
 		float OrbTime, DeactivateLength;
 
 		// Audio
-		AudioSourceClass *Sound;
+		_AudioSource *Sound;
 };
 
 #endif

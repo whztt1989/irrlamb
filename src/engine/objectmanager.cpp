@@ -22,16 +22,16 @@
 #include "../objects/object.h"
 #include "namespace.h"
 
-ObjectManagerClass ObjectManager;
+_ObjectManager ObjectManager;
 
 // Constructor
-ObjectManagerClass::ObjectManagerClass()
+_ObjectManager::_ObjectManager()
 :	NextObjectID(0) {
 
 }
 
 // Initializes the level manager
-int ObjectManagerClass::Init() {
+int _ObjectManager::Init() {
 
 	NextObjectID = 0;
 
@@ -39,7 +39,7 @@ int ObjectManagerClass::Init() {
 }
 
 // Closes the graphics system
-int ObjectManagerClass::Close() {
+int _ObjectManager::Close() {
 
 	ClearObjects();
 
@@ -47,7 +47,7 @@ int ObjectManagerClass::Close() {
 }
 
 // Adds an object to the manager
-ObjectClass *ObjectManagerClass::AddObject(ObjectClass *Object) {
+_Object *_ObjectManager::AddObject(_Object *Object) {
 
 	if(Object != NULL) {
 		
@@ -62,16 +62,16 @@ ObjectClass *ObjectManagerClass::AddObject(ObjectClass *Object) {
 }
 
 // Deletes an object
-void ObjectManagerClass::DeleteObject(ObjectClass *Object) {
+void _ObjectManager::DeleteObject(_Object *Object) {
 
 	Object->SetDeleted(true);
 }
 
 // Gets an object by name
-ObjectClass *ObjectManagerClass::GetObjectByName(const std::string &Name) {
+_Object *_ObjectManager::GetObjectByName(const std::string &Name) {
 
 	// Search through object list
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetName() == Name)
 			return *Iterator;
 	}
@@ -80,10 +80,10 @@ ObjectClass *ObjectManagerClass::GetObjectByName(const std::string &Name) {
 }
 
 // Gets an object by type
-ObjectClass *ObjectManagerClass::GetObjectByType(int Type) {
+_Object *_ObjectManager::GetObjectByType(int Type) {
 
 	// Search through object list
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetType() == Type)
 			return *Iterator;
 	}
@@ -92,12 +92,12 @@ ObjectClass *ObjectManagerClass::GetObjectByType(int Type) {
 }
 
 // Deletes all of the objects
-void ObjectManagerClass::ClearObjects() {
+void _ObjectManager::ClearObjects() {
 	
 	// Delete constraints first
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ) {
-		ObjectClass *Object = *Iterator;
-		if(Object->GetType() == ObjectClass::CONSTRAINT_D6 || Object->GetType() == ObjectClass::CONSTRAINT_HINGE) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ) {
+		_Object *Object = *Iterator;
+		if(Object->GetType() == _Object::CONSTRAINT_D6 || Object->GetType() == _Object::CONSTRAINT_HINGE) {
 			delete Object;
 			Object = NULL;
 			Iterator = Objects.erase(Iterator);
@@ -107,7 +107,7 @@ void ObjectManagerClass::ClearObjects() {
 	}
 
 	// Delete objects
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		delete (*Iterator);
 	}
 
@@ -116,10 +116,10 @@ void ObjectManagerClass::ClearObjects() {
 }
 
 // Performs start frame operations on the objects
-void ObjectManagerClass::BeginFrame() {
+void _ObjectManager::BeginFrame() {
 	
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
-		ObjectClass *Object = *Iterator;
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+		_Object *Object = *Iterator;
 
 		// Perform specific start-of-frame operations
 		Object->BeginFrame();
@@ -127,13 +127,13 @@ void ObjectManagerClass::BeginFrame() {
 }
 
 // Performs end frame operations on the objects
-void ObjectManagerClass::EndFrame() {
+void _ObjectManager::EndFrame() {
 	bool UpdateReplay = Replay.NeedsPacket();
 	u16 ReplayMovementCount = 0;
 
 	// Get replay update count
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
-		ObjectClass *Object = *Iterator;
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+		_Object *Object = *Iterator;
 
 		// Perform specific end-of-frame operations
 		Object->EndFrame();
@@ -148,13 +148,13 @@ void ObjectManagerClass::EndFrame() {
 	if(UpdateReplay && ReplayMovementCount > 0) {
 
 		// Write replay event
-		FileClass &ReplayStream = Replay.GetReplayStream();
-		Replay.WriteEvent(ReplayClass::PACKET_MOVEMENT);
+		_File &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(_Replay::PACKET_MOVEMENT);
 		ReplayStream.WriteShortInt(ReplayMovementCount);
 
 		// Write the updated objects
-		for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
-			ObjectClass *Object = *Iterator;
+		for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+			_Object *Object = *Iterator;
 
 			// Save the replay
 			if(Object->ReadyForReplayUpdate()) {
@@ -173,11 +173,11 @@ void ObjectManagerClass::EndFrame() {
 }
 
 // Updates all objects in the scene
-void ObjectManagerClass::Update(float FrameTime) {
+void _ObjectManager::Update(float FrameTime) {
 
 	// Update objects
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ) {
-		ObjectClass *Object = *Iterator;
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ) {
+		_Object *Object = *Iterator;
 
 		// Update the object
 		Object->Update(FrameTime);
@@ -187,8 +187,8 @@ void ObjectManagerClass::Update(float FrameTime) {
 
 			// Write delete events to the replay
 			if(Replay.IsRecording()) {
-				FileClass &ReplayStream = Replay.GetReplayStream();
-				Replay.WriteEvent(ReplayClass::PACKET_DELETE);
+				_File &ReplayStream = Replay.GetReplayStream();
+				Replay.WriteEvent(_Replay::PACKET_DELETE);
 				ReplayStream.WriteShortInt(Object->GetID());
 			}
 
@@ -203,19 +203,19 @@ void ObjectManagerClass::Update(float FrameTime) {
 }
 
 // Update special replays function for each object
-void ObjectManagerClass::UpdateReplay(float FrameTime) {
+void _ObjectManager::UpdateReplay(float FrameTime) {
 
 	// Update objects
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator)
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator)
 		(*Iterator)->UpdateReplay(FrameTime);
 }
 
 // Updates all objects in the scene from a replay file
-void ObjectManagerClass::UpdateFromReplay() {
+void _ObjectManager::UpdateFromReplay() {
 	vector3df Position, Rotation;
 
 	// Get replay stream and read object count
-	FileClass &ReplayStream = Replay.GetReplayStream();
+	_File &ReplayStream = Replay.GetReplayStream();
 	int ObjectCount = ReplayStream.ReadShortInt();
 
 	// Read first object
@@ -225,8 +225,8 @@ void ObjectManagerClass::UpdateFromReplay() {
 	
 	// Loop through the rest of the objects
 	int UpdatedObjectCount = 0;
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
-		ObjectClass *Object = *Iterator;
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+		_Object *Object = *Iterator;
 		if(ObjectID == Object->GetID()) {
 			Object->GetNode()->setPosition(Position);
 			Object->GetNode()->setRotation(Rotation);
@@ -246,9 +246,9 @@ void ObjectManagerClass::UpdateFromReplay() {
 }
 
 // Returns an object by an index, NULL if no such index
-ObjectClass *ObjectManagerClass::GetObjectByID(int ID) {
+_Object *_ObjectManager::GetObjectByID(int ID) {
 	
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetID() == ID)
 			return *Iterator;
 	}
@@ -257,9 +257,9 @@ ObjectClass *ObjectManagerClass::GetObjectByID(int ID) {
 }
 
 // Deletes an object by its ID
-void ObjectManagerClass::DeleteObjectByID(int ID) {
+void _ObjectManager::DeleteObjectByID(int ID) {
 	
-	for(std::list<ObjectClass *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
+	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetID() == ID) {
 			delete (*Iterator);
 			Objects.erase(Iterator);

@@ -31,15 +31,15 @@ struct TimedCallbackStruct {
 };
 
 // Forward Declarations
-class ObjectClass;
+class _Object;
 
 // Classes
-class ScriptingClass {
+class _Scripting {
 
 	public:
 
-		ScriptingClass();
-		~ScriptingClass() { }
+		_Scripting();
+		~_Scripting() { }
 
 		int Init();
 		int Close();
@@ -50,8 +50,8 @@ class ScriptingClass {
 		void DefineLuaVariable(const char *VariableName, const char *Value);
 
 		void CallFunction(const std::string &FunctionName);
-		void CallCollisionHandler(const std::string &FunctionName, ObjectClass *BaseObject, ObjectClass *OtherObject);
-		void CallZoneHandler(const std::string &FunctionName, int Type, ObjectClass *Zone, ObjectClass *Object);
+		void CallCollisionHandler(const std::string &FunctionName, _Object *BaseObject, _Object *OtherObject);
+		void CallZoneHandler(const std::string &FunctionName, int Type, _Object *Zone, _Object *Object);
 
 		bool HandleKeyPress(int Key);
 		void HandleMousePress(int Button, int MouseX, int MouseY);
@@ -107,6 +107,6 @@ class ScriptingClass {
 };
 
 // Singletons
-extern ScriptingClass Scripting;
+extern _Scripting Scripting;
 
 #endif

@@ -20,7 +20,7 @@
 #include <cstring>
 
 // Constructor
-DatabaseClass::DatabaseClass()
+_Database::_Database()
 :	Database(NULL) {
 
 	QueryHandle[0] = NULL;
@@ -28,7 +28,7 @@ DatabaseClass::DatabaseClass()
 }
 
 // Destructor
-DatabaseClass::~DatabaseClass() {
+_Database::~_Database() {
 
 	// Close database
 	if(Database)
@@ -36,12 +36,12 @@ DatabaseClass::~DatabaseClass() {
 }
 
 // Load a database file
-int DatabaseClass::OpenDatabase(const char *Filename) {
+int _Database::OpenDatabase(const char *Filename) {
 
 	// Open database file
 	int Result = sqlite3_open_v2(Filename, &Database, SQLITE_OPEN_READWRITE, NULL);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::OpenDatabase - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::OpenDatabase - %s", sqlite3_errmsg(Database));
 		sqlite3_close(Database);
 
 		return 0;
@@ -51,12 +51,12 @@ int DatabaseClass::OpenDatabase(const char *Filename) {
 }
 
 // Load a database file
-int DatabaseClass::OpenDatabaseCreate(const char *Filename) {
+int _Database::OpenDatabaseCreate(const char *Filename) {
 
 	// Open database file
 	int Result = sqlite3_open_v2(Filename, &Database, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::OpenDatabaseCreate - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::OpenDatabaseCreate - %s", sqlite3_errmsg(Database));
 		sqlite3_close(Database);
 
 		return 0;
@@ -66,25 +66,25 @@ int DatabaseClass::OpenDatabaseCreate(const char *Filename) {
 }
 
 // Runs a query 
-int DatabaseClass::RunQuery(const char *QueryString) {
+int _Database::RunQuery(const char *QueryString) {
 	
 	sqlite3_stmt *NewQueryHandle;
 	const char *Tail;
 	int Result = sqlite3_prepare_v2(Database, QueryString, strlen(QueryString), &NewQueryHandle, &Tail);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::RunQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::RunQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 
 	Result = sqlite3_step(NewQueryHandle);
 	if(Result != SQLITE_DONE && Result != SQLITE_ROW) {
-		Log.Write("DatabaseClass::RunQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::RunQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 
 	Result = sqlite3_finalize(NewQueryHandle);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::RunQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::RunQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 
@@ -92,12 +92,12 @@ int DatabaseClass::RunQuery(const char *QueryString) {
 }
 
 // Runs a query that returns data
-int DatabaseClass::RunDataQuery(const char *QueryString, int Handle) {
+int _Database::RunDataQuery(const char *QueryString, int Handle) {
 
 	const char *Tail;
 	int Result = sqlite3_prepare_v2(Database, QueryString, strlen(QueryString), &QueryHandle[Handle], &Tail);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::RunDataQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::RunDataQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 
@@ -105,7 +105,7 @@ int DatabaseClass::RunDataQuery(const char *QueryString, int Handle) {
 }
 
 // Runs a query that counts a row and returns the result
-int DatabaseClass::RunCountQuery(const char *QueryString) {
+int _Database::RunCountQuery(const char *QueryString) {
 
 	RunDataQuery(QueryString);
 	FetchRow();
@@ -117,7 +117,7 @@ int DatabaseClass::RunCountQuery(const char *QueryString) {
 }
 
 // Fetch one row from a query
-int DatabaseClass::FetchRow(int Handle) {
+int _Database::FetchRow(int Handle) {
 
 	int Result = sqlite3_step(QueryHandle[Handle]);
 	switch(Result) {
@@ -134,11 +134,11 @@ int DatabaseClass::FetchRow(int Handle) {
 }
 
 // Closes a query
-int DatabaseClass::CloseQuery(int Handle) {
+int _Database::CloseQuery(int Handle) {
 	
 	int Result = sqlite3_finalize(QueryHandle[Handle]);
 	if(Result != SQLITE_OK) {
-		Log.Write("DatabaseClass::CloseQuery - %s", sqlite3_errmsg(Database));
+		Log.Write("_Database::CloseQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
 
@@ -146,25 +146,25 @@ int DatabaseClass::CloseQuery(int Handle) {
 }
 
 // Gets the last insert id
-sqlite3_int64 DatabaseClass::GetLastInsertID() {
+sqlite3_int64 _Database::GetLastInsertID() {
 	
 	return sqlite3_last_insert_rowid(Database);
 }
 
 // Returns an integer column
-int DatabaseClass::GetInt(int ColumnIndex, int Handle) {
+int _Database::GetInt(int ColumnIndex, int Handle) {
 
 	return sqlite3_column_int(QueryHandle[Handle], ColumnIndex);
 }
 
 // Returns a float column
-float DatabaseClass::GetFloat(int ColumnIndex, int Handle) {
+float _Database::GetFloat(int ColumnIndex, int Handle) {
 
 	return static_cast<float>(sqlite3_column_double(QueryHandle[Handle], ColumnIndex));
 }
 
 // Returns a string column
-const char *DatabaseClass::GetString(int ColumnIndex, int Handle) {
+const char *_Database::GetString(int ColumnIndex, int Handle) {
 
 	return (const char *)sqlite3_column_text(QueryHandle[Handle], ColumnIndex);
 }

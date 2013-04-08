@@ -22,7 +22,7 @@
 #include "template.h"
 
 // Constructor
-SpringJointClass::SpringJointClass(const SpawnStruct &Object)
+_SpringJoint::_SpringJoint(const SpawnStruct &Object)
 :	BodyA(NULL),
 	BodyB(NULL) {
 /*
@@ -41,12 +41,12 @@ SpringJointClass::SpringJointClass(const SpawnStruct &Object)
 }
 
 // Destructor
-SpringJointClass::~SpringJointClass() {
+_SpringJoint::~_SpringJoint() {
 
 }
 
 // Updates the spring system
-void SpringJointClass::Update(float FrameTime) {
+void _SpringJoint::Update(float FrameTime) {
 /*
 	if(Physics.IsEnabled()) {
 

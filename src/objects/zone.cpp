@@ -22,8 +22,8 @@
 #include "template.h"
 
 // Constructor
-ZoneClass::ZoneClass(const SpawnStruct &Object)
-:	ObjectClass() {
+_Zone::_Zone(const SpawnStruct &Object)
+:	_Object() {
 
 	TemplateStruct *Template = Object.Template;
 	Active = Template->Active;
@@ -49,7 +49,7 @@ ZoneClass::ZoneClass(const SpawnStruct &Object)
 }
 
 // Collision callback
-void ZoneClass::HandleCollision(ObjectClass *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale) {
+void _Zone::HandleCollision(_Object *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale) {
 
 	if(Active) {
 
@@ -73,7 +73,7 @@ void ZoneClass::HandleCollision(ObjectClass *OtherObject, const btPersistentMani
 }
 
 // Removes old objects from the touch list
-void ZoneClass::EndFrame() {
+void _Zone::EndFrame() {
 	
 	if(Active) {
 	
@@ -95,7 +95,7 @@ void ZoneClass::EndFrame() {
 }
 
 // Sets the active state of the zone
-void ZoneClass::SetActive(bool Value) {
+void _Zone::SetActive(bool Value) {
 	Active = Value;
 
 	TouchState.clear();

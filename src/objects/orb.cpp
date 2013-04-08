@@ -27,8 +27,8 @@
 #include <IMeshSceneNode.h>
 
 // Constructor
-OrbClass::OrbClass(const SpawnStruct &Object)
-:	ObjectClass(),
+_Orb::_Orb(const SpawnStruct &Object)
+:	_Object(),
 	DeactivationCallback(""),
 	Sound(NULL),
 	State(ORBSTATE_NORMAL),
@@ -70,7 +70,7 @@ OrbClass::OrbClass(const SpawnStruct &Object)
 		CreateRigidBody(Object, Shape);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio.GetBuffer("orb.ogg"), true, 0.0f, 0.40f, 8.0f, 16.0f);
+		Sound = new _AudioSource(Audio.GetBuffer("orb.ogg"), true, 0.0f, 0.40f, 8.0f, 16.0f);
 		Sound->SetPitch(ORB_PITCH);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();
@@ -82,13 +82,13 @@ OrbClass::OrbClass(const SpawnStruct &Object)
 }
 
 // Destructor
-OrbClass::~OrbClass() {
+_Orb::~_Orb() {
 
 	delete Sound;
 }
 
 // Deactivates the object
-void OrbClass::StartDeactivation(const std::string &Callback, float Length) {
+void _Orb::StartDeactivation(const std::string &Callback, float Length) {
 
 	if(State == ORBSTATE_NORMAL) {
 		State = ORBSTATE_DEACTIVATING;
@@ -97,8 +97,8 @@ void OrbClass::StartDeactivation(const std::string &Callback, float Length) {
 
 		// Save the event on the replay
 		if(Replay.IsRecording()) {
-			FileClass &ReplayStream = Replay.GetReplayStream();
-			Replay.WriteEvent(ReplayClass::PACKET_ORBDEACTIVATE);
+			_File &ReplayStream = Replay.GetReplayStream();
+			Replay.WriteEvent(_Replay::PACKET_ORBDEACTIVATE);
 			ReplayStream.WriteShortInt(ID);
 			ReplayStream.WriteFloat(DeactivateLength);
 		}
@@ -106,10 +106,10 @@ void OrbClass::StartDeactivation(const std::string &Callback, float Length) {
 }
 
 // Updates the orb
-void OrbClass::Update(float FrameTime) {
+void _Orb::Update(float FrameTime) {
 
 	// Update object
-	ObjectClass::Update(FrameTime);
+	_Object::Update(FrameTime);
 
 	// Update audio
 	const btVector3 &Position = GetPosition();
@@ -120,13 +120,13 @@ void OrbClass::Update(float FrameTime) {
 }
 
 // Updates the replay
-void OrbClass::UpdateReplay(float FrameTime) {
-	ObjectClass::UpdateReplay(FrameTime);
+void _Orb::UpdateReplay(float FrameTime) {
+	_Object::UpdateReplay(FrameTime);
 	UpdateDeactivation(FrameTime);
 }
 
 // Updates the deactivation
-void OrbClass::UpdateDeactivation(float FrameTime) {
+void _Orb::UpdateDeactivation(float FrameTime) {
 
 	switch(State) {
 		case ORBSTATE_NORMAL:

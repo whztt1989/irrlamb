@@ -45,7 +45,7 @@ public:
 };
 
 // Classes
-class PhysicsClass {
+class _Physics {
 
 	public:
 
@@ -87,6 +87,6 @@ class PhysicsClass {
 };
 
 // Singletons
-extern PhysicsClass Physics;
+extern _Physics Physics;
 
 #endif

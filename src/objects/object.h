@@ -28,10 +28,10 @@
 // Forward Declarations
 struct SpawnStruct;
 struct ConstraintStruct;
-class AudioSourceClass;
+class _AudioSource;
 
 // Classes
-class ObjectClass : public btMotionState {
+class _Object : public btMotionState {
 
 	public:
 
@@ -48,8 +48,8 @@ class ObjectClass : public btMotionState {
 			ZONE,
 		};
 
-		ObjectClass();
-		virtual ~ObjectClass();
+		_Object();
+		virtual ~_Object();
 
 		// Updates
 		virtual void Update(float FrameTime);
@@ -95,7 +95,7 @@ class ObjectClass : public btMotionState {
 		btRigidBody *GetBody() { return RigidBody; }
 		irr::scene::ISceneNode *GetNode() { return Node; }
 
-		virtual void HandleCollision(ObjectClass *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale);
+		virtual void HandleCollision(_Object *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale);
 		bool IsTouchingGround() const { return TouchingGround; }
 
 		void getWorldTransform(btTransform &Transform) const;

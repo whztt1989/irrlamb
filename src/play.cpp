@@ -46,7 +46,7 @@ _PlayState PlayState;
 const int WIN_WIDTH = 430;
 const int WIN_HEIGHT = 350;
 
-PlayerClass *GlobalPlayer = 0;
+_Player *GlobalPlayer = 0;
 
 // Initializes the state
 int _PlayState::Init() {
@@ -56,7 +56,7 @@ int _PlayState::Init() {
 	WinStats = NULL;
 	ShowHUD = true;
 	Physics.SetEnabled(true);
-	Interface.ChangeSkin(InterfaceClass::SKIN_GAME);
+	Interface.ChangeSkin(_Interface::SKIN_GAME);
 
 	// Set up mapping
 	Actions.ClearMappings();
@@ -64,7 +64,7 @@ int _PlayState::Init() {
 		Actions.AddKeyMap(Config.Keys[i], i);
 
 	// Add camera
-	Camera = new CameraClass();
+	Camera = new _Camera();
 
 	// Load the level
 	std::string LevelFile;
@@ -248,7 +248,7 @@ void _PlayState::HandleGUI(int EventType, IGUIElement *Element) {
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			switch(Element->getID()) {
 				case PAUSE_RESUME:
@@ -388,7 +388,7 @@ void _PlayState::Draw() {
 	char TimeString[32];
 	Interface.ConvertSecondsToString(Timer, TimeString);
 	if(ShowHUD)
-		Interface.RenderText(TimeString, 10, 10, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_LARGE);
+		Interface.RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_LARGE);
 
 	switch(State) {
 		case STATE_PAUSED:
@@ -403,44 +403,44 @@ void _PlayState::Draw() {
 			int X = CenterX;
 			int Y = CenterY - WIN_HEIGHT / 2 + 15;
 			Interface.DrawTextBox(CenterX, CenterY, WIN_WIDTH, WIN_HEIGHT);
-			Interface.RenderText("Level Completed!", X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_LARGE);
+			Interface.RenderText("Level Completed!", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
 
 			// Draw time
 			Y += 45;
-			Interface.RenderText("Your Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
-			Interface.RenderText(TimeString, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+			Interface.RenderText("Your Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+			Interface.RenderText(TimeString, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
 
 			// Best time
 			Y += 25;
 			if(WinStats->HighScores.size() > 0) {
-				Interface.RenderText("Best Time", X - 115, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+				Interface.RenderText("Best Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
 				Interface.ConvertSecondsToString(WinStats->HighScores[0].Time, Buffer);
-				Interface.RenderText(Buffer, X + 115, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_MEDIUM, SColor(200, 255, 255, 255));
+				Interface.RenderText(Buffer, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
 			}
 
 			// High scores
 			int HighX = CenterX - 75, HighY = Y + 48;
 
 			// Draw header
-			Interface.RenderText("#", HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-			Interface.RenderText("Time", HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-			Interface.RenderText("Date", HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+			Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 			HighY += 17;
 			for(u32 i = 0; i < WinStats->HighScores.size(); i++) {
 				
 				// Number
 				char SmallBuffer[32];
 				sprintf(SmallBuffer, "%d", i+1);
-				Interface.RenderText(SmallBuffer, HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				// Time
 				Interface.ConvertSecondsToString(WinStats->HighScores[i].Time, Buffer);
-				Interface.RenderText(Buffer, HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				// Date
 				char DateString[32];
 				strftime(DateString, 32, "%m-%d-%Y", localtime(&WinStats->HighScores[i].DateStamp));
-				Interface.RenderText(DateString, HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+				Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 				HighY += 17;
 			}
@@ -471,16 +471,16 @@ void _PlayState::InitPause() {
 	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 25, 130, 34), 0, PAUSE_SAVEREPLAY, L"Save Replay");
 	IGUIButton *ButtonRestart = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 25, 130, 34), 0, PAUSE_RESTART, L"Restart Level");
 	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 75, 130, 34), 0, PAUSE_MAINMENU, L"Main Menu");
-	ButtonResume->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonResume->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 	ButtonResume->setUseAlphaChannel(true);
 	ButtonResume->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 	ButtonSaveReplay->setUseAlphaChannel(true);
 	ButtonSaveReplay->setDrawBorder(false);
-	ButtonRestart->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonRestart->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 	ButtonRestart->setUseAlphaChannel(true);
 	ButtonRestart->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 	ButtonMainMenu->setUseAlphaChannel(true);
 	ButtonMainMenu->setDrawBorder(false);
 	
@@ -498,10 +498,10 @@ void _PlayState::InitSaveReplay() {
 	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(CenterX, CenterY - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
 	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_SAVE, L"Save");
 	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 	ButtonSave->setUseAlphaChannel(true);
 	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 	ButtonCancel->setUseAlphaChannel(true);
 	ButtonCancel->setDrawBorder(false);
 
@@ -574,16 +574,16 @@ void _PlayState::InitWin() {
 	IGUIButton *ButtonNextLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), 0, WIN_NEXTLEVEL, L"Next Level");
 	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), 0, WIN_SAVEREPLAY, L"Save Replay");
 	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), 0, WIN_MAINMENU, L"Main Menu");
-	ButtonRestartLevel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonRestartLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 	ButtonRestartLevel->setUseAlphaChannel(true);
 	ButtonRestartLevel->setDrawBorder(false);
-	ButtonNextLevel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonNextLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 	ButtonNextLevel->setUseAlphaChannel(true);
 	ButtonNextLevel->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 	ButtonSaveReplay->setUseAlphaChannel(true);
 	ButtonSaveReplay->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 	ButtonMainMenu->setUseAlphaChannel(true);
 	ButtonMainMenu->setDrawBorder(false);
 	
@@ -664,7 +664,7 @@ void _PlayState::ResetLevel() {
 	Level.RunScripts();
 
 	// Get the player
-	GlobalPlayer = Player = static_cast<PlayerClass *>(ObjectManager.GetObjectByType(ObjectClass::PLAYER));
+	GlobalPlayer = Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));
 	if(Player == NULL) {
 		Log.Write("_PlayState::ResetLevel - Cannot find player object");
 		return;

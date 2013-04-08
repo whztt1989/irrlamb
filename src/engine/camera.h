@@ -24,12 +24,12 @@
 #include <matrix4.h>
 
 // Classes
-class CameraClass {
+class _Camera {
 
 	public:
 
-		CameraClass();
-		~CameraClass();
+		_Camera();
+		~_Camera();
 
 		void Update(const irr::core::vector3df &Target);
 		void RecordReplay();

@@ -28,10 +28,10 @@
 	#include <sys/stat.h>
 #endif
 
-SaveClass Save;
+_Save Save;
 
 // Initializes the save system
-int SaveClass::Init() {
+int _Save::Init() {
 
 	#ifdef _WIN32
 		//SavePath = "saves/";
@@ -64,13 +64,13 @@ int SaveClass::Init() {
 	#endif
 
 	// Create database instance
-	Database = new DatabaseClass();
+	Database = new _Database();
 
 	return 1;
 }
 
 // Closes the save system
-int SaveClass::Close() {
+int _Save::Close() {
 
 	delete Database;
 
@@ -78,7 +78,7 @@ int SaveClass::Close() {
 }
 
 // Init the stats database file
-int SaveClass::InitStatsDatabase() {
+int _Save::InitStatsDatabase() {
 	int DatabaseVersion = -1;
 
 	// Open stats database and get file version
@@ -97,7 +97,7 @@ int SaveClass::InitStatsDatabase() {
 	if(DatabaseVersion == -1) {
 
 		// Create a new database
-		Log.Write("SaveClass::InitStatsDatabase - Creating new stats database...\n");
+		Log.Write("_Save::InitStatsDatabase - Creating new stats database...\n");
 		if(!Database->OpenDatabaseCreate(StatsFile.c_str())) {
 			return 0;
 		}
@@ -137,8 +137,8 @@ int SaveClass::InitStatsDatabase() {
 }
 
 // Populates the level stats map
-int SaveClass::LoadLevelStats() {
-	Log.Write("SaveClass::LoadLevelStats - Loading save file");
+int _Save::LoadLevelStats() {
+	Log.Write("_Save::LoadLevelStats - Loading save file");
 	LevelStats.clear();
 	char Buffer[256];
 
@@ -183,7 +183,7 @@ int SaveClass::LoadLevelStats() {
 }
 
 // Update the stats database for one level
-void SaveClass::SaveLevelStats(const std::string &Level) {
+void _Save::SaveLevelStats(const std::string &Level) {
 
 	LevelStatsIterator = LevelStats.find(Level);
 	if(LevelStatsIterator == LevelStats.end())
@@ -210,13 +210,13 @@ void SaveClass::SaveLevelStats(const std::string &Level) {
 }
 
 // Updates a level stat
-void SaveClass::UpdateLevelStats(const std::string &Level, const SaveLevelStruct &Stats) {
+void _Save::UpdateLevelStats(const std::string &Level, const SaveLevelStruct &Stats) {
 
 	LevelStats[Level] = Stats;
 }
 
 // Retrieves stats for a level
-bool SaveClass::GetLevelStats(const std::string &Level, SaveLevelStruct &Stats) {
+bool _Save::GetLevelStats(const std::string &Level, SaveLevelStruct &Stats) {
 
 	if(LevelStats.find(Level) == LevelStats.end())
 		return false;
@@ -227,13 +227,13 @@ bool SaveClass::GetLevelStats(const std::string &Level, SaveLevelStruct &Stats) 
 }
 
 // Returns a pointer to the high score list
-const SaveLevelStruct *SaveClass::GetLevelStats(const std::string &Level) {
+const SaveLevelStruct *_Save::GetLevelStats(const std::string &Level) {
 
 	return &LevelStats[Level];
 }
 
 // Adds a score to the list if it's high enough
-void SaveClass::AddScore(const std::string &Level, float Time) {
+void _Save::AddScore(const std::string &Level, float Time) {
 
 	// Get level stats
 	SaveLevelStruct Stats;
@@ -291,7 +291,7 @@ void SaveClass::AddScore(const std::string &Level, float Time) {
 }
 
 // Increment the number of times a level has been loaded
-void SaveClass::IncrementLevelLoadCount(const std::string &Level) {
+void _Save::IncrementLevelLoadCount(const std::string &Level) {
 
 	SaveLevelStruct Stats;
 	GetLevelStats(Level, Stats);
@@ -301,7 +301,7 @@ void SaveClass::IncrementLevelLoadCount(const std::string &Level) {
 }
 
 // Increment the number of times the player has lost
-void SaveClass::IncrementLevelLoseCount(const std::string &Level) {
+void _Save::IncrementLevelLoseCount(const std::string &Level) {
 
 	SaveLevelStruct Stats;
 	GetLevelStats(Level, Stats);
@@ -311,7 +311,7 @@ void SaveClass::IncrementLevelLoseCount(const std::string &Level) {
 }
 
 // Increment the number of times the player has won
-void SaveClass::IncrementLevelWinCount(const std::string &Level) {
+void _Save::IncrementLevelWinCount(const std::string &Level) {
 
 	SaveLevelStruct Stats;
 	GetLevelStats(Level, Stats);
@@ -321,7 +321,7 @@ void SaveClass::IncrementLevelWinCount(const std::string &Level) {
 }
 
 // Increment the total playing time for a level
-void SaveClass::IncrementLevelPlayTime(const std::string &Level, float Time) {
+void _Save::IncrementLevelPlayTime(const std::string &Level, float Time) {
 
 	SaveLevelStruct Stats;
 	GetLevelStats(Level, Stats);
@@ -331,7 +331,7 @@ void SaveClass::IncrementLevelPlayTime(const std::string &Level, float Time) {
 }
 
 // Unlocks a level
-void SaveClass::UnlockLevel(const std::string &Level) {
+void _Save::UnlockLevel(const std::string &Level) {
 
 	// Get stat from map
 	SaveLevelStruct Stats;

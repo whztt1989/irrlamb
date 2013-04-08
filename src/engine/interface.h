@@ -25,7 +25,7 @@
 #include <IGUIFont.h>
 
 // Forward Declarations
-class AudioSourceClass;
+class _AudioSource;
 
 // Structures
 struct TutorialTextStruct {
@@ -34,7 +34,7 @@ struct TutorialTextStruct {
 };
 
 // Classes
-class InterfaceClass {
+class _Interface {
 
 	public:
 
@@ -111,11 +111,11 @@ class InterfaceClass {
 
 		irr::gui::IGUIFont *Fonts[FONT_COUNT];
 		irr::video::ITexture *Images[IMAGE_COUNT];
-		AudioSourceClass *Sounds[SOUND_COUNT];
+		_AudioSource *Sounds[SOUND_COUNT];
 
 };
 
 // Singletons
-extern InterfaceClass Interface;
+extern _Interface Interface;
 
 #endif

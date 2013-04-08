@@ -30,81 +30,81 @@
 #include "../objects/springjoint.h"
 #include "../play.h"
 
-ScriptingClass Scripting;
+_Scripting Scripting;
 
 // Controls
-luaL_Reg ScriptingClass::CameraFunctions[] = {
-	{"SetYaw", &ScriptingClass::CameraSetYaw},
-	{"SetPitch", &ScriptingClass::CameraSetPitch},
+luaL_Reg _Scripting::CameraFunctions[] = {
+	{"SetYaw", &_Scripting::CameraSetYaw},
+	{"SetPitch", &_Scripting::CameraSetPitch},
 	{NULL, NULL}
 };
 
 // Functions for creating objects
-luaL_Reg ScriptingClass::ObjectFunctions[] = {
-	{"GetPointer", &ScriptingClass::ObjectGetPointer},
-	{"GetName", &ScriptingClass::ObjectGetName},
-	{"SetPosition", &ScriptingClass::ObjectSetPosition},
-	{"GetPosition", &ScriptingClass::ObjectGetPosition},
-	{"Stop", &ScriptingClass::ObjectStop},
-	{"SetAngularVelocity", &ScriptingClass::ObjectSetAngularVelocity},
-	{"SetLifetime", &ScriptingClass::ObjectSetLifetime},
-	{"Delete", &ScriptingClass::ObjectDelete},
+luaL_Reg _Scripting::ObjectFunctions[] = {
+	{"GetPointer", &_Scripting::ObjectGetPointer},
+	{"GetName", &_Scripting::ObjectGetName},
+	{"SetPosition", &_Scripting::ObjectSetPosition},
+	{"GetPosition", &_Scripting::ObjectGetPosition},
+	{"Stop", &_Scripting::ObjectStop},
+	{"SetAngularVelocity", &_Scripting::ObjectSetAngularVelocity},
+	{"SetLifetime", &_Scripting::ObjectSetLifetime},
+	{"Delete", &_Scripting::ObjectDelete},
 	{NULL, NULL}
 };
 
 // Functions for manipulating orbs
-luaL_Reg ScriptingClass::OrbFunctions[] = {
-	{"Deactivate", &ScriptingClass::OrbDeactivate},
+luaL_Reg _Scripting::OrbFunctions[] = {
+	{"Deactivate", &_Scripting::OrbDeactivate},
 	{NULL, NULL}
 };
 
 
 // Functions for timers
-luaL_Reg ScriptingClass::TimerFunctions[] = {
-	{"Stamp", &ScriptingClass::TimerStamp},
-	{"DelayedFunction", &ScriptingClass::TimerDelayedFunction},
+luaL_Reg _Scripting::TimerFunctions[] = {
+	{"Stamp", &_Scripting::TimerStamp},
+	{"DelayedFunction", &_Scripting::TimerDelayedFunction},
 	{NULL, NULL}
 };
 
 // Functions for changing levels
-luaL_Reg ScriptingClass::LevelFunctions[] = {
-	{"Lose", &ScriptingClass::LevelLose},
-	{"Win", &ScriptingClass::LevelWin},
-	{"GetTemplate", &ScriptingClass::LevelGetTemplate},
-	{"CreateObject", &ScriptingClass::LevelCreateObject},
-	{"CreateConstraint", &ScriptingClass::LevelCreateConstraint},
-	{"CreateSpring", &ScriptingClass::LevelCreateSpring},	
+luaL_Reg _Scripting::LevelFunctions[] = {
+	{"Lose", &_Scripting::LevelLose},
+	{"Win", &_Scripting::LevelWin},
+	{"GetTemplate", &_Scripting::LevelGetTemplate},
+	{"CreateObject", &_Scripting::LevelCreateObject},
+	{"CreateConstraint", &_Scripting::LevelCreateConstraint},
+	{"CreateSpring", &_Scripting::LevelCreateSpring},	
 	{NULL, NULL}
 };
 
 // Functions for the GUI
-luaL_Reg ScriptingClass::GUIFunctions[] = {
-	{"TutorialText", &ScriptingClass::GUITutorialText},
+luaL_Reg _Scripting::GUIFunctions[] = {
+	{"TutorialText", &_Scripting::GUITutorialText},
 	{NULL, NULL}
 };
 
 // Functions for random number generation
-luaL_Reg ScriptingClass::RandomFunctions[] = {
-	{"Seed", &ScriptingClass::RandomSeed},
-	{"GetFloat", &ScriptingClass::RandomGetFloat},
-	{"GetInt", &ScriptingClass::RandomGetInt},
+luaL_Reg _Scripting::RandomFunctions[] = {
+	{"Seed", &_Scripting::RandomSeed},
+	{"GetFloat", &_Scripting::RandomGetFloat},
+	{"GetInt", &_Scripting::RandomGetInt},
 	{NULL, NULL}
 };
 
 // Functions for manipulating zones
-luaL_Reg ScriptingClass::ZoneFunctions[] = {
+luaL_Reg _Scripting::ZoneFunctions[] = {
 	
 	{NULL, NULL}
 };
 
 // Constructor
-ScriptingClass::ScriptingClass()
+_Scripting::_Scripting()
 :	LuaObject(NULL) {
 	
 }
 
 // Initializes the scripting interface
-int ScriptingClass::Init() {
+int _Scripting::Init() {
 
 	// Restart scripting system
 	Reset();
@@ -113,7 +113,7 @@ int ScriptingClass::Init() {
 }
 
 // Shuts down the scripting interface
-int ScriptingClass::Close() {
+int _Scripting::Close() {
 
 	// Close old lua state
 	if(LuaObject != NULL)
@@ -123,7 +123,7 @@ int ScriptingClass::Close() {
 }
 
 // Resets the scripting state
-void ScriptingClass::Reset() {
+void _Scripting::Reset() {
 	
 	// Close old lua state
 	if(LuaObject != NULL)
@@ -150,13 +150,13 @@ void ScriptingClass::Reset() {
 }
 
 // Loads a Lua file
-int ScriptingClass::LoadFile(const std::string &FilePath) {
+int _Scripting::LoadFile(const std::string &FilePath) {
 	if(FilePath == "")
 		return 0;
 
 	// Load the file
 	if(luaL_dofile(LuaObject, FilePath.c_str()) != 0) {
-		Log.Write("ScriptingClass::LoadFile - failed to load script %s", FilePath.c_str());
+		Log.Write("_Scripting::LoadFile - failed to load script %s", FilePath.c_str());
 		Log.Write("%s", lua_tostring(LuaObject, -1));
 		return 0;
 	}
@@ -165,14 +165,14 @@ int ScriptingClass::LoadFile(const std::string &FilePath) {
 }
 
 // Defines a variable in Lua
-void ScriptingClass::DefineLuaVariable(const char *VariableName, const char *Value) {
+void _Scripting::DefineLuaVariable(const char *VariableName, const char *Value) {
 	
 	lua_pushstring(LuaObject, Value);
 	lua_setglobal(LuaObject, VariableName);
 }
 
 // Checks for a valid argument count
-bool ScriptingClass::CheckArguments(lua_State *LuaObject, int Required) {
+bool _Scripting::CheckArguments(lua_State *LuaObject, int Required) {
 	int ArgumentCount = lua_gettop(LuaObject);
 
 	// Check for arguments
@@ -190,7 +190,7 @@ bool ScriptingClass::CheckArguments(lua_State *LuaObject, int Required) {
 }
 
 // Calls a Lua function by name
-void ScriptingClass::CallFunction(const std::string &FunctionName) {
+void _Scripting::CallFunction(const std::string &FunctionName) {
 	
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
@@ -203,7 +203,7 @@ void ScriptingClass::CallFunction(const std::string &FunctionName) {
 }
 
 // Passes collision events to Lua
-void ScriptingClass::CallCollisionHandler(const std::string &FunctionName, ObjectClass *BaseObject, ObjectClass *OtherObject) {
+void _Scripting::CallCollisionHandler(const std::string &FunctionName, _Object *BaseObject, _Object *OtherObject) {
 	
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
@@ -218,7 +218,7 @@ void ScriptingClass::CallCollisionHandler(const std::string &FunctionName, Objec
 }
 
 // Calls a zone enter/exit event
-void ScriptingClass::CallZoneHandler(const std::string &FunctionName, int Type, ObjectClass *Zone, ObjectClass *Object) {
+void _Scripting::CallZoneHandler(const std::string &FunctionName, int Type, _Object *Zone, _Object *Object) {
 	
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
@@ -236,13 +236,13 @@ void ScriptingClass::CallZoneHandler(const std::string &FunctionName, int Type, 
 	// Get return value for disabling the zone
 	int Disable = (int)lua_tointeger(LuaObject, -1);
 	if(Disable) {
-		ZoneClass *ZoneObject = static_cast<ZoneClass *>(Zone);
+		_Zone *ZoneObject = static_cast<_Zone *>(Zone);
 		ZoneObject->SetActive(false);
 	}
 }
 
 // Calls a Lua function from a given keyname
-bool ScriptingClass::HandleKeyPress(int Key) {
+bool _Scripting::HandleKeyPress(int Key) {
 
 	// Find function
 	KeyCallbacksIterator = KeyCallbacks.find(Key);
@@ -255,7 +255,7 @@ bool ScriptingClass::HandleKeyPress(int Key) {
 }
 
 // Passes mouse clicks to Lua
-void ScriptingClass::HandleMousePress(int Button, int MouseX, int MouseY) {
+void _Scripting::HandleMousePress(int Button, int MouseX, int MouseY) {
 
 	// Get Lua function
 	lua_getglobal(LuaObject, "OnMousePress");
@@ -272,7 +272,7 @@ void ScriptingClass::HandleMousePress(int Button, int MouseX, int MouseY) {
 }
 
 // Sets the camera's yaw value
-int ScriptingClass::CameraSetYaw(lua_State *LuaObject) {
+int _Scripting::CameraSetYaw(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
@@ -287,7 +287,7 @@ int ScriptingClass::CameraSetYaw(lua_State *LuaObject) {
 }
 
 // Sets the camera's yaw value
-int ScriptingClass::CameraSetPitch(lua_State *LuaObject) {
+int _Scripting::CameraSetPitch(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
@@ -302,7 +302,7 @@ int ScriptingClass::CameraSetPitch(lua_State *LuaObject) {
 }
 
 // Gets a pointer to an object from a name
-int ScriptingClass::ObjectGetPointer(lua_State *LuaObject) {
+int _Scripting::ObjectGetPointer(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
@@ -310,7 +310,7 @@ int ScriptingClass::ObjectGetPointer(lua_State *LuaObject) {
 
 	// Get parameters
 	std::string Name = lua_tostring(LuaObject, 1);
-	ObjectClass *Object = ObjectManager.GetObjectByName(Name);
+	_Object *Object = ObjectManager.GetObjectByName(Name);
 
 	// Pass pointer
 	lua_pushlightuserdata(LuaObject, (void *)Object);
@@ -319,13 +319,13 @@ int ScriptingClass::ObjectGetPointer(lua_State *LuaObject) {
 }
 
 // Gets the name of an object
-int ScriptingClass::ObjectGetName(lua_State *LuaObject) {
+int _Scripting::ObjectGetName(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
 
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	
 	if(Object != NULL)
 		lua_pushstring(LuaObject, Object->GetName().c_str());
@@ -334,14 +334,14 @@ int ScriptingClass::ObjectGetName(lua_State *LuaObject) {
 }
 
 // Sets the object's position
-int ScriptingClass::ObjectSetPosition(lua_State *LuaObject) {
+int _Scripting::ObjectSetPosition(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 4))
 		return 0;
 
 	// Get parameters
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	float PositionX = (float)lua_tonumber(LuaObject, 2);
 	float PositionY = (float)lua_tonumber(LuaObject, 3);
 	float PositionZ = (float)lua_tonumber(LuaObject, 4);
@@ -354,14 +354,14 @@ int ScriptingClass::ObjectSetPosition(lua_State *LuaObject) {
 }
 
 // Gets the object's position
-int ScriptingClass::ObjectGetPosition(lua_State *LuaObject) {
+int _Scripting::ObjectGetPosition(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
 
 	// Get object
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	if(Object == NULL)
 		return 0;
 
@@ -374,14 +374,14 @@ int ScriptingClass::ObjectGetPosition(lua_State *LuaObject) {
 }
 
 // Sets the object's lifetime
-int ScriptingClass::ObjectSetLifetime(lua_State *LuaObject) {
+int _Scripting::ObjectSetLifetime(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
 		return 0;
 
 	// Get parameters
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	float Lifetime = (float)lua_tonumber(LuaObject, 2);
 
 	// Set lifetime
@@ -392,14 +392,14 @@ int ScriptingClass::ObjectSetLifetime(lua_State *LuaObject) {
 }
 
 // Stops an object's movement
-int ScriptingClass::ObjectStop(lua_State *LuaObject) {
+int _Scripting::ObjectStop(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
 
 	// Stop object
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	if(Object != NULL)
 		Object->Stop();
 
@@ -407,14 +407,14 @@ int ScriptingClass::ObjectStop(lua_State *LuaObject) {
 }
 
 // Sets an object's angular velocity
-int ScriptingClass::ObjectSetAngularVelocity(lua_State *LuaObject) {
+int _Scripting::ObjectSetAngularVelocity(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 4))
 		return 0;
 
 	// Get parameters
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	float X = (float)lua_tonumber(LuaObject, 2);
 	float Y = (float)lua_tonumber(LuaObject, 3);
 	float Z = (float)lua_tonumber(LuaObject, 4);
@@ -426,14 +426,14 @@ int ScriptingClass::ObjectSetAngularVelocity(lua_State *LuaObject) {
 }
 
 // Deletes an object
-int ScriptingClass::ObjectDelete(lua_State *LuaObject) {
+int _Scripting::ObjectDelete(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
 
 	// Delete object
-	ObjectClass *Object = (ObjectClass *)(lua_touserdata(LuaObject, 1));
+	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
 	if(Object != NULL)
 		ObjectManager.DeleteObject(Object);
 
@@ -441,14 +441,14 @@ int ScriptingClass::ObjectDelete(lua_State *LuaObject) {
 }
 
 // Deactivates an orb
-int ScriptingClass::OrbDeactivate(lua_State *LuaObject) {
+int _Scripting::OrbDeactivate(lua_State *LuaObject) {
 	
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 3))
 		return 0;
 
 	// Get parameters
-	OrbClass *Orb = (OrbClass *)(lua_touserdata(LuaObject, 1));
+	_Orb *Orb = (_Orb *)(lua_touserdata(LuaObject, 1));
 	std::string FunctionName = lua_tostring(LuaObject, 2);
 	float Time = (float)lua_tonumber(LuaObject, 3);
 
@@ -461,7 +461,7 @@ int ScriptingClass::OrbDeactivate(lua_State *LuaObject) {
 }
 
 // Returns a time stamp from the start of the level
-int ScriptingClass::TimerStamp(lua_State *LuaObject) {
+int _Scripting::TimerStamp(lua_State *LuaObject) {
 
 	lua_pushnumber(LuaObject, PlayState.GetTimer());
 
@@ -469,7 +469,7 @@ int ScriptingClass::TimerStamp(lua_State *LuaObject) {
 }
 
 // Adds a timed callback
-int ScriptingClass::TimerDelayedFunction(lua_State *LuaObject) {
+int _Scripting::TimerDelayedFunction(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
@@ -486,7 +486,7 @@ int ScriptingClass::TimerDelayedFunction(lua_State *LuaObject) {
 }
 
 // Restarts the level
-int ScriptingClass::LevelLose(lua_State *LuaObject) {
+int _Scripting::LevelLose(lua_State *LuaObject) {
 
 	//PlayState.InitLose();
 	
@@ -494,7 +494,7 @@ int ScriptingClass::LevelLose(lua_State *LuaObject) {
 }
 
 // Wins the level
-int ScriptingClass::LevelWin(lua_State *LuaObject) {
+int _Scripting::LevelWin(lua_State *LuaObject) {
 
 	PlayState.InitWin();
 	
@@ -502,7 +502,7 @@ int ScriptingClass::LevelWin(lua_State *LuaObject) {
 }
 
 // Gets a template from a name
-int ScriptingClass::LevelGetTemplate(lua_State *LuaObject) {
+int _Scripting::LevelGetTemplate(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
@@ -518,7 +518,7 @@ int ScriptingClass::LevelGetTemplate(lua_State *LuaObject) {
 }
 
 // Creates an object from a template
-int ScriptingClass::LevelCreateObject(lua_State *LuaObject) {
+int _Scripting::LevelCreateObject(lua_State *LuaObject) {
 
 	// Get argument count
 	int ArgumentCount = lua_gettop(LuaObject);
@@ -552,7 +552,7 @@ int ScriptingClass::LevelCreateObject(lua_State *LuaObject) {
 	Spawn.Rotation.setValue(RotationX, RotationY, RotationZ);
 
 	// Create object
-	ObjectClass *Object = Level.CreateObject(Spawn);
+	_Object *Object = Level.CreateObject(Spawn);
 
 	// Send new object to Lua
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Object));
@@ -561,7 +561,7 @@ int ScriptingClass::LevelCreateObject(lua_State *LuaObject) {
 }
 
 // Creates a constraint
-int ScriptingClass::LevelCreateConstraint(lua_State *LuaObject) {
+int _Scripting::LevelCreateConstraint(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 4))
@@ -571,11 +571,11 @@ int ScriptingClass::LevelCreateConstraint(lua_State *LuaObject) {
 	ConstraintStruct Constraint;
 	Constraint.Name = lua_tostring(LuaObject, 1);
 	Constraint.Template = (TemplateStruct *)(lua_touserdata(LuaObject, 2));
-	Constraint.BodyA = (ObjectClass *)(lua_touserdata(LuaObject, 3));
-	Constraint.BodyB = (ObjectClass *)(lua_touserdata(LuaObject, 4));
+	Constraint.BodyA = (_Object *)(lua_touserdata(LuaObject, 3));
+	Constraint.BodyB = (_Object *)(lua_touserdata(LuaObject, 4));
 
 	// Create object
-	ObjectClass *Object = Level.CreateConstraint(Constraint);
+	_Object *Object = Level.CreateConstraint(Constraint);
 
 	// Send new object to Lua
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Object));
@@ -584,13 +584,13 @@ int ScriptingClass::LevelCreateConstraint(lua_State *LuaObject) {
 }
 
 // Creates a spring constraint
-int ScriptingClass::LevelCreateSpring(lua_State *LuaObject) {
+int _Scripting::LevelCreateSpring(lua_State *LuaObject) {
 
 	return 1;
 }
 
 // Sets the tutorial text
-int ScriptingClass::GUITutorialText(lua_State *LuaObject) {
+int _Scripting::GUITutorialText(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
@@ -607,7 +607,7 @@ int ScriptingClass::GUITutorialText(lua_State *LuaObject) {
 }
 
 // Sets the random seed
-int ScriptingClass::RandomSeed(lua_State *LuaObject) {
+int _Scripting::RandomSeed(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
@@ -623,7 +623,7 @@ int ScriptingClass::RandomSeed(lua_State *LuaObject) {
 }
 
 // Generates a random float
-int ScriptingClass::RandomGetFloat(lua_State *LuaObject) {
+int _Scripting::RandomGetFloat(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
@@ -640,7 +640,7 @@ int ScriptingClass::RandomGetFloat(lua_State *LuaObject) {
 }
 
 // Generates a random integer
-int ScriptingClass::RandomGetInt(lua_State *LuaObject) {
+int _Scripting::RandomGetInt(lua_State *LuaObject) {
 
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
@@ -657,7 +657,7 @@ int ScriptingClass::RandomGetInt(lua_State *LuaObject) {
 }
 
 // Adds a timed callback function to the list
-void ScriptingClass::AddTimedCallback(const std::string &FunctionName, float Time) {
+void _Scripting::AddTimedCallback(const std::string &FunctionName, float Time) {
 
 	// Check time
 	if(Time <= 0.0)
@@ -680,7 +680,7 @@ void ScriptingClass::AddTimedCallback(const std::string &FunctionName, float Tim
 }
 
 // Updates the timed callback functions
-void ScriptingClass::UpdateTimedCallbacks() {
+void _Scripting::UpdateTimedCallbacks() {
 
 	for(std::list<TimedCallbackStruct>::iterator Iterator(TimedCallbacks.begin()); Iterator != TimedCallbacks.end(); ++Iterator) {
 		if(PlayState.GetTimer() >= (*Iterator).TimeStamp) {
@@ -697,7 +697,7 @@ void ScriptingClass::UpdateTimedCallbacks() {
 }
 
 // Attaches a key to a Lua function
-void ScriptingClass::AttachKeyToFunction(int Key, const std::string &FunctionName) {
+void _Scripting::AttachKeyToFunction(int Key, const std::string &FunctionName) {
 
 	// Install callback
 	KeyCallbacksIterator = KeyCallbacks.find(Key);

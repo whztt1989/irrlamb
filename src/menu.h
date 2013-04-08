@@ -29,7 +29,7 @@
 struct SaveLevelStruct;
 
 // Classes
-class _MenuState : public StateClass {
+class _MenuState : public _State {
 
 	public:
 

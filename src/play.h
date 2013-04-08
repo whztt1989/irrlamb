@@ -23,13 +23,13 @@
 #include <string>
 
 // Forward Declarations
-class ObjectClass;
-class PlayerClass;
-class CameraClass;
+class _Object;
+class _Player;
+class _Camera;
 struct SaveLevelStruct;
 
 // Classes
-class _PlayState : public StateClass {
+class _PlayState : public _State {
 
 	public:
 
@@ -81,7 +81,7 @@ class _PlayState : public StateClass {
 		void SetCampaign(int Value) { CurrentCampaign = Value; }
 		void SetCampaignLevel(int Value) { CampaignLevel = Value; }
 
-		CameraClass *GetCamera() { return Camera; }
+		_Camera *GetCamera() { return Camera; }
 		float GetTimer() { return Timer; }
 
 	private:
@@ -107,8 +107,8 @@ class _PlayState : public StateClass {
 		const SaveLevelStruct *WinStats;
 
 		// Objects
-		PlayerClass *Player;
-		CameraClass *Camera;
+		_Player *Player;
+		_Camera *Camera;
 };
 
 extern _PlayState PlayState;

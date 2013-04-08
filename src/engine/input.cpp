@@ -29,10 +29,10 @@
 	#include <windows.h>
 #endif
 
-InputClass Input;
+_Input Input;
 
 // Event receiver constructor
-InputClass::InputClass()
+_Input::_Input()
 :	MouseLocked(false),
 	MouseX(0),
 	MouseY(0),
@@ -43,10 +43,10 @@ InputClass::InputClass()
 }
 
 // Event receiver for irrlicht
-bool InputClass::OnEvent(const SEvent &Event) {
+bool _Input::OnEvent(const SEvent &Event) {
 	bool Processed = false;
 
-	if(Game.GetManagerState() != GameClass::STATE_UPDATE)
+	if(Game.GetManagerState() != _Game::STATE_UPDATE)
 		return false;
 
 	switch(Event.EventType) {
@@ -126,7 +126,7 @@ bool InputClass::OnEvent(const SEvent &Event) {
 }
 
 // Set up joysticks
-void InputClass::InitializeJoysticks() {
+void _Input::InitializeJoysticks() {
 
 	// Find joysticks
 	if(irrDevice->activateJoysticks(Joysticks)) {
@@ -158,13 +158,13 @@ void InputClass::InitializeJoysticks() {
 }
 
 // Return the joystick state
-const irr::SEvent::SJoystickEvent &InputClass::GetJoystickEvent() {
+const irr::SEvent::SJoystickEvent &_Input::GetJoystickEvent() {
 
 	return JoystickState;
 }
 
 // Get a joystick axis value
-float InputClass::GetAxis(int Axis) {
+float _Input::GetAxis(int Axis) {
 	if(!JoystickEnabled)
 		return 0.0f;
 
@@ -177,7 +177,7 @@ float InputClass::GetAxis(int Axis) {
 }
 
 // Resets the keyboard state
-void InputClass::ResetInputState() {
+void _Input::ResetInputState() {
 
 	for(int i = 0; i < KEY_KEY_CODES_COUNT; i++)
 		Keys[i] = 0;
@@ -186,7 +186,7 @@ void InputClass::ResetInputState() {
 }
 
 // Enables mouse locking
-void InputClass::SetMouseLocked(bool Value) {
+void _Input::SetMouseLocked(bool Value) {
 	
 	MouseLocked = Value;
 	if(MouseLocked) {
@@ -205,7 +205,7 @@ void InputClass::SetMouseLocked(bool Value) {
 }
 
 // Converts an irrlicht key code into a string
-const char *InputClass::GetKeyName(int Key) {
+const char *_Input::GetKeyName(int Key) {
 
 	switch(Key) {
 		case KEY_KEY_0:

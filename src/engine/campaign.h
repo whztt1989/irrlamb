@@ -34,7 +34,7 @@ struct CampaignStruct {
 };
 
 // Classes
-class CampaignClass {
+class _Campaign {
 
 	public:
 
@@ -54,6 +54,6 @@ class CampaignClass {
 };
 
 // Singletons
-extern CampaignClass Campaign;
+extern _Campaign Campaign;
 
 #endif

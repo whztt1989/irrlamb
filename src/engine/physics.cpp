@@ -20,15 +20,15 @@
 #include "game.h"
 #include "../objects/object.h"
 
-PhysicsClass Physics;
+_Physics Physics;
 
-class DebugDrawerClass : public btIDebugDraw {
+class _DebugDrawer : public btIDebugDraw {
 	int m_debugMode;
 
 public:
 
-	DebugDrawerClass() { }
-	virtual ~DebugDrawerClass() { }
+	_DebugDrawer() { }
+	virtual ~_DebugDrawer() { }
 
 	virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& fromColor, const btVector3& toColor) { }
 	virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color) { }
@@ -42,10 +42,10 @@ public:
 	virtual int getDebugMode() const { return m_debugMode; }
 };
 
-DebugDrawerClass DebugDrawer;
+_DebugDrawer DebugDrawer;
 
 // Initializes the physics system
-int PhysicsClass::Init() {
+int _Physics::Init() {
 
 	// Set up physics modules
 	CollisionConfiguration = new btDefaultCollisionConfiguration();
@@ -64,7 +64,7 @@ int PhysicsClass::Init() {
 }
 
 // Closes the physics system
-int PhysicsClass::Close() {
+int _Physics::Close() {
 
 	delete World;
 	delete Solver;
@@ -76,7 +76,7 @@ int PhysicsClass::Close() {
 }
 
 // Updates the physics system
-void PhysicsClass::Update(float FrameTime) {
+void _Physics::Update(float FrameTime) {
 
 	if(Enabled) {
 
@@ -90,8 +90,8 @@ void PhysicsClass::Update(float FrameTime) {
 				const btCollisionObject *CollisionObject0 = static_cast<const btCollisionObject *>(ContactManifold->getBody0());
 				const btCollisionObject *CollisionObject1 = static_cast<const btCollisionObject *>(ContactManifold->getBody1());
 				
-				ObjectClass *Object0 = static_cast<ObjectClass *>(CollisionObject0->getUserPointer());
-				ObjectClass *Object1 = static_cast<ObjectClass *>(CollisionObject1->getUserPointer());
+				_Object *Object0 = static_cast<_Object *>(CollisionObject0->getUserPointer());
+				_Object *Object1 = static_cast<_Object *>(CollisionObject1->getUserPointer());
 
 				Object0->HandleCollision(Object1, ContactManifold, 1);
 				Object1->HandleCollision(Object0, ContactManifold, -1);
@@ -103,13 +103,13 @@ void PhysicsClass::Update(float FrameTime) {
 }
 
 // Resets the physics world
-void PhysicsClass::Reset() {
+void _Physics::Reset() {
 	BroadPhase->resetPool(Dispatcher);
 	Solver->reset();
 }
 
 // Performs raycasting on the world and returns the point of collision
-bool PhysicsClass::RaycastWorld(const btVector3 &Start, btVector3 &End, btVector3 &Normal) {
+bool _Physics::RaycastWorld(const btVector3 &Start, btVector3 &End, btVector3 &Normal) {
 
 	if(Enabled) {
 		btCollisionWorld::ClosestRayResultCallback RayCallback(Start, End);
@@ -129,7 +129,7 @@ bool PhysicsClass::RaycastWorld(const btVector3 &Start, btVector3 &End, btVector
 }
 
 // Converts a quaternion to an euler angle
-void PhysicsClass::QuaternionToEuler(const btQuaternion &Quat, btVector3 &Euler) {
+void _Physics::QuaternionToEuler(const btQuaternion &Quat, btVector3 &Euler) {
 	btScalar W = Quat.getW();
 	btScalar X = Quat.getX();
 	btScalar Y = Quat.getY();
@@ -146,13 +146,13 @@ void PhysicsClass::QuaternionToEuler(const btQuaternion &Quat, btVector3 &Euler)
 }
 
 // Removes a bit field from a value
-void PhysicsClass::RemoveFilter(int &Value, int Filter) {
+void _Physics::RemoveFilter(int &Value, int Filter) {
 
 	Value &= (~Filter);
 }
 
 // Sets default, static, or kinematic on a rigid body
-void PhysicsClass::SetBodyType(int &Value, int Filter) {
+void _Physics::SetBodyType(int &Value, int Filter) {
 
 	Value &= (~FILTER_BASICBODIES);
 	Value |= Filter;

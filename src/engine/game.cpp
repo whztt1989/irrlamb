@@ -37,10 +37,10 @@
 #include "../menu.h"
 #include "namespace.h"
 
-GameClass Game;
+_Game Game;
 
 // Processes parameters and initializes the game
-int GameClass::Init(int Count, char **Arguments) {
+int _Game::Init(int Count, char **Arguments) {
 
 	// Defaults
 	SleepRate = 120.0f;
@@ -50,7 +50,7 @@ int GameClass::Init(int Count, char **Arguments) {
 	WindowActive = true;
 	MouseWasLocked = false;
 	Done = false;
-	StateClass *FirstState = &MenuState;
+	_State *FirstState = &MenuState;
 	E_DRIVER_TYPE DriverType = EDT_NULL;
 	bool AudioEnabled = true;
 	PlayState.SetCampaign(-1);
@@ -156,7 +156,7 @@ int GameClass::Init(int Count, char **Arguments) {
 }
 
 // Requests a state change
-void GameClass::ChangeState(StateClass *State) {
+void _Game::ChangeState(_State *State) {
 	Fader.Start(-FADE_SPEED);
 
 	NewState = State;
@@ -164,7 +164,7 @@ void GameClass::ChangeState(StateClass *State) {
 }
 
 // Updates the current state and runs the game engine
-void GameClass::Update() {
+void _Game::Update() {
 
 	// Run irrlicht engine
 	if(!irrDevice->run())
@@ -238,7 +238,7 @@ void GameClass::Update() {
 }
 
 // Shuts down the system
-void GameClass::Close() {
+void _Game::Close() {
 	
 	// Close the state
 	State->Close();
@@ -258,21 +258,21 @@ void GameClass::Close() {
 }
 
 // Resets the game timer
-void GameClass::ResetTimer() {
+void _Game::ResetTimer() {
 	
 	irrTimer->setTime(0);
 	TimeStamp = irrTimer->getTime();
 }
 
 // Resets the graphics for a state
-void GameClass::ResetGraphics() {
+void _Game::ResetGraphics() {
 	Graphics.SetClearColor(SColor(0, 0, 0, 0));
 	Graphics.SetDrawScene(true);
 	Interface.Clear();
 }
 
 // Initialize the audio system and load basic buffers
-void GameClass::EnableAudio() {
+void _Game::EnableAudio() {
 	Audio.Init(true);
 	Audio.LoadBuffer("confirm.ogg");
 	Audio.LoadBuffer("orb.ogg");
@@ -281,7 +281,7 @@ void GameClass::EnableAudio() {
 }
 
 // Disable audio system
-void GameClass::DisableAudio() {
+void _Game::DisableAudio() {
 	Audio.Close();
 	Interface.UnloadSounds();
 }

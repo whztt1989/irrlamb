@@ -52,7 +52,7 @@ const wchar_t *_MenuState::ActionNames[_Actions::COUNT] = {
 // Initializes the state
 int _MenuState::Init() {
 
-	Interface.ChangeSkin(InterfaceClass::SKIN_MENU);
+	Interface.ChangeSkin(_Interface::SKIN_MENU);
 	Input.SetMouseLocked(false);
 
 	State = STATE_INITMAIN;
@@ -401,22 +401,22 @@ void _MenuState::Update(float FrameTime) {
 			IGUIButton *ButtonReplays = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 50, 130, 34), 0, MAIN_REPLAYS, L"Replays");
 			IGUIButton *ButtonOptions = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 100, 130, 34), 0, MAIN_OPTIONS, L"Options");
 			IGUIButton *ButtonQuit = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 150, 130, 34), 0, MAIN_QUIT, L"Quit");
-			ButtonSinglePlayer->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonSinglePlayer->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonSinglePlayer->setUseAlphaChannel(true);
 			ButtonSinglePlayer->setDrawBorder(false);
-			ButtonReplays->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonReplays->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonReplays->setUseAlphaChannel(true);
 			ButtonReplays->setDrawBorder(false);
-			ButtonOptions->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonOptions->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonOptions->setUseAlphaChannel(true);
 			ButtonOptions->setDrawBorder(false);
-			ButtonQuit->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonQuit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonQuit->setUseAlphaChannel(true);
 			ButtonQuit->setDrawBorder(false);
 
 			// Play sound
 			if(!FirstStateLoad)
-				Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+				Interface.PlaySound(_Interface::SOUND_CONFIRM);
 			FirstStateLoad = false;
 
 			State = STATE_MAIN;
@@ -434,7 +434,7 @@ void _MenuState::Update(float FrameTime) {
 			// Text
 			X = CenterX, Y = CenterY - 150;
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Level Sets", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Campaigns
@@ -443,7 +443,7 @@ void _MenuState::Update(float FrameTime) {
 			for(u32 i = 0; i < Campaigns.size(); i++) {
 				irr::core::stringw Name(Campaigns[i].Name.c_str());
 				IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, PLAY_CAMPAIGNID + i, Name.c_str());
-				Button->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+				Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 				Button->setUseAlphaChannel(true);
 				Button->setDrawBorder(false);
 
@@ -452,12 +452,12 @@ void _MenuState::Update(float FrameTime) {
 
 			Y += 50;
 			IGUIButton *BackButton = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, SINGLEPLAYER_BACK, L"Back");
-			BackButton->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			BackButton->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			BackButton->setUseAlphaChannel(true);
 			BackButton->setDrawBorder(false);
 
 			// Play sound
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			State = STATE_SINGLEPLAYER;
 		}
@@ -472,7 +472,7 @@ void _MenuState::Update(float FrameTime) {
 
 			// Text
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Levels", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Add level list
@@ -518,13 +518,13 @@ void _MenuState::Update(float FrameTime) {
 			X = CenterX;
 			Y = CenterY + 180;
 			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 82, 34), 0, LEVELS_BACK, L"Back");
-			ButtonBack->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonBack->setUseAlphaChannel(true);
 			ButtonBack->setDrawBorder(false);
 
 			// Play sound
 			if(!FirstStateLoad)
-				Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+				Interface.PlaySound(_Interface::SOUND_CONFIRM);
 			FirstStateLoad = false;
 
 			State = STATE_LEVELS;
@@ -539,7 +539,7 @@ void _MenuState::Update(float FrameTime) {
 			// Text
 			X = CenterX, Y = CenterY - 180;
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Replays", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Level selection
@@ -583,19 +583,19 @@ void _MenuState::Update(float FrameTime) {
 			IGUIButton *ButtonGo = irrGUI->addButton(Interface.GetCenteredRect(X - 123, Y, 102, 34), 0, REPLAYS_GO, L"View");
 			IGUIButton *ButtonDelete = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 102, 34), 0, REPLAYS_DELETE, L"Delete");
 			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X + 123, Y, 102, 34), 0, REPLAYS_BACK, L"Back");
-			ButtonGo->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+			ButtonGo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 			ButtonGo->setUseAlphaChannel(true);
 			ButtonGo->setDrawBorder(false);
-			ButtonDelete->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+			ButtonDelete->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 			ButtonDelete->setUseAlphaChannel(true);
 			ButtonDelete->setDrawBorder(false);
-			ButtonBack->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON100));
+			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
 			ButtonBack->setUseAlphaChannel(true);
 			ButtonBack->setDrawBorder(false);
 
 			// Play sound
 			if(!FirstStateLoad)
-				Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+				Interface.PlaySound(_Interface::SOUND_CONFIRM);
 			FirstStateLoad = false;
 
 			State = STATE_REPLAYS;
@@ -608,7 +608,7 @@ void _MenuState::Update(float FrameTime) {
 			
 			// Text
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Options", Interface.GetCenteredRect(CenterX, CenterY - 120, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Buttons
@@ -616,21 +616,21 @@ void _MenuState::Update(float FrameTime) {
 			IGUIButton *ButtonAudio = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY, 130, 34), 0, OPTIONS_AUDIO, L"Audio");
 			IGUIButton *ButtonControls = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 50, 130, 34), 0, OPTIONS_CONTROLS, L"Controls");
 			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 100, 130, 34), 0, OPTIONS_BACK, L"Back");
-			ButtonVideo->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonVideo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonVideo->setUseAlphaChannel(true);
 			ButtonVideo->setDrawBorder(false);
-			ButtonAudio->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonAudio->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonAudio->setUseAlphaChannel(true);
 			ButtonAudio->setDrawBorder(false);
-			ButtonControls->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonControls->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonControls->setUseAlphaChannel(true);
 			ButtonControls->setDrawBorder(false);
-			ButtonBack->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON128));
+			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
 			ButtonBack->setUseAlphaChannel(true);
 			ButtonBack->setDrawBorder(false);
 
 			// Play sound
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			State = STATE_OPTIONS;
 		}
@@ -643,7 +643,7 @@ void _MenuState::Update(float FrameTime) {
 			// Text
 			X = CenterX, Y = CenterY - 150;
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Video", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Video modes
@@ -684,10 +684,10 @@ void _MenuState::Update(float FrameTime) {
 			Y += 60;
 			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, VIDEO_SAVE, L"Save");
 			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, VIDEO_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonSave->setUseAlphaChannel(true);
 			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonCancel->setUseAlphaChannel(true);
 			ButtonCancel->setDrawBorder(false);
 
@@ -697,7 +697,7 @@ void _MenuState::Update(float FrameTime) {
 			TextWarning->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 
 			// Play sound
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			State = STATE_VIDEO;
 		}
@@ -710,7 +710,7 @@ void _MenuState::Update(float FrameTime) {
 			// Text
 			X = CenterX, Y = CenterY - 150;
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Audio", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Sound enabled
@@ -723,15 +723,15 @@ void _MenuState::Update(float FrameTime) {
 			Y += 90;
 			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, AUDIO_SAVE, L"Save");
 			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, AUDIO_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonSave->setUseAlphaChannel(true);
 			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonCancel->setUseAlphaChannel(true);
 			ButtonCancel->setDrawBorder(false);
 
 			// Play sound
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			State = STATE_AUDIO;
 		}
@@ -744,7 +744,7 @@ void _MenuState::Update(float FrameTime) {
 
 			// Text
 			IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(CenterX, CenterY - 160, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(InterfaceClass::FONT_LARGE));
+			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 			// Create the key buttons
@@ -756,7 +756,7 @@ void _MenuState::Update(float FrameTime) {
 				IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
 				Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
 				IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str());
-				Button->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+				Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 				Button->setUseAlphaChannel(true);
 				Button->setDrawBorder(false);
 
@@ -772,15 +772,15 @@ void _MenuState::Update(float FrameTime) {
 			// Save
 			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), 0, CONTROLS_SAVE, L"Save");
 			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), 0, CONTROLS_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonSave->setUseAlphaChannel(true);
 			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 			ButtonCancel->setUseAlphaChannel(true);
 			ButtonCancel->setDrawBorder(false);
 	
 			// Play sound
-			Interface.PlaySound(InterfaceClass::SOUND_CONFIRM);
+			Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
 			State = STATE_CONTROLS;
 		}
@@ -821,25 +821,25 @@ void _MenuState::Draw() {
 			if(Stats->Unlocked) {
 
 				// Level nice name
-				Interface.RenderText(NiceName.c_str(), X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, SColor(255, 255, 255, 255));
+				Interface.RenderText(NiceName.c_str(), X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
 				Y += 35;
 
 				// Play time
-				Interface.RenderText("Play time", X - 10, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText("Play time", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 				Interface.ConvertSecondsToString(Stats->PlayTime, Buffer);
-				Interface.RenderText(Buffer, X + 10, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 				// Load count
 				Y += 17;
-				Interface.RenderText("Plays", X - 10, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText("Plays", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 				sprintf(Buffer, "%d", Stats->LoadCount);
-				Interface.RenderText(Buffer, X + 10, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 				// Win count
 				Y += 17;
-				Interface.RenderText("Wins", X - 10, Y, InterfaceClass::ALIGN_RIGHT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText("Wins", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 				sprintf(Buffer, "%d", Stats->WinCount);
-				Interface.RenderText(Buffer, X + 10, Y, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 				// Scores
 				if(Stats->HighScores.size() > 0) {
@@ -848,9 +848,9 @@ void _MenuState::Draw() {
 					int HighX = Left + Width/2 - 80, HighY = Y + 28;
 
 					// Draw header
-					Interface.RenderText("#", HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-					Interface.RenderText("Time", HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
-					Interface.RenderText("Date", HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+					Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 					HighY += 17;
 
 					for(size_t i = 0; i < Stats->HighScores.size(); i++) {
@@ -858,16 +858,16 @@ void _MenuState::Draw() {
 						// Number
 						char SmallBuffer[32];
 						sprintf(SmallBuffer, "%d", (int)i+1);
-						Interface.RenderText(SmallBuffer, HighX, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+						Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 						// Time
 						Interface.ConvertSecondsToString(Stats->HighScores[i].Time, Buffer);
-						Interface.RenderText(Buffer, HighX + 30, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(255, 255, 255, 255));
+						Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 						// Date
 						char DateString[32];
 						strftime(DateString, 32, "%m-%d-%Y", localtime(&Stats->HighScores[i].DateStamp));
-						Interface.RenderText(DateString, HighX + 110, HighY, InterfaceClass::ALIGN_LEFT, InterfaceClass::FONT_SMALL, SColor(200, 255, 255, 255));
+						Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 						HighY += 17;
 					}
@@ -876,7 +876,7 @@ void _MenuState::Draw() {
 			else {
 				
 				// Locked
-				Interface.RenderText("Level Locked", X, Y, InterfaceClass::ALIGN_CENTER, InterfaceClass::FONT_MEDIUM, SColor(255, 255, 255, 255));
+				Interface.RenderText("Level Locked", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
 			}
 		}
 	}

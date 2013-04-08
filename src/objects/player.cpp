@@ -35,8 +35,8 @@
 #include <IParticleSystemSceneNode.h>
 
 // Constructor
-PlayerClass::PlayerClass(const SpawnStruct &Object)
-:	ObjectClass(),
+_Player::_Player(const SpawnStruct &Object)
+:	_Object(),
 	Sound(NULL),
 	Camera(NULL),
 	Light(NULL),
@@ -100,7 +100,7 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 		RigidBody->setSleepingThresholds(0.1f, 0.1f);
 
 		// Audio
-		Sound = new AudioSourceClass(Audio.GetBuffer("player.ogg"), true, 0.0, 0.50f);
+		Sound = new _AudioSource(Audio.GetBuffer("player.ogg"), true, 0.0, 0.50f);
 		Sound->SetPosition(Object.Position[0], Object.Position[1], Object.Position[2]);
 		Sound->Play();
 	}
@@ -112,14 +112,14 @@ PlayerClass::PlayerClass(const SpawnStruct &Object)
 }
 
 // Destructor
-PlayerClass::~PlayerClass() {
+_Player::~_Player() {
 
 	delete Sound;
 }
 
 // Update the player
-void PlayerClass::Update(float FrameTime) {
-	ObjectClass::Update(FrameTime);
+void _Player::Update(float FrameTime) {
+	_Object::Update(FrameTime);
 	
 	// Update audio
 	const btVector3 &Position = GetPosition();
@@ -148,7 +148,7 @@ void PlayerClass::Update(float FrameTime) {
 }
 
 // Processes key presses
-bool PlayerClass::ProcessKeyPress(int Key) {
+bool _Player::ProcessKeyPress(int Key) {
 
 	if(Actions.GetState(_Actions::JUMP)) {
 		Jump();
@@ -160,7 +160,7 @@ bool PlayerClass::ProcessKeyPress(int Key) {
 }
 
 // Processes input from the keyboard
-void PlayerClass::HandleInput() {
+void _Player::HandleInput() {
 	vector3df Push(0.0f, 0.0f, 0.0f);
 	
 	// Get input direction
@@ -201,7 +201,7 @@ void PlayerClass::HandleInput() {
 }
 
 // Attempts to jump
-void PlayerClass::Jump() {
+void _Player::Jump() {
 	if(TouchingGround && JumpTimer == 0) {
 		RigidBody->activate();
 		RigidBody->applyCentralImpulse(btVector3(0.0f, 5.0f, 0.0f));

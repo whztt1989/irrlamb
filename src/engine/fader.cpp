@@ -21,10 +21,10 @@
 #include "constants.h"
 #include "namespace.h"
 
-FaderClass Fader;
+_Fader Fader;
 
 // Initializes the fader system
-int FaderClass::Init() {
+int _Fader::Init() {
 
 	// Set state
 	State = STATE_NONE;
@@ -40,13 +40,13 @@ int FaderClass::Init() {
 }
 
 // Closes the fader system
-int FaderClass::Close() {
+int _Fader::Close() {
 	
 	return 1;
 }
 
 // Update fader
-void FaderClass::Update(float FrameTime) {
+void _Fader::Update(float FrameTime) {
 	
 	// Update fading
 	switch(State) {
@@ -81,12 +81,12 @@ void FaderClass::Update(float FrameTime) {
 }
 
 // Draw fader
-void FaderClass::Draw() {
+void _Fader::Draw() {
 	irrDriver->draw2DImage(FadeImage, position2di(0, 0), recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, SColor((u32)((1.0f - Fade) * 255), 255, 255, 255), true);	
 }
 
 // Starts fading the audio/screen
-void FaderClass::Start(float Speed) {
+void _Fader::Start(float Speed) {
 
 	this->Speed = Speed;
 	State = STATE_FADING;

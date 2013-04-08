@@ -29,10 +29,10 @@
 #include <ctime>
 #include <irrlicht.h>
 
-GraphicsClass Graphics;
+_Graphics Graphics;
 
 // Initializes the graphics system
-int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {
+int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {
 	ShowCursor = true;
 	ShadersSupported = false;
 	CustomMaterial = -1;
@@ -115,7 +115,7 @@ int GraphicsClass::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Dr
 }
 
 // Closes the graphics system
-int GraphicsClass::Close() {
+int _Graphics::Close() {
 	
 	// Close irrlicht
 	irrDevice->drop();
@@ -124,7 +124,7 @@ int GraphicsClass::Close() {
 }
 
 // Erases the buffer and sets irrlicht up for the next frame
-void GraphicsClass::BeginFrame() {
+void _Graphics::BeginFrame() {
 	irrDriver->beginScene(true, true, ClearColor);
 	
 	if(DrawScene)
@@ -132,11 +132,11 @@ void GraphicsClass::BeginFrame() {
 }
 
 // Draws the buffer to the screen
-void GraphicsClass::EndFrame() {
+void _Graphics::EndFrame() {
 	
 	// Draw cursor
 	if(ShowCursor)
-		Interface.DrawImage(InterfaceClass::IMAGE_MOUSECURSOR, Input.GetMouseX(), Input.GetMouseY(), 16, 16);
+		Interface.DrawImage(_Interface::IMAGE_MOUSECURSOR, Input.GetMouseX(), Input.GetMouseY(), 16, 16);
 
 	Fader.Draw();
 	irrDriver->endScene();
@@ -147,7 +147,7 @@ void GraphicsClass::EndFrame() {
 }
 
 // Returns the index of the current video mode
-std::size_t GraphicsClass::GetCurrentVideoModeIndex() {
+std::size_t _Graphics::GetCurrentVideoModeIndex() {
 
 	// Find the video mode
 	for(std::size_t i = 0; i < VideoModes.size(); i++) {
@@ -159,12 +159,12 @@ std::size_t GraphicsClass::GetCurrentVideoModeIndex() {
 }
 
 // Request screenshot
-void GraphicsClass::SaveScreenshot() {
+void _Graphics::SaveScreenshot() {
 	ScreenshotRequested = 1;
 }
 
 // Create the screenshot
-void GraphicsClass::CreateScreenshot() {
+void _Graphics::CreateScreenshot() {
 
 	// Get time
 	time_t Now;

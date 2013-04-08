@@ -25,21 +25,21 @@
 // Keeps track of touched objects
 struct ObjectTouchState {
 	ObjectTouchState() { }
-	ObjectTouchState(ObjectClass *Object, int TouchCount) : Object(Object), TouchCount(TouchCount) { }
+	ObjectTouchState(_Object *Object, int TouchCount) : Object(Object), TouchCount(TouchCount) { }
 
-	ObjectClass *Object;
+	_Object *Object;
 	int TouchCount;
 };
 
 // Classes
-class ZoneClass : public ObjectClass {
+class _Zone : public _Object {
 
 	public:
 
-		ZoneClass(const SpawnStruct &Object);
+		_Zone(const SpawnStruct &Object);
 
 		void EndFrame();
-		virtual void HandleCollision(ObjectClass *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale);
+		virtual void HandleCollision(_Object *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale);
 
 		void SetActive(bool Value);
 

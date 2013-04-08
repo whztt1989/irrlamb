@@ -23,7 +23,7 @@
 #include "namespace.h"
 
 // Constructor
-CameraClass::CameraClass()
+_Camera::_Camera()
 :	Node(NULL),
 	Yaw(0.0f),
 	MovementChanged(true),
@@ -37,13 +37,13 @@ CameraClass::CameraClass()
 }
 
 // Destructor
-CameraClass::~CameraClass() {
+_Camera::~_Camera() {
 
 	Node->remove();
 }
 
 // Updates the camera based on the mouse
-void CameraClass::HandleMouseMotion(float UpdateX, float UpdateY) {
+void _Camera::HandleMouseMotion(float UpdateX, float UpdateY) {
 
 	Yaw += UpdateX;
 	Pitch += UpdateY;
@@ -55,7 +55,7 @@ void CameraClass::HandleMouseMotion(float UpdateX, float UpdateY) {
 }
 
 // Updates the camera
-void CameraClass::Update(const vector3df &Target) {
+void _Camera::Update(const vector3df &Target) {
 	
 	// Get camera rotation
 	Transform.makeIdentity();
@@ -107,15 +107,15 @@ void CameraClass::Update(const vector3df &Target) {
 }
 
 // Record the camera
-void CameraClass::RecordReplay() {
+void _Camera::RecordReplay() {
 	
 	// Write replay
 	if(Replay.NeedsPacket() && MovementChanged) {
 		MovementChanged = false;
 
 		// Write replay information
-		FileClass &ReplayStream = Replay.GetReplayStream();
-		Replay.WriteEvent(ReplayClass::PACKET_CAMERA);
+		_File &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(_Replay::PACKET_CAMERA);
 		ReplayStream.WriteData((void *)&Node->getPosition(), sizeof(vector3df));
 		ReplayStream.WriteData((void *)&Node->getTarget(), sizeof(vector3df));
 	}

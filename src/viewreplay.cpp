@@ -44,7 +44,7 @@ int _ViewReplayState::Init() {
 	ReplaySpeed = PauseSpeed = 1.0f;
 	Timer = 0.0f;
 	Input.SetMouseLocked(false);
-	Interface.ChangeSkin(InterfaceClass::SKIN_GAME);
+	Interface.ChangeSkin(_Interface::SKIN_GAME);
 
 	// Set up physics world
 	Physics.SetEnabled(false);
@@ -61,7 +61,7 @@ int _ViewReplayState::Init() {
 		return 0;
 
 	// Add camera
-	Camera = new CameraClass();
+	Camera = new _Camera();
 
 	// Turn off graphics until camera is positioned
 	Graphics.SetDrawScene(false);
@@ -171,14 +171,14 @@ void _ViewReplayState::Update(float FrameTime) {
 		//printf("Processing header packet: type=%d time=%f\n", NextEvent.Type, NextEvent.TimeStamp);
 		
 		switch(NextEvent.Type) {
-			case ReplayClass::PACKET_MOVEMENT:
+			case _Replay::PACKET_MOVEMENT:
 				ObjectManager.UpdateFromReplay();
 			break;
-			case ReplayClass::PACKET_CREATE: {
+			case _Replay::PACKET_CREATE: {
 				SpawnStruct Spawn;
 
 				// Read replay
-				FileClass &ReplayStream = Replay.GetReplayStream();
+				_File &ReplayStream = Replay.GetReplayStream();
 				int TemplateID = ReplayStream.ReadShortInt();
 				int ObjectID = ReplayStream.ReadShortInt();
 				ReplayStream.ReadData(Spawn.Position, sizeof(btScalar) * 3);
@@ -187,26 +187,26 @@ void _ViewReplayState::Update(float FrameTime) {
 				// Create spawn object
 				Spawn.Template = Level.GetTemplateFromID(TemplateID);
 				if(Spawn.Template != NULL) {
-					ObjectClass *NewObject = Level.CreateObject(Spawn);
+					_Object *NewObject = Level.CreateObject(Spawn);
 					NewObject->SetID(ObjectID);
 				}
 			}
 			break;
-			case ReplayClass::PACKET_DELETE: {
+			case _Replay::PACKET_DELETE: {
 
 				// Read replay
-				FileClass &ReplayStream = Replay.GetReplayStream();
+				_File &ReplayStream = Replay.GetReplayStream();
 				int ObjectID = ReplayStream.ReadShortInt();
 
 				// Delete object
 				ObjectManager.DeleteObjectByID(ObjectID);
 			}
 			break;
-			case ReplayClass::PACKET_CAMERA: {
+			case _Replay::PACKET_CAMERA: {
 				
 				// Read replay
 				vector3df Position, LookAt;
-				FileClass &ReplayStream = Replay.GetReplayStream();
+				_File &ReplayStream = Replay.GetReplayStream();
 				ReplayStream.ReadData(&Position.X, sizeof(float) * 3);
 				ReplayStream.ReadData(&LookAt.X, sizeof(float) * 3);
 
@@ -218,15 +218,15 @@ void _ViewReplayState::Update(float FrameTime) {
 				//printf("Camera Position=%f %f %f Target=%f %f %f\n", Position.X, Position.Y, Position.Z, LookAt.X, LookAt.Y, LookAt.Z);
 			}
 			break;
-			case ReplayClass::PACKET_ORBDEACTIVATE: {
+			case _Replay::PACKET_ORBDEACTIVATE: {
 
 				// Read replay
-				FileClass &ReplayStream = Replay.GetReplayStream();
+				_File &ReplayStream = Replay.GetReplayStream();
 				int ObjectID = ReplayStream.ReadShortInt();
 				float Length = ReplayStream.ReadFloat();
 
 				// Deactivate orb
-				OrbClass *Orb = static_cast<OrbClass *>(ObjectManager.GetObjectByID(ObjectID));
+				_Orb *Orb = static_cast<_Orb *>(ObjectManager.GetObjectByID(ObjectID));
 				Orb->StartDeactivation("", Length);
 			}
 			break;
@@ -259,15 +259,15 @@ void _ViewReplayState::Draw() {
 
 	// Draw time
 	int X = Left + Width/2 - 10, Y = Top + 15;
-	Interface.RenderText("Time", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
+	Interface.RenderText("Time", X - 5, Y, _Interface::ALIGN_RIGHT);
 	Interface.ConvertSecondsToString(DisplayTime, Buffer);
-	Interface.RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
+	Interface.RenderText(Buffer, X + 5, Y, _Interface::ALIGN_LEFT);
 
 	// Draw controls
 	Y += 17;
-	Interface.RenderText("Speed", X - 5, Y, InterfaceClass::ALIGN_RIGHT);
+	Interface.RenderText("Speed", X - 5, Y, _Interface::ALIGN_RIGHT);
 	sprintf(Buffer, "%.2f", ReplaySpeed);
-	Interface.RenderText(Buffer, X + 5, Y, InterfaceClass::ALIGN_LEFT);
+	Interface.RenderText(Buffer, X + 5, Y, _Interface::ALIGN_LEFT);
 
 	irrGUI->drawAll();
 }
@@ -279,42 +279,42 @@ void _ViewReplayState::SetupGUI() {
 	// Restart replay
 	int X = Right - 285, Y = 19;
 	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_RESTART);
-	ButtonRewind->setImage(Interface.GetImage(InterfaceClass::IMAGE_REWIND));
+	ButtonRewind->setImage(Interface.GetImage(_Interface::IMAGE_REWIND));
 	ButtonRewind->setUseAlphaChannel(true);
 	ButtonRewind->setDrawBorder(false);
 
 	// Decrease replay speed
 	X += 45;
 	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_DECREASE);
-	ButtonDecrease->setImage(Interface.GetImage(InterfaceClass::IMAGE_DECREASE));
+	ButtonDecrease->setImage(Interface.GetImage(_Interface::IMAGE_DECREASE));
 	ButtonDecrease->setUseAlphaChannel(true);
 	ButtonDecrease->setDrawBorder(false);
 
 	// Increase replay speed
 	X += 37;
 	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_INCREASE);
-	ButtonIncrease->setImage(Interface.GetImage(InterfaceClass::IMAGE_INCREASE));
+	ButtonIncrease->setImage(Interface.GetImage(_Interface::IMAGE_INCREASE));
 	ButtonIncrease->setUseAlphaChannel(true);
 	ButtonIncrease->setDrawBorder(false);
 
 	// Pause
 	X += 45;
 	IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_PAUSE);
-	ButtonPause->setImage(Interface.GetImage(InterfaceClass::IMAGE_PAUSE));
+	ButtonPause->setImage(Interface.GetImage(_Interface::IMAGE_PAUSE));
 	ButtonPause->setUseAlphaChannel(true);
 	ButtonPause->setDrawBorder(false);
 
 	// Skip ahead
 	X += 37;
 	IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_SKIP);
-	ButtonSkip->setImage(Interface.GetImage(InterfaceClass::IMAGE_FASTFORWARD));
+	ButtonSkip->setImage(Interface.GetImage(_Interface::IMAGE_FASTFORWARD));
 	ButtonSkip->setUseAlphaChannel(true);
 	ButtonSkip->setDrawBorder(false);
 
 	// Exit
 	X += 45;
 	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 82, 34), 0, MAIN_EXIT, L"Exit");
-	ButtonExit->setImage(Interface.GetImage(InterfaceClass::IMAGE_BUTTON80));
+	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);
 }

@@ -23,7 +23,7 @@
 #include <position2d.h>
 
 // Classes
-class FaderClass {
+class _Fader {
 
 	public:
 
@@ -56,6 +56,6 @@ class FaderClass {
 };
 
 // Singletons
-extern FaderClass Fader;
+extern _Fader Fader;
 
 #endif

@@ -22,7 +22,7 @@
 #include "actions.h"
 
 // Classes
-class ConfigClass {
+class _Config {
 
 	public:
 
@@ -60,6 +60,6 @@ class ConfigClass {
 };
 
 // Singletons
-extern ConfigClass Config;
+extern _Config Config;
 
 #endif

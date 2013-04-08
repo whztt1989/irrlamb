@@ -24,24 +24,24 @@
 #include <ILightSceneNode.h>
 
 // Classes
-class PlayerClass : public ObjectClass {
+class _Player : public _Object {
 
 	public:
 
-		PlayerClass(const SpawnStruct &Object);
-		~PlayerClass();
+		_Player(const SpawnStruct &Object);
+		~_Player();
 
 		void Update(float FrameTime);
 		bool ProcessKeyPress(int Key);
 		void HandleInput();
 
 		void Jump();
-		void SetCamera(CameraClass *Camera) { this->Camera = Camera; }
+		void SetCamera(_Camera *Camera) { this->Camera = Camera; }
 
 	private:
 
 		// Camera
-		CameraClass *Camera;
+		_Camera *Camera;
 
 		// Jumping
 		float JumpTimer;
@@ -51,7 +51,7 @@ class PlayerClass : public ObjectClass {
 		irr::scene::ILightSceneNode *Light;
 
 		// Audio
-		AudioSourceClass *Sound;
+		_AudioSource *Sound;
 };
 
 #endif

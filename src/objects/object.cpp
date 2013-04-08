@@ -23,7 +23,7 @@
 #include "../engine/namespace.h"
 
 // Constructor
-ObjectClass::ObjectClass()
+_Object::_Object()
 :	Name(""),
 	Type(NONE),
 	Deleted(false),
@@ -42,7 +42,7 @@ ObjectClass::ObjectClass()
 }
 
 // Destructor
-ObjectClass::~ObjectClass() {
+_Object::~_Object() {
 	
 	if(Node)
 		Node->remove();
@@ -55,7 +55,7 @@ ObjectClass::~ObjectClass() {
 }
 
 // Creates a rigid body object and adds it to the world
-void ObjectClass::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *Shape) {
+void _Object::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *Shape) {
 	TemplateStruct *Template = Object.Template;
 
 	// Rotation
@@ -84,7 +84,7 @@ void ObjectClass::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *S
 }
 
 // Updates the object
-void ObjectClass::Update(float FrameTime) {
+void _Object::Update(float FrameTime) {
 	Timer += FrameTime;
 
 	// Check for expiration
@@ -93,13 +93,13 @@ void ObjectClass::Update(float FrameTime) {
 }
 
 // Updates while replaying
-void ObjectClass::UpdateReplay(float FrameTime) {
+void _Object::UpdateReplay(float FrameTime) {
 	
 	Timer += FrameTime;
 }
 
 // Sets object properties
-void ObjectClass::SetProperties(const SpawnStruct &Object) {
+void _Object::SetProperties(const SpawnStruct &Object) {
 	TemplateStruct *Template = Object.Template;
 
 	// Basic properties
@@ -130,7 +130,7 @@ void ObjectClass::SetProperties(const SpawnStruct &Object) {
 }
 
 // Sets object properties
-void ObjectClass::SetProperties(const ConstraintStruct &Object) {
+void _Object::SetProperties(const ConstraintStruct &Object) {
 	TemplateStruct *Template = Object.Template;
 
 	// Basic properties
@@ -140,12 +140,12 @@ void ObjectClass::SetProperties(const ConstraintStruct &Object) {
 }
 
 // Get the center of mass transform for the object
-void ObjectClass::getWorldTransform(btTransform &Transform) const {
+void _Object::getWorldTransform(btTransform &Transform) const {
 	Transform = CenterOfMassTransform;
 }
 
 // Set the center of mass transform for the object
-void ObjectClass::setWorldTransform(const btTransform &Transform) {
+void _Object::setWorldTransform(const btTransform &Transform) {
 	CenterOfMassTransform = Transform;
 
 	if(Node) {
@@ -163,20 +163,20 @@ void ObjectClass::setWorldTransform(const btTransform &Transform) {
 }
 
 // Stops the body's movement
-void ObjectClass::Stop() {
+void _Object::Stop() {
 
 	RigidBody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 	RigidBody->setAngularVelocity(btVector3(0.0f, 0.0f, 0.0f));
 }
 
 // Sets the position of the body
-void ObjectClass::SetPosition(const btVector3 &Position) {
+void _Object::SetPosition(const btVector3 &Position) {
 	LastOrientation.setOrigin(Position);
 	RigidBody->getWorldTransform().setOrigin(Position);
 }
 
 // Collision callback
-void ObjectClass::HandleCollision(ObjectClass *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale) {
+void _Object::HandleCollision(_Object *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale) {
 	
 	// Get touching states
 	if(OtherObject->GetType() != ZONE) {
@@ -194,7 +194,7 @@ void ObjectClass::HandleCollision(ObjectClass *OtherObject, const btPersistentMa
 }
 
 // Resets the object state before the frame begins
-void ObjectClass::BeginFrame() {
+void _Object::BeginFrame() {
 	TouchingGround = TouchingWall = false;
 	if(RigidBody) {
 		LastOrientation = RigidBody->getWorldTransform();
@@ -202,7 +202,7 @@ void ObjectClass::BeginFrame() {
 }
 
 // Determines if the object moved
-void ObjectClass::EndFrame() {
+void _Object::EndFrame() {
 
 	// Note changes for replays
 	if(Node && RigidBody && !NeedsReplayPacket && !(LastOrientation == RigidBody->getWorldTransform())) {

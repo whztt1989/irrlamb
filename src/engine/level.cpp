@@ -41,12 +41,12 @@
 #include "../objects/springjoint.h"
 #include "namespace.h"
 
-LevelClass Level;
+_Level Level;
 
 // Loads a level file
-int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
+int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(!HeaderOnly)
-		Log.Write("LevelClass::Init - Loading level: %s", LevelName.c_str());
+		Log.Write("_Level::Init - Loading level: %s", LevelName.c_str());
 	
 	// Get paths
 	this->LevelName = LevelName;
@@ -190,7 +190,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 			// Create template
 			TemplateStruct *Template = new TemplateStruct;
 			Template->CollisionFile = DataPath + File;
-			Template->Type = ObjectClass::COLLISION;
+			Template->Type = _Object::COLLISION;
 			Template->Mass = 0.0f;
 			Templates.push_back(Template);
 
@@ -238,7 +238,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 					Template->CustomMaterial = Graphics.GetCustomMaterial();
 
 				// Set the player to emit light
-				if(Template->Type == ObjectClass::PLAYER)
+				if(Template->Type == _Object::PLAYER)
 					Template->EmitLight = true;
 			}
 			TemplateID++;
@@ -269,7 +269,7 @@ int LevelClass::Init(const std::string &LevelName, bool HeaderOnly) {
 }
 
 // Closes the level
-int LevelClass::Close() {
+int _Level::Close() {
 
 	// Clear scripts
 	Scripts.clear();
@@ -290,7 +290,7 @@ int LevelClass::Close() {
 }
 
 // Processes a template tag
-int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStruct &Object) {
+int _Level::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStruct &Object) {
 	TiXmlElement *Element;
 	const char *String;
 
@@ -388,47 +388,47 @@ int LevelClass::GetTemplateProperties(TiXmlElement *TemplateElement, TemplateStr
 
 	// Validate objects
 	if(ObjectType == "player") {
-		Object.Type = ObjectClass::PLAYER;
-		Object.CollisionGroup &= ~PhysicsClass::FILTER_CAMERA;
+		Object.Type = _Object::PLAYER;
+		Object.CollisionGroup &= ~_Physics::FILTER_CAMERA;
 	}
 	else if(ObjectType == "orb") {
-		Object.Type = ObjectClass::ORB;
+		Object.Type = _Object::ORB;
 	}
 	else if(ObjectType == "sphere") {
-		Object.Type = ObjectClass::SPHERE;
+		Object.Type = _Object::SPHERE;
 	}
 	else if(ObjectType == "box") {
-		Object.Type = ObjectClass::BOX;
+		Object.Type = _Object::BOX;
 	}
 	else if(ObjectType == "cylinder") {
-		Object.Type = ObjectClass::CYLINDER;
+		Object.Type = _Object::CYLINDER;
 	}
 	else if(ObjectType == "zone") {
-		Object.Type = ObjectClass::ZONE;
+		Object.Type = _Object::ZONE;
 		Object.Mass = 0.0f;
-		Object.CollisionGroup = PhysicsClass::FILTER_ZONE;
-		Object.CollisionMask = PhysicsClass::FILTER_RIGIDBODY | PhysicsClass::FILTER_KINEMATIC;
+		Object.CollisionGroup = _Physics::FILTER_ZONE;
+		Object.CollisionMask = _Physics::FILTER_RIGIDBODY | _Physics::FILTER_KINEMATIC;
 	}
 	else if(ObjectType == "d6") {
-		Object.Type = ObjectClass::CONSTRAINT_D6;
+		Object.Type = _Object::CONSTRAINT_D6;
 	}
 	else if(ObjectType == "hinge") {
-		Object.Type = ObjectClass::CONSTRAINT_HINGE;
+		Object.Type = _Object::CONSTRAINT_HINGE;
 	}
 
 	// If a rigidbody's mass is zero, set group to static
-	if(Object.Mass == 0.0f && Object.CollisionGroup == PhysicsClass::FILTER_RIGIDBODY) {
-		Object.CollisionGroup = PhysicsClass::FILTER_STATIC | PhysicsClass::FILTER_CAMERA;
+	if(Object.Mass == 0.0f && Object.CollisionGroup == _Physics::FILTER_RIGIDBODY) {
+		Object.CollisionGroup = _Physics::FILTER_STATIC | _Physics::FILTER_CAMERA;
 
 		// Prevent collision with other static object
-		Physics.RemoveFilter(Object.CollisionMask, PhysicsClass::FILTER_STATIC);
+		Physics.RemoveFilter(Object.CollisionMask, _Physics::FILTER_STATIC);
 	}
 	
 	return 1;
 }
 
 // Processes an object tag
-int LevelClass::GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruct &ObjectSpawn) {
+int _Level::GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruct &ObjectSpawn) {
 	TiXmlElement *Element;
 
 	// Get name
@@ -473,7 +473,7 @@ int LevelClass::GetObjectSpawnProperties(TiXmlElement *ObjectElement, SpawnStruc
 }
 
 // Spawns all of the objects in the level
-void LevelClass::SpawnObjects() {
+void _Level::SpawnObjects() {
 
 	for(size_t i = 0; i < ObjectSpawns.size(); i++) {
 		SpawnStruct *Spawn = ObjectSpawns[i];
@@ -482,31 +482,31 @@ void LevelClass::SpawnObjects() {
 }
 
 // Creates an object from a spawn struct
-ObjectClass *LevelClass::CreateObject(const SpawnStruct &Object) {
+_Object *_Level::CreateObject(const SpawnStruct &Object) {
 	
 	// Add object
-	ObjectClass *NewObject = NULL;
+	_Object *NewObject = NULL;
 	switch(Object.Template->Type) {
-		case ObjectClass::PLAYER:
-			NewObject = ObjectManager.AddObject(new PlayerClass(Object));
+		case _Object::PLAYER:
+			NewObject = ObjectManager.AddObject(new _Player(Object));
 		break;
-		case ObjectClass::ORB:
-			NewObject = ObjectManager.AddObject(new OrbClass(Object));
+		case _Object::ORB:
+			NewObject = ObjectManager.AddObject(new _Orb(Object));
 		break;
-		case ObjectClass::COLLISION:
-			NewObject = ObjectManager.AddObject(new CollisionClass(Object));
+		case _Object::COLLISION:
+			NewObject = ObjectManager.AddObject(new _Collision(Object));
 		break;
-		case ObjectClass::SPHERE:
-			NewObject = ObjectManager.AddObject(new SphereClass(Object));
+		case _Object::SPHERE:
+			NewObject = ObjectManager.AddObject(new _Sphere(Object));
 		break;
-		case ObjectClass::BOX:
-			NewObject = ObjectManager.AddObject(new BoxClass(Object));
+		case _Object::BOX:
+			NewObject = ObjectManager.AddObject(new _Box(Object));
 		break;
-		case ObjectClass::CYLINDER:
-			NewObject = ObjectManager.AddObject(new CylinderClass(Object));
+		case _Object::CYLINDER:
+			NewObject = ObjectManager.AddObject(new _Cylinder(Object));
 		break;
-		case ObjectClass::ZONE:
-			NewObject = ObjectManager.AddObject(new ZoneClass(Object));
+		case _Object::ZONE:
+			NewObject = ObjectManager.AddObject(new _Zone(Object));
 		break;
 	}
 
@@ -514,8 +514,8 @@ ObjectClass *LevelClass::CreateObject(const SpawnStruct &Object) {
 	if(Replay.IsRecording() && Object.Template->TemplateID != -1) {
 		
 		// Write replay information
-		FileClass &ReplayStream = Replay.GetReplayStream();
-		Replay.WriteEvent(ReplayClass::PACKET_CREATE);
+		_File &ReplayStream = Replay.GetReplayStream();
+		Replay.WriteEvent(_Replay::PACKET_CREATE);
 		ReplayStream.WriteShortInt(Object.Template->TemplateID);
 		ReplayStream.WriteShortInt(NewObject->GetID());
 		ReplayStream.WriteData((void *)&Object.Position, sizeof(btScalar) * 3);
@@ -526,16 +526,16 @@ ObjectClass *LevelClass::CreateObject(const SpawnStruct &Object) {
 }
 
 // Creates a constraint from a template
-ObjectClass *LevelClass::CreateConstraint(const ConstraintStruct &Object) {
+_Object *_Level::CreateConstraint(const ConstraintStruct &Object) {
 	
 	// Add object
-	ObjectClass *NewObject = ObjectManager.AddObject(new ConstraintClass(Object));
+	_Object *NewObject = ObjectManager.AddObject(new _Constraint(Object));
 
 	return NewObject;
 }
 
 // Gets a template by name
-TemplateStruct *LevelClass::GetTemplate(const std::string &Name) {
+TemplateStruct *_Level::GetTemplate(const std::string &Name) {
 
 	// Search templates by name
 	for(size_t i = 0; i < Templates.size(); i++) {
@@ -548,7 +548,7 @@ TemplateStruct *LevelClass::GetTemplate(const std::string &Name) {
 }
 
 // Gets a template by name
-TemplateStruct *LevelClass::GetTemplateFromID(int ID) {
+TemplateStruct *_Level::GetTemplateFromID(int ID) {
 
 	// Search templates by id
 	for(size_t i = 0; i < Templates.size(); i++) {
@@ -561,7 +561,7 @@ TemplateStruct *LevelClass::GetTemplateFromID(int ID) {
 }
 
 // Runs the level's scripts
-void LevelClass::RunScripts() {
+void _Level::RunScripts() {
 	
 	// Reset Lua state
 	Scripting.Reset();

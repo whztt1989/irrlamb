@@ -20,17 +20,17 @@
 #include "config.h"
 #include "../stb_vorbis/stb_vorbis.h"
 
-AudioClass Audio;
+_Audio Audio;
 
 // Initializes the audio system
-int AudioClass::Init(bool Enabled) {
+int _Audio::Init(bool Enabled) {
 
 	// Set audio enabled
 	this->Enabled = Enabled;
 	if(!Enabled)
 		return 1;
 
-	Log.Write("AudioClass::Init - Initializing audio");
+	Log.Write("_Audio::Init - Initializing audio");
 	
 	// Create device
 	#ifdef _WIN32
@@ -39,7 +39,7 @@ int AudioClass::Init(bool Enabled) {
 		ALCdevice *Device = alcOpenDevice(NULL);
 	#endif
 	if(Device == NULL) {
-		Log.Write("AudioClass::Init - Unable to create audio device");
+		Log.Write("_Audio::Init - Unable to create audio device");
 		Enabled = false;
 		return 0;
 	}
@@ -57,7 +57,7 @@ int AudioClass::Init(bool Enabled) {
 }
 
 // Closes the audio system
-int AudioClass::Close() {
+int _Audio::Close() {
 	if(!Enabled)
 		return 1;
 
@@ -85,7 +85,7 @@ int AudioClass::Close() {
 }
 
 // Loads an ogg file into memory
-bool AudioClass::LoadBuffer(const std::string &File) {
+bool _Audio::LoadBuffer(const std::string &File) {
 	if(!Enabled)
 		return true;
 
@@ -99,7 +99,7 @@ bool AudioClass::LoadBuffer(const std::string &File) {
 	// Load file
 	stb_vorbis *Stream = stb_vorbis_open_filename((char*)Path.c_str(), NULL, NULL);
 	if(!Stream) {
-		Log.Write("AudioClass::LoadBuffer - Unable to load %s", Path.c_str());
+		Log.Write("_Audio::LoadBuffer - Unable to load %s", Path.c_str());
 		return false;
 	}
 
@@ -116,7 +116,7 @@ bool AudioClass::LoadBuffer(const std::string &File) {
 			Buffer.Format = AL_FORMAT_STEREO16;
 		break;
 		default:
-			Log.Write("AudioClass::LoadBuffer - Unsupported # of channels %d for %s", Path.c_str());
+			Log.Write("_Audio::LoadBuffer - Unsupported # of channels %d for %s", Path.c_str());
 			return false;
 		break;
 	}
@@ -145,7 +145,7 @@ bool AudioClass::LoadBuffer(const std::string &File) {
 }
 
 // Get a loaded buffer
-const AudioBufferStruct *AudioClass::GetBuffer(const std::string &File) {
+const AudioBufferStruct *_Audio::GetBuffer(const std::string &File) {
 	if(!Enabled)
 		return NULL;
 
@@ -161,7 +161,7 @@ const AudioBufferStruct *AudioClass::GetBuffer(const std::string &File) {
 }
 
 // Free all loaded buffers
-void AudioClass::FreeAllBuffers() {
+void _Audio::FreeAllBuffers() {
 	if(!Enabled)
 		return;
 
@@ -176,7 +176,7 @@ void AudioClass::FreeAllBuffers() {
 }
 
 // Set position of listener
-void AudioClass::SetPosition(float X, float Y, float Z) {
+void _Audio::SetPosition(float X, float Y, float Z) {
 	if(!Enabled)
 		return;
 
@@ -184,7 +184,7 @@ void AudioClass::SetPosition(float X, float Y, float Z) {
 }
 
 // Sets the listener direction
-void AudioClass::SetDirection(float X, float Y, float Z) {
+void _Audio::SetDirection(float X, float Y, float Z) {
 	if(!Enabled)
 		return;
 
@@ -193,7 +193,7 @@ void AudioClass::SetDirection(float X, float Y, float Z) {
 }
 
 // Set gain
-void AudioClass::SetGain(float Value) {
+void _Audio::SetGain(float Value) {
 	if(!Enabled)
 		return;
 	
@@ -201,7 +201,7 @@ void AudioClass::SetGain(float Value) {
 }
 
 // Create an audio source
-AudioSourceClass::AudioSourceClass(const AudioBufferStruct *Buffer, bool Loop, float MinGain, float MaxGain, float ReferenceDistance, float RollOff) {
+_AudioSource::_AudioSource(const AudioBufferStruct *Buffer, bool Loop, float MinGain, float MaxGain, float ReferenceDistance, float RollOff) {
 	Loaded = false;
 	if(Buffer) {
 
@@ -220,7 +220,7 @@ AudioSourceClass::AudioSourceClass(const AudioBufferStruct *Buffer, bool Loop, f
 }
 
 // Free audio source
-AudioSourceClass::~AudioSourceClass() {
+_AudioSource::~_AudioSource() {
 	if(Loaded) {
 
 		// Create source
@@ -230,7 +230,7 @@ AudioSourceClass::~AudioSourceClass() {
 }
 
 // Play
-void AudioSourceClass::Play() {
+void _AudioSource::Play() {
 	if(Loaded) {
 		
 		// Get state
@@ -247,21 +247,21 @@ void AudioSourceClass::Play() {
 }
 
 // Set pitch
-void AudioSourceClass::SetPitch(float Value) {
+void _AudioSource::SetPitch(float Value) {
 	if(Loaded) {
 		alSourcef(ID, AL_PITCH, Value);
 	}
 }
 
 // Set gain
-void AudioSourceClass::SetGain(float Value) {
+void _AudioSource::SetGain(float Value) {
 	if(Loaded) {
 		alSourcef(ID, AL_GAIN, Value);
 	}
 }
 
 // Set position
-void AudioSourceClass::SetPosition(float X, float Y, float Z) {
+void _AudioSource::SetPosition(float X, float Y, float Z) {
 	if(Loaded) {
 		alSource3f(ID, AL_POSITION, X, Y, -Z);
 	}

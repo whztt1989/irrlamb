@@ -23,7 +23,7 @@
 #include <irrArray.h>
 
 // Classes
-class InputClass : public irr::IEventReceiver  {
+class _Input : public irr::IEventReceiver  {
 
 	enum MouseButtonType {
 		MOUSE_LEFT,
@@ -34,7 +34,7 @@ class InputClass : public irr::IEventReceiver  {
 
 	public:
 
-		InputClass();
+		_Input();
 		bool OnEvent(const irr::SEvent &Event);
 
 		void ResetInputState();
@@ -73,6 +73,6 @@ class InputClass : public irr::IEventReceiver  {
 };
 
 // Singletons
-extern InputClass Input;
+extern _Input Input;
 
 #endif
