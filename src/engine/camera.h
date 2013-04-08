@@ -15,12 +15,8 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #pragma once
-
-// Libraries
-#include <ICameraSceneNode.h>
-#include <vector3d.h>
-#include <matrix4.h>
 
 // Classes
 class _Camera {

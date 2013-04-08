@@ -15,39 +15,29 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <stdafx.h>
-#pragma once
+#include <irrlicht.h>
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
+#include <al.h>
+#include <alc.h>
+#include <sqlite3.h>
+#include <lua.hpp>
 
-// Structures
-struct LevelStruct {
-	std::string File, DataPath, NiceName;
-	int Unlocked;
-};
+#include <string>
+#include <vector>
+#include <list>
+#include <map>
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
-struct CampaignStruct {
-	std::string Name;
-	std::vector<LevelStruct> Levels;
-};
+#include <cstring>
+#include <cstdarg>
+#include <ctime>
 
-// Classes
-class _Campaign {
-
-	public:
-
-		int Init();
-		int Close();
-
-		const std::vector<CampaignStruct> &GetCampaigns() const { return Campaigns; }
-		const CampaignStruct &GetCampaign(int Index) const { return Campaigns[Index]; }
-
-		const std::string &GetLevel(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].File; }
-		const std::string &GetLevelNiceName(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].NiceName; }
-		int GetLevelCount(int Campaign) const { return Campaigns[Campaign].Levels.size(); }
-
-	private:
-
-		std::vector<CampaignStruct> Campaigns;
-};
-
-// Singletons
-extern _Campaign Campaign;
+#ifdef _WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#else
+	#include <sys/stat.h>
+#endif

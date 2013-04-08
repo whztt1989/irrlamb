@@ -15,9 +15,9 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #include "database.h"
 #include "log.h"
-#include <cstring>
 
 // Constructor
 _Database::_Database()

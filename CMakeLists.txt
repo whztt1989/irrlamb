@@ -6,6 +6,7 @@ subdirs(tools)
 
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
+include(AddPCH.cmake)
 
 # set default build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -24,6 +25,7 @@ if(WIN32)
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)
 else()
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
 	
 	# x11
 	find_package(X11 REQUIRED)
@@ -39,14 +41,31 @@ endif()
 # find libraries
 set(BULLET_ROOT "$ENV{BULLET_ROOT}")
 find_package(Irrlicht 1.8 REQUIRED)
-find_package(OpenAL REQUIRED)
+if(NOT IRRLICHT_FOUND)
+	message(SEND_ERROR "Could not find Irrlicht!")
+endif()
+
 find_package(Bullet REQUIRED)
+if(NOT BULLET_FOUND)
+	message(SEND_ERROR "Could not find Bullet!")
+endif()
+
+find_package(OpenAL REQUIRED)
+if(NOT OPENAL_FOUND)
+	message(SEND_ERROR "Could not find OpenAL!")
+endif()
+
+find_package(Lua51 REQUIRED)
+if(NOT LUA51_FOUND)
+	message(SEND_ERROR "Could not find Lua 5.1!")
+endif()
 
 # include paths
 include_directories(${BULLET_INCLUDE_DIRS})
 include_directories(${IRRLICHT_INCLUDE_DIRS})
 include_directories(${OPENAL_INCLUDE_DIR})
-include_directories("src/lua")
+include_directories(${LUA_INCLUDE_DIR})
+include_directories("src")
 
 # preprocessor definitions
 add_definitions("-DTIXML_USE_STL")
@@ -56,26 +75,25 @@ file(GLOB SRC_MAIN src/*.cpp src/*.h)
 file(GLOB SRC_ENGINE src/engine/*.cpp src/engine/*.h)
 file(GLOB SRC_OBJECTS src/objects/*.cpp src/objects/*.h)
 file(GLOB SRC_IRRB src/irrb/*.cpp src/irrb/*.h)
-file(GLOB SRC_LUA src/lua/*.c src/lua/*.h)
-file(GLOB SRC_STBVORBIS src/stb_vorbis/*.c src/stb_vorbis/*.h)
+file(GLOB SRC_STBVORBIS src/stb_vorbis/*.cpp src/stb_vorbis/*.h)
 file(GLOB SRC_TINYXML src/tinyxml/*.cpp src/tinyxml/*.h)
 
-file(GLOB SRC_ALL ${SRC_MAIN} ${SRC_ENGINE} ${SRC_OBJECTS} ${SRC_IRRB} ${SRC_LUA} ${SRC_STBVORBIS} ${SRC_TINYXML})
+file(GLOB SRC_ALL ${SRC_MAIN} ${SRC_ENGINE} ${SRC_OBJECTS} ${SRC_IRRB} ${SRC_STBVORBIS} ${SRC_TINYXML})
 
 # add virtual folders
 source_group(main FILES ${SRC_MAIN})
 source_group(engine FILES ${SRC_ENGINE})
 source_group(objects FILES ${SRC_OBJECTS})
 source_group(irrb FILES ${SRC_IRRB})
-source_group(lua FILES ${SRC_LUA})
 source_group(stbvorbis FILES ${SRC_STBVORBIS})
 source_group(tinyxml FILES ${SRC_TINYXML})
 
 # create exe
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
+add_pch(${CMAKE_PROJECT_NAME} src/stdafx.cpp ${PROJECT_SOURCE_DIR}/src/stdafx.h)
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} sqlite3)
+target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} sqlite3)
 
 # copy irrlicht DLLs to working directory
 if(WIN32)

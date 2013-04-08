@@ -15,14 +15,8 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #pragma once
-
-#include <IrrlichtDevice.h>
-#include <IVideoDriver.h>
-#include <ISceneManager.h>
-#include <IGUIEnvironment.h>
-#include <IFileSystem.h>
-#include <ITimer.h>
 
 extern irr::IrrlichtDevice *irrDevice;
 extern irr::video::IVideoDriver *irrDriver;

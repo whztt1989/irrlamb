@@ -15,11 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #pragma once
 
 // Libraries
 #include "object.h"
-#include <list>
 
 // Keeps track of touched objects
 struct ObjectTouchState {

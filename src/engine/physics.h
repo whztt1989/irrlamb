@@ -15,11 +15,8 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #pragma once
-
-// Libraries
-#include <btBulletCollisionCommon.h>
-#include <btBulletDynamicsCommon.h>
 
 // Custom world that overrides stepSimulation for applications that implement their own fixed time step calculations
 class btFixedWorld : public btDiscreteDynamicsWorld {

@@ -15,6 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #include "menu.h"
 #include "engine/graphics.h"
 #include "engine/input.h"
@@ -28,11 +29,6 @@
 #include "viewreplay.h"
 #include "play.h"
 #include "engine/namespace.h"
-#include <IGUIElement.h>
-#include <IGUIListBox.h>
-#include <IGUIComboBox.h>
-#include <IGUICheckBox.h>
-#include <IGUIStaticText.h>
 
 _MenuState MenuState;
 

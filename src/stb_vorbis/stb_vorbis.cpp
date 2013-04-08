@@ -1,3 +1,4 @@
+#include <stdafx.h>
 // Ogg Vorbis I audio decoder  -- version 0.99996
 //
 // Written in April 2007 by Sean Barrett, sponsored by RAD Game Tools.
@@ -25,7 +26,6 @@
 //       files to around 6 hours (Ogg supports 64-bit)
 // 
 // All of these limitations may be removed in future versions.
-
 #include "stb_vorbis.h"
 
 #ifndef STB_VORBIS_HEADER_ONLY

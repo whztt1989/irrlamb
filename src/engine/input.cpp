@@ -15,6 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #include "input.h"
 #include "state.h"
 #include "config.h"
@@ -24,10 +25,6 @@
 #include "namespace.h"
 #include "actions.h"
 #include "log.h"
-
-#ifdef _WIN32
-	#include <windows.h>
-#endif
 
 _Input Input;
 

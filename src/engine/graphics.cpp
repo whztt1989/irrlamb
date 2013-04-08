@@ -15,6 +15,7 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #include "graphics.h"
 #include "save.h"
 #include "globals.h"
@@ -25,9 +26,6 @@
 #include "config.h"
 #include "../irrb/CIrrBMeshFileLoader.h"
 #include "namespace.h"
-#include <sstream>
-#include <ctime>
-#include <irrlicht.h>
 
 _Graphics Graphics;
 

@@ -6,7 +6,7 @@
       <Project Name="irrlamb" ConfigName="Debug"/>
       <Project Name="irrlamb" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release" Selected="yes">
       <Project Name="irrlamb" ConfigName="Release"/>
       <Project Name="irrlamb" ConfigName="Release"/>
     </WorkspaceConfiguration>

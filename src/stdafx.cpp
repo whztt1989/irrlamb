@@ -16,38 +16,3 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <stdafx.h>
-#pragma once
-
-// Structures
-struct LevelStruct {
-	std::string File, DataPath, NiceName;
-	int Unlocked;
-};
-
-struct CampaignStruct {
-	std::string Name;
-	std::vector<LevelStruct> Levels;
-};
-
-// Classes
-class _Campaign {
-
-	public:
-
-		int Init();
-		int Close();
-
-		const std::vector<CampaignStruct> &GetCampaigns() const { return Campaigns; }
-		const CampaignStruct &GetCampaign(int Index) const { return Campaigns[Index]; }
-
-		const std::string &GetLevel(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].File; }
-		const std::string &GetLevelNiceName(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].NiceName; }
-		int GetLevelCount(int Campaign) const { return Campaigns[Campaign].Levels.size(); }
-
-	private:
-
-		std::vector<CampaignStruct> Campaigns;
-};
-
-// Singletons
-extern _Campaign Campaign;

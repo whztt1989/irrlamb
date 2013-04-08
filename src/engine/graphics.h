@@ -15,15 +15,8 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
+#include <stdafx.h>
 #pragma once
-
-// Libraries
-#include <SColor.h>
-#include <EDriverTypes.h>
-#include <IShaderConstantSetCallBack.h>
-#include <IEventReceiver.h>
-#include <vector>
-#include <string>
 
 // Structures
 struct VideoModeStruct {
