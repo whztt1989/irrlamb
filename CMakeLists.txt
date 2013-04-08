@@ -13,11 +13,10 @@ set(EXTRA_LIBS)
 
 # windows only options
 if(MSVC)
-	SET(ENV{LUA_DIR} ${PROJECT_SOURCE_DIR}/extlibs/)
-	set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/extlibs/include/lua51)
-	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/lua51_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/lua51.lib)
-	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3.lib)
-	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/sqlite")
+	set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/extlibs/lua51/include)
+	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51.lib)
+	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
+	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
