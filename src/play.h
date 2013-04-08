@@ -60,7 +60,7 @@ class _PlayState : public _State {
 		int Init();
 		int Close();
 
-		void HandleAction(int Action, bool Pressed);
+		void HandleAction(int Action, float Value);
 		bool HandleKeyPress(int Key);
 		void HandleMouseMotion(float UpdateX, float UpdateY);
 		bool HandleMousePress(int Button, int MouseX, int MouseY);

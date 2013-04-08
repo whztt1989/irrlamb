@@ -30,7 +30,7 @@ _Actions::_Actions() {
 // Reset the state
 void _Actions::ResetState() {
 	for(int i = 0; i < ACTIONS_MAX; i++) {
-		State[i] = 0;
+		State[i] = 0.0f;
 	}
 }
 

@@ -106,8 +106,8 @@ int _PlayState::Close() {
 }
 
 // Handle new actions
-void _PlayState::HandleAction(int Action, bool Pressed) {
-	if(!Pressed)
+void _PlayState::HandleAction(int Action, float Value) {
+	if(Value == 0.0f)
 		return;
 		
 	switch(State) {

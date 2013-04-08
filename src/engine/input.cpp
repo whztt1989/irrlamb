@@ -52,11 +52,11 @@ bool _Input::OnEvent(const SEvent &Event) {
 			// Send key press events
 			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key)) {
 				Processed = Game.GetState()->HandleKeyPress(Event.KeyInput.Key);
-				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
+				Actions.KeyEvent(Event.KeyInput.Key, (float)Event.KeyInput.PressedDown);
 			}
 			else if(!Event.KeyInput.PressedDown) {
 				Processed = Game.GetState()->HandleKeyLift(Event.KeyInput.Key);
-				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
+				Actions.KeyEvent(Event.KeyInput.Key, (float)Event.KeyInput.PressedDown);
 			}
 
 			// Set the current key state
@@ -100,8 +100,9 @@ bool _Input::OnEvent(const SEvent &Event) {
 						if(Config.InvertMouse)
 							MouseScaleY = -MouseScaleY;
 
-						Game.GetState()->HandleMouseMotion((MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config.MouseScaleX,
-																				(MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY);
+						float MouseValueX = (MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config.MouseScaleX;
+						float MouseValueY = (MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY;
+						Game.GetState()->HandleMouseMotion(MouseValueX, MouseValueY);
 					}
 				break;
 				case EMIE_MOUSE_WHEEL:

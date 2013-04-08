@@ -35,6 +35,17 @@ public:
 		MOVE_RIGHT,
 		RESET,
 		JUMP,
+		CAMERA_LEFT,
+		CAMERA_RIGHT,
+		CAMERA_UP,
+		CAMERA_DOWN,
+		MENU_LEFT,
+		MENU_RIGHT,
+		MENU_UP,
+		MENU_DOWN,
+		MENU_GO,
+		MENU_BACK,
+		MENU_PAUSE,
 		COUNT,
 	};
 
@@ -60,7 +71,7 @@ private:
 	std::list<int> MouseMap[ACTIONS_MAXBUTTONS];
 	std::list<int>::iterator MapIterator;
 
-	bool State[ACTIONS_MAX];
+	float State[ACTIONS_MAX];
 };
 
 extern _Actions Actions;

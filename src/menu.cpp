@@ -158,7 +158,7 @@ bool _MenuState::HandleKeyPress(int Key) {
 					int ActionType = KeyButton->getID() - CONTROLS_MOVEFORWARD;
 
 					// Swap if the key already exists
-					for(int i = 0; i < _Actions::COUNT; i++) {
+					for(int i = 0; i <= _Actions::RESET; i++) {
 						if(CurrentKeys[i] == Key) {
 							
 							// Get button
@@ -318,7 +318,7 @@ void _MenuState::HandleGUI(int EventType, IGUIElement *Element) {
 				case CONTROLS_SAVE: {
 
 					// Write config
-					for(int i = 0; i < _Actions::COUNT; i++)
+					for(int i = 0; i <= _Actions::RESET; i++)
 						Config.Keys[i] = CurrentKeys[i];
 
 					// Save invert mouse
@@ -746,7 +746,7 @@ void _MenuState::Update(float FrameTime) {
 			// Create the key buttons
 			X = CenterX;
 			Y = CenterY - 110;
-			for(int i = 0; i < _Actions::COUNT; i++) {
+			for(int i = 0; i <= _Actions::RESET; i++) {
 				
 				CurrentKeys[i] = Config.Keys[i];
 				IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
