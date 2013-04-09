@@ -147,10 +147,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 				}
 			}
 			
-			for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
-				printf("%f\t", GetAxis(i));
-			}
-			printf("\n");
+			//for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
+			//	printf("%f\t", GetAxis(i));
+			//}
+			//printf("\n");
 		} break;
 		default:
 		break;
