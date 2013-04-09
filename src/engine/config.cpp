@@ -79,8 +79,6 @@ void _Config::Reset() {
 	Actions.AddMouseAxisMap(1, _Actions::CAMERA_RIGHT);
 	Actions.AddMouseAxisMap(2, _Actions::CAMERA_UP);
 	Actions.AddMouseAxisMap(3, _Actions::CAMERA_DOWN);
-	Actions.AddKeyMap(KEY_KEY_X, _Actions::RESET);
-	Actions.AddKeyMap(KEY_SPACE, _Actions::JUMP);
 	Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD);
 	Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK);
 	Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT);
@@ -90,6 +88,7 @@ void _Config::Reset() {
 	Actions.AddJoystickAxisMap(8, _Actions::CAMERA_LEFT);
 	Actions.AddJoystickAxisMap(9, _Actions::CAMERA_RIGHT);
 	Actions.AddJoystickButtonMap(0, _Actions::JUMP);
+	Actions.AddJoystickButtonMap(6, _Actions::RESET);
 
 	MouseScaleX = 1.0f;
 	MouseScaleY = 1.0f;
@@ -208,23 +207,9 @@ int _Config::ReadConfig() {
 		InvertMouse = !!Value;
 	}
 
-	// Get keyboard mapping
-	for(XMLElement *ActionElement = InputElement->FirstChildElement("action"); ActionElement != 0; ActionElement = ActionElement->NextSiblingElement("action")) {
-	
-		// Get action type
-		int ActionType;
-		if(ActionElement->QueryIntAttribute("type", &ActionType) != XML_NO_ERROR)
-			continue;
-
-		// Get key
-		int KeyCode;
-		if(ActionElement->QueryIntAttribute("key", &KeyCode) != XML_NO_ERROR)
-			continue;
-
-		// Assign key
-		if(ActionType >= 0 && ActionType < _Actions::COUNT && KeyCode >= 0 && KeyCode < KEY_KEY_CODES_COUNT)
-			Keys[ActionType] = (EKEY_CODE)KeyCode;
-	}
+	// Add action maps
+	Actions.ClearMappings();
+	Actions.Unserialize(InputElement);
 
 	// Replays
 	XMLElement *ReplayElement = ConfigElement->FirstChildElement("replay");
@@ -292,19 +277,13 @@ int _Config::WriteConfig() {
 
 	// Input
 	XMLElement *InputElement = Document.NewElement("input");
-	//Document.pus
 	InputElement->SetAttribute("mousex", 1.0);
 	InputElement->SetAttribute("mousey", 1.0);
 	InputElement->SetAttribute("invert", InvertMouse);
 	ConfigElement->LinkEndChild(InputElement);
 
-	// Actions
-	for(int i = 0; i < _Actions::COUNT; i++) {
-		XMLElement *ActionElement = Document.NewElement("action");
-		ActionElement->SetAttribute("type", i);
-		ActionElement->SetAttribute("key", Keys[i]);
-		InputElement->LinkEndChild(ActionElement);
-	}
+	// Write action map
+	Actions.Serialize(Document, InputElement);
 
 	// Replays
 	XMLElement *ReplayElement = Document.NewElement("replay");

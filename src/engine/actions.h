@@ -26,6 +26,12 @@ const int ACTIONS_MAXMOUSEAXIS = 4;
 const int ACTIONS_MAXJOYSTICKBUTTONS = 32;
 const int ACTIONS_MAXJOYSTICKAXIS = 32;
 
+// Forward declarations
+namespace tinyxml2 {
+	class XMLDocument;
+	class XMLElement;
+}
+
 // Handles actions
 class _Actions {
 
@@ -73,6 +79,9 @@ public:
 	void MouseAxisEvent(int Axis, float Value);
 	void JoystickButtonEvent(int Button, bool Pressed);
 	void JoystickAxisEvent(int Axis, float Value);
+
+	void Serialize(tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
+	void Unserialize(tinyxml2::XMLElement *InputElement);
 
 private:
 
