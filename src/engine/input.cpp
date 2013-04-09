@@ -141,6 +141,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 					int AxisType = AxisValue < 0.0f ? i * 2 : i * 2 + 1;
 					Actions.JoystickAxisEvent(AxisType, abs(AxisValue));
 				}
+				else {
+					Actions.JoystickAxisEvent(i * 2, 0.0f);
+					Actions.JoystickAxisEvent(i * 2 + 1, 0.0f);
+				}
 			}
 			
 			//for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
