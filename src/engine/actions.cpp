@@ -78,7 +78,7 @@ void _Actions::AddMouseButtonMap(int Button, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXMOUSEBUTTONS)
 		return;
 
-	if(!IfNone || (IfNone && !FindMouseAxisForAction(Action)))
+	if(!IfNone || (IfNone && !FindMouseButtonForAction(Action)))
 		MouseButtonMap[Button].push_back(Action);
 }
 
@@ -87,7 +87,7 @@ void _Actions::AddMouseAxisMap(int Axis, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXMOUSEAXIS)
 		return;
 
-	if(!IfNone || (IfNone && MouseAxisMap[Axis].size() == 0))
+	if(!IfNone || (IfNone && !FindMouseAxisForAction(Action)))
 		MouseAxisMap[Axis].push_back(Action);
 }
 
@@ -96,7 +96,7 @@ void _Actions::AddJoystickButtonMap(int Button, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXJOYSTICKBUTTONS)
 		return;
 
-	if(!IfNone || (IfNone && JoystickButtonMap[Button].size() == 0))
+	if(!IfNone || (IfNone && !FindJoystickButtonForAction(Action)))
 		JoystickButtonMap[Button].push_back(Action);
 }
 
@@ -105,7 +105,7 @@ void _Actions::AddJoystickAxisMap(int Axis, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXJOYSTICKAXIS)
 		return;
 
-	if(!IfNone || (IfNone && JoystickAxisMap[Axis].size() == 0))
+	if(!IfNone || (IfNone && !FindJoystickAxisForAction(Action)))
 		JoystickAxisMap[Axis].push_back(Action);
 }
 
