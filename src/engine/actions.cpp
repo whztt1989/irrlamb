@@ -64,43 +64,114 @@ float _Actions::GetState(int Action) {
 }
 
 // Add to the key=>action map
-void _Actions::AddKeyMap(int Key, int Action) {
+void _Actions::AddKeyMap(int Key, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Key < 0 || Key >= ACTIONS_MAXKEYS)
 		return;
 
-	KeyMap[Key].push_back(Action);
+	if(!IfNone || (IfNone && !FindKeysForAction(Action))) {
+		KeyMap[Key].push_back(Action);
+	}
 }
 
 // Add to the mouse button=>action map
-void _Actions::AddMouseButtonMap(int Button, int Action) {
+void _Actions::AddMouseButtonMap(int Button, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXMOUSEBUTTONS)
 		return;
 
-	MouseButtonMap[Button].push_back(Action);
+	if(!IfNone || (IfNone && !FindMouseAxisForAction(Action)))
+		MouseButtonMap[Button].push_back(Action);
 }
 
 // Map a mouse axis to an action
-void _Actions::AddMouseAxisMap(int Axis, int Action) {
+void _Actions::AddMouseAxisMap(int Axis, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXMOUSEAXIS)
 		return;
 
-	MouseAxisMap[Axis].push_back(Action);
+	if(!IfNone || (IfNone && MouseAxisMap[Axis].size() == 0))
+		MouseAxisMap[Axis].push_back(Action);
 }
 
 // Add to the joystick button=>action map
-void _Actions::AddJoystickButtonMap(int Button, int Action) {
+void _Actions::AddJoystickButtonMap(int Button, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXJOYSTICKBUTTONS)
 		return;
 
-	JoystickButtonMap[Button].push_back(Action);
+	if(!IfNone || (IfNone && JoystickButtonMap[Button].size() == 0))
+		JoystickButtonMap[Button].push_back(Action);
 }
 
 // Map a joystick axis to an action
-void _Actions::AddJoystickAxisMap(int Axis, int Action) {
+void _Actions::AddJoystickAxisMap(int Axis, int Action, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXJOYSTICKAXIS)
 		return;
 
-	JoystickAxisMap[Axis].push_back(Action);
+	if(!IfNone || (IfNone && JoystickAxisMap[Axis].size() == 0))
+		JoystickAxisMap[Axis].push_back(Action);
+}
+
+// Find all the keys for a given action
+bool _Actions::FindKeysForAction(int Action) {
+	for(int i = 0; i < ACTIONS_MAXKEYS; i++) {
+		for(MapIterator = KeyMap[i].begin(); MapIterator != KeyMap[i].end(); MapIterator++) {
+			if(*MapIterator == Action) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+// Find a mouse button for a given action
+bool _Actions::FindMouseButtonForAction(int Action) {
+	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++) {
+		for(MapIterator = MouseButtonMap[i].begin(); MapIterator != MouseButtonMap[i].end(); MapIterator++) {
+			if(*MapIterator == Action) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+// Find a mouse axis for a given action
+bool _Actions::FindMouseAxisForAction(int Action) {
+	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++) {
+		for(MapIterator = MouseAxisMap[i].begin(); MapIterator != MouseAxisMap[i].end(); MapIterator++) {
+			if(*MapIterator == Action) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+// Find a joystick button for a given action
+bool _Actions::FindJoystickButtonForAction(int Action) {
+	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++) {
+		for(MapIterator = JoystickButtonMap[i].begin(); MapIterator != JoystickButtonMap[i].end(); MapIterator++) {
+			if(*MapIterator == Action) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+// Find a joystick axis for a given action
+bool _Actions::FindJoystickAxisForAction(int Action) {
+	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++) {
+		for(MapIterator = JoystickAxisMap[i].begin(); MapIterator != JoystickAxisMap[i].end(); MapIterator++) {
+			if(*MapIterator == Action) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
 }
 
 // Handle keys

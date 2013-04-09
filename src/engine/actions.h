@@ -67,11 +67,17 @@ public:
 	float GetState(int Action);
 
 	// Maps
-	void AddKeyMap(int Key, int Action);
-	void AddMouseButtonMap(int Button, int Action);
-	void AddMouseAxisMap(int Axis, int Action);
-	void AddJoystickButtonMap(int Button, int Action);
-	void AddJoystickAxisMap(int Axis, int Action);
+	void AddKeyMap(int Key, int Action, bool IfNone=false);
+	void AddMouseButtonMap(int Button, int Action, bool IfNone=false);
+	void AddMouseAxisMap(int Axis, int Action, bool IfNone=false);
+	void AddJoystickButtonMap(int Button, int Action, bool IfNone=false);
+	void AddJoystickAxisMap(int Axis, int Action, bool IfNone=false);
+	
+	bool FindKeysForAction(int Action);
+	bool FindMouseButtonForAction(int Action);
+	bool FindMouseAxisForAction(int Action);
+	bool FindJoystickButtonForAction(int Action);
+	bool FindJoystickAxisForAction(int Action);
 
 	// Handlers
 	void KeyEvent(int Key, bool Pressed);
