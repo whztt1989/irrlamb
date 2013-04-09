@@ -106,8 +106,8 @@ bool _Input::OnEvent(const SEvent &Event) {
 						float MouseValueY = (MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY;
 						int AxisX = MouseValueX < 0.0f ? 0 : 1;
 						int AxisY = MouseValueY < 0.0f ? 2 : 3;
-						Actions.MouseAxisEvent(AxisX, abs(MouseValueX));
-						Actions.MouseAxisEvent(AxisY, abs(MouseValueY));
+						Actions.MouseAxisEvent(AxisX, fabs(MouseValueX));
+						Actions.MouseAxisEvent(AxisY, fabs(MouseValueY));
 						Game.GetState()->HandleMouseMotion(MouseValueX, MouseValueY);
 					}
 				break;
@@ -139,7 +139,7 @@ bool _Input::OnEvent(const SEvent &Event) {
 				float AxisValue = GetAxis(i);
 				if(AxisValue != 0.0f) {
 					int AxisType = AxisValue < 0.0f ? i * 2 : i * 2 + 1;
-					Actions.JoystickAxisEvent(AxisType, abs(AxisValue));
+					Actions.JoystickAxisEvent(AxisType, fabs(AxisValue));
 				}
 				else {
 					Actions.JoystickAxisEvent(i * 2, 0.0f);
@@ -147,10 +147,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 				}
 			}
 			
-			//for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
-			//	printf("%f\t", GetAxis(i));
-			//}
-			//printf("\n");
+			for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
+				printf("%f\t", GetAxis(i));
+			}
+			printf("\n");
 		} break;
 		default:
 		break;
@@ -208,7 +208,7 @@ float _Input::GetAxis(int Axis) {
 	if(Value > 1.0f)
 		Value = 1.0f;
 
-	if(abs(Value) <= DeadZone)
+	if(fabs(Value) <= DeadZone)
 		Value = 0.0f;
 
 	return Value;
