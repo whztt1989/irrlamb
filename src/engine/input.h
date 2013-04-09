@@ -45,7 +45,7 @@ class _Input : public irr::IEventReceiver  {
 		int GetMouseY() const { return MouseY; }
 
 		bool IsJoystickEnabled() const { return JoystickEnabled; }
-		const irr::SEvent::SJoystickEvent &GetJoystickEvent();
+		const irr::SEvent::SJoystickEvent &GetJoystickState();
 		float GetAxis(int Axis);
 
 		const char *GetKeyName(int Key);
@@ -61,6 +61,8 @@ class _Input : public irr::IEventReceiver  {
 		// Joystick
 		irr::core::array<irr::SJoystickInfo> Joysticks;
 		irr::SEvent::SJoystickEvent JoystickState;
+		irr::u32 LastJoystickButtonState;
+		float DeadZone;
 
 		// States
 		bool MouseLocked;

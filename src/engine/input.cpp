@@ -33,6 +33,8 @@ _Input::_Input()
 :	MouseLocked(false),
 	MouseX(0),
 	MouseY(0),
+	DeadZone(0.05f),
+	LastJoystickButtonState(0),
 	JoystickEnabled(false) {
 
 	// Set up input
@@ -52,11 +54,11 @@ bool _Input::OnEvent(const SEvent &Event) {
 			// Send key press events
 			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key)) {
 				Processed = Game.GetState()->HandleKeyPress(Event.KeyInput.Key);
-				Actions.KeyEvent(Event.KeyInput.Key, (float)Event.KeyInput.PressedDown);
+				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
 			}
 			else if(!Event.KeyInput.PressedDown) {
 				Processed = Game.GetState()->HandleKeyLift(Event.KeyInput.Key);
-				Actions.KeyEvent(Event.KeyInput.Key, (float)Event.KeyInput.PressedDown);
+				Actions.KeyEvent(Event.KeyInput.Key, Event.KeyInput.PressedDown);
 			}
 
 			// Set the current key state
@@ -71,14 +73,14 @@ bool _Input::OnEvent(const SEvent &Event) {
 				case EMIE_RMOUSE_PRESSED_DOWN:
 				case EMIE_MMOUSE_PRESSED_DOWN:
 					SetMouseState(Event.MouseInput.Event, true);
-					Actions.MouseEvent(Event.MouseInput.Event, true);
+					Actions.MouseButtonEvent(Event.MouseInput.Event, true);
 					return Game.GetState()->HandleMousePress(Event.MouseInput.Event, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_LMOUSE_LEFT_UP:
 				case EMIE_RMOUSE_LEFT_UP:
 				case EMIE_MMOUSE_LEFT_UP:
 					SetMouseState(Event.MouseInput.Event - MOUSE_COUNT, false);
-					Actions.MouseEvent(Event.MouseInput.Event - MOUSE_COUNT, false);
+					Actions.MouseButtonEvent(Event.MouseInput.Event - MOUSE_COUNT, false);
 					Game.GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
@@ -102,6 +104,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 
 						float MouseValueX = (MouseUpdate.X - 0.5f) * irrDriver->getScreenSize().Width * 0.1f * Config.MouseScaleX;
 						float MouseValueY = (MouseUpdate.Y - 0.5f) * irrDriver->getScreenSize().Height * 0.1f * MouseScaleY;
+						int AxisX = MouseValueX < 0.0f ? 0 : 1;
+						int AxisY = MouseValueY < 0.0f ? 2 : 3;
+						Actions.MouseAxisEvent(AxisX, abs(MouseValueX));
+						Actions.MouseAxisEvent(AxisY, abs(MouseValueY));
 						Game.GetState()->HandleMouseMotion(MouseValueX, MouseValueY);
 					}
 				break;
@@ -117,8 +123,31 @@ bool _Input::OnEvent(const SEvent &Event) {
 		case EET_GUI_EVENT:
 			Game.GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
 		break;
-		case EET_JOYSTICK_INPUT_EVENT:
+		case EET_JOYSTICK_INPUT_EVENT: {
+			LastJoystickButtonState = JoystickState.ButtonStates;
 			JoystickState = Event.JoystickEvent;
+
+			// Handle buttons
+			for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Buttons; i++) {
+				if(JoystickState.IsButtonPressed(i) && !(LastJoystickButtonState & (1 << i))) {
+					Actions.JoystickButtonEvent(i, true);
+				}
+			}
+
+			// Handles axes
+			for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
+				float AxisValue = GetAxis(i);
+				if(AxisValue != 0.0f) {
+					int AxisType = AxisValue < 0.0f ? i * 2 : i * 2 + 1;
+					Actions.JoystickAxisEvent(AxisType, abs(AxisValue));
+				}
+			}
+			
+			//for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
+			//	printf("%f\t", GetAxis(i));
+			//}
+			//printf("\n");
+		} break;
 		default:
 		break;
 	}
@@ -159,7 +188,7 @@ void _Input::InitializeJoysticks() {
 }
 
 // Return the joystick state
-const irr::SEvent::SJoystickEvent &_Input::GetJoystickEvent() {
+const irr::SEvent::SJoystickEvent &_Input::GetJoystickState() {
 
 	return JoystickState;
 }
@@ -174,6 +203,10 @@ float _Input::GetAxis(int Axis) {
 		Value = -1.0f;
 	if(Value > 1.0f)
 		Value = 1.0f;
+
+	if(abs(Value) <= DeadZone)
+		Value = 0.0f;
+
 	return Value;
 }
 

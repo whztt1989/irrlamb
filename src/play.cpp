@@ -56,11 +56,6 @@ int _PlayState::Init() {
 	Physics.SetEnabled(true);
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
 
-	// Set up mapping
-	Actions.ClearMappings();
-	for(int i = 0; i < _Actions::COUNT; i++)
-		Actions.AddKeyMap(Config.Keys[i], i);
-
 	// Add camera
 	Camera = new _Camera();
 
@@ -107,7 +102,7 @@ int _PlayState::Close() {
 
 // Handle new actions
 void _PlayState::HandleAction(int Action, float Value) {
-	if(Value == 0.0f)
+	if(Value == 0.0f || Resetting)
 		return;
 		
 	switch(State) {
@@ -118,6 +113,22 @@ void _PlayState::HandleAction(int Action, float Value) {
 				break;
 				case _Actions::RESET:
 					StartReset();
+				break;
+				case _Actions::CAMERA_LEFT:
+					if(Camera)
+						Camera->HandleMouseMotion(-Value, 0);
+				break;
+				case _Actions::CAMERA_RIGHT:
+					if(Camera)
+						Camera->HandleMouseMotion(Value, 0);
+				break;
+				case _Actions::CAMERA_UP:
+					if(Camera)
+						Camera->HandleMouseMotion(0, -Value);
+				break;
+				case _Actions::CAMERA_DOWN:
+					if(Camera)
+						Camera->HandleMouseMotion(0, Value);
 				break;
 			}
 		break;
@@ -130,7 +141,7 @@ void _PlayState::HandleAction(int Action, float Value) {
 			}
 		break;
 	}
-	printf("action press %d %d\n", Action, State);
+	//printf("action press %d %f\n", Action, Value);
 }
 
 // Key presses
@@ -215,19 +226,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 	}
 
 	return Processed || LuaProcessed;
-}
-
-// Mouse motion
-void _PlayState::HandleMouseMotion(float UpdateX, float UpdateY) {
-	if(Resetting)
-		return;
-
-	switch(State) {
-		case STATE_PLAY:
-			if(Camera)
-				Camera->HandleMouseMotion(UpdateX, UpdateY);
-		break;
-	}
 }
 
 // Mouse buttons

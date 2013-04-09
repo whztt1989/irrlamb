@@ -21,7 +21,10 @@
 // Constants
 const int ACTIONS_MAX = 64;
 const int ACTIONS_MAXKEYS = 256;
-const int ACTIONS_MAXBUTTONS = 8;
+const int ACTIONS_MAXMOUSEBUTTONS = 8;
+const int ACTIONS_MAXMOUSEAXIS = 4;
+const int ACTIONS_MAXJOYSTICKBUTTONS = 32;
+const int ACTIONS_MAXJOYSTICKAXIS = 32;
 
 // Handles actions
 class _Actions {
@@ -59,16 +62,25 @@ public:
 
 	// Maps
 	void AddKeyMap(int Key, int Action);
-	void AddMouseMap(int Button, int Action);
+	void AddMouseButtonMap(int Button, int Action);
+	void AddMouseAxisMap(int Axis, int Action);
+	void AddJoystickButtonMap(int Button, int Action);
+	void AddJoystickAxisMap(int Axis, int Action);
 
 	// Handlers
 	void KeyEvent(int Key, bool Pressed);
-	void MouseEvent(int Key, bool Pressed);
+	void MouseButtonEvent(int Button, bool Pressed);
+	void MouseAxisEvent(int Axis, float Value);
+	void JoystickButtonEvent(int Button, bool Pressed);
+	void JoystickAxisEvent(int Axis, float Value);
 
 private:
 
 	std::list<int> KeyMap[ACTIONS_MAXKEYS];
-	std::list<int> MouseMap[ACTIONS_MAXBUTTONS];
+	std::list<int> MouseButtonMap[ACTIONS_MAXMOUSEBUTTONS];
+	std::list<int> MouseAxisMap[ACTIONS_MAXMOUSEAXIS];
+	std::list<int> JoystickButtonMap[ACTIONS_MAXJOYSTICKBUTTONS];
+	std::list<int> JoystickAxisMap[ACTIONS_MAXJOYSTICKAXIS];
 	std::list<int>::iterator MapIterator;
 
 	float State[ACTIONS_MAX];

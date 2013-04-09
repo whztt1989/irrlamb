@@ -39,8 +39,8 @@
 #include "../objects/collision.h"
 #include "../objects/constraint.h"
 #include "../objects/springjoint.h"
-#include "namespace.h"
 #include <tinyxml/tinyxml2.h>
+#include "namespace.h"
 
 _Level Level;
 

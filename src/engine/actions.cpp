@@ -39,8 +39,17 @@ void _Actions::ClearMappings() {
 	for(int i = 0; i < ACTIONS_MAXKEYS; i++)
 		KeyMap[i].clear();
 
-	for(int i = 0; i < ACTIONS_MAXBUTTONS; i++)
-		MouseMap[i].clear();
+	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++)
+		MouseButtonMap[i].clear();
+
+	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++)
+		MouseAxisMap[i].clear();
+
+	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++)
+		JoystickButtonMap[i].clear();
+
+	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++)
+		JoystickAxisMap[i].clear();
 }
 
 // Get action
@@ -57,8 +66,23 @@ void _Actions::AddKeyMap(int Key, int Action) {
 }
 
 // Add to the mouse button=>action map
-void _Actions::AddMouseMap(int Button, int Action) {
-	MouseMap[Button].push_back(Action);
+void _Actions::AddMouseButtonMap(int Button, int Action) {
+	MouseButtonMap[Button].push_back(Action);
+}
+
+// Map a mouse axis to an action
+void _Actions::AddMouseAxisMap(int Axis, int Action) {
+	MouseAxisMap[Axis].push_back(Action);
+}
+
+// Add to the joystick button=>action map
+void _Actions::AddJoystickButtonMap(int Button, int Action) {
+	JoystickButtonMap[Button].push_back(Action);
+}
+
+// Map a joystick axis to an action
+void _Actions::AddJoystickAxisMap(int Axis, int Action) {
+	JoystickAxisMap[Axis].push_back(Action);
 }
 
 // Handle keys
@@ -73,12 +97,45 @@ void _Actions::KeyEvent(int Key, bool Pressed) {
 }
 
 // Handle mouse
-void _Actions::MouseEvent(int Button, bool Pressed) {
-	if(Button < 0 || Button >= ACTIONS_MAXBUTTONS)
+void _Actions::MouseButtonEvent(int Button, bool Pressed) {
+	if(Button < 0 || Button >= ACTIONS_MAXMOUSEBUTTONS)
 		return;
 
-	for(MapIterator = MouseMap[Button].begin(); MapIterator != MouseMap[Button].end(); MapIterator++) {
+	for(MapIterator = MouseButtonMap[Button].begin(); MapIterator != MouseButtonMap[Button].end(); MapIterator++) {
 		State[*MapIterator] = (float)Pressed;
 		Game.GetState()->HandleAction(*MapIterator, Pressed);
+	}
+}
+
+// Handle mouse movement
+void _Actions::MouseAxisEvent(int Axis, float Value) {
+	if(Axis < 0 || Axis >= ACTIONS_MAXMOUSEAXIS)
+		return;
+
+	for(MapIterator = MouseAxisMap[Axis].begin(); MapIterator != MouseAxisMap[Axis].end(); MapIterator++) {
+		State[*MapIterator] = Value;
+		Game.GetState()->HandleAction(*MapIterator, Value);
+	}
+}
+
+// Handle joystick button
+void _Actions::JoystickButtonEvent(int Button, bool Pressed) {
+	if(Button < 0 || Button >= ACTIONS_MAXJOYSTICKBUTTONS)
+		return;
+
+	for(MapIterator = JoystickButtonMap[Button].begin(); MapIterator != JoystickButtonMap[Button].end(); MapIterator++) {
+		State[*MapIterator] = (float)Pressed;
+		Game.GetState()->HandleAction(*MapIterator, Pressed);
+	}
+}
+
+// Handle joystick axis
+void _Actions::JoystickAxisEvent(int Axis, float Value) {
+	if(Axis < 0 || Axis >= ACTIONS_MAXJOYSTICKAXIS)
+		return;
+
+	for(MapIterator = JoystickAxisMap[Axis].begin(); MapIterator != JoystickAxisMap[Axis].end(); MapIterator++) {
+		State[*MapIterator] = Value;
+		Game.GetState()->HandleAction(*MapIterator, Value);
 	}
 }

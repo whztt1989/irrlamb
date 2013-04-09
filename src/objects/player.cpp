@@ -149,24 +149,13 @@ void _Player::HandleInput() {
 	vector3df Push(0.0f, 0.0f, 0.0f);
 	
 	// Get input direction
-	if(Actions.GetState(_Actions::MOVE_FORWARD))
-		Push.Z += 1.0f;
-	if(Actions.GetState(_Actions::MOVE_BACK))
-		Push.Z += -1.0f;
+	Push.X += -Actions.GetState(_Actions::MOVE_LEFT);
+	Push.X += Actions.GetState(_Actions::MOVE_RIGHT);
+	Push.Z += Actions.GetState(_Actions::MOVE_FORWARD);
+	Push.Z += -Actions.GetState(_Actions::MOVE_BACK);
 
-	if(Actions.GetState(_Actions::MOVE_LEFT))
-		Push.X += -1.0f;
-	if(Actions.GetState(_Actions::MOVE_RIGHT))
-		Push.X += 1.0f;
-
-	if(!Push.equals(vector3df())) {
+	if(Push.getLength() > 1.0f) {
 		Push.normalize();
-	}
-	else if(0 && Input.IsJoystickEnabled()) {
-		Push.X = Input.GetAxis(0);
-		Push.Z = -Input.GetAxis(1);
-		//printf("%f %f\n",  Input.GetAxis(2), Input.GetAxis(3));
-		//printf("%f %f\n", Input.GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_X] / 32767.f,  Input.GetJoystickEvent().Axis[SEvent::SJoystickEvent::AXIS_Y] / 32767.f);
 	}
 
 	// Push the player
