@@ -69,26 +69,7 @@ void _Config::Reset() {
 
 	// Set up mapping
 	Actions.ClearMappings();
-	Actions.AddKeyMap(KEY_KEY_E, _Actions::MOVE_FORWARD);
-	Actions.AddKeyMap(KEY_KEY_D, _Actions::MOVE_BACK);
-	Actions.AddKeyMap(KEY_KEY_S, _Actions::MOVE_LEFT);
-	Actions.AddKeyMap(KEY_KEY_F, _Actions::MOVE_RIGHT);
-	Actions.AddKeyMap(KEY_KEY_X, _Actions::RESET);
-	Actions.AddKeyMap(KEY_SPACE, _Actions::JUMP);
-	Actions.AddMouseAxisMap(0, _Actions::CAMERA_LEFT);
-	Actions.AddMouseAxisMap(1, _Actions::CAMERA_RIGHT);
-	Actions.AddMouseAxisMap(2, _Actions::CAMERA_UP);
-	Actions.AddMouseAxisMap(3, _Actions::CAMERA_DOWN);
-	Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD);
-	Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK);
-	Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT);
-	Actions.AddJoystickAxisMap(1, _Actions::MOVE_RIGHT);
-	Actions.AddJoystickAxisMap(7, _Actions::CAMERA_UP);
-	Actions.AddJoystickAxisMap(6, _Actions::CAMERA_DOWN);
-	Actions.AddJoystickAxisMap(8, _Actions::CAMERA_LEFT);
-	Actions.AddJoystickAxisMap(9, _Actions::CAMERA_RIGHT);
-	Actions.AddJoystickButtonMap(0, _Actions::JUMP);
-	Actions.AddJoystickButtonMap(6, _Actions::RESET);
+	AddDefaultActionMap();
 
 	MouseScaleX = 1.0f;
 	MouseScaleY = 1.0f;
@@ -294,4 +275,28 @@ int _Config::WriteConfig() {
 	Document.SaveFile(Save.GetConfigFile().c_str());
 	
 	return 1;
+}
+
+// Add default actions
+void _Config::AddDefaultActionMap() {
+	Actions.AddKeyMap(KEY_KEY_E, _Actions::MOVE_FORWARD);
+	Actions.AddKeyMap(KEY_KEY_D, _Actions::MOVE_BACK);
+	Actions.AddKeyMap(KEY_KEY_S, _Actions::MOVE_LEFT);
+	Actions.AddKeyMap(KEY_KEY_F, _Actions::MOVE_RIGHT);
+	Actions.AddKeyMap(KEY_KEY_X, _Actions::RESET);
+	Actions.AddKeyMap(KEY_SPACE, _Actions::JUMP);
+	Actions.AddMouseAxisMap(0, _Actions::CAMERA_LEFT);
+	Actions.AddMouseAxisMap(1, _Actions::CAMERA_RIGHT);
+	Actions.AddMouseAxisMap(2, _Actions::CAMERA_UP);
+	Actions.AddMouseAxisMap(3, _Actions::CAMERA_DOWN);
+	Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD);
+	Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK);
+	Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT);
+	Actions.AddJoystickAxisMap(1, _Actions::MOVE_RIGHT);
+	Actions.AddJoystickAxisMap(7, _Actions::CAMERA_UP);
+	Actions.AddJoystickAxisMap(6, _Actions::CAMERA_DOWN);
+	Actions.AddJoystickAxisMap(8, _Actions::CAMERA_LEFT);
+	Actions.AddJoystickAxisMap(9, _Actions::CAMERA_RIGHT);
+	Actions.AddJoystickButtonMap(0, _Actions::JUMP);
+	Actions.AddJoystickButtonMap(6, _Actions::RESET);
 }

@@ -30,6 +30,7 @@ class _Config {
 		int Close();
 
 		void Reset();
+		void AddDefaultActionMap();
 		int ReadConfig();
 		int WriteConfig();
 
