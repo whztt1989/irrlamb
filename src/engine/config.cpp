@@ -60,6 +60,7 @@ void _Config::Reset() {
 	MusicVolume = 1.0;
 
 	// Input
+	JoystickEnabled = false;
 	Keys[_Actions::MOVE_FORWARD] = KEY_KEY_E;
 	Keys[_Actions::MOVE_BACK] = KEY_KEY_D;
 	Keys[_Actions::MOVE_LEFT] = KEY_KEY_S;
@@ -105,21 +106,15 @@ int _Config::ReadConfig() {
 		// Check for the screen tag
 		Element = VideoElement->FirstChildElement("screen");
 		if(Element) {
-
-			// Get screen attributes
 			Element->QueryIntAttribute("width", &ScreenWidth);
 			Element->QueryIntAttribute("height", &ScreenHeight);
-			Element->QueryIntAttribute("fullscreen", &Value);
-			Fullscreen = !!Value;
+			Element->QueryBoolAttribute("fullscreen", &Fullscreen);
 		}
 
 		// Check for the filtering tag
 		Element = VideoElement->FirstChildElement("filtering");
 		if(Element) {
-
-			// Get screen attributes
-			Element->QueryIntAttribute("trilinear", &Value);
-			TrilinearFiltering = !!Value;
+			Element->QueryBoolAttribute("trilinear", &TrilinearFiltering);
 			Element->QueryIntAttribute("anisotropic", &AnisotropicFiltering);
 			Element->QueryIntAttribute("antialiasing", &AntiAliasing);
 		}
@@ -127,30 +122,20 @@ int _Config::ReadConfig() {
 		// Check for the shadow tag
 		Element = VideoElement->FirstChildElement("shadows");
 		if(Element) {
-
-			// Get screen attributes
-			Element->QueryIntAttribute("enabled", &Value);
-			Shadows = !!Value;
+			Element->QueryBoolAttribute("enabled", &Shadows);
 		}
 
 		// Check for the shader tag
 		Element = VideoElement->FirstChildElement("shaders");
 		if(Element) {
-
-			// Get screen attributes
-			Element->QueryIntAttribute("enabled", &Value);
-			Shaders = !!Value;
+			Element->QueryBoolAttribute("enabled", &Shaders);
 		}
 	}
 
 	// Check for the audio tag
 	XMLElement *AudioElement = ConfigElement->FirstChildElement("audio");
 	if(AudioElement) {
-		int Value = 0;
-		
-		// Get audio attributes
-		AudioElement->QueryIntAttribute("enabled", &Value);
-		AudioEnabled = !!Value;
+		AudioElement->QueryBoolAttribute("enabled", &AudioEnabled);
 		
 		/*
 		// Get sound element
@@ -174,17 +159,10 @@ int _Config::ReadConfig() {
 	// Get input element
 	XMLElement *InputElement = ConfigElement->FirstChildElement("input");
 	if(InputElement) {
-		int Value = 0;
-
-		// Get mouse attributes
 		InputElement->QueryFloatAttribute("mousex", &MouseScaleX);
-
-		// Get mouse attributes
 		InputElement->QueryFloatAttribute("mousey", &MouseScaleY);
-
-		// Get mouse invert
-		InputElement->QueryIntAttribute("invert", &Value);
-		InvertMouse = !!Value;
+		InputElement->QueryBoolAttribute("invert", &InvertMouse);
+		InputElement->QueryBoolAttribute("joystick_enabled", &JoystickEnabled);
 	}
 
 	// Add action maps
@@ -261,6 +239,7 @@ int _Config::WriteConfig() {
 	InputElement->SetAttribute("mousex", 1.0);
 	InputElement->SetAttribute("mousey", 1.0);
 	InputElement->SetAttribute("invert", InvertMouse);
+	InputElement->SetAttribute("joystick_enabled", JoystickEnabled);
 	ConfigElement->LinkEndChild(InputElement);
 
 	// Write action map

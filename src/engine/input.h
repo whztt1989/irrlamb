@@ -44,7 +44,7 @@ class _Input : public irr::IEventReceiver  {
 		int GetMouseX() const { return MouseX; }
 		int GetMouseY() const { return MouseY; }
 
-		bool IsJoystickEnabled() const { return JoystickEnabled; }
+		bool HasJoystick() const { return Joysticks.size() > 0; }
 		const irr::SEvent::SJoystickEvent &GetJoystickState();
 		float GetAxis(int Axis);
 
@@ -66,7 +66,6 @@ class _Input : public irr::IEventReceiver  {
 
 		// States
 		bool MouseLocked;
-		bool JoystickEnabled;
 		int MouseX, MouseY;
 };
 

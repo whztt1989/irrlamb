@@ -52,6 +52,7 @@ class _Config {
 		int Keys[_Actions::COUNT];
 		float MouseScaleX, MouseScaleY;
 		bool InvertMouse;
+		bool JoystickEnabled;
 
 		// Replays
 		float ReplayInterval;

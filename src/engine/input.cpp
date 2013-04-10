@@ -34,8 +34,7 @@ _Input::_Input()
 	MouseX(0),
 	MouseY(0),
 	DeadZone(0.05f),
-	LastJoystickButtonState(0),
-	JoystickEnabled(false) {
+	LastJoystickButtonState(0) {
 
 	// Set up input
 	ResetInputState();
@@ -124,6 +123,9 @@ bool _Input::OnEvent(const SEvent &Event) {
 			Game.GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
 		break;
 		case EET_JOYSTICK_INPUT_EVENT: {
+			if(!Config.JoystickEnabled)
+				return false;
+
 			LastJoystickButtonState = JoystickState.ButtonStates;
 			JoystickState = Event.JoystickEvent;
 
@@ -164,7 +166,6 @@ void _Input::InitializeJoysticks() {
 
 	// Find joysticks
 	if(irrDevice->activateJoysticks(Joysticks)) {
-		JoystickEnabled = true;
 		Log.Write("%d joystick(s) found.", Joysticks.size());
 
 		for(u32 i = 0; i < Joysticks.size(); i++) {
@@ -187,8 +188,6 @@ void _Input::InitializeJoysticks() {
 			}
 		}
 	}
-	else
-		JoystickEnabled = false;
 }
 
 // Return the joystick state
@@ -199,7 +198,7 @@ const irr::SEvent::SJoystickEvent &_Input::GetJoystickState() {
 
 // Get a joystick axis value
 float _Input::GetAxis(int Axis) {
-	if(!JoystickEnabled)
+	if(!HasJoystick())
 		return 0.0f;
 
 	float Value = JoystickState.Axis[Axis] / 32767.f;
