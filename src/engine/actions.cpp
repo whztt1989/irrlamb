@@ -234,8 +234,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXKEYS; i++) {
 		for(MapIterator = KeyMap[i].begin(); MapIterator != KeyMap[i].end(); MapIterator++) {
 			XMLElement *Element = Document.NewElement("key");
-			Element->SetAttribute("action", *MapIterator);
 			Element->SetAttribute("key", i);
+			Element->SetAttribute("action", *MapIterator);
 			InputElement->InsertEndChild(Element);
 		}
 	}
@@ -243,8 +243,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++) {
 		for(MapIterator = MouseButtonMap[i].begin(); MapIterator != MouseButtonMap[i].end(); MapIterator++) {
 			XMLElement *Element = Document.NewElement("mousebutton");
-			Element->SetAttribute("action", *MapIterator);
 			Element->SetAttribute("button", i);
+			Element->SetAttribute("action", *MapIterator);
 			InputElement->InsertEndChild(Element);
 		}
 	}
@@ -252,8 +252,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++) {
 		for(MapIterator = MouseAxisMap[i].begin(); MapIterator != MouseAxisMap[i].end(); MapIterator++) {
 			XMLElement *Element = Document.NewElement("mouseaxis");
-			Element->SetAttribute("action", *MapIterator);
 			Element->SetAttribute("axis", i);
+			Element->SetAttribute("action", *MapIterator);
 			InputElement->InsertEndChild(Element);
 		}
 	}
@@ -261,8 +261,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++) {
 		for(MapIterator = JoystickButtonMap[i].begin(); MapIterator != JoystickButtonMap[i].end(); MapIterator++) {
 			XMLElement *Element = Document.NewElement("joybutton");
-			Element->SetAttribute("action", *MapIterator);
 			Element->SetAttribute("button", i);
+			Element->SetAttribute("action", *MapIterator);
 			InputElement->InsertEndChild(Element);
 		}
 	}
@@ -270,8 +270,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++) {
 		for(MapIterator = JoystickAxisMap[i].begin(); MapIterator != JoystickAxisMap[i].end(); MapIterator++) {
 			XMLElement *Element = Document.NewElement("joyaxis");
-			Element->SetAttribute("action", *MapIterator);
 			Element->SetAttribute("axis", i);
+			Element->SetAttribute("action", *MapIterator);
 			InputElement->InsertEndChild(Element);
 		}
 	}
@@ -283,7 +283,7 @@ void _Actions::Unserialize(XMLElement *InputElement) {
 
 	// Get keyboard mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("key"); Element != 0; Element = Element->NextSiblingElement("key")) {
-		if(Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR || Element->QueryIntAttribute("key", &Value) != XML_NO_ERROR)
+		if(Element->QueryIntAttribute("key", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
 		Actions.AddKeyMap(Value, Action);
@@ -291,7 +291,7 @@ void _Actions::Unserialize(XMLElement *InputElement) {
 
 	// Get mouse button mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("mousebutton"); Element != 0; Element = Element->NextSiblingElement("mousebutton")) {
-		if(Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR || Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR)
+		if(Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
 		Actions.AddMouseButtonMap(Value, Action);
@@ -299,7 +299,7 @@ void _Actions::Unserialize(XMLElement *InputElement) {
 
 	// Get mouse axis mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("mouseaxis"); Element != 0; Element = Element->NextSiblingElement("mouseaxis")) {
-		if(Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR || Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR)
+		if(Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
 		Actions.AddMouseAxisMap(Value, Action);
@@ -307,7 +307,7 @@ void _Actions::Unserialize(XMLElement *InputElement) {
 
 	// Get joystick button mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("joybutton"); Element != 0; Element = Element->NextSiblingElement("joybutton")) {
-		if(Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR || Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR)
+		if(Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
 		Actions.AddJoystickButtonMap(Value, Action);
@@ -315,7 +315,7 @@ void _Actions::Unserialize(XMLElement *InputElement) {
 
 	// Get joystick axis mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("joyaxis"); Element != 0; Element = Element->NextSiblingElement("joyaxis")) {
-		if(Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR || Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR)
+		if(Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
 		Actions.AddJoystickAxisMap(Value, Action);
