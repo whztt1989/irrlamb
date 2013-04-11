@@ -114,6 +114,12 @@ void _PlayState::HandleAction(int Action, float Value) {
 				case _Actions::RESET:
 					StartReset();
 				break;
+				case _Actions::MENU_PAUSE:
+					if(TestLevel != "")
+						Game.SetDone(true);
+					else
+						InitPause();
+				break;
 				case _Actions::CAMERA_LEFT:
 					if(Camera)
 						Camera->HandleMouseMotion(-Value, 0);
@@ -140,6 +146,13 @@ void _PlayState::HandleAction(int Action, float Value) {
 				break;
 			}
 		break;
+		case STATE_PAUSED:
+			switch(Action) {
+				case _Actions::MENU_PAUSE:
+					InitPlay();
+				break;
+			}
+		break;
 	}
 	//printf("action press %d %f\n", Action, Value);
 }
@@ -154,12 +167,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 	switch(State) {
 		case STATE_PLAY:
 			switch(Key) {
-				case KEY_ESCAPE:
-					if(TestLevel != "")
-						Game.SetDone(true);
-					else
-						InitPause();
-				break;
 				case KEY_F1:
 					InitPause();
 				break;
@@ -182,13 +189,6 @@ bool _PlayState::HandleKeyPress(int Key) {
 
 			// Send key presses to Lua
 			LuaProcessed = Scripting.HandleKeyPress(Key);
-		break;
-		case STATE_PAUSED:
-			switch(Key) {
-				case KEY_ESCAPE:
-					InitPlay();
-				break;
-			}
 		break;
 		case STATE_SAVEREPLAY:
 			switch(Key) {
