@@ -123,7 +123,7 @@ bool _Input::OnEvent(const SEvent &Event) {
 			Game.GetState()->HandleGUI(Event.GUIEvent.EventType, Event.GUIEvent.Caller);
 		break;
 		case EET_JOYSTICK_INPUT_EVENT: {
-			if(!Config.JoystickEnabled)
+			if(!Config.JoystickEnabled || Event.JoystickEvent.Joystick > 0)
 				return false;
 
 			LastJoystickButtonState = JoystickState.ButtonStates;
