@@ -18,13 +18,12 @@
 #include <all.h>
 #pragma once
 
+// Libraries
+#include <engine/input.h>
+
 // Constants
+const int ACTIONS_MAXINPUTS = 256;
 const int ACTIONS_MAX = 64;
-const int ACTIONS_MAXKEYS = 256;
-const int ACTIONS_MAXMOUSEBUTTONS = 8;
-const int ACTIONS_MAXMOUSEAXIS = 4;
-const int ACTIONS_MAXJOYSTICKBUTTONS = 32;
-const int ACTIONS_MAXJOYSTICKAXIS = 32;
 
 // Forward declarations
 namespace tinyxml2 {
@@ -67,35 +66,19 @@ public:
 	float GetState(int Action);
 
 	// Maps
-	void AddKeyMap(int Key, int Action, bool IfNone=false);
-	void AddMouseButtonMap(int Button, int Action, bool IfNone=false);
-	void AddMouseAxisMap(int Axis, int Action, bool IfNone=false);
-	void AddJoystickButtonMap(int Button, int Action, bool IfNone=false);
-	void AddJoystickAxisMap(int Axis, int Action, bool IfNone=false);
-	
-	bool FindKeysForAction(int Action);
-	bool FindMouseButtonForAction(int Action);
-	bool FindMouseAxisForAction(int Action);
-	bool FindJoystickButtonForAction(int Action);
-	bool FindJoystickAxisForAction(int Action);
+	void AddInputMap(int InputType, int Input, int Action, bool IfNone=false);
+	bool FindInputForAction(int InputType, int Action);
 
 	// Handlers
-	void KeyEvent(int Key, bool Pressed);
-	void MouseButtonEvent(int Button, bool Pressed);
-	void MouseAxisEvent(int Axis, float Value);
-	void JoystickButtonEvent(int Button, bool Pressed);
-	void JoystickAxisEvent(int Axis, float Value);
+	void InputEvent(int InputType, int Input, float Value);
 
+	// Config
 	void Serialize(tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
 	void Unserialize(tinyxml2::XMLElement *InputElement);
 
 private:
 
-	std::list<int> KeyMap[ACTIONS_MAXKEYS];
-	std::list<int> MouseButtonMap[ACTIONS_MAXMOUSEBUTTONS];
-	std::list<int> MouseAxisMap[ACTIONS_MAXMOUSEAXIS];
-	std::list<int> JoystickButtonMap[ACTIONS_MAXJOYSTICKBUTTONS];
-	std::list<int> JoystickAxisMap[ACTIONS_MAXJOYSTICKAXIS];
+	std::list<int> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
 	std::list<int>::iterator MapIterator;
 
 	float State[ACTIONS_MAX];

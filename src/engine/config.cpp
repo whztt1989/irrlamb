@@ -262,16 +262,16 @@ void _Config::AddDefaultActionMap(bool Force) {
 	if(Force)
 		Actions.ClearMappings();
 		
-	Actions.AddKeyMap(KEY_KEY_E, _Actions::MOVE_FORWARD, true);
-	Actions.AddKeyMap(KEY_KEY_D, _Actions::MOVE_BACK, true);
-	Actions.AddKeyMap(KEY_KEY_S, _Actions::MOVE_LEFT, true);
-	Actions.AddKeyMap(KEY_KEY_F, _Actions::MOVE_RIGHT, true);
-	Actions.AddKeyMap(KEY_KEY_X, _Actions::RESET, true);
-	Actions.AddKeyMap(KEY_SPACE, _Actions::JUMP, true);
-	Actions.AddMouseAxisMap(0, _Actions::CAMERA_LEFT, true);
-	Actions.AddMouseAxisMap(1, _Actions::CAMERA_RIGHT, true);
-	Actions.AddMouseAxisMap(2, _Actions::CAMERA_UP, true);
-	Actions.AddMouseAxisMap(3, _Actions::CAMERA_DOWN, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_E, _Actions::MOVE_FORWARD, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_D, _Actions::MOVE_BACK, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_S, _Actions::MOVE_LEFT, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_F, _Actions::MOVE_RIGHT, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_X, _Actions::RESET, true);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_SPACE, _Actions::JUMP, true);
+	Actions.AddInputMap(_Input::MOUSE_AXIS, 0, _Actions::CAMERA_LEFT, true);
+	Actions.AddInputMap(_Input::MOUSE_AXIS, 1, _Actions::CAMERA_RIGHT, true);
+	Actions.AddInputMap(_Input::MOUSE_AXIS, 2, _Actions::CAMERA_UP, true);
+	Actions.AddInputMap(_Input::MOUSE_AXIS, 3, _Actions::CAMERA_DOWN, true);
 
 	// Get joystick name in lower case
 	stringc Name = "";
@@ -283,40 +283,40 @@ void _Config::AddDefaultActionMap(bool Force) {
 	#ifdef WIN32
 
 		// Assume xbox or similar controller
-		Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD, true);
-		Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK, true);
-		Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT, true);
-		Actions.AddJoystickAxisMap(1, _Actions::MOVE_RIGHT, true);
-		Actions.AddJoystickAxisMap(9, _Actions::CAMERA_UP, true);
-		Actions.AddJoystickAxisMap(8, _Actions::CAMERA_DOWN, true);
-		Actions.AddJoystickAxisMap(6, _Actions::CAMERA_LEFT, true);
-		Actions.AddJoystickAxisMap(7, _Actions::CAMERA_RIGHT, true);
-		Actions.AddJoystickButtonMap(0, _Actions::JUMP, true);
-		Actions.AddJoystickButtonMap(6, _Actions::RESET, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::MOVE_FORWARD, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::MOVE_BACK, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 0, _Actions::MOVE_LEFT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::MOVE_RIGHT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_UP, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_DOWN, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::JUMP, true);
+		Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 6, _Actions::RESET, true);
 	#else
 		if(Name.find("x-box", 0) || Name.find("xbox", 0)) {
-			Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD, true);
-			Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK, true);
-			Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT, true);
-			Actions.AddJoystickAxisMap(1, _Actions::MOVE_RIGHT, true);
-			Actions.AddJoystickAxisMap(8, _Actions::CAMERA_UP, true);
-			Actions.AddJoystickAxisMap(9, _Actions::CAMERA_DOWN, true);
-			Actions.AddJoystickAxisMap(6, _Actions::CAMERA_LEFT, true);
-			Actions.AddJoystickAxisMap(7, _Actions::CAMERA_RIGHT, true);
-			Actions.AddJoystickButtonMap(0, _Actions::JUMP, true);
-			Actions.AddJoystickButtonMap(6, _Actions::RESET, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::MOVE_FORWARD, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::MOVE_BACK, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 0, _Actions::MOVE_LEFT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::MOVE_RIGHT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_UP, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_DOWN, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::JUMP, true);
+			Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 6, _Actions::RESET, true);
 		}
 		else {
-			Actions.AddJoystickAxisMap(2, _Actions::MOVE_FORWARD, true);
-			Actions.AddJoystickAxisMap(3, _Actions::MOVE_BACK, true);
-			Actions.AddJoystickAxisMap(0, _Actions::MOVE_LEFT, true);
-			Actions.AddJoystickAxisMap(1, _Actions::MOVE_RIGHT, true);
-			Actions.AddJoystickAxisMap(8, _Actions::CAMERA_UP, true);
-			Actions.AddJoystickAxisMap(9, _Actions::CAMERA_DOWN, true);
-			Actions.AddJoystickAxisMap(6, _Actions::CAMERA_LEFT, true);
-			Actions.AddJoystickAxisMap(7, _Actions::CAMERA_RIGHT, true);
-			Actions.AddJoystickButtonMap(0, _Actions::JUMP, true);
-			Actions.AddJoystickButtonMap(6, _Actions::RESET, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::MOVE_FORWARD, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::MOVE_BACK, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 0, _Actions::MOVE_LEFT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::MOVE_RIGHT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, true);
+			Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::JUMP, true);
+			Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 6, _Actions::RESET, true);
 		}
 
 	#endif

@@ -21,15 +21,24 @@
 // Classes
 class _Input : public irr::IEventReceiver  {
 
-	enum MouseButtonType {
-		MOUSE_LEFT,
-		MOUSE_RIGHT,
-		MOUSE_MIDDLE,
-		MOUSE_COUNT,
-	};
-
 	public:
 
+		enum MouseButtonType {
+			MOUSE_LEFT,
+			MOUSE_RIGHT,
+			MOUSE_MIDDLE,
+			MOUSE_COUNT,
+		};
+	
+		enum InputType {
+			KEYBOARD,
+			MOUSE_BUTTON,
+			MOUSE_AXIS,
+			JOYSTICK_BUTTON,
+			JOYSTICK_AXIS,
+			INPUT_COUNT,
+		};
+		
 		_Input();
 		bool OnEvent(const irr::SEvent &Event);
 

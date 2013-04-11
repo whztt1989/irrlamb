@@ -37,22 +37,11 @@ void _Actions::ResetState() {
 	}
 }
 
-// Clear key and mouse map
+// Clear all mappings
 void _Actions::ClearMappings() {
-	for(int i = 0; i < ACTIONS_MAXKEYS; i++)
-		KeyMap[i].clear();
-
-	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++)
-		MouseButtonMap[i].clear();
-
-	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++)
-		MouseAxisMap[i].clear();
-
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++)
-		JoystickButtonMap[i].clear();
-
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++)
-		JoystickAxisMap[i].clear();
+	for(int i = 0; i < _Input::INPUT_COUNT; i++)
+		for(int j = 0; j < ACTIONS_MAXINPUTS; j++)
+			InputMap[i][j].clear();
 }
 
 // Get action
@@ -63,56 +52,20 @@ float _Actions::GetState(int Action) {
 	return State[Action];
 }
 
-// Add to the key=>action map
-void _Actions::AddKeyMap(int Key, int Action, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Key < 0 || Key >= ACTIONS_MAXKEYS)
+// Add an input mapping
+void _Actions::AddInputMap(int InputType, int Input, int Action, bool IfNone) {
+	if(Action < 0 || Action >= ACTIONS_MAX || Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
-
-	if(!IfNone || (IfNone && !FindKeysForAction(Action))) {
-		KeyMap[Key].push_back(Action);
+		
+	if(!IfNone || (IfNone && !FindInputForAction(InputType, Action))) {
+		InputMap[InputType][Input].push_back(Action);
 	}
 }
 
-// Add to the mouse button=>action map
-void _Actions::AddMouseButtonMap(int Button, int Action, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXMOUSEBUTTONS)
-		return;
-
-	if(!IfNone || (IfNone && !FindMouseButtonForAction(Action)))
-		MouseButtonMap[Button].push_back(Action);
-}
-
-// Map a mouse axis to an action
-void _Actions::AddMouseAxisMap(int Axis, int Action, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXMOUSEAXIS)
-		return;
-
-	if(!IfNone || (IfNone && !FindMouseAxisForAction(Action)))
-		MouseAxisMap[Axis].push_back(Action);
-}
-
-// Add to the joystick button=>action map
-void _Actions::AddJoystickButtonMap(int Button, int Action, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Button < 0 || Button >= ACTIONS_MAXJOYSTICKBUTTONS)
-		return;
-
-	if(!IfNone || (IfNone && !FindJoystickButtonForAction(Action)))
-		JoystickButtonMap[Button].push_back(Action);
-}
-
-// Map a joystick axis to an action
-void _Actions::AddJoystickAxisMap(int Axis, int Action, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Axis < 0 || Axis >= ACTIONS_MAXJOYSTICKAXIS)
-		return;
-
-	if(!IfNone || (IfNone && !FindJoystickAxisForAction(Action)))
-		JoystickAxisMap[Axis].push_back(Action);
-}
-
-// Find all the keys for a given action
-bool _Actions::FindKeysForAction(int Action) {
-	for(int i = 0; i < ACTIONS_MAXKEYS; i++) {
-		for(MapIterator = KeyMap[i].begin(); MapIterator != KeyMap[i].end(); MapIterator++) {
+// Find an existing input mapping for an action
+bool _Actions::FindInputForAction(int InputType, int Action) {
+	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
+		for(MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
 			if(*MapIterator == Action) {
 				return true;
 			}
@@ -122,108 +75,12 @@ bool _Actions::FindKeysForAction(int Action) {
 	return false;
 }
 
-// Find a mouse button for a given action
-bool _Actions::FindMouseButtonForAction(int Action) {
-	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++) {
-		for(MapIterator = MouseButtonMap[i].begin(); MapIterator != MouseButtonMap[i].end(); MapIterator++) {
-			if(*MapIterator == Action) {
-				return true;
-			}
-		}
-	}
-	
-	return false;
-}
-
-// Find a mouse axis for a given action
-bool _Actions::FindMouseAxisForAction(int Action) {
-	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++) {
-		for(MapIterator = MouseAxisMap[i].begin(); MapIterator != MouseAxisMap[i].end(); MapIterator++) {
-			if(*MapIterator == Action) {
-				return true;
-			}
-		}
-	}
-	
-	return false;
-}
-
-// Find a joystick button for a given action
-bool _Actions::FindJoystickButtonForAction(int Action) {
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++) {
-		for(MapIterator = JoystickButtonMap[i].begin(); MapIterator != JoystickButtonMap[i].end(); MapIterator++) {
-			if(*MapIterator == Action) {
-				return true;
-			}
-		}
-	}
-	
-	return false;
-}
-
-// Find a joystick axis for a given action
-bool _Actions::FindJoystickAxisForAction(int Action) {
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++) {
-		for(MapIterator = JoystickAxisMap[i].begin(); MapIterator != JoystickAxisMap[i].end(); MapIterator++) {
-			if(*MapIterator == Action) {
-				return true;
-			}
-		}
-	}
-	
-	return false;
-}
-
-// Handle keys
-void _Actions::KeyEvent(int Key, bool Pressed) {
-	if(Key < 0 || Key >= ACTIONS_MAXKEYS)
+// Inject an input into the action handler
+void _Actions::InputEvent(int InputType, int Input, float Value) {
+	if(Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
 
-	for(MapIterator = KeyMap[Key].begin(); MapIterator != KeyMap[Key].end(); MapIterator++) {
-		State[*MapIterator] = (float)Pressed;
-		Game.GetState()->HandleAction(*MapIterator, Pressed);
-	}
-}
-
-// Handle mouse
-void _Actions::MouseButtonEvent(int Button, bool Pressed) {
-	if(Button < 0 || Button >= ACTIONS_MAXMOUSEBUTTONS)
-		return;
-
-	for(MapIterator = MouseButtonMap[Button].begin(); MapIterator != MouseButtonMap[Button].end(); MapIterator++) {
-		State[*MapIterator] = (float)Pressed;
-		Game.GetState()->HandleAction(*MapIterator, Pressed);
-	}
-}
-
-// Handle mouse movement
-void _Actions::MouseAxisEvent(int Axis, float Value) {
-	if(Axis < 0 || Axis >= ACTIONS_MAXMOUSEAXIS)
-		return;
-
-	for(MapIterator = MouseAxisMap[Axis].begin(); MapIterator != MouseAxisMap[Axis].end(); MapIterator++) {
-		State[*MapIterator] = Value;
-		Game.GetState()->HandleAction(*MapIterator, Value);
-	}
-}
-
-// Handle joystick button
-void _Actions::JoystickButtonEvent(int Button, bool Pressed) {
-	if(Button < 0 || Button >= ACTIONS_MAXJOYSTICKBUTTONS)
-		return;
-
-	for(MapIterator = JoystickButtonMap[Button].begin(); MapIterator != JoystickButtonMap[Button].end(); MapIterator++) {
-		State[*MapIterator] = (float)Pressed;
-		Game.GetState()->HandleAction(*MapIterator, Pressed);
-	}
-}
-
-// Handle joystick axis
-void _Actions::JoystickAxisEvent(int Axis, float Value) {
-	if(Axis < 0 || Axis >= ACTIONS_MAXJOYSTICKAXIS)
-		return;
-
-	for(MapIterator = JoystickAxisMap[Axis].begin(); MapIterator != JoystickAxisMap[Axis].end(); MapIterator++) {
+	for(MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
 		State[*MapIterator] = Value;
 		Game.GetState()->HandleAction(*MapIterator, Value);
 	}
@@ -231,93 +88,30 @@ void _Actions::JoystickAxisEvent(int Axis, float Value) {
 
 // Write to config file
 void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
-	for(int i = 0; i < ACTIONS_MAXKEYS; i++) {
-		for(MapIterator = KeyMap[i].begin(); MapIterator != KeyMap[i].end(); MapIterator++) {
-			XMLElement *Element = Document.NewElement("key");
-			Element->SetAttribute("key", i);
-			Element->SetAttribute("action", *MapIterator);
-			InputElement->InsertEndChild(Element);
-		}
-	}
-
-	for(int i = 0; i < ACTIONS_MAXMOUSEBUTTONS; i++) {
-		for(MapIterator = MouseButtonMap[i].begin(); MapIterator != MouseButtonMap[i].end(); MapIterator++) {
-			XMLElement *Element = Document.NewElement("mousebutton");
-			Element->SetAttribute("button", i);
-			Element->SetAttribute("action", *MapIterator);
-			InputElement->InsertEndChild(Element);
-		}
-	}
-
-	for(int i = 0; i < ACTIONS_MAXMOUSEAXIS; i++) {
-		for(MapIterator = MouseAxisMap[i].begin(); MapIterator != MouseAxisMap[i].end(); MapIterator++) {
-			XMLElement *Element = Document.NewElement("mouseaxis");
-			Element->SetAttribute("axis", i);
-			Element->SetAttribute("action", *MapIterator);
-			InputElement->InsertEndChild(Element);
-		}
-	}
-
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKBUTTONS; i++) {
-		for(MapIterator = JoystickButtonMap[i].begin(); MapIterator != JoystickButtonMap[i].end(); MapIterator++) {
-			XMLElement *Element = Document.NewElement("joybutton");
-			Element->SetAttribute("button", i);
-			Element->SetAttribute("action", *MapIterator);
-			InputElement->InsertEndChild(Element);
-		}
-	}
-
-	for(int i = 0; i < ACTIONS_MAXJOYSTICKAXIS; i++) {
-		for(MapIterator = JoystickAxisMap[i].begin(); MapIterator != JoystickAxisMap[i].end(); MapIterator++) {
-			XMLElement *Element = Document.NewElement("joyaxis");
-			Element->SetAttribute("axis", i);
-			Element->SetAttribute("action", *MapIterator);
-			InputElement->InsertEndChild(Element);
+	for(int i = 0; i < _Input::INPUT_COUNT; i++) {
+		for(int j = 0; j < ACTIONS_MAXINPUTS; j++) {
+			for(MapIterator = InputMap[i][j].begin(); MapIterator != InputMap[i][j].end(); MapIterator++) {
+				XMLElement *Element = Document.NewElement("map");
+				Element->SetAttribute("type", i);
+				Element->SetAttribute("input", j);
+				Element->SetAttribute("action", *MapIterator);
+				InputElement->InsertEndChild(Element);
+			}
 		}
 	}
 }
 
 // Unserialize
 void _Actions::Unserialize(XMLElement *InputElement) {
-	int Action, Value;
+	int Type, Input, Action;
 
-	// Get keyboard mapping
-	for(XMLElement *Element = InputElement->FirstChildElement("key"); Element != 0; Element = Element->NextSiblingElement("key")) {
-		if(Element->QueryIntAttribute("key", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
+	// Get input mapping
+	for(XMLElement *Element = InputElement->FirstChildElement("map"); Element != 0; Element = Element->NextSiblingElement("map")) {
+		if(Element->QueryIntAttribute("type", &Type) != XML_NO_ERROR
+			|| Element->QueryIntAttribute("input", &Input) != XML_NO_ERROR
+			|| Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
 			continue;
 
-		Actions.AddKeyMap(Value, Action);
-	}
-
-	// Get mouse button mapping
-	for(XMLElement *Element = InputElement->FirstChildElement("mousebutton"); Element != 0; Element = Element->NextSiblingElement("mousebutton")) {
-		if(Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
-			continue;
-
-		Actions.AddMouseButtonMap(Value, Action);
-	}
-
-	// Get mouse axis mapping
-	for(XMLElement *Element = InputElement->FirstChildElement("mouseaxis"); Element != 0; Element = Element->NextSiblingElement("mouseaxis")) {
-		if(Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
-			continue;
-
-		Actions.AddMouseAxisMap(Value, Action);
-	}
-
-	// Get joystick button mapping
-	for(XMLElement *Element = InputElement->FirstChildElement("joybutton"); Element != 0; Element = Element->NextSiblingElement("joybutton")) {
-		if(Element->QueryIntAttribute("button", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
-			continue;
-
-		Actions.AddJoystickButtonMap(Value, Action);
-	}
-
-	// Get joystick axis mapping
-	for(XMLElement *Element = InputElement->FirstChildElement("joyaxis"); Element != 0; Element = Element->NextSiblingElement("joyaxis")) {
-		if(Element->QueryIntAttribute("axis", &Value) != XML_NO_ERROR || Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
-			continue;
-
-		Actions.AddJoystickAxisMap(Value, Action);
+		Actions.AddInputMap(Type, Input, Action);
 	}
 }

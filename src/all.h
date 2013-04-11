@@ -19,11 +19,6 @@
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
-#include <al.h>
-#include <alc.h>
-#include <lua.hpp>
-#include <sqlite3.h>
-
 #include <string>
 #include <vector>
 #include <list>
@@ -32,6 +27,10 @@
 #include <sstream>
 #include <iostream>
 
+#include <lua.hpp>
+#include <al.h>
+#include <alc.h>
+#include <sqlite3.h>
 #include <cstring>
 #include <cstdarg>
 #include <ctime>
