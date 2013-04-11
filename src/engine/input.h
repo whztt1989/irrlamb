@@ -34,7 +34,7 @@ class _Input : public irr::IEventReceiver  {
 		bool OnEvent(const irr::SEvent &Event);
 
 		void ResetInputState();
-		void InitializeJoysticks();
+		void InitializeJoysticks(bool ShowLog=false);
 		bool GetKeyState(int Key) const { return Keys[Key]; }
 		bool GetMouseState(int Button) const { return MouseButtons[Button]; }
 
@@ -46,6 +46,7 @@ class _Input : public irr::IEventReceiver  {
 
 		bool HasJoystick() const { return Joysticks.size() > 0; }
 		const irr::SEvent::SJoystickEvent &GetJoystickState();
+		const irr::SJoystickInfo &GetJoystickInfo();
 		float GetAxis(int Axis);
 
 		const char *GetKeyName(int Key);

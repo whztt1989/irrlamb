@@ -84,6 +84,9 @@ int _Game::Init(int Count, char **Arguments) {
 	Log.Init();
 	Log.Write("irrlamb %s", GAME_VERSION);
 
+	// Query joysticks with null device
+	Input.InitializeJoysticks(true);
+
 	// Set up config system
 	if(!Config.Init())
 		return 0;
@@ -96,12 +99,9 @@ int _Game::Init(int Count, char **Arguments) {
 	if(!Graphics.Init(Config.ScreenWidth, Config.ScreenHeight, Config.Fullscreen, DriverType, &Input))
 		return 0;
 	
-	// Query joysticks
+	// Initialize the joysticks with the real device
 	Input.InitializeJoysticks();
-
-	// Set up input bindings
-	Config.AddDefaultActionMap();
-
+	
 	// Save working path
 	WorkingPath = std::string(irrFile->getWorkingDirectory().c_str()) + "/";
 

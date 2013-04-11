@@ -162,10 +162,19 @@ bool _Input::OnEvent(const SEvent &Event) {
 }
 
 // Set up joysticks
-void _Input::InitializeJoysticks() {
-
+void _Input::InitializeJoysticks(bool ShowLog) {
+	
+	// Check to see if the real device has been made yet
+	IrrlichtDevice *Device = irrDevice;
+	if(Device == NULL) {
+		SIrrlichtCreationParameters Parameters;
+		Parameters.DriverType = EDT_NULL;
+		Parameters.LoggingLevel = ELL_ERROR;
+		Device = createDeviceEx(Parameters);
+	}
+	
 	// Find joysticks
-	if(irrDevice->activateJoysticks(Joysticks)) {
+	if(Device->activateJoysticks(Joysticks) && ShowLog) {
 		Log.Write("%d joystick(s) found.", Joysticks.size());
 
 		for(u32 i = 0; i < Joysticks.size(); i++) {
@@ -188,12 +197,21 @@ void _Input::InitializeJoysticks() {
 			}
 		}
 	}
+	
+	// Drop the temporary device
+	if(irrDevice == NULL)
+		Device->drop();
 }
 
 // Return the joystick state
 const irr::SEvent::SJoystickEvent &_Input::GetJoystickState() {
 
 	return JoystickState;
+}
+
+// Get info about the joystick
+const irr::SJoystickInfo &_Input::GetJoystickInfo() {
+	return Joysticks[0];
 }
 
 // Get a joystick axis value
