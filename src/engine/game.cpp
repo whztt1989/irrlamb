@@ -95,6 +95,12 @@ int _Game::Init(int Count, char **Arguments) {
 	DriverType = (E_DRIVER_TYPE)Config.DriverType;
 	if(!Graphics.Init(Config.ScreenWidth, Config.ScreenHeight, Config.Fullscreen, DriverType, &Input))
 		return 0;
+	
+	// Query joysticks
+	Input.InitializeJoysticks();
+
+	// Set up input bindings
+	Config.AddDefaultActionMap();
 
 	// Save working path
 	WorkingPath = std::string(irrFile->getWorkingDirectory().c_str()) + "/";
@@ -137,9 +143,6 @@ int _Game::Init(int Count, char **Arguments) {
 	// Set up fader
 	if(!Fader.Init())
 		return 0;
-
-	// Query joysticks
-	Input.InitializeJoysticks();
 
 	// Load stats file
 	Save.LoadLevelStats();
