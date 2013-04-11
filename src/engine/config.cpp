@@ -61,7 +61,7 @@ void _Config::Reset() {
 	MusicVolume = 1.0;
 
 	// Input
-	JoystickEnabled = false;
+	JoystickEnabled = Input.HasJoystick();
 	Keys[_Actions::MOVE_FORWARD] = KEY_KEY_E;
 	Keys[_Actions::MOVE_BACK] = KEY_KEY_D;
 	Keys[_Actions::MOVE_LEFT] = KEY_KEY_S;
