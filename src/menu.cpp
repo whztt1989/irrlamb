@@ -37,12 +37,12 @@ const int PLAY_CAMPAIGNID = 900;
 
 // List of action names
 const wchar_t *_MenuState::ActionNames[_Actions::COUNT] = {
-	L"Move Forward",
-	L"Move Back",
 	L"Move Left",
 	L"Move Right",
+	L"Move Forward",
+	L"Move Back",
+	L"Jump",
 	L"Restart Level",
-	L"Jump"
 };
 
 // Initializes the state
