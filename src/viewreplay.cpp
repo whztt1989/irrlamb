@@ -238,8 +238,8 @@ void _ViewReplayState::Update(float FrameTime) {
 		Replay.ReadEvent(NextEvent);
 	}
 	
-	ObjectManager.UpdateReplay(FrameTime);
-	Interface.Update(FrameTime);
+	ObjectManager.UpdateReplay(FrameTime * ReplaySpeed);
+	Interface.Update(FrameTime * ReplaySpeed);
 }
 
 // Draws the current state
