@@ -19,8 +19,8 @@
 #pragma once
 
 // Libraries
-#include "object.h"
-#include "../engine/camera.h"
+#include <objects/object.h>
+#include <engine/camera.h>
 
 // Classes
 class _Player : public _Object {

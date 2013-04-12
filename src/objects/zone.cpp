@@ -16,11 +16,11 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "zone.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "../engine/scripting.h"
-#include "template.h"
+#include <objects/zone.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <engine/scripting.h>
+#include <objects/template.h>
 
 // Constructor
 _Zone::_Zone(const SpawnStruct &Object)

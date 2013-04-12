@@ -16,31 +16,31 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "level.h"
-#include "globals.h"
-#include "game.h"
-#include "objectmanager.h"
-#include "scripting.h"
-#include "graphics.h"
-#include "save.h"
-#include "replay.h"
-#include "log.h"
-#include "physics.h"
-#include "input.h"
-#include "filestream.h"
-#include "config.h"
-#include "../objects/template.h"
-#include "../objects/player.h"
-#include "../objects/sphere.h"
-#include "../objects/box.h"
-#include "../objects/orb.h"
-#include "../objects/cylinder.h"
-#include "../objects/zone.h"
-#include "../objects/collision.h"
-#include "../objects/constraint.h"
-#include "../objects/springjoint.h"
+#include <engine/level.h>
+#include <engine/globals.h>
+#include <engine/game.h>
+#include <engine/objectmanager.h>
+#include <engine/scripting.h>
+#include <engine/graphics.h>
+#include <engine/save.h>
+#include <engine/replay.h>
+#include <engine/log.h>
+#include <engine/physics.h>
+#include <engine/input.h>
+#include <engine/filestream.h>
+#include <engine/config.h>
+#include <objects/template.h>
+#include <objects/player.h>
+#include <objects/sphere.h>
+#include <objects/box.h>
+#include <objects/orb.h>
+#include <objects/cylinder.h>
+#include <objects/zone.h>
+#include <objects/collision.h>
+#include <objects/constraint.h>
+#include <objects/springjoint.h>
 #include <tinyxml/tinyxml2.h>
-#include "namespace.h"
+#include <engine/namespace.h>
 
 _Level Level;
 

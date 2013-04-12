@@ -19,7 +19,7 @@
 #pragma once
 
 // Libraries
-#include "actions.h"
+#include <engine/actions.h>
 
 // Classes
 class _Config {

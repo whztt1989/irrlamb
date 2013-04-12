@@ -16,12 +16,12 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "config.h"
 #include <tinyxml/tinyxml2.h>
-#include "globals.h"
-#include "save.h"
-#include "input.h"
-#include "namespace.h"
+#include <engine/config.h>
+#include <engine/globals.h>
+#include <engine/save.h>
+#include <engine/input.h>
+#include <engine/namespace.h>
 
 _Config Config;
 

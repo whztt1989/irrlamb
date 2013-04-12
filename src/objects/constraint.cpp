@@ -16,10 +16,10 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "constraint.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "template.h"
+#include <objects/constraint.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <objects/template.h>
 
 // Constructor
 _Constraint::_Constraint(const ConstraintStruct &Object)

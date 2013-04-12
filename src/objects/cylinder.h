@@ -19,7 +19,7 @@
 #pragma once
 
 // Libraries
-#include "object.h"
+#include <objects/object.h>
 
 // Classes
 class _Cylinder : public _Object {

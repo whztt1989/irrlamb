@@ -16,7 +16,7 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "filestream.h"
+#include <engine/filestream.h>
 
 using namespace std;
 

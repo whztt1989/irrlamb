@@ -16,12 +16,12 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "interface.h"
-#include "globals.h"
-#include "config.h"
-#include "log.h"
-#include "audio.h"
-#include "namespace.h"
+#include <engine/interface.h>
+#include <engine/globals.h>
+#include <engine/config.h>
+#include <engine/log.h>
+#include <engine/audio.h>
+#include <engine/namespace.h>
 
 _Interface Interface;
 

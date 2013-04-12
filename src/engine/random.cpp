@@ -16,6 +16,6 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "random.h"
+#include <engine/random.h>
 
 _Random Random;

@@ -16,12 +16,12 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "box.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "../engine/config.h"
-#include "../engine/namespace.h"
-#include "template.h"
+#include <objects/box.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <engine/config.h>
+#include <engine/namespace.h>
+#include <objects/template.h>
 
 // Constructor
 _Box::_Box(const SpawnStruct &Object)

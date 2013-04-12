@@ -16,9 +16,9 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "actions.h"
-#include "game.h"
-#include "state.h"
+#include <engine/actions.h>
+#include <engine/game.h>
+#include <engine/state.h>
 #include <tinyxml/tinyxml2.h>
 
 _Actions Actions;

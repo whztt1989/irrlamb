@@ -16,11 +16,11 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "campaign.h"
-#include "globals.h"
-#include "log.h"
-#include "game.h"
-#include "level.h"
+#include <engine/campaign.h>
+#include <engine/globals.h>
+#include <engine/log.h>
+#include <engine/game.h>
+#include <engine/level.h>
 #include <tinyxml/tinyxml2.h>
 
 _Campaign Campaign;

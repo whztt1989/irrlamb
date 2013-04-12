@@ -16,12 +16,12 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "object.h"
-#include "template.h"
-#include "../engine/config.h"
-#include "../engine/scripting.h"
-#include "../engine/physics.h"
-#include "../engine/namespace.h"
+#include <objects/object.h>
+#include <objects/template.h>
+#include <engine/config.h>
+#include <engine/scripting.h>
+#include <engine/physics.h>
+#include <engine/namespace.h>
 
 // Constructor
 _Object::_Object()

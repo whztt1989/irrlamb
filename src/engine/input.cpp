@@ -16,15 +16,15 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "input.h"
-#include "state.h"
-#include "config.h"
-#include "globals.h"
-#include "graphics.h"
-#include "game.h"
-#include "namespace.h"
-#include "actions.h"
-#include "log.h"
+#include <engine/input.h>
+#include <engine/state.h>
+#include <engine/config.h>
+#include <engine/globals.h>
+#include <engine/graphics.h>
+#include <engine/game.h>
+#include <engine/namespace.h>
+#include <engine/actions.h>
+#include <engine/log.h>
 
 _Input Input;
 

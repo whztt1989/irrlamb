@@ -16,10 +16,10 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "audio.h"
-#include "log.h"
-#include "config.h"
-#include "../stb_vorbis/stb_vorbis.h"
+#include <engine/audio.h>
+#include <engine/log.h>
+#include <engine/config.h>
+#include <stb_vorbis/stb_vorbis.h>
 
 _Audio Audio;
 

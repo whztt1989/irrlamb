@@ -16,8 +16,8 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "database.h"
-#include "log.h"
+#include <engine/database.h>
+#include <engine/log.h>
 
 // Constructor
 _Database::_Database()

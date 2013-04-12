@@ -19,7 +19,7 @@
 #pragma once
 
 // Libraries
-#include "object.h"
+#include <objects/object.h>
 
 // Forward Declarations
 class btTriangleIndexVertexArray;

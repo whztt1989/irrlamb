@@ -16,11 +16,11 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "fader.h"
-#include "audio.h"
-#include "globals.h"
-#include "constants.h"
-#include "namespace.h"
+#include <engine/fader.h>
+#include <engine/audio.h>
+#include <engine/globals.h>
+#include <engine/constants.h>
+#include <engine/namespace.h>
 
 _Fader Fader;
 

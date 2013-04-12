@@ -17,9 +17,9 @@
 **************************************************************************************/
 #include <all.h>
 #pragma once
-
+/*
 // Libraries
-#include "object.h"
+#include <objects/object.h>
 
 // Classes
 class _SpringJoint : public _Object {
@@ -39,3 +39,4 @@ class _SpringJoint : public _Object {
 		//btTypedConstraint *Joint;
 	
 };
+*/

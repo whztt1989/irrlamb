@@ -16,26 +16,26 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "viewreplay.h"
-#include "engine/globals.h"
-#include "engine/input.h"
-#include "engine/graphics.h"
-#include "engine/config.h"
-#include "engine/physics.h"
-#include "engine/filestream.h"
-#include "engine/level.h"
-#include "engine/objectmanager.h"
-#include "engine/replay.h"
-#include "engine/interface.h"
-#include "engine/camera.h"
-#include "engine/game.h"
-#include "engine/filestream.h"
-#include "engine/constants.h"
-#include "objects/orb.h"
-#include "objects/template.h"
-#include "play.h"
-#include "menu.h"
-#include "engine/namespace.h"
+#include <viewreplay.h>
+#include <engine/globals.h>
+#include <engine/input.h>
+#include <engine/graphics.h>
+#include <engine/config.h>
+#include <engine/physics.h>
+#include <engine/filestream.h>
+#include <engine/level.h>
+#include <engine/objectmanager.h>
+#include <engine/replay.h>
+#include <engine/interface.h>
+#include <engine/camera.h>
+#include <engine/game.h>
+#include <engine/filestream.h>
+#include <engine/constants.h>
+#include <objects/orb.h>
+#include <objects/template.h>
+#include <play.h>
+#include <menu.h>
+#include <engine/namespace.h>
 
 _ViewReplayState ViewReplayState;
 

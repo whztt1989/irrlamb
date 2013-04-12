@@ -16,12 +16,12 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "objectmanager.h"
-#include "replay.h"
-#include "level.h"
-#include "physics.h"
-#include "../objects/object.h"
-#include "namespace.h"
+#include <engine/objectmanager.h>
+#include <engine/replay.h>
+#include <engine/level.h>
+#include <engine/physics.h>
+#include <objects/object.h>
+#include <engine/namespace.h>
 
 _ObjectManager ObjectManager;
 

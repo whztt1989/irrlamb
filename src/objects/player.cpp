@@ -16,20 +16,19 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "player.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "../engine/objectmanager.h"
-#include "../engine/input.h"
-#include "../engine/config.h"
-#include "../engine/level.h"
-#include "../engine/audio.h"
-#include "../engine/actions.h"
-#include "../engine/namespace.h"
-#include "sphere.h"
-#include "constraint.h"
-#include "springjoint.h"
-#include "template.h"
+#include <objects/player.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <engine/objectmanager.h>
+#include <engine/input.h>
+#include <engine/config.h>
+#include <engine/level.h>
+#include <engine/audio.h>
+#include <engine/actions.h>
+#include <engine/namespace.h>
+#include <objects/sphere.h>
+#include <objects/constraint.h>
+#include <objects/template.h>
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)

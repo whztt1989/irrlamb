@@ -16,15 +16,15 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "orb.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "../engine/scripting.h"
-#include "../engine/replay.h"
-#include "../engine/constants.h"
-#include "../engine/audio.h"
-#include "../engine/namespace.h"
-#include "template.h"
+#include <objects/orb.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <engine/scripting.h>
+#include <engine/replay.h>
+#include <engine/constants.h>
+#include <engine/audio.h>
+#include <engine/namespace.h>
+#include <objects/template.h>
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)

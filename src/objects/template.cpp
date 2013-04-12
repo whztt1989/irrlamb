@@ -16,9 +16,9 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "template.h"
-#include "object.h"
-#include "../engine/physics.h"
+#include <objects/template.h>
+#include <objects/object.h>
+#include <engine/physics.h>
 
 TemplateStruct::TemplateStruct() {
 

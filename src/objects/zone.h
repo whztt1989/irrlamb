@@ -19,7 +19,7 @@
 #pragma once
 
 // Libraries
-#include "object.h"
+#include <objects/object.h>
 
 // Keeps track of touched objects
 struct ObjectTouchState {

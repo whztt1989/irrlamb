@@ -16,8 +16,8 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "log.h"
-#include "save.h"
+#include <engine/log.h>
+#include <engine/save.h>
 
 _Log Log;
 

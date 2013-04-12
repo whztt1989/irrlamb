@@ -16,20 +16,20 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "scripting.h"
-#include "interface.h"
-#include "random.h"
-#include "log.h"
-#include "objectmanager.h"
-#include "level.h"
-#include "campaign.h"
-#include "../objects/template.h"
-#include "../objects/player.h"
-#include "../objects/orb.h"
-#include "../objects/zone.h"
-#include "../objects/constraint.h"
-#include "../objects/springjoint.h"
-#include "../play.h"
+#include <engine/scripting.h>
+#include <engine/interface.h>
+#include <engine/random.h>
+#include <engine/log.h>
+#include <engine/objectmanager.h>
+#include <engine/level.h>
+#include <engine/campaign.h>
+#include <objects/template.h>
+#include <objects/player.h>
+#include <objects/orb.h>
+#include <objects/zone.h>
+#include <objects/constraint.h>
+#include <objects/springjoint.h>
+#include <play.h>
 
 _Scripting Scripting;
 

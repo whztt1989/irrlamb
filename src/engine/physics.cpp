@@ -16,10 +16,10 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "physics.h"
-#include "globals.h"
-#include "game.h"
-#include "../objects/object.h"
+#include <engine/physics.h>
+#include <engine/globals.h>
+#include <engine/game.h>
+#include <objects/object.h>
 
 _Physics Physics;
 

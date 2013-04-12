@@ -16,16 +16,16 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "graphics.h"
-#include "save.h"
-#include "globals.h"
-#include "interface.h"
-#include "input.h"
-#include "log.h"
-#include "fader.h"
-#include "config.h"
-#include "../irrb/CIrrBMeshFileLoader.h"
-#include "namespace.h"
+#include <engine/graphics.h>
+#include <engine/save.h>
+#include <engine/globals.h>
+#include <engine/interface.h>
+#include <engine/input.h>
+#include <engine/log.h>
+#include <engine/fader.h>
+#include <engine/config.h>
+#include <irrb/CIrrBMeshFileLoader.h>
+#include <engine/namespace.h>
 
 _Graphics Graphics;
 

@@ -16,27 +16,27 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "game.h"
-#include "input.h"
-#include "globals.h"
-#include "graphics.h"
-#include "interface.h"
-#include "audio.h"
-#include "state.h"
-#include "log.h"
-#include "fader.h"
-#include "random.h"
-#include "scripting.h"
-#include "physics.h"
-#include "objectmanager.h"
-#include "config.h"
-#include "save.h"
-#include "campaign.h"
-#include "constants.h"
-#include "../play.h"
-#include "../viewreplay.h"
-#include "../menu.h"
-#include "namespace.h"
+#include <engine/game.h>
+#include <engine/input.h>
+#include <engine/globals.h>
+#include <engine/graphics.h>
+#include <engine/interface.h>
+#include <engine/audio.h>
+#include <engine/state.h>
+#include <engine/log.h>
+#include <engine/fader.h>
+#include <engine/random.h>
+#include <engine/scripting.h>
+#include <engine/physics.h>
+#include <engine/objectmanager.h>
+#include <engine/config.h>
+#include <engine/save.h>
+#include <engine/campaign.h>
+#include <engine/constants.h>
+#include <play.h>
+#include <viewreplay.h>
+#include <menu.h>
+#include <engine/namespace.h>
 
 _Game Game;
 

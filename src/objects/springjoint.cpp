@@ -16,17 +16,18 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "springjoint.h"
-#include "../engine/globals.h"
-#include "../engine/physics.h"
-#include "object.h"
-#include "template.h"
+/*
+#include <objects/springjoint.h>
+#include <engine/globals.h>
+#include <engine/physics.h>
+#include <objects/object.h>
+#include <objects/template.h>
 
 // Constructor
 _SpringJoint::_SpringJoint(const SpawnStruct &Object)
 :	BodyA(NULL),
 	BodyB(NULL) {
-/*
+
 	// Attributes
 	if(Physics.IsEnabled()) {
 		BodyA = TObject.BodyA->GetBody();
@@ -38,7 +39,6 @@ _SpringJoint::_SpringJoint(const SpawnStruct &Object)
 	Damping = TObject.LinearDamping;
 
 	SetProperties(TObject);
-	*/
 }
 
 // Destructor
@@ -81,5 +81,7 @@ void _SpringJoint::Update(float FrameTime) {
 		Force *= -1;
 		BodyB->applyCentralForce(Force);
 	}
-	*/
+	
 }
+
+*/

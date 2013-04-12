@@ -16,19 +16,19 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #include <all.h>
-#include "menu.h"
-#include "engine/graphics.h"
-#include "engine/input.h"
-#include "engine/constants.h"
-#include "engine/interface.h"
-#include "engine/globals.h"
-#include "engine/config.h"
-#include "engine/game.h"
-#include "engine/save.h"
-#include "engine/campaign.h"
-#include "viewreplay.h"
-#include "play.h"
-#include "engine/namespace.h"
+#include <menu.h>
+#include <engine/graphics.h>
+#include <engine/input.h>
+#include <engine/constants.h>
+#include <engine/interface.h>
+#include <engine/globals.h>
+#include <engine/config.h>
+#include <engine/game.h>
+#include <engine/save.h>
+#include <engine/campaign.h>
+#include <viewreplay.h>
+#include <play.h>
+#include <engine/namespace.h>
 
 _MenuState MenuState;
 
