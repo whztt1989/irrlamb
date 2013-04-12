@@ -47,6 +47,7 @@ int _Game::Init(int Count, char **Arguments) {
 	SleepRate = 120.0f;
 	TimeStep = PHYSICS_TIMESTEP;
 	TimeStepAccumulator = 0.0f;
+	TimeScale = 1.0f;
 	TimeStamp = 0;
 	WindowActive = true;
 	MouseWasLocked = false;
@@ -161,6 +162,7 @@ int _Game::Init(int Count, char **Arguments) {
 
 // Requests a state change
 void _Game::ChangeState(_State *State) {
+	TimeScale = 1.0f;
 	Fader.Start(-FADE_SPEED);
 
 	NewState = State;
@@ -202,7 +204,7 @@ void _Game::Update() {
 	}
 
 	// Update fader
-	Fader.Update(FrameTime);
+	Fader.Update(FrameTime * TimeScale);
 	Graphics.BeginFrame();
 
 	// Update the current state
@@ -220,13 +222,13 @@ void _Game::Update() {
 			ManagerState = STATE_UPDATE;
 		break;
 		case STATE_UPDATE:
-			TimeStepAccumulator += FrameTime;
+			TimeStepAccumulator += FrameTime * TimeScale;
 			while(TimeStepAccumulator >= TimeStep) {
 				State->Update(TimeStep);
 				TimeStepAccumulator -= TimeStep;
 			}
 			
-			State->UpdateRender(TimeStepAccumulator);
+			State->UpdateRender(TimeStepAccumulator * TimeScale);
 		break;
 		case STATE_CLOSE:
 			if(Fader.IsDoneFading()) {

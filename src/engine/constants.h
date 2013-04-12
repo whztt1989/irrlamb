@@ -24,6 +24,7 @@ const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
 const float FADE_SPEED = 5.0f;
 const int REPLAY_STRINGSIZE = 64;
 const int REPLAY_VERSION = 1;
+const float REPLAY_TIME_INCREMENT = 0.1f;
 const int STATS_VERSION = 0;
 const int STATS_MAXSCORES = 10;
 const float ORB_GLOWSIZE = 2.5f;

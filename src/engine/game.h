@@ -35,14 +35,18 @@ class _Game {
 		void Update();
 		void Close();
 		
+		bool IsDone() { return Done; }
+		void SetDone(bool Value) { Done = Value; }
+
+		ManagerStateType GetManagerState() { return ManagerState; }
 		void ChangeState(_State *State);
 		_State *GetState() { return State; }
 
-		bool IsDone() { return Done; }
-		void SetDone(bool Value) { Done = Value; }
 		float GetTimeStep() { return TimeStep; }
+		float GetTimeScale() { return TimeScale; }
+		void SetTimeScale(float Value) { TimeScale = Value; }
+		void UpdateTimeStepAccumulator(float Value) { TimeStepAccumulator += Value; }
 		void ResetTimer();
-		ManagerStateType GetManagerState() { return ManagerState; }
 
 		void EnableAudio();
 		void DisableAudio();
@@ -66,7 +70,7 @@ class _Game {
 		float SleepRate;
 
 		// Physics
-		float TimeStep, TimeStepAccumulator;
+		float TimeStep, TimeStepAccumulator, TimeScale;
 
 		// Misc
 		std::string WorkingPath;

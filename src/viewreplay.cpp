@@ -30,6 +30,7 @@
 #include "engine/camera.h"
 #include "engine/game.h"
 #include "engine/filestream.h"
+#include "engine/constants.h"
 #include "objects/orb.h"
 #include "objects/template.h"
 #include "play.h"
@@ -42,7 +43,8 @@ _ViewReplayState ViewReplayState;
 int _ViewReplayState::Init() {
 
 	// Set up state
-	ReplaySpeed = PauseSpeed = 1.0f;
+	PauseSpeed = 1.0f;
+	Game.SetTimeScale(1.0f);
 	Timer = 0.0f;
 	Input.SetMouseLocked(false);
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
@@ -111,10 +113,10 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 			Skip(1.0f);
 		break;
 		case KEY_UP:
-			ChangeReplaySpeed(0.25f);
+			ChangeReplaySpeed(REPLAY_TIME_INCREMENT);
 		break;
 		case KEY_DOWN:
-			ChangeReplaySpeed(-0.25f);
+			ChangeReplaySpeed(-REPLAY_TIME_INCREMENT);
 		break;
 		default:
 			Processed = false;
@@ -128,9 +130,9 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 void _ViewReplayState::HandleMouseWheel(float Direction) {
 
 	if(Direction < 0)
-		ChangeReplaySpeed(-0.25f);
+		ChangeReplaySpeed(-REPLAY_TIME_INCREMENT);
 	else
-		ChangeReplaySpeed(0.25f);
+		ChangeReplaySpeed(REPLAY_TIME_INCREMENT);
 }
 
 // GUI events
@@ -144,10 +146,10 @@ void _ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
 					Game.ChangeState(&MenuState);
 				break;
 				case MAIN_DECREASE:
-					ChangeReplaySpeed(-0.25f);
+					ChangeReplaySpeed(-REPLAY_TIME_INCREMENT);
 				break;
 				case MAIN_INCREASE:
-					ChangeReplaySpeed(0.25f);
+					ChangeReplaySpeed(REPLAY_TIME_INCREMENT);
 				break;
 				case MAIN_PAUSE:
 					Pause();
@@ -167,7 +169,7 @@ void _ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
 void _ViewReplayState::Update(float FrameTime) {
 
 	// Update the replay
-	Timer += FrameTime * ReplaySpeed;
+	Timer += FrameTime;
 	while(!Replay.ReplayStopped() && Timer >= NextEvent.TimeStamp) {
 		//printf("Processing header packet: type=%d time=%f\n", NextEvent.Type, NextEvent.TimeStamp);
 		
@@ -238,8 +240,8 @@ void _ViewReplayState::Update(float FrameTime) {
 		Replay.ReadEvent(NextEvent);
 	}
 	
-	ObjectManager.UpdateReplay(FrameTime * ReplaySpeed);
-	Interface.Update(FrameTime * ReplaySpeed);
+	ObjectManager.UpdateReplay(FrameTime);
+	Interface.Update(FrameTime);
 }
 
 // Draws the current state
@@ -267,7 +269,7 @@ void _ViewReplayState::Draw() {
 	// Draw controls
 	Y += 17;
 	Interface.RenderText("Speed", X - 5, Y, _Interface::ALIGN_RIGHT);
-	sprintf(Buffer, "%.2f", ReplaySpeed);
+	sprintf(Buffer, "%.2f", Game.GetTimeScale());
 	Interface.RenderText(Buffer, X + 5, Y, _Interface::ALIGN_LEFT);
 
 	irrGUI->drawAll();
@@ -322,29 +324,31 @@ void _ViewReplayState::SetupGUI() {
 
 // Change replay speed
 void _ViewReplayState::ChangeReplaySpeed(float Amount) {
-	
-	ReplaySpeed += Amount;
-	if(ReplaySpeed >= 10.0f)
-		ReplaySpeed = 10.0f;
-	else if(ReplaySpeed <= 0.0f)
-		ReplaySpeed = 0.0f;
+	float Scale = Game.GetTimeScale();
+
+	Scale += Amount;
+	if(Scale >= 10.0f)
+		Scale = 10.0f;
+	else if(Scale <= 0.0f)
+		Scale = 0.0f;
+
+	Game.SetTimeScale(Scale);
 }
 
 // Pause the replay
 void _ViewReplayState::Pause() {
 
 	// Pause or play
-	if(ReplaySpeed == 0.0f) {
-		ReplaySpeed = PauseSpeed;
+	if(Game.GetTimeScale() == 0.0f) {
+		Game.SetTimeScale(PauseSpeed);
 	}
 	else {
-		PauseSpeed = ReplaySpeed;
-		ReplaySpeed = 0.0f;
+		PauseSpeed = Game.GetTimeScale();
+		Game.SetTimeScale(0.0f);
 	}
 }
 
 // Skip ahead
 void _ViewReplayState::Skip(float Amount) {
-	Timer += Amount;
-	Replay.Update(Amount);
+	Game.UpdateTimeStepAccumulator(Amount);
 }

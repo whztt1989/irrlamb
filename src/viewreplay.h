@@ -69,7 +69,7 @@ class _ViewReplayState : public _State {
 	
 		// Replay information
 		ReplayEventStruct NextEvent;
-		float ReplaySpeed, PauseSpeed;
+		float PauseSpeed;
 
 		// Events
 		int NextPacketType;
