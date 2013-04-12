@@ -113,10 +113,10 @@ void _Config::AddDefaultActionMap(bool Force) {
 		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::MOVE_RIGHT, true);
 		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::MOVE_FORWARD, true);
 		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::MOVE_BACK, true);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, true);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, true);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_UP, true);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_DOWN, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_LEFT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_RIGHT, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_UP, true);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_DOWN, true);
 		Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::JUMP, true);
 		Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 6, _Actions::RESET, true);
 		Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 7, _Actions::MENU_PAUSE, true);
