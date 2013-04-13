@@ -72,14 +72,16 @@ bool _Input::OnEvent(const SEvent &Event) {
 				case EMIE_RMOUSE_PRESSED_DOWN:
 				case EMIE_MMOUSE_PRESSED_DOWN:
 					SetMouseState(Event.MouseInput.Event, true);
-					Actions.InputEvent(_Input::MOUSE_BUTTON, Event.MouseInput.Event, true);
+					if(!Event.UserEvent.UserData1)
+						Actions.InputEvent(_Input::MOUSE_BUTTON, Event.MouseInput.Event, true);
 					return Game.GetState()->HandleMousePress(Event.MouseInput.Event, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_LMOUSE_LEFT_UP:
 				case EMIE_RMOUSE_LEFT_UP:
 				case EMIE_MMOUSE_LEFT_UP:
 					SetMouseState(Event.MouseInput.Event - MOUSE_COUNT, false);
-					Actions.InputEvent(_Input::MOUSE_BUTTON, Event.MouseInput.Event - MOUSE_COUNT, false);
+					if(!Event.UserEvent.UserData1)
+						Actions.InputEvent(_Input::MOUSE_BUTTON, Event.MouseInput.Event - MOUSE_COUNT, false);
 					Game.GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
@@ -133,6 +135,9 @@ bool _Input::OnEvent(const SEvent &Event) {
 			for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Buttons; i++) {
 				if(JoystickState.IsButtonPressed(i) && !(LastJoystickButtonState & (1 << i))) {
 					Actions.InputEvent(_Input::JOYSTICK_BUTTON, i, true);
+				}
+				else if(!JoystickState.IsButtonPressed(i) && (LastJoystickButtonState & (1 << i))) {
+					Actions.InputEvent(_Input::JOYSTICK_BUTTON, i, false);
 				}
 			}
 
