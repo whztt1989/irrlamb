@@ -34,6 +34,7 @@ _Input::_Input()
 	MouseX(0),
 	MouseY(0),
 	DeadZone(0.05f),
+	VirtualMouseMoved(false),
 	LastJoystickButtonState(0) {
 
 	// Set up input
@@ -87,8 +88,11 @@ bool _Input::OnEvent(const SEvent &Event) {
 				case EMIE_MOUSE_MOVED:
 
 					// Save mouse position
-					MouseX = Event.MouseInput.X;
-					MouseY = Event.MouseInput.Y;
+					if(!VirtualMouseMoved) {
+						MouseX = (float)Event.MouseInput.X;
+						MouseY = (float)Event.MouseInput.Y;
+					}
+					VirtualMouseMoved = false;
 
 					// Check for mouse locking
 					if(MouseLocked) {
@@ -238,16 +242,16 @@ float _Input::GetAxis(int Axis) {
 
 // Use actions to drive the mouse
 void _Input::DriveMouse(int Action, float Value) {
-	position2di MousePosition = irrDevice->getCursorControl()->getPosition();
+	//position2di MousePosition = irrDevice->getCursorControl()->getPosition();
 	
-	if(Action == 4) {
+	if(Action == _Actions::MENU_GO) {
 		//printf("%d %f\n", Action, Value);
 
 		SEvent NewEvent;
 		NewEvent.UserEvent.UserData1 = 1;
 		NewEvent.EventType = EET_MOUSE_INPUT_EVENT;
-		NewEvent.MouseInput.X = MousePosition.X;
-		NewEvent.MouseInput.Y = MousePosition.Y;
+		NewEvent.MouseInput.X = (int)MouseX;
+		NewEvent.MouseInput.Y = (int)MouseY;
 		if(Value)
 			NewEvent.MouseInput.Event = EMIE_LMOUSE_PRESSED_DOWN;
 		else
@@ -258,21 +262,24 @@ void _Input::DriveMouse(int Action, float Value) {
 	if(Value == 0.0f)
 		return;
 		
-	if(Action == 0) {
-		MousePosition.X -= (int)(Value * 4.0f);
+	//printf("%f %f\n", MouseX, MouseY);
+	switch(Action) {
+		case _Actions::CURSOR_LEFT:
+			MouseX -= Value;
+		break;
+		case _Actions::CURSOR_RIGHT:
+			MouseX += Value;
+		break;
+		case _Actions::CURSOR_UP:
+			MouseY -= Value;
+		break;
+		case _Actions::CURSOR_DOWN:
+			MouseY += Value;
+		break;
 	}
-	if(Action == 1) {
-		MousePosition.X += (int)(Value * 4.0f);
-	}
-	if(Action == 2) {
-		MousePosition.Y -= (int)(Value * 4.0f);
-	}
-	if(Action == 3) {
-		MousePosition.Y += (int)(Value * 4.0f);
-	}
-	
 
-	irrDevice->getCursorControl()->setPosition(MousePosition.X, MousePosition.Y);	
+	VirtualMouseMoved = true;
+	irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 }
 
 // Resets the keyboard state

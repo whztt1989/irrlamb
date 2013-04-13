@@ -53,12 +53,12 @@ float _Actions::GetState(int Action) {
 }
 
 // Add an input mapping
-void _Actions::AddInputMap(int InputType, int Input, int Action, bool IfNone) {
+void _Actions::AddInputMap(int InputType, int Input, int Action, float Scale, bool IfNone) {
 	if(Action < 0 || Action >= ACTIONS_MAX || Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
 		
 	if(!IfNone || (IfNone && !FindInputForAction(InputType, Action))) {
-		InputMap[InputType][Input].push_back(Action);
+		InputMap[InputType][Input].push_back(_ActionMap(Action, Scale));
 	}
 }
 
@@ -66,7 +66,7 @@ void _Actions::AddInputMap(int InputType, int Input, int Action, bool IfNone) {
 bool _Actions::FindInputForAction(int InputType, int Action) {
 	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
 		for(MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
-			if(*MapIterator == Action) {
+			if(MapIterator->Action == Action) {
 				return true;
 			}
 		}
@@ -81,8 +81,8 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 		return;
 
 	for(MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
-		State[*MapIterator] = Value;
-		Game.GetState()->HandleAction(*MapIterator, Value);
+		State[MapIterator->Action] = Value;
+		Game.GetState()->HandleAction(MapIterator->Action, Value * MapIterator->Scale);
 	}
 }
 
@@ -94,7 +94,8 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 				XMLElement *Element = Document.NewElement("map");
 				Element->SetAttribute("type", i);
 				Element->SetAttribute("input", j);
-				Element->SetAttribute("action", *MapIterator);
+				Element->SetAttribute("action", MapIterator->Action);
+				Element->SetAttribute("scale", MapIterator->Scale);
 				InputElement->InsertEndChild(Element);
 			}
 		}
@@ -104,14 +105,16 @@ void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 // Unserialize
 void _Actions::Unserialize(XMLElement *InputElement) {
 	int Type, Input, Action;
+	float Scale;
 
 	// Get input mapping
 	for(XMLElement *Element = InputElement->FirstChildElement("map"); Element != 0; Element = Element->NextSiblingElement("map")) {
 		if(Element->QueryIntAttribute("type", &Type) != XML_NO_ERROR
 			|| Element->QueryIntAttribute("input", &Input) != XML_NO_ERROR
-			|| Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR)
+			|| Element->QueryIntAttribute("action", &Action) != XML_NO_ERROR
+			|| Element->QueryFloatAttribute("scale", &Scale) != XML_NO_ERROR)
 			continue;
 
-		Actions.AddInputMap(Type, Input, Action);
+		Actions.AddInputMap(Type, Input, Action, Scale, false);
 	}
 }

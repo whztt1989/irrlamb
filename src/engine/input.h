@@ -50,8 +50,10 @@ class _Input : public irr::IEventReceiver  {
 		void SetMouseLocked(bool Value);
 		bool GetMouseLocked() const { return MouseLocked; }
 
-		int GetMouseX() const { return MouseX; }
-		int GetMouseY() const { return MouseY; }
+		float GetMouseX() const { return MouseX; }
+		float GetMouseY() const { return MouseY; }
+		void SetMouseX(float Value) { MouseX = Value; }
+		void SetMouseY(float Value) { MouseY = Value; }
 
 		bool HasJoystick() const { return Joysticks.size() > 0; }
 		const irr::SEvent::SJoystickEvent &GetJoystickState();
@@ -77,7 +79,8 @@ class _Input : public irr::IEventReceiver  {
 
 		// States
 		bool MouseLocked;
-		int MouseX, MouseY;
+		float MouseX, MouseY;
+		bool VirtualMouseMoved;
 };
 
 // Singletons

@@ -31,6 +31,13 @@ namespace tinyxml2 {
 	class XMLElement;
 }
 
+struct _ActionMap {
+	_ActionMap(int Action, float Scale) : Action(Action), Scale(Scale) { }
+
+	int Action;
+	float Scale;
+};
+
 // Handles actions
 class _Actions {
 
@@ -47,13 +54,17 @@ public:
 		CAMERA_RIGHT,
 		CAMERA_UP,
 		CAMERA_DOWN,
-		MENU_UP,
-		MENU_DOWN,
 		MENU_LEFT,
 		MENU_RIGHT,
+		MENU_UP,
+		MENU_DOWN,
 		MENU_GO,
 		MENU_BACK,
 		MENU_PAUSE,
+		CURSOR_LEFT,
+		CURSOR_RIGHT,
+		CURSOR_UP,
+		CURSOR_DOWN,
 		COUNT,
 	};
 
@@ -66,7 +77,7 @@ public:
 	float GetState(int Action);
 
 	// Maps
-	void AddInputMap(int InputType, int Input, int Action, bool IfNone=false);
+	void AddInputMap(int InputType, int Input, int Action, float Scale=1.0f, bool IfNone=true);
 	bool FindInputForAction(int InputType, int Action);
 
 	// Handlers
@@ -78,8 +89,8 @@ public:
 
 private:
 
-	std::list<int> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
-	std::list<int>::iterator MapIterator;
+	std::list<_ActionMap> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
+	std::list<_ActionMap>::iterator MapIterator;
 
 	float State[ACTIONS_MAX];
 };

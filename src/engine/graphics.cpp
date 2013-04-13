@@ -110,6 +110,11 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 		Config.Shaders = false;
 	}
 
+	Input.SetMouseX(Width / 2);
+	Input.SetMouseY(Height / 2);
+
+	irrDevice->getCursorControl()->setPosition(Width / 2, Height / 2);
+
 	return 1;
 }
 
