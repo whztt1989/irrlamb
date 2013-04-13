@@ -54,6 +54,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 	irrDevice->setEventReceiver(EventReceiver);
 	irrDevice->getCursorControl()->setVisible(false);
 	irrDevice->getLogger()->setLogLevel(ELL_ERROR);
+	irrDevice->setResizable(false);
 	
 	// Save off global pointers
 	irrDriver = irrDevice->getVideoDriver();

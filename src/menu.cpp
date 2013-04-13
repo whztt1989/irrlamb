@@ -380,6 +380,33 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 	}
 }
 
+// Handle action inputs
+void _MenuState::HandleAction(int Action, float Value) {
+	return;
+	
+	if(Value == 0.0f)
+		return;
+		
+	position2di MousePosition = irrDevice->getCursorControl()->getPosition();
+	
+	//printf("%d %d\n", MousePosition.X, MousePosition.Y);
+	if(Action == 0) {
+		MousePosition.X -= Value * 5.5f;
+	}
+	if(Action == 1) {
+		MousePosition.X += Value * 5.5f;
+	}
+	if(Action == 2) {
+		MousePosition.Y -= Value * 5.5f;
+	}
+	if(Action == 3) {
+		MousePosition.Y += Value * 5.5f;
+	}
+	
+
+	irrDevice->getCursorControl()->setPosition(MousePosition.X, MousePosition.Y);	
+}
+
 // Updates the current state
 void _MenuState::Update(float FrameTime) {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
