@@ -254,7 +254,7 @@ void _PlayState::HandleMouseWheel(float Direction) {
 }
 
 // GUI events
-void _PlayState::HandleGUI(int EventType, IGUIElement *Element) {
+void _PlayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
 	if(Resetting)
 		return;
 

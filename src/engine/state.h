@@ -37,7 +37,7 @@ class _State {
 		virtual bool HandleMousePress(int Button, int MouseX, int MouseY) { return false; }
 		virtual void HandleMouseLift(int Button, int MouseX, int MouseY) { }
 		virtual void HandleMouseWheel(float Direction) { }
-		virtual void HandleGUI(int EventType, irr::gui::IGUIElement *Element) { }
+		virtual void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element) { }
 		
 		// Update
 		virtual void Update(float FrameTime) { }

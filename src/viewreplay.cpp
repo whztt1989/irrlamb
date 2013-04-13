@@ -136,7 +136,7 @@ void _ViewReplayState::HandleMouseWheel(float Direction) {
 }
 
 // GUI events
-void _ViewReplayState::HandleGUI(int EventType, IGUIElement *Element) {
+void _ViewReplayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:

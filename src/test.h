@@ -20,59 +20,28 @@
 
 // Libraries
 #include <engine/state.h>
-#include <engine/replay.h>
 
 // Forward Declarations
-class _Object;
-class _Player;
-class _Camera;
 
 // Classes
-class _ViewReplayState : public _State {
+class _TestState : public _State {
 
 	public:
-
-		enum GUIElements {
-			MAIN_RESTART,
-			MAIN_PAUSE,
-			MAIN_SKIP,
-			MAIN_INCREASE,
-			MAIN_DECREASE,
-			MAIN_EXIT,
-		};
 
 		int Init();
 		int Close();
 
+		void HandleAction(int Action, float Value);
 		bool HandleKeyPress(int Key);
-		void HandleMouseWheel(float Direction);
+		bool HandleMousePress(int Button, int MouseX, int MouseY);
 		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 
 		void Update(float FrameTime);
+		void UpdateRender(float TimeStepRemainder);
 		void Draw();
 		
-		void SetCurrentReplay(const std::string &File) { CurrentReplay = File; }
-
 	private:
 
-		void SetupGUI();
-		void ChangeReplaySpeed(float Amount);
-		void Pause();
-		void Skip(float Amount);
-
-		// States
-		std::string CurrentReplay;
-		float Timer;
-
-		// Objects
-		_Camera *Camera;
-	
-		// Replay information
-		ReplayEventStruct NextEvent;
-		float PauseSpeed;
-
-		// Events
-		int NextPacketType;
 };
 
-extern _ViewReplayState ViewReplayState;
+extern _TestState TestState;

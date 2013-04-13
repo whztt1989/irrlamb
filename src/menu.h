@@ -101,7 +101,7 @@ class _MenuState : public _State {
 		int Close();
 
 		bool HandleKeyPress(int Key);
-		void HandleGUI(int EventType, irr::gui::IGUIElement *Element);
+		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 
 		void Update(float FrameTime);
 		void Draw();

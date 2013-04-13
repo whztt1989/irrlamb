@@ -197,7 +197,7 @@ bool _MenuState::HandleKeyPress(int Key) {
 }
 
 // Handles GUI events
-void _MenuState::HandleGUI(int EventType, IGUIElement *Element) {
+void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:

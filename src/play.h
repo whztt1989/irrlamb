@@ -65,7 +65,7 @@ class _PlayState : public _State {
 		bool HandleMousePress(int Button, int MouseX, int MouseY);
 		void HandleMouseLift(int Button, int MouseX, int MouseY);
 		void HandleMouseWheel(float Direction);
-		void HandleGUI(int EventType, irr::gui::IGUIElement *Element);
+		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 
 		void Update(float FrameTime);
 		void UpdateRender(float TimeStepRemainder);
