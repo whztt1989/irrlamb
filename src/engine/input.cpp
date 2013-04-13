@@ -236,6 +236,45 @@ float _Input::GetAxis(int Axis) {
 	return Value;
 }
 
+// Use actions to drive the mouse
+void _Input::DriveMouse(int Action, float Value) {
+	position2di MousePosition = irrDevice->getCursorControl()->getPosition();
+	
+	if(Action == 4) {
+		//printf("%d %f\n", Action, Value);
+
+		SEvent NewEvent;
+		NewEvent.UserEvent.UserData1 = 1;
+		NewEvent.EventType = EET_MOUSE_INPUT_EVENT;
+		NewEvent.MouseInput.X = MousePosition.X;
+		NewEvent.MouseInput.Y = MousePosition.Y;
+		if(Value)
+			NewEvent.MouseInput.Event = EMIE_LMOUSE_PRESSED_DOWN;
+		else
+			NewEvent.MouseInput.Event = EMIE_LMOUSE_LEFT_UP;
+		irrDevice->postEventFromUser(NewEvent);
+	}
+	
+	if(Value == 0.0f)
+		return;
+		
+	if(Action == 0) {
+		MousePosition.X -= (int)(Value * 4.0f);
+	}
+	if(Action == 1) {
+		MousePosition.X += (int)(Value * 4.0f);
+	}
+	if(Action == 2) {
+		MousePosition.Y -= (int)(Value * 4.0f);
+	}
+	if(Action == 3) {
+		MousePosition.Y += (int)(Value * 4.0f);
+	}
+	
+
+	irrDevice->getCursorControl()->setPosition(MousePosition.X, MousePosition.Y);	
+}
+
 // Resets the keyboard state
 void _Input::ResetInputState() {
 

@@ -382,42 +382,8 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 
 // Handle action inputs
 void _MenuState::HandleAction(int Action, float Value) {
-	position2di MousePosition = irrDevice->getCursorControl()->getPosition();
-	
-	//printf("%d %f\n", Action, Value);
-	if(Action == 4) {
-
-		SEvent NewEvent;
-		NewEvent.UserEvent.UserData1 = 1;
-		NewEvent.EventType = EET_MOUSE_INPUT_EVENT;
-		NewEvent.MouseInput.X = MousePosition.X;
-		NewEvent.MouseInput.Y = MousePosition.Y;
-		if(Value)
-			NewEvent.MouseInput.Event = EMIE_LMOUSE_PRESSED_DOWN;
-		else
-			NewEvent.MouseInput.Event = EMIE_LMOUSE_LEFT_UP;
-		irrDevice->postEventFromUser(NewEvent);
-	}
-	
-	if(Value == 0.0f)
-		return;
-		
-	//printf("%d %d\n", MousePosition.X, MousePosition.Y);
-	if(Action == 0) {
-		MousePosition.X -= Value * 5.5f;
-	}
-	if(Action == 1) {
-		MousePosition.X += Value * 5.5f;
-	}
-	if(Action == 2) {
-		MousePosition.Y -= Value * 5.5f;
-	}
-	if(Action == 3) {
-		MousePosition.Y += Value * 5.5f;
-	}
-	
-
-	irrDevice->getCursorControl()->setPosition(MousePosition.X, MousePosition.Y);	
+	if(Input.HasJoystick())
+		Input.DriveMouse(Action, Value);
 }
 
 // Updates the current state

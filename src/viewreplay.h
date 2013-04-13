@@ -47,6 +47,7 @@ class _ViewReplayState : public _State {
 		bool HandleKeyPress(int Key);
 		void HandleMouseWheel(float Direction);
 		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
+		void HandleAction(int Action, float Value);
 
 		void Update(float FrameTime);
 		void Draw();

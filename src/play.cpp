@@ -102,19 +102,25 @@ int _PlayState::Close() {
 
 // Handle new actions
 void _PlayState::HandleAction(int Action, float Value) {
-	if(Value == 0.0f || Resetting)
+	if(Resetting)
 		return;
 		
+	//printf("%d %f\n", Action, Value);
 	switch(State) {
 		case STATE_PLAY:
 			switch(Action) {
 				case _Actions::JUMP:
-					Player->Jump();
+					if(Value)
+						Player->Jump();
 				break;
 				case _Actions::RESET:
-					StartReset();
+					if(Value)
+						StartReset();
 				break;
 				case _Actions::MENU_PAUSE:
+					if(!Value)
+						return;
+
 					if(TestLevel != "")
 						Game.SetDone(true);
 					else
@@ -140,13 +146,23 @@ void _PlayState::HandleAction(int Action, float Value) {
 		break;
 		case STATE_LOSE:
 		case STATE_WIN:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+
 			switch(Action) {
 				case _Actions::RESET:
-					StartReset();
+					if(Value)
+						StartReset();
 				break;
 			}
 		break;
 		case STATE_PAUSED:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+			
+			if(!Value)
+				return;
+
 			switch(Action) {
 				case _Actions::MENU_PAUSE:
 					InitPlay();
