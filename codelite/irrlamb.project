@@ -13,10 +13,10 @@
     <File Name="../src/viewreplay.h"/>
     <File Name="../src/play.h"/>
     <File Name="../src/viewreplay.cpp"/>
+    <File Name="../src/all.h"/>
     <File Name="../src/main.cpp"/>
     <File Name="../src/play.cpp"/>
     <File Name="../src/all.cpp"/>
-    <File Name="../src/all.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="engine">
     <File Name="../src/engine/save.cpp"/>
@@ -119,7 +119,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="-level tut_move0" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="yes"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>

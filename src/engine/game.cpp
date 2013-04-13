@@ -36,7 +36,6 @@
 #include <play.h>
 #include <viewreplay.h>
 #include <menu.h>
-#include <test.h>
 #include <engine/namespace.h>
 
 _Game Game;
@@ -53,8 +52,7 @@ int _Game::Init(int Count, char **Arguments) {
 	WindowActive = true;
 	MouseWasLocked = false;
 	Done = false;
-	//_State *FirstState = &MenuState;
-	_State *FirstState = &TestState;
+	_State *FirstState = &MenuState;
 	E_DRIVER_TYPE DriverType = EDT_NULL;
 	bool AudioEnabled = true;
 	PlayState.SetCampaign(-1);

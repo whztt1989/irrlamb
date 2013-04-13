@@ -17,6 +17,15 @@
 #include <irrlicht.h>
 #include <iostream>
 
+
+#ifdef _WIN32
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+#else
+	#include <sys/stat.h>
+	#include <unistd.h>
+#endif
+
 #include "CFontTool.h"
 #include "CVectorFontTool.h"
 #include "ITexture.h"
@@ -393,7 +402,11 @@ void createGUI(IrrlichtDevice* device, CFontTool* fc)
 	xp +=40;
 
 	// Alpha checkbox
-	env->addCheckBox(true, core::rect<s32>(xp,yp,xp+50,yp+h),win, MYGUI_ALPHA, L"Alpha");
+	bool AlphaChecked = false;
+	#ifdef _WIN32
+		AlphaChecked =  true;
+	#endif
+	env->addCheckBox(AlphaChecked, core::rect<s32>(xp,yp,xp+50,yp+h),win, MYGUI_ALPHA, L"Alpha");
 
 
 	xp = xs;
@@ -503,6 +516,13 @@ int main()
 			env->drawAll();
 			driver->endScene();
 		}
+		
+		float Time = 0.015f;
+		#ifdef _WIN32
+			Sleep((DWORD)(Time * 1000));
+		#else
+			usleep((useconds_t)(Time * 1000000));
+		#endif
 	}
 
 	// drop the font tool and resources
