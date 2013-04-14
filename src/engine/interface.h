@@ -78,7 +78,7 @@ class _Interface {
 		int Init();
 		int Close();
 		void Update(float FrameTime);
-		void Draw();
+		void Draw(float Time);
 		void Clear();
 		void ChangeSkin(SkinType Type);
 	

@@ -96,7 +96,8 @@ enum GUIElements {
 	PAUSE_RESUME,
 	PAUSE_SAVEREPLAY,
 	PAUSE_RESTART,
-	PAUSE_MAINMENU,
+	PAUSE_OPTIONS,
+	PAUSE_QUITLEVEL,
 	SAVEREPLAY_NAME,
 	SAVEREPLAY_SAVE,
 	SAVEREPLAY_CANCEL,
@@ -445,10 +446,13 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case PAUSE_SAVEREPLAY:
 					InitSaveReplay();
 				break;
+				case PAUSE_OPTIONS:
+					InitOptions();
+				break;
 				case PAUSE_RESTART:
 					PlayState.StartReset();
 				break;
-				case PAUSE_MAINMENU:
+				case PAUSE_QUITLEVEL:
 					if(PlayState.TestLevel == "")
 						Menu.InitLevels();
 					//Game.ChangeState(&Menu);
@@ -918,35 +922,25 @@ void _Menu::InitPlay() {
 	State = STATE_NONE;
 }
 
-// Draws the pause menu
+// Create the pause menu
 void _Menu::InitPause() {
 	irrGUI->clear();
-	
+
 	// Draw interface
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
-	IGUIButton *ButtonResume = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 75, 130, 34), 0, PAUSE_RESUME, L"Resume");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 25, 130, 34), 0, PAUSE_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonRestart = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 25, 130, 34), 0, PAUSE_RESTART, L"Restart Level");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 75, 130, 34), 0, PAUSE_MAINMENU, L"Main Menu");
-	ButtonResume->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonResume->setUseAlphaChannel(true);
-	ButtonResume->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonSaveReplay->setUseAlphaChannel(true);
-	ButtonSaveReplay->setDrawBorder(false);
-	ButtonRestart->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonRestart->setUseAlphaChannel(true);
-	ButtonRestart->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonMainMenu->setUseAlphaChannel(true);
-	ButtonMainMenu->setDrawBorder(false);
-	
+
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 125 + 0 * 50, 130, 34), PAUSE_RESUME, L"Resume");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 125 + 1 * 50, 130, 34), PAUSE_SAVEREPLAY, L"Save Replay");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 125 + 2 * 50, 130, 34), PAUSE_RESTART, L"Restart Level");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 125 + 3 * 50, 130, 34), PAUSE_OPTIONS, L"Options");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 125 + 4 * 50, 130, 34), PAUSE_QUITLEVEL, L"Quit Level");
+
 	Input.SetMouseLocked(false);
 
 	State = STATE_PAUSED;
 }
 
-// Draws the save replay GUI
+// Create the save replay GUI
 void _Menu::InitSaveReplay() {
 	irrGUI->clear();
 
@@ -968,7 +962,7 @@ void _Menu::InitSaveReplay() {
 	State = STATE_SAVEREPLAY;
 }
 
-// Draws the lose screen
+// Create the lose screen
 void _Menu::InitLose() {
 /*	
 	// Update stats
@@ -989,7 +983,7 @@ void _Menu::InitLose() {
 	State = STATE_LOSE;
 }
 
-// Draws the win screen
+// Create the win screen
 void _Menu::InitWin() {
 	
 	// Skip stats if just testing a level
@@ -1091,101 +1085,94 @@ void _Menu::Draw() {
 	irrGUI->drawAll();
 
 	// Draw level tooltip
-	if(State == STATE_LEVELS) {
+	switch(State) {
+		case STATE_LEVELS:
+			if(SelectedLevel != -1) {
+				char Buffer[256];
+				const SaveLevelStruct *Stats = LevelStats[SelectedLevel];
+				const std::string &NiceName = Campaign.GetLevelNiceName(CampaignIndex, SelectedLevel);
 
-		if(SelectedLevel != -1) {
-			char Buffer[256];
-			const SaveLevelStruct *Stats = LevelStats[SelectedLevel];
-			const std::string &NiceName = Campaign.GetLevelNiceName(CampaignIndex, SelectedLevel);
+				// Get box position
+				int Width = 250, Height = 305, X, Y;
+				int Left = (int)Input.GetMouseX() + 20;
+				int Top = (int)Input.GetMouseY() - 105;
 
-			// Get box position
-			int Width = 250, Height = 305, X, Y;
-			int Left = (int)Input.GetMouseX() + 20;
-			int Top = (int)Input.GetMouseY() - 105;
+				// Cap limits
+				if(Top < 10)
+					Top = 10;
+				if(Left + Width > (int)irrDriver->getScreenSize().Width - 10)
+					Left -= Width + 35;
 
-			// Cap limits
-			if(Top < 10)
-				Top = 10;
-			if(Left + Width > (int)irrDriver->getScreenSize().Width - 10)
-				Left -= Width + 35;
+				// Draw box
+				Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height);
+				X = Left + Width/2;
+				Y = Top + 10;
 
-			// Draw box
-			Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height);
-			X = Left + Width/2;
-			Y = Top + 10;
+				if(Stats->Unlocked) {
 
-			if(Stats->Unlocked) {
+					// Level nice name
+					Interface.RenderText(NiceName.c_str(), X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
+					Y += 35;
 
-				// Level nice name
-				Interface.RenderText(NiceName.c_str(), X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
-				Y += 35;
+					// Play time
+					Interface.RenderText("Play time", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					Interface.ConvertSecondsToString(Stats->PlayTime, Buffer);
+					Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
-				// Play time
-				Interface.RenderText("Play time", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-				Interface.ConvertSecondsToString(Stats->PlayTime, Buffer);
-				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					// Load count
+					Y += 17;
+					Interface.RenderText("Plays", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					sprintf(Buffer, "%d", Stats->LoadCount);
+					Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
-				// Load count
-				Y += 17;
-				Interface.RenderText("Plays", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-				sprintf(Buffer, "%d", Stats->LoadCount);
-				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					// Win count
+					Y += 17;
+					Interface.RenderText("Wins", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					sprintf(Buffer, "%d", Stats->WinCount);
+					Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
-				// Win count
-				Y += 17;
-				Interface.RenderText("Wins", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-				sprintf(Buffer, "%d", Stats->WinCount);
-				Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					// Scores
+					if(Stats->HighScores.size() > 0) {
 
-				// Scores
-				if(Stats->HighScores.size() > 0) {
+						// High scores
+						int HighX = Left + Width/2 - 80, HighY = Y + 28;
 
-					// High scores
-					int HighX = Left + Width/2 - 80, HighY = Y + 28;
-
-					// Draw header
-					Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-					Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-					Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-					HighY += 17;
-
-					for(size_t i = 0; i < Stats->HighScores.size(); i++) {
-						
-						// Number
-						char SmallBuffer[32];
-						sprintf(SmallBuffer, "%d", (int)i+1);
-						Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-
-						// Time
-						Interface.ConvertSecondsToString(Stats->HighScores[i].Time, Buffer);
-						Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
-
-						// Date
-						char DateString[32];
-						strftime(DateString, 32, "%m-%d-%Y", localtime(&Stats->HighScores[i].DateStamp));
-						Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
-
+						// Draw header
+						Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+						Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+						Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 						HighY += 17;
+
+						for(size_t i = 0; i < Stats->HighScores.size(); i++) {
+						
+							// Number
+							char SmallBuffer[32];
+							sprintf(SmallBuffer, "%d", (int)i+1);
+							Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+
+							// Time
+							Interface.ConvertSecondsToString(Stats->HighScores[i].Time, Buffer);
+							Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+
+							// Date
+							char DateString[32];
+							strftime(DateString, 32, "%m-%d-%Y", localtime(&Stats->HighScores[i].DateStamp));
+							Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
+
+							HighY += 17;
+						}
 					}
 				}
-			}
-			else {
+				else {
 				
-				// Locked
-				Interface.RenderText("Level Locked", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
+					// Locked
+					Interface.RenderText("Level Locked", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, SColor(255, 255, 255, 255));
+				}
 			}
-		}
-	}
-
-	switch(State) {
-		case STATE_LOSE:
-			Interface.FadeScreen(0.8f);
 		break;
-		case STATE_WIN: {
-			Interface.FadeScreen(0.8f);
-
+		case STATE_WIN:
 			Menu.DrawWinScreen();
-		} break;
+		break;
 	}
 }
 
@@ -1286,4 +1273,14 @@ void _Menu::LaunchReplay() {
 		ViewReplayState.SetCurrentReplay(File);
 		Game.ChangeState(&ViewReplayState);
 	}
+}
+
+// Add a regular menu button
+IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text) {
+	IGUIButton *Button = irrGUI->addButton(Rectangle, 0, ID, Text);
+	Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	Button->setUseAlphaChannel(true);
+	Button->setDrawBorder(false);
+
+	return Button;
 }

@@ -323,12 +323,14 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 void _PlayState::Draw() {
 	
 	// Draw interface elements
-	Interface.Draw();
+	Interface.Draw(Timer);
+
+	// Darken the screen
+	if(IsPaused())
+		Interface.FadeScreen(0.8f);
 
 	// Draw irrlicht GUI
 	Menu.Draw();
-
-	irrGUI->drawAll();
 }
 
 // Returns true if the game is and paused

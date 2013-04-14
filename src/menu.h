@@ -75,6 +75,8 @@ class _Menu {
 
 	private:
 
+		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text);
+
 		void CancelKeyBind();
 		std::string GetReplayFile();
 		void LaunchReplay();
