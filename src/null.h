@@ -21,12 +21,6 @@
 // Libraries
 #include <engine/state.h>
 
-// Forward Declarations
-class _Object;
-class _Player;
-class _Camera;
-struct SaveLevelStruct;
-
 // Classes
 class _NullState : public _State {
 

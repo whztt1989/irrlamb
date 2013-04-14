@@ -27,6 +27,7 @@ _Interface Interface;
 
 // Initializes the graphics system
 int _Interface::Init() {
+	DrawHUD = true;
 		
 	// Get skin
 	IGUISkin *Skin = irrGUI->getSkin();
@@ -142,6 +143,13 @@ void _Interface::Update(float FrameTime) {
 
 // Draw interface elements
 void _Interface::Draw() {
+	if(!DrawHUD)
+		return;
+	
+	// Draw timer
+	char TimeString[32];
+	ConvertSecondsToString(Timer, TimeString);
+	RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_LARGE);
 
 	// Draw tutorial text
 	if(TutorialText.Text.size() > 0) {

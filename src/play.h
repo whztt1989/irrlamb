@@ -46,6 +46,7 @@ class _PlayState : public _State {
 		void UpdateRender(float TimeStepRemainder);
 		void Draw();
 		
+		bool IsPaused();
 		void StartReset();
 		void ResetLevel();
 
@@ -62,9 +63,6 @@ class _PlayState : public _State {
 		std::string TestLevel;
 		float Timer;
 		bool Resetting;
-
-		// HUD
-		bool ShowHUD;
 
 		// Campaign
 		int CurrentCampaign, CampaignLevel;

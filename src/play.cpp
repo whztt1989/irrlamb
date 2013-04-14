@@ -45,11 +45,6 @@ _PlayState PlayState;
 
 // Initializes the state
 int _PlayState::Init() {
-	Player = NULL;
-	Timer = 0.0f;
-	Resetting = false;
-	//TODO add to interface class
-	ShowHUD = true;
 	Physics.SetEnabled(true);
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
 
@@ -97,6 +92,57 @@ int _PlayState::Close() {
 	return 1;
 }
 
+// Resets the level
+void _PlayState::ResetLevel() {
+
+	// Handle saves
+	if(TestLevel == "") {
+		Save.IncrementLevelLoadCount(Level.GetLevelName());
+		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
+		Save.SaveLevelStats(Level.GetLevelName());
+	}
+
+	// Stop recording
+	Replay.StopRecording();
+
+	// Set up GUI
+	Menu.InitPlay();
+	Timer = 0.0f;
+
+	// Set up camera
+	Camera->SetRotation(0.0f, 30.0f);
+	Camera->SetDistance(5.0f);
+
+	// Clear objects
+	ObjectManager.ClearObjects();
+	Physics.Reset();
+
+	// Start replay recording
+	Replay.StartRecording();
+
+	// Load level objects
+	Level.SpawnObjects();
+	Level.RunScripts();
+
+	// Get the player
+	Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));
+	if(Player == NULL) {
+		Log.Write("_PlayState::ResetLevel - Cannot find player object");
+		return;
+	}
+	Player->SetCamera(Camera);
+
+	// Record camera in replay
+	btVector3 Position = Player->GetPosition();
+	Camera->Update(vector3df(Position[0], Position[1], Position[2]));
+	Camera->RecordReplay();
+
+	// Reset game timer
+	Game.ResetTimer();
+	Fader.Start(FADE_SPEED);
+	Resetting = false;
+}
+
 // Handle new actions
 void _PlayState::HandleAction(int Action, float Value) {
 	if(Resetting)
@@ -104,7 +150,7 @@ void _PlayState::HandleAction(int Action, float Value) {
 		
 	//printf("%d %f\n", Action, Value);
 
-	if(Menu.State == _Menu::STATE_NONE) {
+	if(!IsPaused()) {
 		switch(Action) {
 			case _Actions::JUMP:
 				if(Value)
@@ -168,7 +214,7 @@ bool _PlayState::HandleKeyPress(int Key) {
 				Game.ChangeState(&PlayState);
 			break;
 			case KEY_F11:
-				ShowHUD = !ShowHUD;
+				Interface.DrawHUD = !Interface.DrawHUD;
 			break;
 			case KEY_F12:
 				Graphics.SaveScreenshot();
@@ -189,7 +235,7 @@ bool _PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 	if(Resetting)
 		return false;
 
-	if(Menu.State == _Menu::STATE_NONE) {
+	if(!IsPaused()) {
 		Scripting.HandleMousePress(Button, MouseX, MouseY); 
 	}
 
@@ -226,7 +272,8 @@ void _PlayState::Update(float FrameTime) {
 		return;
 	}
 
-	if(Menu.State == _Menu::STATE_NONE) {
+	// Check if paused
+	if(!IsPaused()) {
 
 		// Update time
 		Timer += FrameTime;
@@ -262,7 +309,7 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 	if(Resetting)
 		return;
 
-	if(Menu.State == _Menu::STATE_NONE) {
+	if(!IsPaused()) {
 		Physics.GetWorld()->setTimeStepRemainder(TimeStepRemainder);
 		Physics.GetWorld()->synchronizeMotionStates();
 
@@ -274,22 +321,20 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 
 // Draws the current state
 void _PlayState::Draw() {
-	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
-
+	
 	// Draw interface elements
-	if(ShowHUD)
-		Interface.Draw();
-
-	// Draw timer
-	char TimeString[32];
-	Interface.ConvertSecondsToString(Timer, TimeString);
-	if(ShowHUD)
-		Interface.RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_LARGE);
+	Interface.Draw();
 
 	// Draw irrlicht GUI
 	Menu.Draw();
 
 	irrGUI->drawAll();
+}
+
+// Returns true if the game is and paused
+bool _PlayState::IsPaused() {
+
+	return Menu.State != _Menu::STATE_NONE;
 }
 
 // Start resetting the level
@@ -301,53 +346,3 @@ void _PlayState::StartReset() {
 	Resetting = true;
 }
 
-// Resets the level
-void _PlayState::ResetLevel() {
-
-	// Handle saves
-	if(TestLevel == "") {
-		Save.IncrementLevelLoadCount(Level.GetLevelName());
-		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
-		Save.SaveLevelStats(Level.GetLevelName());
-	}
-
-	// Stop recording
-	Replay.StopRecording();
-
-	// Set up GUI
-	Menu.InitPlay();
-	Timer = 0.0f;
-
-	// Set up camera
-	Camera->SetRotation(0.0f, 30.0f);
-	Camera->SetDistance(5.0f);
-
-	// Clear objects
-	ObjectManager.ClearObjects();
-	Physics.Reset();
-
-	// Start replay recording
-	Replay.StartRecording();
-
-	// Load level objects
-	Level.SpawnObjects();
-	Level.RunScripts();
-
-	// Get the player
-	Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));
-	if(Player == NULL) {
-		Log.Write("_PlayState::ResetLevel - Cannot find player object");
-		return;
-	}
-	Player->SetCamera(Camera);
-
-	// Record camera in replay
-	btVector3 Position = Player->GetPosition();
-	Camera->Update(vector3df(Position[0], Position[1], Position[2]));
-	Camera->RecordReplay();
-
-	// Reset game timer
-	Game.ResetTimer();
-	Fader.Start(FADE_SPEED);
-	Resetting = false;
-}

@@ -30,6 +30,8 @@ struct TutorialTextStruct {
 // Classes
 class _Interface {
 
+	friend class _PlayState;
+
 	public:
 
 		enum SkinType {
@@ -101,6 +103,7 @@ class _Interface {
 	private:
 
 		TutorialTextStruct TutorialText;
+		bool DrawHUD;
 		float Timer;
 
 		irr::gui::IGUIFont *Fonts[FONT_COUNT];
