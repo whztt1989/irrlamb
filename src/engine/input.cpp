@@ -266,20 +266,25 @@ void _Input::DriveMouse(int Action, float Value) {
 	switch(Action) {
 		case _Actions::CURSOR_LEFT:
 			MouseX -= Value;
+			VirtualMouseMoved = true;
+			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_RIGHT:
 			MouseX += Value;
+			VirtualMouseMoved = true;
+			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_UP:
 			MouseY -= Value;
+			VirtualMouseMoved = true;
+			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_DOWN:
 			MouseY += Value;
+			VirtualMouseMoved = true;
+			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 	}
-
-	VirtualMouseMoved = true;
-	irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 }
 
 // Resets the keyboard state
