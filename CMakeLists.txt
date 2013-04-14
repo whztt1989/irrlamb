@@ -113,7 +113,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 add_pch(${CMAKE_PROJECT_NAME} src/all.cpp ${PROJECT_SOURCE_DIR}/src/all.h)
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${EXTRA_LIBS} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES})
 
 # copy irrlicht DLLs to working directory
 if(WIN32)

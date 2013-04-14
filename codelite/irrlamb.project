@@ -17,6 +17,8 @@
     <File Name="../src/main.cpp"/>
     <File Name="../src/play.cpp"/>
     <File Name="../src/all.cpp"/>
+    <File Name="../src/null.cpp"/>
+    <File Name="../src/null.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="engine">
     <File Name="../src/engine/save.cpp"/>
