@@ -45,11 +45,19 @@ _NullState NullState;
 
 // Initializes the state
 int _NullState::Init() {
+	Interface.ChangeSkin(_Interface::SKIN_MENU);
 
-	if(State == _Menu::STATE_LEVELS)
-		Menu.InitLevels();
-	else
-		Menu.InitMain();
+	switch(State) {
+		case _Menu::STATE_LEVELS:
+			Menu.InitLevels();
+		break;
+		case _Menu::STATE_REPLAYS:
+			Menu.InitReplays();
+		break;
+		default:
+			Menu.InitMain();
+		break;
+	}
 
 	return 1;
 }

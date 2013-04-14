@@ -35,6 +35,7 @@
 #include <objects/template.h>
 #include <play.h>
 #include <menu.h>
+#include <null.h>
 #include <engine/namespace.h>
 
 _ViewReplayState ViewReplayState;
@@ -97,11 +98,10 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 	bool Processed = true;
 	switch(Key) {
 		case KEY_ESCAPE:
-			Menu.InitReplays();
-			//Game.ChangeState(&Menu);
+			Game.ChangeState(&NullState);
 		break;
 		case KEY_F1:
-			//Game.ChangeState(&Menu);
+			Game.ChangeState(&NullState);
 		break;
 		case KEY_F12:
 			Graphics.SaveScreenshot();
@@ -150,8 +150,8 @@ void _ViewReplayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElemen
 		case EGET_BUTTON_CLICKED:
 			switch(Element->getID()) {
 				case MAIN_EXIT:
-					Menu.InitReplays();
-					//Game.ChangeState(&Menu);
+					NullState.State = _Menu::STATE_REPLAYS;
+					Game.ChangeState(&NullState);
 				break;
 				case MAIN_DECREASE:
 					ChangeReplaySpeed(-REPLAY_TIME_INCREMENT);

@@ -200,7 +200,7 @@ bool _PlayState::HandleKeyPress(int Key) {
 	if(Resetting)
 		return true;
 
-	bool Processed = true, LuaProcessed = false;
+	bool LuaProcessed = false;
 	
 	if(Menu.State == _Menu::STATE_NONE) {
 		switch(Key) {
@@ -228,7 +228,7 @@ bool _PlayState::HandleKeyPress(int Key) {
 		LuaProcessed = Scripting.HandleKeyPress(Key);
 	}
 
-	Menu.HandleKeyPress(Key);
+	bool Processed = Menu.HandleKeyPress(Key);
 
 	return Processed || LuaProcessed;
 }

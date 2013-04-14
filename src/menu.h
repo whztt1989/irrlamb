@@ -49,6 +49,8 @@ class _Menu {
 			STATE_WIN
 		};
 
+		_Menu() { State = PreviousState = STATE_NONE; }
+
 		void InitMain();
 		void InitSinglePlayer();
 		void InitLevels();
@@ -83,7 +85,7 @@ class _Menu {
 		void LaunchReplay();
 		void LaunchLevel();
 
-		MenuType State;
+		MenuType State, PreviousState;
 		bool FirstStateLoad;
 		std::string MenuMessage;
 

@@ -25,6 +25,7 @@
 class _NullState : public _State {
 
 	friend class _Menu;
+	friend class _ViewReplayState;
 
 	public:
 	

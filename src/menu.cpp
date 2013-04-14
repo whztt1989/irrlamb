@@ -382,14 +382,10 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					SaveReplay();
 				break;
 				case SAVEREPLAY_CANCEL:
-					/*
-					if(PlayState.TargetState == STATE_WIN)
+					if(PreviousState == STATE_WIN)
 						InitWin();
-					else if(PlayState.TargetState == STATE_LOSE)
-						InitLose();
 					else
 						InitPause();
-						*/
 				break;
 				case WIN_RESTARTLEVEL:
 					PlayState.StartReset();
@@ -463,6 +459,7 @@ void _Menu::InitMain() {
 		Interface.PlaySound(_Interface::SOUND_CONFIRM);
 	FirstStateLoad = false;
 
+	PreviousState = State;
 	State = STATE_MAIN;
 }
 
@@ -503,6 +500,7 @@ void _Menu::InitSinglePlayer() {
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
+	PreviousState = State;
 	State = STATE_SINGLEPLAYER;
 }
 
@@ -571,6 +569,7 @@ void _Menu::InitLevels() {
 		Interface.PlaySound(_Interface::SOUND_CONFIRM);
 	FirstStateLoad = false;
 
+	PreviousState = State;
 	State = STATE_LEVELS;
 }
 
@@ -642,6 +641,7 @@ void _Menu::InitReplays() {
 		Interface.PlaySound(_Interface::SOUND_CONFIRM);
 	FirstStateLoad = false;
 
+	PreviousState = State;
 	State = STATE_REPLAYS;
 }
 
@@ -676,6 +676,7 @@ void _Menu::InitOptions() {
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
+	PreviousState = State;
 	State = STATE_OPTIONS;
 }
 
@@ -743,6 +744,7 @@ void _Menu::InitVideo() {
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
+	PreviousState = State;
 	State = STATE_VIDEO;
 }
 
@@ -777,6 +779,7 @@ void _Menu::InitAudio() {
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
+	PreviousState = State;
 	State = STATE_AUDIO;
 }
 
@@ -826,6 +829,7 @@ void _Menu::InitControls() {
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
+	PreviousState = State;
 	State = STATE_CONTROLS;
 }
 
@@ -836,6 +840,7 @@ void _Menu::InitPlay() {
 	Graphics.SetClearColor(SColor(255, 0, 0, 0));
 	Input.SetMouseLocked(true);
 
+	PreviousState = State;
 	State = STATE_NONE;
 }
 
@@ -854,6 +859,7 @@ void _Menu::InitPause() {
 
 	Input.SetMouseLocked(false);
 
+	PreviousState = State;
 	State = STATE_PAUSED;
 }
 
@@ -876,12 +882,14 @@ void _Menu::InitSaveReplay() {
 	irrGUI->setFocus(EditName);
 	EditName->setMax(32);
 
+	PreviousState = State;
 	State = STATE_SAVEREPLAY;
 }
 
 // Create the lose screen
 void _Menu::InitLose() {
 
+	PreviousState = State;
 	State = STATE_LOSE;
 }
 
@@ -933,6 +941,7 @@ void _Menu::InitWin() {
 
 	Input.SetMouseLocked(false);
 
+	PreviousState = State;
 	State = STATE_WIN;
 }
 
@@ -945,7 +954,7 @@ void _Menu::SaveReplay() {
 		Replay.SaveReplay(ReplayTitle.c_str());
 	}
 
-/*	switch(PlayState.TargetState) {
+	switch(PreviousState) {
 		case STATE_WIN: {
 			InitWin();
 			
@@ -963,7 +972,7 @@ void _Menu::SaveReplay() {
 		default:
 			InitPause();
 		break;
-	}*/
+	}
 }
 
 // Updates the current state
