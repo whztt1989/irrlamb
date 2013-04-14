@@ -67,6 +67,46 @@ int _MenuState::Close() {
 	return 1;
 }
 
+// Handle action inputs
+void _MenuState::HandleAction(int Action, float Value) {
+	if(Input.HasJoystick())
+		Input.DriveMouse(Action, Value);
+
+	// On action press
+	if(Value) {
+		switch(Action) {
+			case _Actions::MENU_BACK:
+				switch(State) {
+					case STATE_MAIN:
+						Game.SetDone(true);
+					break;
+					case STATE_SINGLEPLAYER:
+						State = STATE_INITMAIN;
+					break;
+					case STATE_LEVELS:
+						State = STATE_INITSINGLEPLAYER;
+					break;
+					case STATE_REPLAYS:
+						State = STATE_INITMAIN;
+					break;
+					case STATE_OPTIONS:
+						State = STATE_INITMAIN;
+					break;
+					case STATE_VIDEO:
+						State = STATE_INITOPTIONS;
+					break;
+					case STATE_AUDIO:
+						State = STATE_INITOPTIONS;
+					break;
+					case STATE_CONTROLS:
+						State = STATE_INITOPTIONS;
+					break;
+				}
+			break;
+		}
+	}
+}
+
 // Key presses
 bool _MenuState::HandleKeyPress(int Key) {
 
@@ -74,9 +114,6 @@ bool _MenuState::HandleKeyPress(int Key) {
 	switch(State) {
 		case STATE_MAIN:
 			switch(Key) {
-				case KEY_ESCAPE:
-					Game.SetDone(true);
-				break;
 				case KEY_RETURN:
 					State = STATE_INITSINGLEPLAYER;
 				break;
@@ -87,61 +124,8 @@ bool _MenuState::HandleKeyPress(int Key) {
 		break;
 		case STATE_SINGLEPLAYER:
 			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITMAIN;
-				break;
 				case KEY_RETURN:
 					State = STATE_INITLEVELS;
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_LEVELS:
-			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITSINGLEPLAYER;
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_REPLAYS:
-			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITMAIN;
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_OPTIONS:
-			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITMAIN;
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_VIDEO:
-			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITOPTIONS;
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_AUDIO:
-			switch(Key) {
-				case KEY_ESCAPE:
-					State = STATE_INITOPTIONS;
 				break;
 				default:
 					Processed = false;
@@ -378,12 +362,6 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 				SelectedLevel = -1;
 		break;
 	}
-}
-
-// Handle action inputs
-void _MenuState::HandleAction(int Action, float Value) {
-	if(Input.HasJoystick())
-		Input.DriveMouse(Action, Value);
 }
 
 // Updates the current state
@@ -806,8 +784,8 @@ void _MenuState::Draw() {
 
 			// Get box position
 			int Width = 250, Height = 305, X, Y;
-			int Left = Input.GetMouseX() + 20;
-			int Top = Input.GetMouseY() - 105;
+			int Left = (int)Input.GetMouseX() + 20;
+			int Top = (int)Input.GetMouseY() - 105;
 
 			// Cap limits
 			if(Top < 10)

@@ -94,6 +94,7 @@ void _Config::AddDefaultActionMap(bool Force) {
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_X, _Actions::RESET);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_SPACE, _Actions::JUMP);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_ESCAPE, _Actions::MENU_PAUSE);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_ESCAPE, _Actions::MENU_BACK);
 	Actions.AddInputMap(_Input::MOUSE_AXIS, 0, _Actions::CAMERA_LEFT);
 	Actions.AddInputMap(_Input::MOUSE_AXIS, 1, _Actions::CAMERA_RIGHT);
 	Actions.AddInputMap(_Input::MOUSE_AXIS, 2, _Actions::CAMERA_UP);

@@ -144,6 +144,10 @@ void _PlayState::HandleAction(int Action, float Value) {
 				break;
 			}
 		break;
+		case STATE_SAVEREPLAY:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+		break;
 		case STATE_LOSE:
 		case STATE_WIN:
 			if(Input.HasJoystick())
