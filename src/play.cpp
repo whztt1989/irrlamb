@@ -45,6 +45,7 @@ _PlayState PlayState;
 
 // Initializes the state
 int _PlayState::Init() {
+	Timer = 0.0f;
 	Physics.SetEnabled(true);
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
 
