@@ -48,7 +48,7 @@ int _PlayState::Init() {
 	Player = NULL;
 	Timer = 0.0f;
 	Resetting = false;
-	WinStats = NULL;
+	//TODO add to interface class
 	ShowHUD = true;
 	Physics.SetEnabled(true);
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
@@ -103,74 +103,46 @@ void _PlayState::HandleAction(int Action, float Value) {
 		return;
 		
 	//printf("%d %f\n", Action, Value);
-	switch(State) {
-		case STATE_PLAY:
-			switch(Action) {
-				case _Actions::JUMP:
-					if(Value)
-						Player->Jump();
-				break;
-				case _Actions::RESET:
-					if(Value)
-						StartReset();
-				break;
-				case _Actions::MENU_PAUSE:
-					if(!Value)
-						return;
 
-					if(TestLevel != "")
-						Game.SetDone(true);
-					else
-						Menu.InitPause();
-				break;
-				case _Actions::CAMERA_LEFT:
-					if(Camera)
-						Camera->HandleMouseMotion(-Value, 0);
-				break;
-				case _Actions::CAMERA_RIGHT:
-					if(Camera)
-						Camera->HandleMouseMotion(Value, 0);
-				break;
-				case _Actions::CAMERA_UP:
-					if(Camera)
-						Camera->HandleMouseMotion(0, -Value);
-				break;
-				case _Actions::CAMERA_DOWN:
-					if(Camera)
-						Camera->HandleMouseMotion(0, Value);
-				break;
-			}
-		break;
-		case STATE_SAVEREPLAY:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
-		break;
-		case STATE_LOSE:
-		case STATE_WIN:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
+	if(Menu.State == _Menu::STATE_NONE) {
+		switch(Action) {
+			case _Actions::JUMP:
+				if(Value)
+					Player->Jump();
+			break;
+			case _Actions::RESET:
+				if(Value)
+					StartReset();
+			break;
+			case _Actions::MENU_PAUSE:
+				if(!Value)
+					return;
 
-			switch(Action) {
-				case _Actions::RESET:
-					if(Value)
-						StartReset();
-				break;
-			}
-		break;
-		case STATE_PAUSED:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
-			
-			if(!Value)
-				return;
-
-			switch(Action) {
-				case _Actions::MENU_PAUSE:
-					Menu.InitPlay();
-				break;
-			}
-		break;
+				if(TestLevel != "")
+					Game.SetDone(true);
+				else
+					Menu.InitPause();
+			break;
+			case _Actions::CAMERA_LEFT:
+				if(Camera)
+					Camera->HandleMouseMotion(-Value, 0);
+			break;
+			case _Actions::CAMERA_RIGHT:
+				if(Camera)
+					Camera->HandleMouseMotion(Value, 0);
+			break;
+			case _Actions::CAMERA_UP:
+				if(Camera)
+					Camera->HandleMouseMotion(0, -Value);
+			break;
+			case _Actions::CAMERA_DOWN:
+				if(Camera)
+					Camera->HandleMouseMotion(0, Value);
+			break;
+		}
 	}
+
+	Menu.HandleAction(Action, Value);
 	//printf("action press %d %f\n", Action, Value);
 }
 
@@ -181,66 +153,33 @@ bool _PlayState::HandleKeyPress(int Key) {
 
 	bool Processed = true, LuaProcessed = false;
 	
-	switch(State) {
-		case STATE_PLAY:
-			switch(Key) {
-				case KEY_F1:
-					Menu.InitPause();
-				break;
-				case KEY_F2:
-					Config.InvertMouse = !Config.InvertMouse;
-				break;
-				case KEY_F3:
-					Log.Write("Player: position=%.3f %.3f %.3f", Player->GetPosition()[0], Player->GetPosition()[1], Player->GetPosition()[2]);
-				break;
-				case KEY_F5:
-					Game.ChangeState(&PlayState);
-				break;
-				case KEY_F11:
-					ShowHUD = !ShowHUD;
-				break;
-				case KEY_F12:
-					Graphics.SaveScreenshot();
-				break;
-			}
+	if(Menu.State == _Menu::STATE_NONE) {
+		switch(Key) {
+			case KEY_F1:
+				Menu.InitPause();
+			break;
+			case KEY_F2:
+				Config.InvertMouse = !Config.InvertMouse;
+			break;
+			case KEY_F3:
+				Log.Write("Player: position=%.3f %.3f %.3f", Player->GetPosition()[0], Player->GetPosition()[1], Player->GetPosition()[2]);
+			break;
+			case KEY_F5:
+				Game.ChangeState(&PlayState);
+			break;
+			case KEY_F11:
+				ShowHUD = !ShowHUD;
+			break;
+			case KEY_F12:
+				Graphics.SaveScreenshot();
+			break;
+		}
 
-			// Send key presses to Lua
-			LuaProcessed = Scripting.HandleKeyPress(Key);
-		break;
-		case STATE_SAVEREPLAY:
-			switch(Key) {
-				case KEY_ESCAPE:
-					Menu.InitPause();
-				break;
-				case KEY_RETURN:
-					Menu.SaveReplay();
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_LOSE:
-			switch(Key) {
-				case KEY_ESCAPE:
-					//Game.ChangeState(&Menu);
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_WIN:
-			switch(Key) {
-				case KEY_ESCAPE:
-					//Game.ChangeState(&Menu);
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
+		// Send key presses to Lua
+		LuaProcessed = Scripting.HandleKeyPress(Key);
 	}
+
+	Menu.HandleKeyPress(Key);
 
 	return Processed || LuaProcessed;
 }
@@ -250,10 +189,8 @@ bool _PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 	if(Resetting)
 		return false;
 
-	switch(State) {
-		case STATE_PLAY:
-			Scripting.HandleMousePress(Button, MouseX, MouseY); 
-		break;
+	if(Menu.State == _Menu::STATE_NONE) {
+		Scripting.HandleMousePress(Button, MouseX, MouseY); 
 	}
 
 	return false;
@@ -275,15 +212,7 @@ void _PlayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 	if(Resetting)
 		return;
 
-	switch(EventType) {
-		case EGET_BUTTON_CLICKED:
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
-
-			switch(Element->getID()) {
-				
-			}
-		break;
-	}
+	Menu.HandleGUI(EventType, Element);
 }
 
 // Updates the current state
@@ -297,38 +226,34 @@ void _PlayState::Update(float FrameTime) {
 		return;
 	}
 
-	switch(State) {
-		case STATE_PLAY: {
+	if(Menu.State == _Menu::STATE_NONE) {
 
-			// Update time
-			Timer += FrameTime;
+		// Update time
+		Timer += FrameTime;
 
-			// Update replay
-			Replay.Update(FrameTime);
+		// Update replay
+		Replay.Update(FrameTime);
 
-			// Update game logic
-			ObjectManager.BeginFrame();
+		// Update game logic
+		ObjectManager.BeginFrame();
 
-			Player->HandleInput();
-			ObjectManager.Update(FrameTime);
-			Physics.Update(FrameTime);
-			Interface.Update(FrameTime);
-			Scripting.UpdateTimedCallbacks();
+		Player->HandleInput();
+		ObjectManager.Update(FrameTime);
+		Physics.Update(FrameTime);
+		Interface.Update(FrameTime);
+		Scripting.UpdateTimedCallbacks();
 
-			ObjectManager.EndFrame();
+		ObjectManager.EndFrame();
 
-			// Update audio
-			const btVector3 &Position = Player->GetPosition();
-			Audio.SetPosition(Position[0], Position[1], Position[2]);
+		// Update audio
+		const btVector3 &Position = Player->GetPosition();
+		Audio.SetPosition(Position[0], Position[1], Position[2]);
 
-			// Update camera for replay
-			Camera->Update(vector3df(Position[0], Position[1], Position[2]));
-			Camera->RecordReplay();
+		// Update camera for replay
+		Camera->Update(vector3df(Position[0], Position[1], Position[2]));
+		Camera->RecordReplay();
 
-			Replay.ResetNextPacketTimer();
-		} break;
-		default:
-		break;
+		Replay.ResetNextPacketTimer();
 	}
 }
 
@@ -337,22 +262,18 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 	if(Resetting)
 		return;
 
-	switch(State) {
-		case STATE_PLAY:
+	if(Menu.State == _Menu::STATE_NONE) {
+		Physics.GetWorld()->setTimeStepRemainder(TimeStepRemainder);
+		Physics.GetWorld()->synchronizeMotionStates();
 
-			Physics.GetWorld()->setTimeStepRemainder(TimeStepRemainder);
-			Physics.GetWorld()->synchronizeMotionStates();
-
-			// Set camera position
-			btVector3 Position = Player->GetGraphicsPosition();
-			Camera->Update(vector3df(Position[0], Position[1], Position[2]));
-		break;
+		// Set camera position
+		btVector3 Position = Player->GetGraphicsPosition();
+		Camera->Update(vector3df(Position[0], Position[1], Position[2]));
 	}
 }
 
 // Draws the current state
 void _PlayState::Draw() {
-	char Buffer[256];
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 
 	// Draw interface elements
@@ -365,20 +286,9 @@ void _PlayState::Draw() {
 	if(ShowHUD)
 		Interface.RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_LARGE);
 
-	switch(State) {
-		case STATE_PAUSED:
-		case STATE_SAVEREPLAY:
-		case STATE_LOSE:
-			Interface.FadeScreen(0.8f);
-		break;
-		case STATE_WIN: {
-			Interface.FadeScreen(0.8f);
-
-			Menu.DrawWinScreen();
-		} break;
-	}
-
 	// Draw irrlicht GUI
+	Menu.Draw();
+
 	irrGUI->drawAll();
 }
 

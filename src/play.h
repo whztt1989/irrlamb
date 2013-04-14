@@ -25,21 +25,12 @@
 class _Object;
 class _Player;
 class _Camera;
-struct SaveLevelStruct;
 
 // Classes
 class _PlayState : public _State {
 	friend class _Menu;
 
 	public:
-
-		enum StateType {
-			STATE_PLAY,
-			STATE_PAUSED,
-			STATE_SAVEREPLAY,
-			STATE_LOSE,
-			STATE_WIN
-		};
 
 		int Init();
 		int Close();
@@ -68,7 +59,6 @@ class _PlayState : public _State {
 	private:
 
 		// States
-		int State, TargetState;
 		std::string TestLevel;
 		float Timer;
 		bool Resetting;
@@ -78,9 +68,6 @@ class _PlayState : public _State {
 
 		// Campaign
 		int CurrentCampaign, CampaignLevel;
-
-		// High scores
-		const SaveLevelStruct *WinStats;
 
 		// Objects
 		_Player *Player;

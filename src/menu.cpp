@@ -137,6 +137,35 @@ void _Menu::HandleAction(int Action, float Value) {
 					break;
 				}
 			break;
+			case STATE_SAVEREPLAY:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+		break;
+		case STATE_LOSE:
+		case STATE_WIN:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+
+			switch(Action) {
+				case _Actions::RESET:
+					if(Value)
+						PlayState.StartReset();
+				break;
+			}
+		break;
+		case STATE_PAUSED:
+			if(Input.HasJoystick())
+				Input.DriveMouse(Action, Value);
+			
+			if(!Value)
+				return;
+
+			switch(Action) {
+				case _Actions::MENU_PAUSE:
+					Menu.InitPlay();
+				break;
+			}
+		break;
 		}
 	}
 }
@@ -207,6 +236,39 @@ bool _Menu::HandleKeyPress(int Key) {
 						Processed = false;
 					break;
 				}
+			}
+		break;
+		case STATE_SAVEREPLAY:
+			switch(Key) {
+				case KEY_ESCAPE:
+					Menu.InitPause();
+				break;
+				case KEY_RETURN:
+					Menu.SaveReplay();
+				break;
+				default:
+					Processed = false;
+				break;
+			}
+		break;
+		case STATE_LOSE:
+			switch(Key) {
+				case KEY_ESCAPE:
+					//Game.ChangeState(&Menu);
+				break;
+				default:
+					Processed = false;
+				break;
+			}
+		break;
+		case STATE_WIN:
+			switch(Key) {
+				case KEY_ESCAPE:
+					//Game.ChangeState(&Menu);
+				break;
+				default:
+					Processed = false;
+				break;
 			}
 		break;
 	}
@@ -381,7 +443,6 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					InitPlay();
 				break;
 				case PAUSE_SAVEREPLAY:
-					PlayState.TargetState = STATE_PAUSED;
 					InitSaveReplay();
 				break;
 				case PAUSE_RESTART:
@@ -396,18 +457,19 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					SaveReplay();
 				break;
 				case SAVEREPLAY_CANCEL:
+					/*
 					if(PlayState.TargetState == STATE_WIN)
 						InitWin();
 					else if(PlayState.TargetState == STATE_LOSE)
 						InitLose();
 					else
 						InitPause();
+						*/
 				break;
 				case LOSE_RESTARTLEVEL:
 					PlayState.StartReset();
 				break;
 				case LOSE_SAVEREPLAY:
-					PlayState.TargetState = STATE_LOSE;
 					InitSaveReplay();
 				break;
 				case LOSE_MAINMENU:
@@ -424,7 +486,6 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					Game.ChangeState(&PlayState);
 				break;
 				case WIN_SAVEREPLAY:
-					PlayState.TargetState = STATE_WIN;
 					InitSaveReplay();
 				break;
 				case WIN_MAINMENU:
@@ -854,7 +915,7 @@ void _Menu::InitPlay() {
 	Graphics.SetClearColor(SColor(255, 0, 0, 0));
 	Input.SetMouseLocked(true);
 
-	PlayState.State = _PlayState::STATE_PLAY;
+	State = STATE_NONE;
 }
 
 // Draws the pause menu
@@ -958,7 +1019,7 @@ void _Menu::InitWin() {
 		LastLevelInCampaign = true;
 
 	// Get level stats
-	PlayState.WinStats = Save.GetLevelStats(Level.GetLevelName());
+	WinStats = Save.GetLevelStats(Level.GetLevelName());
 	
 	// Clear interface
 	Interface.Clear();
@@ -1000,7 +1061,7 @@ void _Menu::SaveReplay() {
 		Replay.SaveReplay(ReplayTitle.c_str());
 	}
 
-	switch(PlayState.TargetState) {
+/*	switch(PlayState.TargetState) {
 		case STATE_WIN: {
 			InitWin();
 			
@@ -1018,7 +1079,7 @@ void _Menu::SaveReplay() {
 		default:
 			InitPause();
 		break;
-	}
+	}*/
 }
 
 // Updates the current state
@@ -1115,6 +1176,17 @@ void _Menu::Draw() {
 			}
 		}
 	}
+
+	switch(State) {
+		case STATE_LOSE:
+			Interface.FadeScreen(0.8f);
+		break;
+		case STATE_WIN: {
+			Interface.FadeScreen(0.8f);
+
+			Menu.DrawWinScreen();
+		} break;
+	}
 }
 
 
@@ -1136,9 +1208,9 @@ void _Menu::DrawWinScreen() {
 
 	// Best time
 	Y += 25;
-	if(PlayState.WinStats->HighScores.size() > 0) {
+	if(WinStats->HighScores.size() > 0) {
 		Interface.RenderText("Best Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
-		Interface.ConvertSecondsToString(PlayState.WinStats->HighScores[0].Time, Buffer);
+		Interface.ConvertSecondsToString(WinStats->HighScores[0].Time, Buffer);
 		Interface.RenderText(Buffer, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
 	}
 
@@ -1150,7 +1222,7 @@ void _Menu::DrawWinScreen() {
 	Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 	Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 	HighY += 17;
-	for(u32 i = 0; i < PlayState.WinStats->HighScores.size(); i++) {
+	for(u32 i = 0; i < WinStats->HighScores.size(); i++) {
 				
 		// Number
 		char SmallBuffer[32];
@@ -1158,12 +1230,12 @@ void _Menu::DrawWinScreen() {
 		Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 		// Time
-		Interface.ConvertSecondsToString(PlayState.WinStats->HighScores[i].Time, Buffer);
+		Interface.ConvertSecondsToString(WinStats->HighScores[i].Time, Buffer);
 		Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 		// Date
 		char DateString[32];
-		strftime(DateString, 32, "%m-%d-%Y", localtime(&PlayState.WinStats->HighScores[i].DateStamp));
+		strftime(DateString, 32, "%m-%d-%Y", localtime(&WinStats->HighScores[i].DateStamp));
 		Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
 
 		HighY += 17;

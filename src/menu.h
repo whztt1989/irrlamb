@@ -28,6 +28,8 @@ struct SaveLevelStruct;
 // Classes
 class _Menu {
 
+	friend class _PlayState;
+
 	public:
 
 		enum MenuType {
@@ -91,6 +93,7 @@ class _Menu {
 
 		// Level info
 		std::vector<const SaveLevelStruct *> LevelStats;
+		const SaveLevelStruct *WinStats;
 
 		// Key mapping
 		static const wchar_t *ActionNames[_Actions::COUNT];
