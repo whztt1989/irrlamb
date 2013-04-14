@@ -30,6 +30,7 @@ struct SaveLevelStruct;
 class _Menu {
 
 	friend class _PlayState;
+	friend class _NullState;
 
 	public:
 
@@ -49,7 +50,7 @@ class _Menu {
 			STATE_WIN
 		};
 
-		_Menu() { State = PreviousState = STATE_NONE; }
+		_Menu() { State = PreviousState = STATE_NONE; FirstStateLoad = true; }
 
 		void InitMain();
 		void InitSinglePlayer();

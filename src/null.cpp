@@ -47,6 +47,7 @@ _NullState NullState;
 int _NullState::Init() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
 
+	Menu.FirstStateLoad = true;
 	switch(State) {
 		case _Menu::STATE_LEVELS:
 			Menu.InitLevels();

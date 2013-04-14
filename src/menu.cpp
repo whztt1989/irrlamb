@@ -437,22 +437,10 @@ void _Menu::InitMain() {
 
 	// Button
 	int Y = CenterY - 50;
-	IGUIButton *ButtonSinglePlayer = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y, 130, 34), 0, MAIN_SINGLEPLAYER, L"Single Player");
-	IGUIButton *ButtonReplays = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 50, 130, 34), 0, MAIN_REPLAYS, L"Replays");
-	IGUIButton *ButtonOptions = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 100, 130, 34), 0, MAIN_OPTIONS, L"Options");
-	IGUIButton *ButtonQuit = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 150, 130, 34), 0, MAIN_QUIT, L"Quit");
-	ButtonSinglePlayer->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonSinglePlayer->setUseAlphaChannel(true);
-	ButtonSinglePlayer->setDrawBorder(false);
-	ButtonReplays->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonReplays->setUseAlphaChannel(true);
-	ButtonReplays->setDrawBorder(false);
-	ButtonOptions->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonOptions->setUseAlphaChannel(true);
-	ButtonOptions->setDrawBorder(false);
-	ButtonQuit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonQuit->setUseAlphaChannel(true);
-	ButtonQuit->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(CenterX, Y, 130, 34), MAIN_SINGLEPLAYER, L"Single Player");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, Y + 50, 130, 34), MAIN_REPLAYS, L"Replays");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, Y + 100, 130, 34), MAIN_OPTIONS, L"Options");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, Y + 150, 130, 34), MAIN_QUIT, L"Quit");
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -483,19 +471,13 @@ void _Menu::InitSinglePlayer() {
 	const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
 	for(u32 i = 0; i < Campaigns.size(); i++) {
 		irr::core::stringw Name(Campaigns[i].Name.c_str());
-		IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, PLAY_CAMPAIGNID + i, Name.c_str());
-		Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-		Button->setUseAlphaChannel(true);
-		Button->setDrawBorder(false);
+		IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X, Y, 130, 34), PLAY_CAMPAIGNID + i, Name.c_str());
 
 		Y += 40;
 	}
 
 	Y += 50;
-	IGUIButton *BackButton = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, SINGLEPLAYER_BACK, L"Back");
-	BackButton->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	BackButton->setUseAlphaChannel(true);
-	BackButton->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(X, Y, 130, 34), SINGLEPLAYER_BACK, L"Back");
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -559,10 +541,7 @@ void _Menu::InitLevels() {
 	// Buttons
 	X = CenterX;
 	Y = CenterY + 180;
-	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 82, 34), 0, LEVELS_BACK, L"Back");
-	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonBack->setUseAlphaChannel(true);
-	ButtonBack->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(X, Y, 82, 34), LEVELS_BACK, L"Back", _Interface::IMAGE_BUTTON80);
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -623,18 +602,9 @@ void _Menu::InitReplays() {
 
 	// Confirmations
 	Y += 160;
-	IGUIButton *ButtonGo = irrGUI->addButton(Interface.GetCenteredRect(X - 123, Y, 102, 34), 0, REPLAYS_GO, L"View");
-	IGUIButton *ButtonDelete = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 102, 34), 0, REPLAYS_DELETE, L"Delete");
-	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X + 123, Y, 102, 34), 0, REPLAYS_BACK, L"Back");
-	ButtonGo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonGo->setUseAlphaChannel(true);
-	ButtonGo->setDrawBorder(false);
-	ButtonDelete->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonDelete->setUseAlphaChannel(true);
-	ButtonDelete->setDrawBorder(false);
-	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonBack->setUseAlphaChannel(true);
-	ButtonBack->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(X - 123, Y, 102, 34), REPLAYS_GO, L"View", _Interface::IMAGE_BUTTON100);
+	AddMenuButton(Interface.GetCenteredRect(X, Y, 102, 34), REPLAYS_DELETE, L"Delete", _Interface::IMAGE_BUTTON100);
+	AddMenuButton(Interface.GetCenteredRect(X + 123, Y, 102, 34), REPLAYS_BACK, L"Back", _Interface::IMAGE_BUTTON100);
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -656,22 +626,10 @@ void _Menu::InitOptions() {
 	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 	// Buttons
-	IGUIButton *ButtonVideo = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 50, 130, 34), 0, OPTIONS_VIDEO, L"Video");
-	IGUIButton *ButtonAudio = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY, 130, 34), 0, OPTIONS_AUDIO, L"Audio");
-	IGUIButton *ButtonControls = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 50, 130, 34), 0, OPTIONS_CONTROLS, L"Controls");
-	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 100, 130, 34), 0, OPTIONS_BACK, L"Back");
-	ButtonVideo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonVideo->setUseAlphaChannel(true);
-	ButtonVideo->setDrawBorder(false);
-	ButtonAudio->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonAudio->setUseAlphaChannel(true);
-	ButtonAudio->setDrawBorder(false);
-	ButtonControls->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonControls->setUseAlphaChannel(true);
-	ButtonControls->setDrawBorder(false);
-	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-	ButtonBack->setUseAlphaChannel(true);
-	ButtonBack->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY - 50, 130, 34), OPTIONS_VIDEO, L"Video");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY, 130, 34), OPTIONS_AUDIO, L"Audio");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY + 50, 130, 34), OPTIONS_CONTROLS, L"Controls");
+	AddMenuButton(Interface.GetCenteredRect(CenterX, CenterY + 100, 130, 34), OPTIONS_BACK, L"Back");
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -727,14 +685,8 @@ void _Menu::InitVideo() {
 */
 	// Save
 	Y += 60;
-	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, VIDEO_SAVE, L"Save");
-	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, VIDEO_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonSave->setUseAlphaChannel(true);
-	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonCancel->setUseAlphaChannel(true);
-	ButtonCancel->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), VIDEO_SAVE, L"Save", _Interface::IMAGE_BUTTON80);
+	AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), VIDEO_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON80);
 
 	// Warning
 	Y += 40;
@@ -767,14 +719,8 @@ void _Menu::InitAudio() {
 
 	// Save
 	Y += 90;
-	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, AUDIO_SAVE, L"Save");
-	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, AUDIO_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonSave->setUseAlphaChannel(true);
-	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonCancel->setUseAlphaChannel(true);
-	ButtonCancel->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), AUDIO_SAVE, L"Save", _Interface::IMAGE_BUTTON80);
+	AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), AUDIO_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON80);
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -802,10 +748,7 @@ void _Menu::InitControls() {
 		CurrentKeys[i] = Config.Keys[i];
 		IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
 		Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
-		IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str());
-		Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-		Button->setUseAlphaChannel(true);
-		Button->setDrawBorder(false);
+		AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str(), _Interface::IMAGE_BUTTON80);
 
 		Y += 35;
 	}
@@ -817,14 +760,8 @@ void _Menu::InitControls() {
 	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, CONTROLS_INVERTMOUSE);
 
 	// Save
-	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), 0, CONTROLS_SAVE, L"Save");
-	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), 0, CONTROLS_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonSave->setUseAlphaChannel(true);
-	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonCancel->setUseAlphaChannel(true);
-	ButtonCancel->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), CONTROLS_SAVE, L"Save", _Interface::IMAGE_BUTTON80);
+	AddMenuButton(Interface.GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), CONTROLS_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON80);
 	
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -870,14 +807,8 @@ void _Menu::InitSaveReplay() {
 	// Draw interface
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(CenterX, CenterY - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
-	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_SAVE, L"Save");
-	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_CANCEL, L"Cancel");
-	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonSave->setUseAlphaChannel(true);
-	ButtonSave->setDrawBorder(false);
-	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-	ButtonCancel->setUseAlphaChannel(true);
-	ButtonCancel->setDrawBorder(false);
+	AddMenuButton(Interface.GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), SAVEREPLAY_SAVE, L"Save", _Interface::IMAGE_BUTTON80);
+	AddMenuButton(Interface.GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), SAVEREPLAY_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON80);
 
 	irrGUI->setFocus(EditName);
 	EditName->setMax(32);
