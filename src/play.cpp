@@ -149,7 +149,7 @@ bool _PlayState::HandleAction(int Action, float Value) {
 		return false;
 		
 	//printf("%d %f\n", Action, Value);
-
+	bool Processed = false;
 	if(!IsPaused()) {
 		switch(Action) {
 			case _Actions::JUMP:
@@ -189,10 +189,13 @@ bool _PlayState::HandleAction(int Action, float Value) {
 			break;
 		}
 	}
+	else {
+		Processed = Menu.HandleAction(Action, Value);
+	}
 
 	//printf("action press %d %f\n", Action, Value);
 
-	return Menu.HandleAction(Action, Value);
+	return Processed;
 }
 
 // Key presses

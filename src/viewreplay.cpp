@@ -131,7 +131,7 @@ bool _ViewReplayState::HandleAction(int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
 
-	return true;
+	return false;
 }
 
 // Mouse wheel
