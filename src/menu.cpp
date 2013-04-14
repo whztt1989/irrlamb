@@ -52,63 +52,19 @@ const wchar_t *_Menu::ActionNames[_Actions::COUNT] = {
 };
 
 enum GUIElements {
-	MAIN_SINGLEPLAYER,
-	MAIN_REPLAYS,
-	MAIN_OPTIONS,
-	MAIN_QUIT,
+	MAIN_SINGLEPLAYER, MAIN_REPLAYS, MAIN_OPTIONS, MAIN_QUIT,
 	SINGLEPLAYER_BACK,
-	LEVELS_GO,
-	LEVELS_BUY,
-	LEVELS_HIGHSCORES,
-	LEVELS_BACK,
-	LEVELS_SELECTEDLEVEL,
-	LEVELINFO_DESCRIPTION,
-	LEVELINFO_ATTEMPTS,
-	LEVELINFO_WINS,
-	LEVELINFO_LOSSES,
-	LEVELINFO_PLAYTIME,
-	LEVELINFO_BESTTIME,
-	REPLAYS_FILES,
-	REPLAYS_GO,
-	REPLAYS_DELETE,
-	REPLAYS_BACK,
-	OPTIONS_VIDEO,
-	OPTIONS_AUDIO,
-	OPTIONS_CONTROLS,
-	OPTIONS_BACK,
-	VIDEO_SAVE,
-	VIDEO_CANCEL,
-	VIDEO_VIDEOMODES,
-	VIDEO_FULLSCREEN,
-	VIDEO_SHADOWS,
-	VIDEO_SHADERS,
-	AUDIO_ENABLED,
-	AUDIO_SAVE,
-	AUDIO_CANCEL,
-	CONTROLS_SAVE,
-	CONTROLS_CANCEL,
-	CONTROLS_INVERTMOUSE,
-	CONTROLS_MOVEFORWARD,
-	CONTROLS_MOVEBACK,
-	CONTROLS_MOVELEFT,
-	CONTROLS_MOVERIGHT,
-	CONTROLS_MOVERESET,
-	CONTROLS_MOVEJUMP,
-	PAUSE_RESUME,
-	PAUSE_SAVEREPLAY,
-	PAUSE_RESTART,
-	PAUSE_OPTIONS,
-	PAUSE_QUITLEVEL,
-	SAVEREPLAY_NAME,
-	SAVEREPLAY_SAVE,
-	SAVEREPLAY_CANCEL,
-	LOSE_RESTARTLEVEL,
-	LOSE_SAVEREPLAY,
-	LOSE_MAINMENU,
-	WIN_RESTARTLEVEL,
-	WIN_NEXTLEVEL,
-	WIN_SAVEREPLAY,
-	WIN_MAINMENU,
+	LEVELS_GO, LEVELS_BUY, LEVELS_HIGHSCORES, LEVELS_BACK, LEVELS_SELECTEDLEVEL,
+	LEVELINFO_DESCRIPTION, LEVELINFO_ATTEMPTS, LEVELINFO_WINS, LEVELINFO_LOSSES, LEVELINFO_PLAYTIME, LEVELINFO_BESTTIME,
+	REPLAYS_FILES, REPLAYS_GO, REPLAYS_DELETE, REPLAYS_BACK,
+	OPTIONS_VIDEO, OPTIONS_AUDIO, OPTIONS_CONTROLS, OPTIONS_BACK,
+	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS,
+	AUDIO_ENABLED, AUDIO_SAVE, AUDIO_CANCEL,
+	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_MOVEFORWARD, CONTROLS_MOVEBACK, CONTROLS_MOVELEFT, CONTROLS_MOVERIGHT, CONTROLS_MOVERESET, CONTROLS_MOVEJUMP,
+	PAUSE_RESUME, PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
+	SAVEREPLAY_NAME, SAVEREPLAY_SAVE, SAVEREPLAY_CANCEL,
+	LOSE_RESTARTLEVEL, LOSE_SAVEREPLAY, LOSE_MAINMENU,
+	WIN_RESTARTLEVEL, WIN_NEXTLEVEL, WIN_SAVEREPLAY, WIN_MAINMENU,
 };
 
 // Handle action inputs
@@ -435,18 +391,6 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						InitPause();
 						*/
 				break;
-				/*case LOSE_RESTARTLEVEL:
-					PlayState.StartReset();
-				break;
-				case LOSE_SAVEREPLAY:
-					InitSaveReplay();
-				break;
-				case LOSE_MAINMENU:
-					if(PlayState.TestLevel == "")
-						Menu.InitLevels();
-					//Game.ChangeState(&Menu);
-				break;
-				*/
 				case WIN_RESTARTLEVEL:
 					PlayState.StartReset();
 				break;
@@ -483,6 +427,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 	}
 }
 
+// Create the main menu
 void _Menu::InitMain() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
 	Input.SetMouseLocked(false);
@@ -521,6 +466,7 @@ void _Menu::InitMain() {
 	State = STATE_MAIN;
 }
 
+// Create the single player menu
 void _Menu::InitSinglePlayer() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -560,6 +506,7 @@ void _Menu::InitSinglePlayer() {
 	State = STATE_SINGLEPLAYER;
 }
 
+// Create the levels menu
 void _Menu::InitLevels() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -627,6 +574,7 @@ void _Menu::InitLevels() {
 	State = STATE_LEVELS;
 }
 
+// Create the replay menu
 void _Menu::InitReplays() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -697,6 +645,7 @@ void _Menu::InitReplays() {
 	State = STATE_REPLAYS;
 }
 
+// Create the options menu
 void _Menu::InitOptions() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 	Interface.Clear();
@@ -730,6 +679,7 @@ void _Menu::InitOptions() {
 	State = STATE_OPTIONS;
 }
 
+// Create the video options menu
 void _Menu::InitVideo() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -796,6 +746,7 @@ void _Menu::InitVideo() {
 	State = STATE_VIDEO;
 }
 
+// Create the audio options menu
 void _Menu::InitAudio() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -829,6 +780,7 @@ void _Menu::InitAudio() {
 	State = STATE_AUDIO;
 }
 
+// Create the control options menu
 void _Menu::InitControls() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
@@ -929,22 +881,7 @@ void _Menu::InitSaveReplay() {
 
 // Create the lose screen
 void _Menu::InitLose() {
-/*	
-	// Update stats
-	if(TestLevel == "") {
-		Save.IncrementLevelLoseCount(Level.GetLevelFile());
-		Save.SaveLevelStats();
-	}
 
-	// Draw interface
-	irrGUI->clear();
-	IGUIStaticText *TextWin = irrGUI->addStaticText(L"You Lose", Interface.GetCenteredTextRect(L"You Lose", 0.15f, 0.20f), false, false, 0, -1, false);
-	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.3f, 0.2f, 0.05f), 0, LOSE_RESTARTLEVEL, L"Restart Level");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.4f, 0.2f, 0.05f), 0, LOSE_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.5f, 0.2f, 0.05f), 0, LOSE_MAINMENU, L"Main Menu");
-
-	Input.SetMouseLocked(false);
-*/
 	State = STATE_LOSE;
 }
 
