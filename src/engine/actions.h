@@ -41,58 +41,57 @@ struct _ActionMap {
 // Handles actions
 class _Actions {
 
-public:
+	public:
 	
-	enum Types {
-		MOVE_LEFT,
-		MOVE_RIGHT,
-		MOVE_FORWARD,
-		MOVE_BACK,
-		JUMP,
-		RESET,
-		CAMERA_LEFT,
-		CAMERA_RIGHT,
-		CAMERA_UP,
-		CAMERA_DOWN,
-		MENU_LEFT,
-		MENU_RIGHT,
-		MENU_UP,
-		MENU_DOWN,
-		MENU_GO,
-		MENU_BACK,
-		MENU_PAUSE,
-		CURSOR_LEFT,
-		CURSOR_RIGHT,
-		CURSOR_UP,
-		CURSOR_DOWN,
-		COUNT,
-	};
+		enum Types {
+			MOVE_LEFT,
+			MOVE_RIGHT,
+			MOVE_FORWARD,
+			MOVE_BACK,
+			JUMP,
+			RESET,
+			CAMERA_LEFT,
+			CAMERA_RIGHT,
+			CAMERA_UP,
+			CAMERA_DOWN,
+			MENU_LEFT,
+			MENU_RIGHT,
+			MENU_UP,
+			MENU_DOWN,
+			MENU_GO,
+			MENU_BACK,
+			MENU_PAUSE,
+			CURSOR_LEFT,
+			CURSOR_RIGHT,
+			CURSOR_UP,
+			CURSOR_DOWN,
+			COUNT,
+		};
 
-	_Actions();
+		_Actions();
 
-	void ResetState();
-	void ClearMappings();
+		void ResetState();
+		void ClearMappings();
 
-	// Actions
-	float GetState(int Action);
+		// Actions
+		float GetState(int Action);
 
-	// Maps
-	void AddInputMap(int InputType, int Input, int Action, float Scale=1.0f, bool IfNone=true);
-	bool FindInputForAction(int InputType, int Action);
+		// Maps
+		void AddInputMap(int InputType, int Input, int Action, float Scale=1.0f, bool IfNone=true);
+		bool FindInputForAction(int InputType, int Action);
 
-	// Handlers
-	void InputEvent(int InputType, int Input, float Value);
+		// Handlers
+		void InputEvent(int InputType, int Input, float Value);
 
-	// Config
-	void Serialize(tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
-	void Unserialize(tinyxml2::XMLElement *InputElement);
+		// Config
+		void Serialize(tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
+		void Unserialize(tinyxml2::XMLElement *InputElement);
 
-private:
+	private:
 
-	std::list<_ActionMap> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
-	std::list<_ActionMap>::iterator MapIterator;
+		std::list<_ActionMap> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
 
-	float State[ACTIONS_MAX];
+		float State[ACTIONS_MAX];
 };
 
 extern _Actions Actions;

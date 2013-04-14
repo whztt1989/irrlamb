@@ -65,7 +65,7 @@ void _Actions::AddInputMap(int InputType, int Input, int Action, float Scale, bo
 // Find an existing input mapping for an action
 bool _Actions::FindInputForAction(int InputType, int Action) {
 	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
-		for(MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
+		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
 			if(MapIterator->Action == Action) {
 				return true;
 			}
@@ -80,7 +80,7 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 	if(Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
 
-	for(MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
+	for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
 		State[MapIterator->Action] = Value;
 		Game.GetState()->HandleAction(MapIterator->Action, Value * MapIterator->Scale);
 	}
@@ -90,7 +90,7 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < _Input::INPUT_COUNT; i++) {
 		for(int j = 0; j < ACTIONS_MAXINPUTS; j++) {
-			for(MapIterator = InputMap[i][j].begin(); MapIterator != InputMap[i][j].end(); MapIterator++) {
+			for(std::list<_ActionMap>::iterator MapIterator = InputMap[i][j].begin(); MapIterator != InputMap[i][j].end(); MapIterator++) {
 				XMLElement *Element = Document.NewElement("map");
 				Element->SetAttribute("type", i);
 				Element->SetAttribute("input", j);

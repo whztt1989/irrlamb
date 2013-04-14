@@ -110,8 +110,8 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 		Config.Shaders = false;
 	}
 
-	Input.SetMouseX(Width / 2);
-	Input.SetMouseY(Height / 2);
+	Input.SetMouseX(Width / 2.0f);
+	Input.SetMouseY(Height / 2.0f);
 
 	irrDevice->getCursorControl()->setPosition(Width / 2, Height / 2);
 
@@ -140,7 +140,7 @@ void _Graphics::EndFrame() {
 	
 	// Draw cursor
 	if(ShowCursor)
-		Interface.DrawImage(_Interface::IMAGE_MOUSECURSOR, Input.GetMouseX(), Input.GetMouseY(), 16, 16);
+		Interface.DrawImage(_Interface::IMAGE_MOUSECURSOR, (int)Input.GetMouseX(), (int)Input.GetMouseY(), 16, 16);
 
 	Fader.Draw();
 	irrDriver->endScene();
