@@ -28,63 +28,23 @@ class _Camera;
 struct SaveLevelStruct;
 
 // Classes
-class _PlayState : public _State {
-	friend class _Menu;
+class _NullState : public _State {
 
 	public:
-
-		enum StateType {
-			STATE_PLAY,
-			STATE_PAUSED,
-			STATE_SAVEREPLAY,
-			STATE_LOSE,
-			STATE_WIN
-		};
-
+	
 		int Init();
 		int Close();
 
 		void HandleAction(int Action, float Value);
 		bool HandleKeyPress(int Key);
-		bool HandleMousePress(int Button, int MouseX, int MouseY);
-		void HandleMouseLift(int Button, int MouseX, int MouseY);
-		void HandleMouseWheel(float Direction);
 		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 
 		void Update(float FrameTime);
 		void UpdateRender(float TimeStepRemainder);
 		void Draw();
-		
-		void StartReset();
-		void ResetLevel();
-
-		void SetTestLevel(const std::string &Level) { TestLevel = Level; }
-		void SetCampaign(int Value) { CurrentCampaign = Value; }
-		void SetCampaignLevel(int Value) { CampaignLevel = Value; }
-
-		_Camera *GetCamera() { return Camera; }
-		float GetTimer() { return Timer; }
 
 	private:
-
-		// States
-		int State, TargetState;
-		std::string TestLevel;
-		float Timer;
-		bool Resetting;
-
-		// HUD
-		bool ShowHUD;
-
-		// Campaign
-		int CurrentCampaign, CampaignLevel;
-
-		// High scores
-		const SaveLevelStruct *WinStats;
-
-		// Objects
-		_Player *Player;
-		_Camera *Camera;
+		
 };
 
-extern _PlayState PlayState;
+extern _NullState NullState;

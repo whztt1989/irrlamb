@@ -26,17 +26,22 @@
 #include <engine/game.h>
 #include <engine/save.h>
 #include <engine/campaign.h>
+#include <engine/level.h>
+#include <engine/save.h>
 #include <viewreplay.h>
 #include <play.h>
 #include <engine/namespace.h>
 
-_MenuState MenuState;
+_Menu Menu;
 
 const int CAMPAIGN_LEVELID = 1000;
 const int PLAY_CAMPAIGNID = 900;
 
+const int WIN_WIDTH = 430;
+const int WIN_HEIGHT = 350;
+
 // List of action names
-const wchar_t *_MenuState::ActionNames[_Actions::COUNT] = {
+const wchar_t *_Menu::ActionNames[_Actions::COUNT] = {
 	L"Move Left",
 	L"Move Right",
 	L"Move Forward",
@@ -45,30 +50,67 @@ const wchar_t *_MenuState::ActionNames[_Actions::COUNT] = {
 	L"Restart Level",
 };
 
-// Initializes the state
-int _MenuState::Init() {
-
-	Interface.ChangeSkin(_Interface::SKIN_MENU);
-	Input.SetMouseLocked(false);
-
-	State = STATE_INITMAIN;
-	FirstStateLoad = true;
-	if(TargetState != STATE_NONE) {
-		State = TargetState;
-		TargetState = STATE_NONE;
-	}
-
-	return 1;
-}
-
-// Shuts the state down
-int _MenuState::Close() {
-
-	return 1;
-}
+enum GUIElements {
+	MAIN_SINGLEPLAYER,
+	MAIN_REPLAYS,
+	MAIN_OPTIONS,
+	MAIN_QUIT,
+	SINGLEPLAYER_BACK,
+	LEVELS_GO,
+	LEVELS_BUY,
+	LEVELS_HIGHSCORES,
+	LEVELS_BACK,
+	LEVELS_SELECTEDLEVEL,
+	LEVELINFO_DESCRIPTION,
+	LEVELINFO_ATTEMPTS,
+	LEVELINFO_WINS,
+	LEVELINFO_LOSSES,
+	LEVELINFO_PLAYTIME,
+	LEVELINFO_BESTTIME,
+	REPLAYS_FILES,
+	REPLAYS_GO,
+	REPLAYS_DELETE,
+	REPLAYS_BACK,
+	OPTIONS_VIDEO,
+	OPTIONS_AUDIO,
+	OPTIONS_CONTROLS,
+	OPTIONS_BACK,
+	VIDEO_SAVE,
+	VIDEO_CANCEL,
+	VIDEO_VIDEOMODES,
+	VIDEO_FULLSCREEN,
+	VIDEO_SHADOWS,
+	VIDEO_SHADERS,
+	AUDIO_ENABLED,
+	AUDIO_SAVE,
+	AUDIO_CANCEL,
+	CONTROLS_SAVE,
+	CONTROLS_CANCEL,
+	CONTROLS_INVERTMOUSE,
+	CONTROLS_MOVEFORWARD,
+	CONTROLS_MOVEBACK,
+	CONTROLS_MOVELEFT,
+	CONTROLS_MOVERIGHT,
+	CONTROLS_MOVERESET,
+	CONTROLS_MOVEJUMP,
+	PAUSE_RESUME,
+	PAUSE_SAVEREPLAY,
+	PAUSE_RESTART,
+	PAUSE_MAINMENU,
+	SAVEREPLAY_NAME,
+	SAVEREPLAY_SAVE,
+	SAVEREPLAY_CANCEL,
+	LOSE_RESTARTLEVEL,
+	LOSE_SAVEREPLAY,
+	LOSE_MAINMENU,
+	WIN_RESTARTLEVEL,
+	WIN_NEXTLEVEL,
+	WIN_SAVEREPLAY,
+	WIN_MAINMENU,
+};
 
 // Handle action inputs
-void _MenuState::HandleAction(int Action, float Value) {
+void _Menu::HandleAction(int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
 
@@ -81,25 +123,17 @@ void _MenuState::HandleAction(int Action, float Value) {
 						Game.SetDone(true);
 					break;
 					case STATE_SINGLEPLAYER:
-						State = STATE_INITMAIN;
+					case STATE_OPTIONS:
+					case STATE_REPLAYS:
+						InitMain();
 					break;
 					case STATE_LEVELS:
-						State = STATE_INITSINGLEPLAYER;
-					break;
-					case STATE_REPLAYS:
-						State = STATE_INITMAIN;
-					break;
-					case STATE_OPTIONS:
-						State = STATE_INITMAIN;
+						InitSinglePlayer();
 					break;
 					case STATE_VIDEO:
-						State = STATE_INITOPTIONS;
-					break;
 					case STATE_AUDIO:
-						State = STATE_INITOPTIONS;
-					break;
 					case STATE_CONTROLS:
-						State = STATE_INITOPTIONS;
+						InitOptions();
 					break;
 				}
 			break;
@@ -108,14 +142,14 @@ void _MenuState::HandleAction(int Action, float Value) {
 }
 
 // Key presses
-bool _MenuState::HandleKeyPress(int Key) {
+bool _Menu::HandleKeyPress(int Key) {
 
 	bool Processed = true;
 	switch(State) {
 		case STATE_MAIN:
 			switch(Key) {
 				case KEY_RETURN:
-					State = STATE_INITSINGLEPLAYER;
+					InitSinglePlayer();
 				break;
 				default:
 					Processed = false;
@@ -125,7 +159,7 @@ bool _MenuState::HandleKeyPress(int Key) {
 		case STATE_SINGLEPLAYER:
 			switch(Key) {
 				case KEY_RETURN:
-					State = STATE_INITLEVELS;
+					InitLevels();
 				break;
 				default:
 					Processed = false;
@@ -167,7 +201,7 @@ bool _MenuState::HandleKeyPress(int Key) {
 			else {
 				switch(Key) {
 					case KEY_ESCAPE:
-						State = STATE_INITOPTIONS;
+						InitOptions();
 					break;
 					default:
 						Processed = false;
@@ -181,31 +215,31 @@ bool _MenuState::HandleKeyPress(int Key) {
 }
 
 // Handles GUI events
-void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
+void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
 
 	switch(EventType) {
 		case EGET_BUTTON_CLICKED:
 			switch(Element->getID()) {
 				case MAIN_SINGLEPLAYER:
-					State = STATE_INITSINGLEPLAYER;
+					InitSinglePlayer();
 				break;
 				case MAIN_REPLAYS:
-					State = STATE_INITREPLAYS;
+					InitReplays();
 				break;
 				case MAIN_OPTIONS:
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				break;
 				case MAIN_QUIT:
 					Game.SetDone(true);
 				break;
 				case SINGLEPLAYER_BACK:
-					State = STATE_INITMAIN;
+					InitMain();
 				break;
 				case LEVELS_GO:
 					LaunchLevel();
 				break;
 				case LEVELS_BACK:
-					State = STATE_INITSINGLEPLAYER;
+					InitSinglePlayer();
 				break;
 				case REPLAYS_GO:
 					LaunchReplay();
@@ -227,19 +261,19 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 				}
 				break;
 				case REPLAYS_BACK:
-					State = STATE_INITMAIN;
+					InitMain();
 				break;
 				case OPTIONS_VIDEO:
-					State = STATE_INITVIDEO;
+					InitVideo();
 				break;
 				case OPTIONS_AUDIO:
-					State = STATE_INITAUDIO;
+					InitAudio();
 				break;
 				case OPTIONS_CONTROLS:
-					State = STATE_INITCONTROLS;
+					InitControls();
 				break;
 				case OPTIONS_BACK:
-					State = STATE_INITMAIN;
+					InitMain();
 				break;
 				case VIDEO_SAVE: {
 					
@@ -267,11 +301,11 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 					// Write config
 					Config.WriteConfig();
 
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				}
 				break;
 				case VIDEO_CANCEL:
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				break;
 				case AUDIO_SAVE: {
 					bool OldAudioEnabled = Config.AudioEnabled;
@@ -293,11 +327,11 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 							Game.DisableAudio();
 					}
 
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				}
 				break;
 				case AUDIO_CANCEL:
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				break;
 				case CONTROLS_SAVE: {
 
@@ -311,11 +345,11 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 
 					Config.WriteConfig();
 
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				}
 				break;
 				case CONTROLS_CANCEL:
-					State = STATE_INITOPTIONS;
+					InitOptions();
 				break;
 				case CONTROLS_MOVEFORWARD:
 				case CONTROLS_MOVEBACK:
@@ -339,9 +373,64 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 					}
 					else if(Element->getID() >= PLAY_CAMPAIGNID) {
 						CampaignIndex = Element->getID() - PLAY_CAMPAIGNID;
-						State = STATE_INITLEVELS;
+						InitLevels();
 					}
 				}
+				break;
+				case PAUSE_RESUME:
+					InitPlay();
+				break;
+				case PAUSE_SAVEREPLAY:
+					PlayState.TargetState = STATE_PAUSED;
+					InitSaveReplay();
+				break;
+				case PAUSE_RESTART:
+					PlayState.StartReset();
+				break;
+				case PAUSE_MAINMENU:
+					if(PlayState.TestLevel == "")
+						Menu.InitLevels();
+					//Game.ChangeState(&Menu);
+				break;
+				case SAVEREPLAY_SAVE:
+					SaveReplay();
+				break;
+				case SAVEREPLAY_CANCEL:
+					if(PlayState.TargetState == STATE_WIN)
+						InitWin();
+					else if(PlayState.TargetState == STATE_LOSE)
+						InitLose();
+					else
+						InitPause();
+				break;
+				case LOSE_RESTARTLEVEL:
+					PlayState.StartReset();
+				break;
+				case LOSE_SAVEREPLAY:
+					PlayState.TargetState = STATE_LOSE;
+					InitSaveReplay();
+				break;
+				case LOSE_MAINMENU:
+					if(PlayState.TestLevel == "")
+						Menu.InitLevels();
+					//Game.ChangeState(&Menu);
+				break;
+				case WIN_RESTARTLEVEL:
+					PlayState.StartReset();
+				break;
+				case WIN_NEXTLEVEL:
+					if(PlayState.CampaignLevel+1 < Campaign.GetLevelCount(PlayState.CurrentCampaign))
+						PlayState.CampaignLevel++;
+					Game.ChangeState(&PlayState);
+				break;
+				case WIN_SAVEREPLAY:
+					PlayState.TargetState = STATE_WIN;
+					InitSaveReplay();
+				break;
+				case WIN_MAINMENU:
+					if(PlayState.TestLevel == "")
+						Menu.InitLevels();
+					//Game.ChangeState(&Menu);
 				break;
 			}
 		break;
@@ -364,414 +453,580 @@ void _MenuState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Ele
 	}
 }
 
-// Updates the current state
-void _MenuState::Update(float FrameTime) {
+void _Menu::InitMain() {
+	Interface.ChangeSkin(_Interface::SKIN_MENU);
+	Input.SetMouseLocked(false);
+
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
+	Interface.Clear();
+
+	// Logo
+	irrGUI->addImage(irrDriver->getTexture("art/logo.jpg"), position2di(CenterX - 256, CenterY - 215));
+	IGUIStaticText *TextVersion = irrGUI->addStaticText(stringw(GAME_VERSION).c_str(), Interface.GetCenteredRect(40, irrDriver->getScreenSize().Height - 20, 50, 15), false, false);
+
+	// Button
+	int Y = CenterY - 50;
+	IGUIButton *ButtonSinglePlayer = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y, 130, 34), 0, MAIN_SINGLEPLAYER, L"Single Player");
+	IGUIButton *ButtonReplays = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 50, 130, 34), 0, MAIN_REPLAYS, L"Replays");
+	IGUIButton *ButtonOptions = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 100, 130, 34), 0, MAIN_OPTIONS, L"Options");
+	IGUIButton *ButtonQuit = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 150, 130, 34), 0, MAIN_QUIT, L"Quit");
+	ButtonSinglePlayer->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonSinglePlayer->setUseAlphaChannel(true);
+	ButtonSinglePlayer->setDrawBorder(false);
+	ButtonReplays->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonReplays->setUseAlphaChannel(true);
+	ButtonReplays->setDrawBorder(false);
+	ButtonOptions->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonOptions->setUseAlphaChannel(true);
+	ButtonOptions->setDrawBorder(false);
+	ButtonQuit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonQuit->setUseAlphaChannel(true);
+	ButtonQuit->setDrawBorder(false);
+
+	// Play sound
+	if(!FirstStateLoad)
+		Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	FirstStateLoad = false;
+
+	State = STATE_MAIN;
+}
+
+void _Menu::InitSinglePlayer() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
-	switch(State) {
-		case STATE_INITMAIN: {
-			Interface.Clear();
+	Interface.Clear();
 
-			// Logo
-			irrGUI->addImage(irrDriver->getTexture("art/logo.jpg"), position2di(CenterX - 256, CenterY - 215));
-			IGUIStaticText *TextVersion = irrGUI->addStaticText(stringw(GAME_VERSION).c_str(), Interface.GetCenteredRect(40, irrDriver->getScreenSize().Height - 20, 50, 15), false, false);
+	// Reset menu variables
+	CampaignIndex = 0;
+	SelectedLevel = -1;
 
-			// Button
-			int Y = CenterY - 50;
-			IGUIButton *ButtonSinglePlayer = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y, 130, 34), 0, MAIN_SINGLEPLAYER, L"Single Player");
-			IGUIButton *ButtonReplays = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 50, 130, 34), 0, MAIN_REPLAYS, L"Replays");
-			IGUIButton *ButtonOptions = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 100, 130, 34), 0, MAIN_OPTIONS, L"Options");
-			IGUIButton *ButtonQuit = irrGUI->addButton(Interface.GetCenteredRect(CenterX, Y + 150, 130, 34), 0, MAIN_QUIT, L"Quit");
-			ButtonSinglePlayer->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonSinglePlayer->setUseAlphaChannel(true);
-			ButtonSinglePlayer->setDrawBorder(false);
-			ButtonReplays->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonReplays->setUseAlphaChannel(true);
-			ButtonReplays->setDrawBorder(false);
-			ButtonOptions->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonOptions->setUseAlphaChannel(true);
-			ButtonOptions->setDrawBorder(false);
-			ButtonQuit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonQuit->setUseAlphaChannel(true);
-			ButtonQuit->setDrawBorder(false);
+	// Text
+	X = CenterX, Y = CenterY - 150;
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Level Sets", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-			// Play sound
-			if(!FirstStateLoad)
-				Interface.PlaySound(_Interface::SOUND_CONFIRM);
-			FirstStateLoad = false;
+	// Campaigns
+	Y += 50;
+	const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
+	for(u32 i = 0; i < Campaigns.size(); i++) {
+		irr::core::stringw Name(Campaigns[i].Name.c_str());
+		IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, PLAY_CAMPAIGNID + i, Name.c_str());
+		Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+		Button->setUseAlphaChannel(true);
+		Button->setDrawBorder(false);
 
-			State = STATE_MAIN;
-		}
-		break;
-		case STATE_MAIN:
-		break;
-		case STATE_INITSINGLEPLAYER: {
-			Interface.Clear();
+		Y += 40;
+	}
 
-			// Reset menu variables
-			CampaignIndex = 0;
-			SelectedLevel = -1;
+	Y += 50;
+	IGUIButton *BackButton = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, SINGLEPLAYER_BACK, L"Back");
+	BackButton->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	BackButton->setUseAlphaChannel(true);
+	BackButton->setDrawBorder(false);
 
-			// Text
-			X = CenterX, Y = CenterY - 150;
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Level Sets", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	// Play sound
+	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
-			// Campaigns
-			Y += 50;
-			const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
-			for(u32 i = 0; i < Campaigns.size(); i++) {
-				irr::core::stringw Name(Campaigns[i].Name.c_str());
-				IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, PLAY_CAMPAIGNID + i, Name.c_str());
-				Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-				Button->setUseAlphaChannel(true);
-				Button->setDrawBorder(false);
+	State = STATE_SINGLEPLAYER;
+}
 
-				Y += 40;
-			}
+void _Menu::InitLevels() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	Interface.Clear();
+	LevelStats.clear();
+	SelectedLevel = -1;
+	X = CenterX, Y = CenterY - 190;
 
-			Y += 50;
-			IGUIButton *BackButton = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 130, 34), 0, SINGLEPLAYER_BACK, L"Back");
-			BackButton->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			BackButton->setUseAlphaChannel(true);
-			BackButton->setDrawBorder(false);
+	// Text
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Levels", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-			// Play sound
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
-
-			State = STATE_SINGLEPLAYER;
-		}
-		break;
-		case STATE_SINGLEPLAYER:
-		break;
-		case STATE_INITLEVELS: {
-			Interface.Clear();
-			LevelStats.clear();
-			SelectedLevel = -1;
-			X = CenterX, Y = CenterY - 190;
-
-			// Text
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Levels", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
-
-			// Add level list
-			X = CenterX - 160;
-			Y += 60;
-			int Column = 0, Row = 0;
-			const CampaignStruct &CampaignData = Campaign.GetCampaign(CampaignIndex);
-			for(u32 i = 0; i < CampaignData.Levels.size(); i++) {
-				bool Unlocked = true;
+	// Add level list
+	X = CenterX - 160;
+	Y += 60;
+	int Column = 0, Row = 0;
+	const CampaignStruct &CampaignData = Campaign.GetCampaign(CampaignIndex);
+	for(u32 i = 0; i < CampaignData.Levels.size(); i++) {
+		bool Unlocked = true;
 				
-				// Get level stats
-				const SaveLevelStruct *Stats = Save.GetLevelStats(CampaignData.Levels[i].File);
-				LevelStats.push_back(Stats);
+		// Get level stats
+		const SaveLevelStruct *Stats = Save.GetLevelStats(CampaignData.Levels[i].File);
+		LevelStats.push_back(Stats);
 
-				// Set unlocked status
-				if(Stats->Unlocked == 0) {
-					Unlocked = false;
+		// Set unlocked status
+		if(Stats->Unlocked == 0) {
+			Unlocked = false;
 
-					// Unlock the level if it's always unlocked in the campaign
-					if(CampaignData.Levels[i].Unlocked) {
-						Save.UnlockLevel(CampaignData.Levels[i].File);
-						Unlocked = true;
-					}
-				}				
-
-				// Add button
-				IGUIButton *Level = irrGUI->addButton(Interface.GetCenteredRect(X + Column * 80, Y + Row * 80, 64, 64), 0, CAMPAIGN_LEVELID + i);
-
-				// Set thumbnail
-				if(Unlocked)
-					Level->setImage(irrDriver->getTexture((CampaignData.Levels[i].DataPath + "icon.jpg").c_str()));
-				else
-					Level->setImage(irrDriver->getTexture("art/locked.png"));
-
-				Column++;
-				if(Column >= 5) {
-					Column = 0;
-					Row++;
-				}
+			// Unlock the level if it's always unlocked in the campaign
+			if(CampaignData.Levels[i].Unlocked) {
+				Save.UnlockLevel(CampaignData.Levels[i].File);
+				Unlocked = true;
 			}
+		}				
 
-			// Buttons
-			X = CenterX;
-			Y = CenterY + 180;
-			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 82, 34), 0, LEVELS_BACK, L"Back");
-			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonBack->setUseAlphaChannel(true);
-			ButtonBack->setDrawBorder(false);
+		// Add button
+		IGUIButton *Level = irrGUI->addButton(Interface.GetCenteredRect(X + Column * 80, Y + Row * 80, 64, 64), 0, CAMPAIGN_LEVELID + i);
 
-			// Play sound
-			if(!FirstStateLoad)
-				Interface.PlaySound(_Interface::SOUND_CONFIRM);
-			FirstStateLoad = false;
+		// Set thumbnail
+		if(Unlocked)
+			Level->setImage(irrDriver->getTexture((CampaignData.Levels[i].DataPath + "icon.jpg").c_str()));
+		else
+			Level->setImage(irrDriver->getTexture("art/locked.png"));
 
-			State = STATE_LEVELS;
+		Column++;
+		if(Column >= 5) {
+			Column = 0;
+			Row++;
 		}
-		break;
-		case STATE_LEVELS:
-		break;
-		case STATE_INITREPLAYS: {
-			Interface.Clear();
-			char Buffer[256];
+	}
 
-			// Text
-			X = CenterX, Y = CenterY - 180;
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Replays", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	// Buttons
+	X = CenterX;
+	Y = CenterY + 180;
+	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 82, 34), 0, LEVELS_BACK, L"Back");
+	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonBack->setUseAlphaChannel(true);
+	ButtonBack->setDrawBorder(false);
 
-			// Level selection
-			Y += 160;
-			IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 450, 250), 0, REPLAYS_FILES, true);
+	// Play sound
+	if(!FirstStateLoad)
+		Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	FirstStateLoad = false;
 
-			// Change directories
-			std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
-			irrFile->changeWorkingDirectoryTo(Save.GetReplayPath().c_str());
+	State = STATE_LEVELS;
+}
 
-			// Get a list of replays
-			IFileList *FileList = irrFile->createFileList();
-			u32 FileCount = FileList->getFileCount();
-			ReplayFiles.clear();
-			for(u32 i = 0; i < FileCount; i++) {
-				if(!FileList->isDirectory(i) && FileList->getFileName(i).find(".replay") != -1) {
-					ReplayFiles.push_back(FileList->getFileName(i).c_str());
-				}
-			}
-			irrFile->changeWorkingDirectoryTo(OldWorkingDirectory.c_str());
+void _Menu::InitReplays() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	Interface.Clear();
+	char Buffer[256];
 
-			// Add replays to menu list
-			for(u32 i = 0; i < ReplayFiles.size(); i++) {
-				bool Loaded = Replay.LoadReplay(ReplayFiles[i].c_str(), true);
-				if(Loaded && Replay.GetVersion() == REPLAY_VERSION) {
+	// Text
+	X = CenterX, Y = CenterY - 180;
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Replays", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-					// Get time string
-					Interface.ConvertSecondsToString(Replay.GetFinishTime(), Buffer);
+	// Level selection
+	Y += 160;
+	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 450, 250), 0, REPLAYS_FILES, true);
 
-					// Build replay string
-					std::string ReplayInfo = ReplayFiles[i] + std::string(" - ") + Replay.GetLevelName()
-											+ std::string(" - ") + Replay.GetDescription() + std::string(" - ") + Buffer;
+	// Change directories
+	std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
+	irrFile->changeWorkingDirectoryTo(Save.GetReplayPath().c_str());
 
-					irr::core::stringw ReplayString(ReplayInfo.c_str());
-					ListReplays->addItem(ReplayString.c_str());
-				}
-			}
-
-			// Confirmations
-			Y += 160;
-			IGUIButton *ButtonGo = irrGUI->addButton(Interface.GetCenteredRect(X - 123, Y, 102, 34), 0, REPLAYS_GO, L"View");
-			IGUIButton *ButtonDelete = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 102, 34), 0, REPLAYS_DELETE, L"Delete");
-			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X + 123, Y, 102, 34), 0, REPLAYS_BACK, L"Back");
-			ButtonGo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-			ButtonGo->setUseAlphaChannel(true);
-			ButtonGo->setDrawBorder(false);
-			ButtonDelete->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-			ButtonDelete->setUseAlphaChannel(true);
-			ButtonDelete->setDrawBorder(false);
-			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-			ButtonBack->setUseAlphaChannel(true);
-			ButtonBack->setDrawBorder(false);
-
-			// Play sound
-			if(!FirstStateLoad)
-				Interface.PlaySound(_Interface::SOUND_CONFIRM);
-			FirstStateLoad = false;
-
-			State = STATE_REPLAYS;
+	// Get a list of replays
+	IFileList *FileList = irrFile->createFileList();
+	u32 FileCount = FileList->getFileCount();
+	ReplayFiles.clear();
+	for(u32 i = 0; i < FileCount; i++) {
+		if(!FileList->isDirectory(i) && FileList->getFileName(i).find(".replay") != -1) {
+			ReplayFiles.push_back(FileList->getFileName(i).c_str());
 		}
-		break;
-		case STATE_REPLAYS:
-		break;
-		case STATE_INITOPTIONS:	{
-			Interface.Clear();
+	}
+	irrFile->changeWorkingDirectoryTo(OldWorkingDirectory.c_str());
+
+	// Add replays to menu list
+	for(u32 i = 0; i < ReplayFiles.size(); i++) {
+		bool Loaded = Replay.LoadReplay(ReplayFiles[i].c_str(), true);
+		if(Loaded && Replay.GetVersion() == REPLAY_VERSION) {
+
+			// Get time string
+			Interface.ConvertSecondsToString(Replay.GetFinishTime(), Buffer);
+
+			// Build replay string
+			std::string ReplayInfo = ReplayFiles[i] + std::string(" - ") + Replay.GetLevelName()
+									+ std::string(" - ") + Replay.GetDescription() + std::string(" - ") + Buffer;
+
+			irr::core::stringw ReplayString(ReplayInfo.c_str());
+			ListReplays->addItem(ReplayString.c_str());
+		}
+	}
+
+	// Confirmations
+	Y += 160;
+	IGUIButton *ButtonGo = irrGUI->addButton(Interface.GetCenteredRect(X - 123, Y, 102, 34), 0, REPLAYS_GO, L"View");
+	IGUIButton *ButtonDelete = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 102, 34), 0, REPLAYS_DELETE, L"Delete");
+	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(X + 123, Y, 102, 34), 0, REPLAYS_BACK, L"Back");
+	ButtonGo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonGo->setUseAlphaChannel(true);
+	ButtonGo->setDrawBorder(false);
+	ButtonDelete->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonDelete->setUseAlphaChannel(true);
+	ButtonDelete->setDrawBorder(false);
+	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonBack->setUseAlphaChannel(true);
+	ButtonBack->setDrawBorder(false);
+
+	// Play sound
+	if(!FirstStateLoad)
+		Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	FirstStateLoad = false;
+
+	State = STATE_REPLAYS;
+}
+
+void _Menu::InitOptions() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
+	Interface.Clear();
 			
-			// Text
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Options", Interface.GetCenteredRect(CenterX, CenterY - 120, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	// Text
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Options", Interface.GetCenteredRect(CenterX, CenterY - 120, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-			// Buttons
-			IGUIButton *ButtonVideo = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 50, 130, 34), 0, OPTIONS_VIDEO, L"Video");
-			IGUIButton *ButtonAudio = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY, 130, 34), 0, OPTIONS_AUDIO, L"Audio");
-			IGUIButton *ButtonControls = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 50, 130, 34), 0, OPTIONS_CONTROLS, L"Controls");
-			IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 100, 130, 34), 0, OPTIONS_BACK, L"Back");
-			ButtonVideo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonVideo->setUseAlphaChannel(true);
-			ButtonVideo->setDrawBorder(false);
-			ButtonAudio->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonAudio->setUseAlphaChannel(true);
-			ButtonAudio->setDrawBorder(false);
-			ButtonControls->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonControls->setUseAlphaChannel(true);
-			ButtonControls->setDrawBorder(false);
-			ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
-			ButtonBack->setUseAlphaChannel(true);
-			ButtonBack->setDrawBorder(false);
+	// Buttons
+	IGUIButton *ButtonVideo = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 50, 130, 34), 0, OPTIONS_VIDEO, L"Video");
+	IGUIButton *ButtonAudio = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY, 130, 34), 0, OPTIONS_AUDIO, L"Audio");
+	IGUIButton *ButtonControls = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 50, 130, 34), 0, OPTIONS_CONTROLS, L"Controls");
+	IGUIButton *ButtonBack = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 100, 130, 34), 0, OPTIONS_BACK, L"Back");
+	ButtonVideo->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonVideo->setUseAlphaChannel(true);
+	ButtonVideo->setDrawBorder(false);
+	ButtonAudio->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonAudio->setUseAlphaChannel(true);
+	ButtonAudio->setDrawBorder(false);
+	ButtonControls->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonControls->setUseAlphaChannel(true);
+	ButtonControls->setDrawBorder(false);
+	ButtonBack->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonBack->setUseAlphaChannel(true);
+	ButtonBack->setDrawBorder(false);
 
-			// Play sound
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	// Play sound
+	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
-			State = STATE_OPTIONS;
-		}
-		break;
-		case STATE_OPTIONS:
-		break;
-		case STATE_INITVIDEO: {
-			Interface.Clear();
+	State = STATE_OPTIONS;
+}
 
-			// Text
-			X = CenterX, Y = CenterY - 150;
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Video", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+void _Menu::InitVideo() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	Interface.Clear();
 
-			// Video modes
-			Y += 40;
-			const std::vector<VideoModeStruct> &ModeList = Graphics.GetVideoModes();
-			if(ModeList.size() > 0) {
-				IGUIStaticText *TextScreenResolution = irrGUI->addStaticText(L"Screen Resolution", Interface.GetCenteredRect(X - 65, Y, 110, 25));
-				TextScreenResolution->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-				IGUIComboBox *ListScreenResolution = irrGUI->addComboBox(Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_VIDEOMODES);
+	// Text
+	X = CenterX, Y = CenterY - 150;
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Video", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-				// Populate mode list
-				for(u32 i = 0; i < ModeList.size(); i++)
-					ListScreenResolution->addItem(ModeList[i].String.c_str());
-				ListScreenResolution->setSelected(Graphics.GetCurrentVideoModeIndex());
-			}
+	// Video modes
+	Y += 40;
+	const std::vector<VideoModeStruct> &ModeList = Graphics.GetVideoModes();
+	if(ModeList.size() > 0) {
+		IGUIStaticText *TextScreenResolution = irrGUI->addStaticText(L"Screen Resolution", Interface.GetCenteredRect(X - 65, Y, 110, 25));
+		TextScreenResolution->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+		IGUIComboBox *ListScreenResolution = irrGUI->addComboBox(Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_VIDEOMODES);
+
+		// Populate mode list
+		for(u32 i = 0; i < ModeList.size(); i++)
+			ListScreenResolution->addItem(ModeList[i].String.c_str());
+		ListScreenResolution->setSelected(Graphics.GetCurrentVideoModeIndex());
+	}
 				
-			// Full Screen
-			Y += 30;
-			IGUIStaticText *TextFullscreen = irrGUI->addStaticText(L"Fullscreen", Interface.GetCenteredRect(X - 65, Y, 110, 25));
-			TextFullscreen->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_FULLSCREEN);
+	// Full Screen
+	Y += 30;
+	IGUIStaticText *TextFullscreen = irrGUI->addStaticText(L"Fullscreen", Interface.GetCenteredRect(X - 65, Y, 110, 25));
+	TextFullscreen->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_FULLSCREEN);
 
-			// Shadows
-			Y += 30;
-			IGUIStaticText *TextShadows = irrGUI->addStaticText(L"Shadows", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
-			TextShadows->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADOWS);
+	// Shadows
+	Y += 30;
+	IGUIStaticText *TextShadows = irrGUI->addStaticText(L"Shadows", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
+	TextShadows->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADOWS);
 /*
-			// Shaders
-			Y += 30;
-			IGUIStaticText *TextShaders = irrGUI->addStaticText(L"Shaders", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
-			TextShaders->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADERS);
-			if(!Graphics.GetShadersSupported())
-				CheckBoxShaders->setEnabled(false);
+	// Shaders
+	Y += 30;
+	IGUIStaticText *TextShaders = irrGUI->addStaticText(L"Shaders", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
+	TextShaders->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADERS);
+	if(!Graphics.GetShadersSupported())
+		CheckBoxShaders->setEnabled(false);
 */
-			// Save
-			Y += 60;
-			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, VIDEO_SAVE, L"Save");
-			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, VIDEO_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonSave->setUseAlphaChannel(true);
-			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonCancel->setUseAlphaChannel(true);
-			ButtonCancel->setDrawBorder(false);
+	// Save
+	Y += 60;
+	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, VIDEO_SAVE, L"Save");
+	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, VIDEO_CANCEL, L"Cancel");
+	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonSave->setUseAlphaChannel(true);
+	ButtonSave->setDrawBorder(false);
+	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonCancel->setUseAlphaChannel(true);
+	ButtonCancel->setDrawBorder(false);
 
-			// Warning
-			Y += 40;
-			IGUIStaticText *TextWarning = irrGUI->addStaticText(L"Some changes are applied after restart", Interface.GetCenteredRect(X, Y, 250, 25), false, false, 0, -1, true);
-			TextWarning->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
+	// Warning
+	Y += 40;
+	IGUIStaticText *TextWarning = irrGUI->addStaticText(L"Some changes are applied after restart", Interface.GetCenteredRect(X, Y, 250, 25), false, false, 0, -1, true);
+	TextWarning->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 
-			// Play sound
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	// Play sound
+	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
-			State = STATE_VIDEO;
-		}
-		break;
-		case STATE_VIDEO:
-		break;
-		case STATE_INITAUDIO: {
-			Interface.Clear();
+	State = STATE_VIDEO;
+}
 
-			// Text
-			X = CenterX, Y = CenterY - 150;
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Audio", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+void _Menu::InitAudio() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	Interface.Clear();
 
-			// Sound enabled
-			Y += 60;
-			IGUIStaticText *TextAudioEnabled = irrGUI->addStaticText(L"Audio Enabled", Interface.GetCenteredRect(X - 65, Y, 110, 25));
-			TextAudioEnabled->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
+	// Text
+	X = CenterX, Y = CenterY - 150;
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Audio", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
-			// Save
-			Y += 90;
-			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, AUDIO_SAVE, L"Save");
-			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, AUDIO_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonSave->setUseAlphaChannel(true);
-			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonCancel->setUseAlphaChannel(true);
-			ButtonCancel->setDrawBorder(false);
+	// Sound enabled
+	Y += 60;
+	IGUIStaticText *TextAudioEnabled = irrGUI->addStaticText(L"Audio Enabled", Interface.GetCenteredRect(X - 65, Y, 110, 25));
+	TextAudioEnabled->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
 
-			// Play sound
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	// Save
+	Y += 90;
+	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(X - 50, Y, 82, 34), 0, AUDIO_SAVE, L"Save");
+	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, AUDIO_CANCEL, L"Cancel");
+	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonSave->setUseAlphaChannel(true);
+	ButtonSave->setDrawBorder(false);
+	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonCancel->setUseAlphaChannel(true);
+	ButtonCancel->setDrawBorder(false);
 
-			State = STATE_AUDIO;
-		}
-		break;
-		case STATE_AUDIO:
-		break;
-		case STATE_INITCONTROLS: {
-			Interface.Clear();
-			KeyButton = NULL;
+	// Play sound
+	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
-			// Text
-			IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(CenterX, CenterY - 160, 150, 40), false, false);
-			Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-			Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	State = STATE_AUDIO;
+}
 
-			// Create the key buttons
-			X = CenterX;
-			Y = CenterY - 110;
-			for(int i = 0; i <= _Actions::RESET; i++) {
+void _Menu::InitControls() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	Interface.Clear();
+	KeyButton = NULL;
+
+	// Text
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(CenterX, CenterY - 160, 150, 40), false, false);
+	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
+	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+
+	// Create the key buttons
+	X = CenterX;
+	Y = CenterY - 110;
+	for(int i = 0; i <= _Actions::RESET; i++) {
 				
-				CurrentKeys[i] = Config.Keys[i];
-				IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
-				Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
-				IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str());
-				Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-				Button->setUseAlphaChannel(true);
-				Button->setDrawBorder(false);
+		CurrentKeys[i] = Config.Keys[i];
+		IGUIStaticText *Text = irrGUI->addStaticText(ActionNames[i], Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
+		Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
+		IGUIButton *Button = irrGUI->addButton(Interface.GetCenteredRect(X + 50, Y, 82, 34), 0, CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str());
+		Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+		Button->setUseAlphaChannel(true);
+		Button->setDrawBorder(false);
 
-				Y += 35;
-			}
+		Y += 35;
+	}
 
-			// Invert mouse
-			Y += 5;
-			IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface.GetCenteredRect(X - 65, Y, 110, 25));
-			TextInvertMouse->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-			IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, CONTROLS_INVERTMOUSE);
+	// Invert mouse
+	Y += 5;
+	IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface.GetCenteredRect(X - 65, Y, 110, 25));
+	TextInvertMouse->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
+	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, CONTROLS_INVERTMOUSE);
 
-			// Save
-			IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), 0, CONTROLS_SAVE, L"Save");
-			IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), 0, CONTROLS_CANCEL, L"Cancel");
-			ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonSave->setUseAlphaChannel(true);
-			ButtonSave->setDrawBorder(false);
-			ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
-			ButtonCancel->setUseAlphaChannel(true);
-			ButtonCancel->setDrawBorder(false);
+	// Save
+	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 50, CenterY + 150, 82, 34), 0, CONTROLS_SAVE, L"Save");
+	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 50, CenterY + 150, 82, 34), 0, CONTROLS_CANCEL, L"Cancel");
+	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonSave->setUseAlphaChannel(true);
+	ButtonSave->setDrawBorder(false);
+	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonCancel->setUseAlphaChannel(true);
+	ButtonCancel->setDrawBorder(false);
 	
-			// Play sound
-			Interface.PlaySound(_Interface::SOUND_CONFIRM);
+	// Play sound
+	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
-			State = STATE_CONTROLS;
+	State = STATE_CONTROLS;
+}
+
+// Init play GUI
+void _Menu::InitPlay() {
+	irrGUI->clear();
+
+	Graphics.SetClearColor(SColor(255, 0, 0, 0));
+	Input.SetMouseLocked(true);
+
+	PlayState.State = _PlayState::STATE_PLAY;
+}
+
+// Draws the pause menu
+void _Menu::InitPause() {
+	irrGUI->clear();
+	
+	// Draw interface
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
+	IGUIButton *ButtonResume = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 75, 130, 34), 0, PAUSE_RESUME, L"Resume");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY - 25, 130, 34), 0, PAUSE_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonRestart = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 25, 130, 34), 0, PAUSE_RESTART, L"Restart Level");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(CenterX, CenterY + 75, 130, 34), 0, PAUSE_MAINMENU, L"Main Menu");
+	ButtonResume->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonResume->setUseAlphaChannel(true);
+	ButtonResume->setDrawBorder(false);
+	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonSaveReplay->setUseAlphaChannel(true);
+	ButtonSaveReplay->setDrawBorder(false);
+	ButtonRestart->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonRestart->setUseAlphaChannel(true);
+	ButtonRestart->setDrawBorder(false);
+	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	ButtonMainMenu->setUseAlphaChannel(true);
+	ButtonMainMenu->setDrawBorder(false);
+	
+	Input.SetMouseLocked(false);
+
+	State = STATE_PAUSED;
+}
+
+// Draws the save replay GUI
+void _Menu::InitSaveReplay() {
+	irrGUI->clear();
+
+	// Draw interface
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
+	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(CenterX, CenterY - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
+	IGUIButton *ButtonSave = irrGUI->addButton(Interface.GetCenteredRect(CenterX - 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_SAVE, L"Save");
+	IGUIButton *ButtonCancel = irrGUI->addButton(Interface.GetCenteredRect(CenterX + 45, CenterY + 20, 82, 34), 0, SAVEREPLAY_CANCEL, L"Cancel");
+	ButtonSave->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonSave->setUseAlphaChannel(true);
+	ButtonSave->setDrawBorder(false);
+	ButtonCancel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON80));
+	ButtonCancel->setUseAlphaChannel(true);
+	ButtonCancel->setDrawBorder(false);
+
+	irrGUI->setFocus(EditName);
+	EditName->setMax(32);
+
+	State = STATE_SAVEREPLAY;
+}
+
+// Draws the lose screen
+void _Menu::InitLose() {
+/*	
+	// Update stats
+	if(TestLevel == "") {
+		Save.IncrementLevelLoseCount(Level.GetLevelFile());
+		Save.SaveLevelStats();
+	}
+
+	// Draw interface
+	irrGUI->clear();
+	IGUIStaticText *TextWin = irrGUI->addStaticText(L"You Lose", Interface.GetCenteredTextRect(L"You Lose", 0.15f, 0.20f), false, false, 0, -1, false);
+	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.3f, 0.2f, 0.05f), 0, LOSE_RESTARTLEVEL, L"Restart Level");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.4f, 0.2f, 0.05f), 0, LOSE_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetAbsoluteRectWH(0.4f, 0.5f, 0.2f, 0.05f), 0, LOSE_MAINMENU, L"Main Menu");
+
+	Input.SetMouseLocked(false);
+*/
+	State = STATE_LOSE;
+}
+
+// Draws the win screen
+void _Menu::InitWin() {
+	
+	// Skip stats if just testing a level
+	bool LastLevelInCampaign = false;
+	if(PlayState.TestLevel == "") {
+
+		// Increment win count
+		Save.IncrementLevelWinCount(Level.GetLevelName());
+
+		// Add high score
+		Save.AddScore(Level.GetLevelName(), PlayState.Timer);
+
+		// Unlock next level
+		int LevelCount = Campaign.GetLevelCount(PlayState.CurrentCampaign);
+		if(PlayState.CampaignLevel+1 >= LevelCount) {
+			LastLevelInCampaign = true;
+		}
+		else {
+			const std::string &NextLevelFile = Campaign.GetLevel(PlayState.CurrentCampaign, PlayState.CampaignLevel+1);
+			Save.UnlockLevel(NextLevelFile);
+		}
+
+		// Save stats to a file
+		Save.SaveLevelStats(Level.GetLevelName());
+	}
+	else
+		LastLevelInCampaign = true;
+
+	// Get level stats
+	PlayState.WinStats = Save.GetLevelStats(Level.GetLevelName());
+	
+	// Clear interface
+	Interface.Clear();
+
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
+	X = CenterX;
+	Y = CenterY + WIN_HEIGHT / 2 + 25;
+	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 165, Y, 102, 34), 0, WIN_RESTARTLEVEL, L"Retry Level");
+	IGUIButton *ButtonNextLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), 0, WIN_NEXTLEVEL, L"Next Level");
+	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), 0, WIN_SAVEREPLAY, L"Save Replay");
+	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), 0, WIN_MAINMENU, L"Main Menu");
+	ButtonRestartLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonRestartLevel->setUseAlphaChannel(true);
+	ButtonRestartLevel->setDrawBorder(false);
+	ButtonNextLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonNextLevel->setUseAlphaChannel(true);
+	ButtonNextLevel->setDrawBorder(false);
+	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonSaveReplay->setUseAlphaChannel(true);
+	ButtonSaveReplay->setDrawBorder(false);
+	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
+	ButtonMainMenu->setUseAlphaChannel(true);
+	ButtonMainMenu->setDrawBorder(false);
+	
+	if(LastLevelInCampaign)
+		ButtonNextLevel->setEnabled(false);
+
+	Input.SetMouseLocked(false);
+
+	State = STATE_WIN;
+}
+
+// Saves a replay
+void _Menu::SaveReplay() {
+
+	IGUIEditBox *EditName = static_cast<IGUIEditBox *>(irrGUI->getRootGUIElement()->getElementFromId(SAVEREPLAY_NAME));
+	if(EditName != NULL) {
+		irr::core::stringc ReplayTitle(EditName->getText());
+		Replay.SaveReplay(ReplayTitle.c_str());
+	}
+
+	switch(PlayState.TargetState) {
+		case STATE_WIN: {
+			InitWin();
+			
+			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(irrGUI->getRootGUIElement()->getElementFromId(WIN_SAVEREPLAY));
+			ButtonSaveReplay->setEnabled(false);
 		}
 		break;
-		case STATE_CONTROLS:
+		case STATE_LOSE: {
+			InitLose();
+			
+			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(irrGUI->getRootGUIElement()->getElementFromId(LOSE_SAVEREPLAY));
+			ButtonSaveReplay->setEnabled(false);
+		}
+		break;
+		default:
+			InitPause();
 		break;
 	}
 }
 
+// Updates the current state
+void _Menu::Update(float FrameTime) {
+}
+
 // Draws the current state
-void _MenuState::Draw() {
+void _Menu::Draw() {
 	irrGUI->drawAll();
 
 	// Draw level tooltip
@@ -862,14 +1117,66 @@ void _MenuState::Draw() {
 	}
 }
 
+
+void _Menu::DrawWinScreen() {
+	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
+	char TimeString[32];
+	char Buffer[256];
+
+	// Draw header
+	int X = CenterX;
+	int Y = CenterY - WIN_HEIGHT / 2 + 15;
+	Interface.DrawTextBox(CenterX, CenterY, WIN_WIDTH, WIN_HEIGHT);
+	Interface.RenderText("Level Completed!", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
+
+	// Draw time
+	Y += 45;
+	Interface.RenderText("Your Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+	Interface.RenderText(TimeString, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+
+	// Best time
+	Y += 25;
+	if(PlayState.WinStats->HighScores.size() > 0) {
+		Interface.RenderText("Best Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+		Interface.ConvertSecondsToString(PlayState.WinStats->HighScores[0].Time, Buffer);
+		Interface.RenderText(Buffer, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+	}
+
+	// High scores
+	int HighX = CenterX - 75, HighY = Y + 48;
+
+	// Draw header
+	Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+	Interface.RenderText("Time", HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+	Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+	HighY += 17;
+	for(u32 i = 0; i < PlayState.WinStats->HighScores.size(); i++) {
+				
+		// Number
+		char SmallBuffer[32];
+		sprintf(SmallBuffer, "%d", i+1);
+		Interface.RenderText(SmallBuffer, HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
+
+		// Time
+		Interface.ConvertSecondsToString(PlayState.WinStats->HighScores[i].Time, Buffer);
+		Interface.RenderText(Buffer, HighX + 30, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
+
+		// Date
+		char DateString[32];
+		strftime(DateString, 32, "%m-%d-%Y", localtime(&PlayState.WinStats->HighScores[i].DateStamp));
+		Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(200, 255, 255, 255));
+
+		HighY += 17;
+	}
+}
 // Cancels the key bind state
-void _MenuState::CancelKeyBind() {
+void _Menu::CancelKeyBind() {
 	KeyButton->setText(KeyButtonOldText.c_str());
 	KeyButton = NULL;
 }
 
 // Gets the replay name from a selection box
-std::string _MenuState::GetReplayFile() {
+std::string _Menu::GetReplayFile() {
 
 	// Get list
 	IGUIListBox *ReplayList = static_cast<IGUIListBox *>(irrGUI->getRootGUIElement()->getElementFromId(REPLAYS_FILES));
@@ -883,7 +1190,7 @@ std::string _MenuState::GetReplayFile() {
 }
 
 // Launchs a level
-void _MenuState::LaunchLevel() {
+void _Menu::LaunchLevel() {
 	
 	SaveLevelStruct Stats;
 	Save.GetLevelStats(Campaign.GetCampaign(CampaignIndex).Levels[SelectedLevel].File, Stats);
@@ -897,7 +1204,7 @@ void _MenuState::LaunchLevel() {
 }
 
 // Launchs a replay from a list item
-void _MenuState::LaunchReplay() {
+void _Menu::LaunchReplay() {
 
 	// Get replay file
 	std::string File = GetReplayFile();

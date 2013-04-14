@@ -30,6 +30,7 @@
 #include <objects/constraint.h>
 #include <objects/springjoint.h>
 #include <play.h>
+#include <menu.h>
 
 _Scripting Scripting;
 
@@ -497,7 +498,7 @@ int _Scripting::LevelLose(lua_State *LuaObject) {
 // Wins the level
 int _Scripting::LevelWin(lua_State *LuaObject) {
 
-	PlayState.InitWin();
+	Menu.InitWin();
 	
 	return 0;
 }

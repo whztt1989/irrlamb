@@ -97,11 +97,11 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 	bool Processed = true;
 	switch(Key) {
 		case KEY_ESCAPE:
-			MenuState.SetTargetState(_MenuState::STATE_INITREPLAYS);
-			Game.ChangeState(&MenuState);
+			Menu.InitReplays();
+			//Game.ChangeState(&Menu);
 		break;
 		case KEY_F1:
-			Game.ChangeState(&MenuState);
+			//Game.ChangeState(&Menu);
 		break;
 		case KEY_F12:
 			Graphics.SaveScreenshot();
@@ -148,8 +148,8 @@ void _ViewReplayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElemen
 		case EGET_BUTTON_CLICKED:
 			switch(Element->getID()) {
 				case MAIN_EXIT:
-					MenuState.SetTargetState(_MenuState::STATE_INITREPLAYS);
-					Game.ChangeState(&MenuState);
+					Menu.InitReplays();
+					//Game.ChangeState(&Menu);
 				break;
 				case MAIN_DECREASE:
 					ChangeReplaySpeed(-REPLAY_TIME_INCREMENT);

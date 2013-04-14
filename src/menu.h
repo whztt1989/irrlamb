@@ -26,79 +26,41 @@
 struct SaveLevelStruct;
 
 // Classes
-class _MenuState : public _State {
+class _Menu {
 
 	public:
 
-		enum GUIElements {
-			MAIN_SINGLEPLAYER,
-			MAIN_REPLAYS,
-			MAIN_OPTIONS,
-			MAIN_QUIT,
-			SINGLEPLAYER_BACK,
-			LEVELS_GO,
-			LEVELS_BUY,
-			LEVELS_HIGHSCORES,
-			LEVELS_BACK,
-			LEVELS_SELECTEDLEVEL,
-			LEVELINFO_DESCRIPTION,
-			LEVELINFO_ATTEMPTS,
-			LEVELINFO_WINS,
-			LEVELINFO_LOSSES,
-			LEVELINFO_PLAYTIME,
-			LEVELINFO_BESTTIME,
-			REPLAYS_FILES,
-			REPLAYS_GO,
-			REPLAYS_DELETE,
-			REPLAYS_BACK,
-			OPTIONS_VIDEO,
-			OPTIONS_AUDIO,
-			OPTIONS_CONTROLS,
-			OPTIONS_BACK,
-			VIDEO_SAVE,
-			VIDEO_CANCEL,
-			VIDEO_VIDEOMODES,
-			VIDEO_FULLSCREEN,
-			VIDEO_SHADOWS,
-			VIDEO_SHADERS,
-			AUDIO_ENABLED,
-			AUDIO_SAVE,
-			AUDIO_CANCEL,
-			CONTROLS_SAVE,
-			CONTROLS_CANCEL,
-			CONTROLS_INVERTMOUSE,
-			CONTROLS_MOVEFORWARD,
-			CONTROLS_MOVEBACK,
-			CONTROLS_MOVELEFT,
-			CONTROLS_MOVERIGHT,
-			CONTROLS_MOVERESET,
-			CONTROLS_MOVEJUMP,
-		};
-
-		enum MenuStateType {
+		enum MenuType {
 			STATE_NONE,
-			STATE_INITMAIN,
 			STATE_MAIN,
-			STATE_INITSINGLEPLAYER,
 			STATE_SINGLEPLAYER,
-			STATE_INITLEVELS,
 			STATE_LEVELS,
-			STATE_INITREPLAYS,
 			STATE_REPLAYS,
-			STATE_INITOPTIONS,
 			STATE_OPTIONS,
-			STATE_INITVIDEO,
 			STATE_VIDEO,
-			STATE_INITAUDIO,
 			STATE_AUDIO,
-			STATE_INITCONTROLS,
 			STATE_CONTROLS,
+			STATE_PAUSED,
+			STATE_SAVEREPLAY,
+			STATE_LOSE,
+			STATE_WIN
 		};
 
-		_MenuState() : TargetState(STATE_NONE) { }
-
-		int Init();
-		int Close();
+		void InitMain();
+		void InitSinglePlayer();
+		void InitLevels();
+		void InitReplays();
+		void InitOptions();
+		void InitVideo();
+		void InitAudio();
+		void InitControls();
+		
+		void InitPlay();
+		void InitLose();
+		void InitWin();
+		void InitPause();
+		void InitSaveReplay();
+		void SaveReplay();
 
 		bool HandleKeyPress(int Key);
 		void HandleAction(int Action, float Value);
@@ -107,7 +69,7 @@ class _MenuState : public _State {
 		void Update(float FrameTime);
 		void Draw();
 
-		void SetTargetState(MenuStateType NewState) { TargetState = NewState; }
+		void DrawWinScreen();
 
 	private:
 
@@ -116,7 +78,7 @@ class _MenuState : public _State {
 		void LaunchReplay();
 		void LaunchLevel();
 
-		MenuStateType State, TargetState;
+		MenuType State;
 		bool FirstStateLoad;
 		std::string MenuMessage;
 
@@ -138,4 +100,4 @@ class _MenuState : public _State {
 
 };
 
-extern _MenuState MenuState;
+extern _Menu Menu;
