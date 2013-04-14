@@ -1,5 +1,6 @@
 irrlamb 0.1.2 -
-- Added basic joystick support
+- Added joystick support
+- Can access options now in game
 - Added level names to menu
 - Fixed replay bug
 

@@ -21,6 +21,7 @@
 // Libraries
 #include <engine/state.h>
 #include <engine/actions.h>
+#include <engine/interface.h>
 
 // Forward Declarations
 struct SaveLevelStruct;
@@ -75,7 +76,7 @@ class _Menu {
 
 	private:
 
-		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text);
+		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage=_Interface::IMAGE_BUTTON128);
 
 		void CancelKeyBind();
 		std::string GetReplayFile();

@@ -144,6 +144,10 @@ bool _Menu::HandleAction(int Action, float Value) {
 					case STATE_PAUSED:
 						InitPlay();
 					break;
+					case STATE_WIN:
+						NullState.State = STATE_LEVELS;
+						Game.ChangeState(&NullState);
+					break;
 				}
 
 				return true;
@@ -223,31 +227,8 @@ bool _Menu::HandleKeyPress(int Key) {
 		break;
 		case STATE_SAVEREPLAY:
 			switch(Key) {
-				case KEY_ESCAPE:
-					Menu.InitPause();
-				break;
 				case KEY_RETURN:
 					Menu.SaveReplay();
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_LOSE:
-			switch(Key) {
-				case KEY_ESCAPE:
-					//Game.ChangeState(&Menu);
-				break;
-				default:
-					Processed = false;
-				break;
-			}
-		break;
-		case STATE_WIN:
-			switch(Key) {
-				case KEY_ESCAPE:
-					//Game.ChangeState(&Menu);
 				break;
 				default:
 					Processed = false;
@@ -478,9 +459,8 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					InitSaveReplay();
 				break;
 				case WIN_MAINMENU:
-					if(PlayState.TestLevel == "")
-						Menu.InitLevels();
-					//Game.ChangeState(&Menu);
+					NullState.State = STATE_LEVELS;
+					Game.ChangeState(&NullState);
 				break;
 			}
 		break;
@@ -1006,23 +986,11 @@ void _Menu::InitWin() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	X = CenterX;
 	Y = CenterY + WIN_HEIGHT / 2 + 25;
-	IGUIButton *ButtonRestartLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 165, Y, 102, 34), 0, WIN_RESTARTLEVEL, L"Retry Level");
-	IGUIButton *ButtonNextLevel = irrGUI->addButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), 0, WIN_NEXTLEVEL, L"Next Level");
-	IGUIButton *ButtonSaveReplay = irrGUI->addButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), 0, WIN_SAVEREPLAY, L"Save Replay");
-	IGUIButton *ButtonMainMenu = irrGUI->addButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), 0, WIN_MAINMENU, L"Main Menu");
-	ButtonRestartLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonRestartLevel->setUseAlphaChannel(true);
-	ButtonRestartLevel->setDrawBorder(false);
-	ButtonNextLevel->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonNextLevel->setUseAlphaChannel(true);
-	ButtonNextLevel->setDrawBorder(false);
-	ButtonSaveReplay->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonSaveReplay->setUseAlphaChannel(true);
-	ButtonSaveReplay->setDrawBorder(false);
-	ButtonMainMenu->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON100));
-	ButtonMainMenu->setUseAlphaChannel(true);
-	ButtonMainMenu->setDrawBorder(false);
-	
+	AddMenuButton(Interface.GetCenteredRect(X - 165, Y, 102, 34), WIN_RESTARTLEVEL, L"Retry Level", _Interface::IMAGE_BUTTON100);
+	IGUIButton *ButtonNextLevel = AddMenuButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), WIN_NEXTLEVEL, L"Next Level", _Interface::IMAGE_BUTTON100);
+	AddMenuButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), WIN_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON100);
+	AddMenuButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), WIN_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON100);
+
 	if(LastLevelInCampaign)
 		ButtonNextLevel->setEnabled(false);
 
@@ -1161,11 +1129,13 @@ void _Menu::Draw() {
 	}
 }
 
-
+// Draw the win screen
 void _Menu::DrawWinScreen() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
-	char TimeString[32];
 	char Buffer[256];
+
+	char TimeString[32];
+	Interface.ConvertSecondsToString(PlayState.Timer, TimeString);
 
 	// Draw header
 	int X = CenterX;
@@ -1261,9 +1231,9 @@ void _Menu::LaunchReplay() {
 }
 
 // Add a regular menu button
-IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text) {
+IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage) {
 	IGUIButton *Button = irrGUI->addButton(Rectangle, 0, ID, Text);
-	Button->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON128));
+	Button->setImage(Interface.GetImage(ButtonImage));
 	Button->setUseAlphaChannel(true);
 	Button->setDrawBorder(false);
 
