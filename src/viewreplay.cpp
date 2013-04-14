@@ -127,9 +127,11 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 }
 
 // Handle action inputs
-void _ViewReplayState::HandleAction(int Action, float Value) {
+bool _ViewReplayState::HandleAction(int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
+
+	return true;
 }
 
 // Mouse wheel

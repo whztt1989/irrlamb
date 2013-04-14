@@ -82,7 +82,10 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 
 	for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
 		State[MapIterator->Action] = Value;
-		Game.GetState()->HandleAction(MapIterator->Action, Value * MapIterator->Scale);
+
+		// If true is returned, stop handling the same key
+		if(Game.GetState()->HandleAction(MapIterator->Action, Value * MapIterator->Scale))
+			break;
 	}
 }
 

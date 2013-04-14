@@ -46,7 +46,10 @@ _NullState NullState;
 // Initializes the state
 int _NullState::Init() {
 
-	Menu.InitMain();
+	if(State == _Menu::STATE_LEVELS)
+		Menu.InitLevels();
+	else
+		Menu.InitMain();
 
 	return 1;
 }
@@ -58,9 +61,9 @@ int _NullState::Close() {
 }
 
 // Handle new actions
-void _NullState::HandleAction(int Action, float Value) {
+bool _NullState::HandleAction(int Action, float Value) {
 
-	Menu.HandleAction(Action, Value);
+	return Menu.HandleAction(Action, Value);
 }
 
 // Key presses

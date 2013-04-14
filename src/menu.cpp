@@ -30,6 +30,7 @@
 #include <engine/save.h>
 #include <viewreplay.h>
 #include <play.h>
+#include <null.h>
 #include <engine/namespace.h>
 
 _Menu Menu;
@@ -111,13 +112,14 @@ enum GUIElements {
 };
 
 // Handle action inputs
-void _Menu::HandleAction(int Action, float Value) {
+bool _Menu::HandleAction(int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
 
 	// On action press
 	if(Value) {
 		switch(Action) {
+			case _Actions::MENU_PAUSE:
 			case _Actions::MENU_BACK:
 				switch(State) {
 					case STATE_MAIN:
@@ -126,7 +128,10 @@ void _Menu::HandleAction(int Action, float Value) {
 					case STATE_SINGLEPLAYER:
 					case STATE_OPTIONS:
 					case STATE_REPLAYS:
-						InitMain();
+						if(Game.GetState() == &PlayState)
+							InitPause();
+						else
+							InitMain();
 					break;
 					case STATE_LEVELS:
 						InitSinglePlayer();
@@ -136,39 +141,26 @@ void _Menu::HandleAction(int Action, float Value) {
 					case STATE_CONTROLS:
 						InitOptions();
 					break;
+					case STATE_PAUSED:
+						InitPlay();
+					break;
+				}
+
+				return true;
+			break;
+			case _Actions::RESET:
+				if(!Value)
+					return false;
+
+				if(State == STATE_LOSE || State == STATE_WIN) {
+					PlayState.StartReset();
+					return true;
 				}
 			break;
-			case STATE_SAVEREPLAY:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
-		break;
-		case STATE_LOSE:
-		case STATE_WIN:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
-
-			switch(Action) {
-				case _Actions::RESET:
-					if(Value)
-						PlayState.StartReset();
-				break;
-			}
-		break;
-		case STATE_PAUSED:
-			if(Input.HasJoystick())
-				Input.DriveMouse(Action, Value);
-			
-			if(!Value)
-				return;
-
-			switch(Action) {
-				case _Actions::MENU_PAUSE:
-					Menu.InitPlay();
-				break;
-			}
-		break;
 		}
 	}
+
+	return false;
 }
 
 // Key presses
@@ -227,16 +219,6 @@ bool _Menu::HandleKeyPress(int Key) {
 					KeyButton->setText(KeyButtonOldText.c_str());
 
 				KeyButton = NULL;
-			}
-			else {
-				switch(Key) {
-					case KEY_ESCAPE:
-						InitOptions();
-					break;
-					default:
-						Processed = false;
-					break;
-				}
 			}
 		break;
 		case STATE_SAVEREPLAY:
@@ -336,7 +318,10 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					InitControls();
 				break;
 				case OPTIONS_BACK:
-					InitMain();
+					if(Game.GetState() == &PlayState)
+						InitPause();
+					else
+						InitMain();
 				break;
 				case VIDEO_SAVE: {
 					
@@ -453,9 +438,8 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					PlayState.StartReset();
 				break;
 				case PAUSE_QUITLEVEL:
-					if(PlayState.TestLevel == "")
-						Menu.InitLevels();
-					//Game.ChangeState(&Menu);
+					NullState.State = STATE_LEVELS;
+					Game.ChangeState(&NullState);
 				break;
 				case SAVEREPLAY_SAVE:
 					SaveReplay();
@@ -470,7 +454,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						InitPause();
 						*/
 				break;
-				case LOSE_RESTARTLEVEL:
+				/*case LOSE_RESTARTLEVEL:
 					PlayState.StartReset();
 				break;
 				case LOSE_SAVEREPLAY:
@@ -481,6 +465,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						Menu.InitLevels();
 					//Game.ChangeState(&Menu);
 				break;
+				*/
 				case WIN_RESTARTLEVEL:
 					PlayState.StartReset();
 				break;

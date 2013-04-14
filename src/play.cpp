@@ -144,9 +144,9 @@ void _PlayState::ResetLevel() {
 }
 
 // Handle new actions
-void _PlayState::HandleAction(int Action, float Value) {
+bool _PlayState::HandleAction(int Action, float Value) {
 	if(Resetting)
-		return;
+		return false;
 		
 	//printf("%d %f\n", Action, Value);
 
@@ -162,12 +162,14 @@ void _PlayState::HandleAction(int Action, float Value) {
 			break;
 			case _Actions::MENU_PAUSE:
 				if(!Value)
-					return;
+					return false;
 
 				if(TestLevel != "")
 					Game.SetDone(true);
 				else
 					Menu.InitPause();
+
+				return true;
 			break;
 			case _Actions::CAMERA_LEFT:
 				if(Camera)
@@ -188,8 +190,9 @@ void _PlayState::HandleAction(int Action, float Value) {
 		}
 	}
 
-	Menu.HandleAction(Action, Value);
 	//printf("action press %d %f\n", Action, Value);
+
+	return Menu.HandleAction(Action, Value);
 }
 
 // Key presses
