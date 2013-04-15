@@ -104,6 +104,12 @@ bool _Menu::HandleAction(int Action, float Value) {
 						NullState.State = STATE_LEVELS;
 						Game.ChangeState(&NullState);
 					break;
+					case STATE_SAVEREPLAY:
+						if(PreviousState == STATE_WIN)
+							InitWin();
+						else
+							InitPause();
+					break;
 				}
 
 				return true;

@@ -8,7 +8,6 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="../src/menu.cpp"/>
     <File Name="../src/menu.h"/>
     <File Name="../src/viewreplay.h"/>
     <File Name="../src/play.h"/>
@@ -66,6 +65,7 @@
     <File Name="../src/engine/input.cpp"/>
     <File Name="../src/engine/random.cpp"/>
     <File Name="../src/engine/graphics.h"/>
+    <File Name="../src/menu.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="irrb">
     <File Name="../src/irrb/CIrrBMeshFileLoader.cpp"/>
