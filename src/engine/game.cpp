@@ -45,7 +45,7 @@ _Game Game;
 int _Game::Init(int Count, char **Arguments) {
 
 	// Defaults
-	SleepRate = 180.0f;
+	SleepRate = SLEEP_RATE;
 	TimeStep = PHYSICS_TIMESTEP;
 	TimeStepAccumulator = 0.0f;
 	TimeScale = 1.0f;

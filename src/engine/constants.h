@@ -21,6 +21,7 @@
 // Constants
 const char * const GAME_VERSION = "v0.1.2";
 const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
+const float SLEEP_RATE = 180.0f;
 const float FADE_SPEED = 5.0f;
 const int REPLAY_STRINGSIZE = 64;
 const int REPLAY_VERSION = 1;
@@ -30,3 +31,5 @@ const int STATS_MAXSCORES = 10;
 const float ORB_GLOWSIZE = 2.5f;
 const float ORB_PITCH = 2.0f;
 const float ORB_DEACTIVATETIME = 2.0f;
+const int WIN_WIDTH = 430;
+const int WIN_HEIGHT = 350;

@@ -38,9 +38,6 @@ _Menu Menu;
 const int CAMPAIGN_LEVELID = 1000;
 const int PLAY_CAMPAIGNID = 900;
 
-const int WIN_WIDTH = 430;
-const int WIN_HEIGHT = 350;
-
 // List of action names
 const wchar_t *_Menu::ActionNames[_Actions::COUNT] = {
 	L"Move Left",
@@ -877,6 +874,8 @@ void _Menu::InitWin() {
 		ButtonNextLevel->setEnabled(false);
 
 	Input.SetMouseLocked(false);
+	vector2di Position = ButtonNextLevel->getAbsolutePosition().getCenter();
+	irrDevice->getCursorControl()->setPosition(Position.X, Position.Y);
 
 	PreviousState = State;
 	State = STATE_WIN;

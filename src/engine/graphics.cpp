@@ -74,7 +74,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 		VideoMode.BPP = VideoModeList->getVideoModeDepth(i);
 		
 		// Add the video mode
-		if((VideoMode.BPP == 32 || VideoMode.BPP == 24) && VideoMode.Width >= 640) {
+		if((VideoMode.BPP == 32 || VideoMode.BPP == 24) && VideoMode.Width >= 800) {
 			std::wstringstream Stream;
 			Stream << VideoMode.Width << " x " << VideoMode.Height;
 			VideoMode.String = Stream.str();
