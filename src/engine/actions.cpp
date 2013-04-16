@@ -28,11 +28,33 @@ using namespace tinyxml2;
 // Constructor
 _Actions::_Actions() {
 	ResetState();
+
+	Names[MOVE_LEFT] = "Move Left";
+	Names[MOVE_RIGHT] = "Move Right";
+	Names[MOVE_FORWARD] = "Move Forward";
+	Names[MOVE_BACK] = "Move Back";
+	Names[JUMP] = "Jump";
+	Names[RESET] = "Restart Level";
+	Names[CAMERA_LEFT] = "Camera Left";
+	Names[CAMERA_RIGHT] = "Camera Right";
+	Names[CAMERA_UP] = "Camera Up";
+	Names[CAMERA_DOWN] = "Camera Down";
+	Names[MENU_LEFT] = "Menu Left";
+	Names[MENU_RIGHT] = "Menu Right";
+	Names[MENU_UP] = "Menu Up";
+	Names[MENU_DOWN] = "Menu Down";
+	Names[MENU_GO] = "Menu Go";
+	Names[MENU_BACK] = "Menu Back";
+	Names[MENU_PAUSE] = "Pause";
+	Names[CURSOR_LEFT] = "Cursor Left";
+	Names[CURSOR_RIGHT] = "Cursor Right";
+	Names[CURSOR_UP] = "Cursor Up";
+	Names[CURSOR_DOWN] = "Cursor Down";
 }
 
 // Reset the state
 void _Actions::ResetState() {
-	for(int i = 0; i < ACTIONS_MAX; i++) {
+	for(int i = 0; i < COUNT; i++) {
 		State[i] = 0.0f;
 	}
 }
@@ -45,7 +67,7 @@ void _Actions::ClearMappings(int InputType) {
 
 // Get action
 float _Actions::GetState(int Action) {
-	if(Action < 0 || Action >= ACTIONS_MAX)
+	if(Action < 0 || Action >= COUNT)
 		return 0.0f;
 
 	return State[Action];
@@ -53,7 +75,7 @@ float _Actions::GetState(int Action) {
 
 // Add an input mapping
 void _Actions::AddInputMap(int InputType, int Input, int Action, float Scale, bool IfNone) {
-	if(Action < 0 || Action >= ACTIONS_MAX || Input < 0 || Input >= ACTIONS_MAXINPUTS)
+	if(Action < 0 || Action >= COUNT || Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
 		
 	if(!IfNone || (IfNone && !FindInputForAction(InputType, Action))) {

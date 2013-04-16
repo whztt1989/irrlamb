@@ -23,7 +23,6 @@
 
 // Constants
 const int ACTIONS_MAXINPUTS = 256;
-const int ACTIONS_MAX = 64;
 
 // Forward declarations
 namespace tinyxml2 {
@@ -75,6 +74,7 @@ class _Actions {
 
 		// Actions
 		float GetState(int Action);
+		const std::string &GetName(int Action) { return Names[Action]; }
 
 		// Maps
 		void AddInputMap(int InputType, int Input, int Action, float Scale=1.0f, bool IfNone=true);
@@ -91,7 +91,8 @@ class _Actions {
 
 		std::list<_ActionMap> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
 
-		float State[ACTIONS_MAX];
+		float State[COUNT];
+		std::string Names[COUNT];
 };
 
 extern _Actions Actions;

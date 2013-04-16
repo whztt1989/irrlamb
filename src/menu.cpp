@@ -736,16 +736,18 @@ void _Menu::InitAudio() {
 void _Menu::InitControls() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2, X, Y;
 	Interface.Clear();
-	KeyButton = NULL;
+
+	X = CenterX;
+	Y = CenterY - 250;
 
 	// Text
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(CenterX, CenterY - 160, 150, 40), false, false);
+	IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
 	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
 	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 	// Create the key buttons
-	X = CenterX;
-	Y = CenterY - 110;
+	Y += 100;
+	KeyButton = NULL;
 	for(int i = 0; i <= _Actions::RESET; i++) {
 				
 		CurrentKeys[i] = Config.Keys[i];

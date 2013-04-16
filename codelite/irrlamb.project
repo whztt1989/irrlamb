@@ -7,104 +7,6 @@
   </Plugins>
   <Description/>
   <Dependencies/>
-  <VirtualDirectory Name="src">
-    <File Name="../src/menu.h"/>
-    <File Name="../src/viewreplay.h"/>
-    <File Name="../src/play.h"/>
-    <File Name="../src/viewreplay.cpp"/>
-    <File Name="../src/all.h"/>
-    <File Name="../src/main.cpp"/>
-    <File Name="../src/play.cpp"/>
-    <File Name="../src/all.cpp"/>
-    <File Name="../src/null.cpp"/>
-    <File Name="../src/null.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="engine">
-    <File Name="../src/engine/save.cpp"/>
-    <File Name="../src/engine/physics.h"/>
-    <File Name="../src/engine/objectmanager.h"/>
-    <File Name="../src/engine/scripting.cpp"/>
-    <File Name="../src/engine/constants.h"/>
-    <File Name="../src/engine/input.h"/>
-    <File Name="../src/engine/log.cpp"/>
-    <File Name="../src/engine/database.h"/>
-    <File Name="../src/engine/globals.cpp"/>
-    <File Name="../src/engine/camera.h"/>
-    <File Name="../src/engine/physics.cpp"/>
-    <File Name="../src/engine/filestream.cpp"/>
-    <File Name="../src/engine/game.h"/>
-    <File Name="../src/engine/game.cpp"/>
-    <File Name="../src/engine/objectmanager.cpp"/>
-    <File Name="../src/engine/level.h"/>
-    <File Name="../src/engine/actions.cpp"/>
-    <File Name="../src/engine/replay.h"/>
-    <File Name="../src/engine/audio.h"/>
-    <File Name="../src/engine/namespace.h"/>
-    <File Name="../src/engine/fader.h"/>
-    <File Name="../src/engine/camera.cpp"/>
-    <File Name="../src/engine/config.cpp"/>
-    <File Name="../src/engine/scripting.h"/>
-    <File Name="../src/engine/random.h"/>
-    <File Name="../src/engine/config.h"/>
-    <File Name="../src/engine/globals.h"/>
-    <File Name="../src/engine/level.cpp"/>
-    <File Name="../src/engine/state.h"/>
-    <File Name="../src/engine/campaign.cpp"/>
-    <File Name="../src/engine/interface.h"/>
-    <File Name="../src/engine/campaign.h"/>
-    <File Name="../src/engine/log.h"/>
-    <File Name="../src/engine/replay.cpp"/>
-    <File Name="../src/engine/filestream.h"/>
-    <File Name="../src/engine/graphics.cpp"/>
-    <File Name="../src/engine/actions.h"/>
-    <File Name="../src/engine/interface.cpp"/>
-    <File Name="../src/engine/audio.cpp"/>
-    <File Name="../src/engine/fader.cpp"/>
-    <File Name="../src/engine/database.cpp"/>
-    <File Name="../src/engine/save.h"/>
-    <File Name="../src/engine/input.cpp"/>
-    <File Name="../src/engine/random.cpp"/>
-    <File Name="../src/engine/graphics.h"/>
-    <File Name="../src/menu.cpp"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="irrb">
-    <File Name="../src/irrb/CIrrBMeshFileLoader.cpp"/>
-    <File Name="../src/irrb/CIrrBMeshWriter.cpp"/>
-    <File Name="../src/irrb/CIrrBMeshWriter.h"/>
-    <File Name="../src/irrb/CIrrBMeshFileLoader.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="objects">
-    <File Name="../src/objects/cylinder.cpp"/>
-    <File Name="../src/objects/orb.cpp"/>
-    <File Name="../src/objects/player.h"/>
-    <File Name="../src/objects/player.cpp"/>
-    <File Name="../src/objects/zone.cpp"/>
-    <File Name="../src/objects/box.cpp"/>
-    <File Name="../src/objects/sphere.cpp"/>
-    <File Name="../src/objects/springjoint.h"/>
-    <File Name="../src/objects/object.h"/>
-    <File Name="../src/objects/box.h"/>
-    <File Name="../src/objects/collision.cpp"/>
-    <File Name="../src/objects/orb.h"/>
-    <File Name="../src/objects/constraint.cpp"/>
-    <File Name="../src/objects/object.cpp"/>
-    <File Name="../src/objects/zone.h"/>
-    <File Name="../src/objects/constraint.h"/>
-    <File Name="../src/objects/collision.h"/>
-    <File Name="../src/objects/springjoint.cpp"/>
-    <File Name="../src/objects/template.cpp"/>
-    <File Name="../src/objects/cylinder.h"/>
-    <File Name="../src/objects/template.h"/>
-    <File Name="../src/objects/sphere.h"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="stb_vorbis">
-    <File Name="../src/stb_vorbis/stb_vorbis.h"/>
-    <File Name="../src/stb_vorbis/stb_vorbis.cpp"/>
-  </VirtualDirectory>
-  <VirtualDirectory Name="tinyxml">
-    <File Name="../src/tinyxml/tinyxml2.cpp"/>
-    <File Name="../src/tinyxml/tinyxml2.h"/>
-  </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="">
@@ -190,4 +92,102 @@
       </Completion>
     </Configuration>
   </Settings>
+  <VirtualDirectory Name="src">
+    <File Name="../src/menu.h"/>
+    <File Name="../src/play.cpp"/>
+    <File Name="../src/null.h"/>
+    <File Name="../src/main.cpp"/>
+    <File Name="../src/viewreplay.h"/>
+    <File Name="../src/all.cpp"/>
+    <File Name="../src/viewreplay.cpp"/>
+    <File Name="../src/null.cpp"/>
+    <File Name="../src/all.h"/>
+    <File Name="../src/play.h"/>
+    <File Name="../src/menu.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="engine">
+    <File Name="../src/engine/camera.h"/>
+    <File Name="../src/engine/save.cpp"/>
+    <File Name="../src/engine/state.h"/>
+    <File Name="../src/engine/objectmanager.h"/>
+    <File Name="../src/engine/game.h"/>
+    <File Name="../src/engine/globals.h"/>
+    <File Name="../src/engine/graphics.cpp"/>
+    <File Name="../src/engine/fader.h"/>
+    <File Name="../src/engine/actions.h"/>
+    <File Name="../src/engine/fader.cpp"/>
+    <File Name="../src/engine/game.cpp"/>
+    <File Name="../src/engine/replay.h"/>
+    <File Name="../src/engine/namespace.h"/>
+    <File Name="../src/engine/filestream.h"/>
+    <File Name="../src/engine/config.cpp"/>
+    <File Name="../src/engine/level.h"/>
+    <File Name="../src/engine/log.h"/>
+    <File Name="../src/engine/random.cpp"/>
+    <File Name="../src/engine/input.cpp"/>
+    <File Name="../src/engine/camera.cpp"/>
+    <File Name="../src/engine/globals.cpp"/>
+    <File Name="../src/engine/level.cpp"/>
+    <File Name="../src/engine/audio.h"/>
+    <File Name="../src/engine/log.cpp"/>
+    <File Name="../src/engine/config.h"/>
+    <File Name="../src/engine/replay.cpp"/>
+    <File Name="../src/engine/objectmanager.cpp"/>
+    <File Name="../src/engine/database.h"/>
+    <File Name="../src/engine/graphics.h"/>
+    <File Name="../src/engine/constants.h"/>
+    <File Name="../src/engine/input.h"/>
+    <File Name="../src/engine/actions.cpp"/>
+    <File Name="../src/engine/save.h"/>
+    <File Name="../src/engine/audio.cpp"/>
+    <File Name="../src/engine/interface.cpp"/>
+    <File Name="../src/engine/physics.h"/>
+    <File Name="../src/engine/random.h"/>
+    <File Name="../src/engine/filestream.cpp"/>
+    <File Name="../src/engine/campaign.h"/>
+    <File Name="../src/engine/database.cpp"/>
+    <File Name="../src/engine/scripting.h"/>
+    <File Name="../src/engine/campaign.cpp"/>
+    <File Name="../src/engine/scripting.cpp"/>
+    <File Name="../src/engine/interface.h"/>
+    <File Name="../src/engine/physics.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="irrb">
+    <File Name="../src/irrb/CIrrBMeshFileLoader.cpp"/>
+    <File Name="../src/irrb/CIrrBMeshWriter.h"/>
+    <File Name="../src/irrb/CIrrBMeshFileLoader.h"/>
+    <File Name="../src/irrb/CIrrBMeshWriter.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="objects">
+    <File Name="../src/objects/cylinder.cpp"/>
+    <File Name="../src/objects/springjoint.h"/>
+    <File Name="../src/objects/box.h"/>
+    <File Name="../src/objects/template.h"/>
+    <File Name="../src/objects/template.cpp"/>
+    <File Name="../src/objects/cylinder.h"/>
+    <File Name="../src/objects/springjoint.cpp"/>
+    <File Name="../src/objects/zone.cpp"/>
+    <File Name="../src/objects/object.cpp"/>
+    <File Name="../src/objects/player.h"/>
+    <File Name="../src/objects/player.cpp"/>
+    <File Name="../src/objects/collision.cpp"/>
+    <File Name="../src/objects/collision.h"/>
+    <File Name="../src/objects/orb.cpp"/>
+    <File Name="../src/objects/zone.h"/>
+    <File Name="../src/objects/sphere.h"/>
+    <File Name="../src/objects/constraint.h"/>
+    <File Name="../src/objects/constraint.cpp"/>
+    <File Name="../src/objects/object.h"/>
+    <File Name="../src/objects/sphere.cpp"/>
+    <File Name="../src/objects/box.cpp"/>
+    <File Name="../src/objects/orb.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="stb_vorbis">
+    <File Name="../src/stb_vorbis/stb_vorbis.h"/>
+    <File Name="../src/stb_vorbis/stb_vorbis.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="tinyxml">
+    <File Name="../src/tinyxml/tinyxml2.cpp"/>
+    <File Name="../src/tinyxml/tinyxml2.h"/>
+  </VirtualDirectory>
 </CodeLite_Project>
