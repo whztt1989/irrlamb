@@ -183,7 +183,7 @@ void _Game::Update() {
 	TimeStamp = irrTimer->getTime();
 
 	// Limit frame rate
-	float ExtraTime = 1.0f / SleepRate - LastFrameTime;
+	float ExtraTime = SleepRate - LastFrameTime;
 	if(ExtraTime > 0.0f) {
 		irrDevice->sleep((irr::u32)(ExtraTime * 1000));
 	}

@@ -86,14 +86,15 @@ bool _Input::OnEvent(const SEvent &Event) {
 					Game.GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
-
-					// Save mouse position
+				
+					// False means the real mouse moved
 					if(!VirtualMouseMoved) {
+						//printf("here %d %d %d\n", VirtualMouseMoved, Event.MouseInput.X, Event.MouseInput.Y);
 						MouseX = (float)Event.MouseInput.X;
 						MouseY = (float)Event.MouseInput.Y;
 					}
 					VirtualMouseMoved = false;
-
+				
 					// Check for mouse locking
 					if(MouseLocked) {
 						position2df MouseUpdate = irrDevice->getCursorControl()->getRelativePosition();
@@ -131,7 +132,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 		case EET_JOYSTICK_INPUT_EVENT: {
 			if(!Config.JoystickEnabled || Event.JoystickEvent.Joystick > 0)
 				return false;
-
+			
+			int OldMouseX = (int)MouseX;
+			int OldMouseY = (int)MouseY;
+			
 			LastJoystickButtonState = JoystickState.ButtonStates;
 			JoystickState = Event.JoystickEvent;
 
@@ -162,6 +166,12 @@ bool _Input::OnEvent(const SEvent &Event) {
 			//	printf("%f\t", GetAxis(i));
 			//}
 			//printf("\n");
+			
+			// Set flag if joystick moved the mouse cursor
+			if(OldMouseX != (int)MouseX || OldMouseY != (int)MouseY) {
+				irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
+				VirtualMouseMoved = true;
+			}
 		} break;
 		default:
 		break;
@@ -279,30 +289,22 @@ void _Input::DriveMouse(int Action, float Value) {
 	
 	if(Value == 0.0f)
 		return;
-		
-	//printf("%f %f\n", MouseX, MouseY);
+
 	switch(Action) {
 		case _Actions::CURSOR_LEFT:
 			MouseX -= Value * Game.GetLastFrameTime();
-			VirtualMouseMoved = true;
-			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_RIGHT:
 			MouseX += Value * Game.GetLastFrameTime();
-			VirtualMouseMoved = true;
-			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_UP:
 			MouseY -= Value * Game.GetLastFrameTime();
-			VirtualMouseMoved = true;
-			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_DOWN:
 			MouseY += Value * Game.GetLastFrameTime();
-			VirtualMouseMoved = true;
-			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 	}
+
 }
 
 // Resets the keyboard state
