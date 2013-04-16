@@ -34,6 +34,9 @@ class _Config {
 		int ReadConfig();
 		int WriteConfig();
 
+		int ReadJoystickConfig();
+		int WriteJoystickConfig();
+
 		// Video
 		int DriverType;
 		int ScreenWidth, ScreenHeight;

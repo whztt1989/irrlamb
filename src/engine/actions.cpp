@@ -38,10 +38,9 @@ void _Actions::ResetState() {
 }
 
 // Clear all mappings
-void _Actions::ClearMappings() {
-	for(int i = 0; i < _Input::INPUT_COUNT; i++)
-		for(int j = 0; j < ACTIONS_MAXINPUTS; j++)
-			InputMap[i][j].clear();
+void _Actions::ClearMappings(int InputType) {
+	for(int i = 0; i < ACTIONS_MAXINPUTS; i++)
+		InputMap[InputType][i].clear();
 }
 
 // Get action
@@ -90,17 +89,15 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 }
 
 // Write to config file
-void _Actions::Serialize(XMLDocument &Document, XMLElement *InputElement) {
-	for(int i = 0; i < _Input::INPUT_COUNT; i++) {
-		for(int j = 0; j < ACTIONS_MAXINPUTS; j++) {
-			for(std::list<_ActionMap>::iterator MapIterator = InputMap[i][j].begin(); MapIterator != InputMap[i][j].end(); MapIterator++) {
-				XMLElement *Element = Document.NewElement("map");
-				Element->SetAttribute("type", i);
-				Element->SetAttribute("input", j);
-				Element->SetAttribute("action", MapIterator->Action);
-				Element->SetAttribute("scale", MapIterator->Scale);
-				InputElement->InsertEndChild(Element);
-			}
+void _Actions::Serialize(int InputType, XMLDocument &Document, XMLElement *InputElement) {
+	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
+		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
+			XMLElement *Element = Document.NewElement("map");
+			Element->SetAttribute("type", InputType);
+			Element->SetAttribute("input", i);
+			Element->SetAttribute("action", MapIterator->Action);
+			Element->SetAttribute("scale", MapIterator->Scale);
+			InputElement->InsertEndChild(Element);
 		}
 	}
 }

@@ -71,7 +71,7 @@ class _Actions {
 		_Actions();
 
 		void ResetState();
-		void ClearMappings();
+		void ClearMappings(int InputType);
 
 		// Actions
 		float GetState(int Action);
@@ -84,7 +84,7 @@ class _Actions {
 		void InputEvent(int InputType, int Input, float Value);
 
 		// Config
-		void Serialize(tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
+		void Serialize(int InputType, tinyxml2::XMLDocument &Document, tinyxml2::XMLElement *InputElement);
 		void Unserialize(tinyxml2::XMLElement *InputElement);
 
 	private:

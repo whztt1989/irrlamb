@@ -60,6 +60,7 @@ class _Input : public irr::IEventReceiver  {
 		const irr::SJoystickInfo &GetJoystickInfo();
 		float GetAxis(int Axis);
 		void DriveMouse(int Action, float Value);
+		irr::core::stringc GetCleanJoystickName();
 
 		const char *GetKeyName(int Key);
 

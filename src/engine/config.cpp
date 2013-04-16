@@ -84,8 +84,10 @@ void _Config::Reset() {
 // Add default actions
 void _Config::AddDefaultActionMap(bool Force) {
 	
-	if(Force)
-		Actions.ClearMappings();
+	if(Force) {
+		for(int i = 0; i < _Input::INPUT_COUNT; i++)
+			Actions.ClearMappings(i);
+	}
 		
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_E, _Actions::MOVE_FORWARD);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_D, _Actions::MOVE_BACK);
@@ -234,8 +236,13 @@ int _Config::ReadConfig() {
 	}
 
 	// Add action maps
-	Actions.ClearMappings();
+	Actions.ClearMappings(_Input::KEYBOARD);
+	Actions.ClearMappings(_Input::MOUSE_BUTTON);
+	Actions.ClearMappings(_Input::MOUSE_AXIS);
 	Actions.Unserialize(InputElement);
+	
+	// Read the joystick config file if it exists
+	int HasJoystickConfig = ReadJoystickConfig();
 	
 	// Add missing mappings
 	AddDefaultActionMap();
@@ -246,7 +253,7 @@ int _Config::ReadConfig() {
 		ReplayElement->QueryFloatAttribute("interval", (float *)(&ReplayInterval));
 	}
 
-	return 1;
+	return HasJoystickConfig;
 }
 
 // Writes the config file
@@ -313,7 +320,9 @@ int _Config::WriteConfig() {
 	ConfigElement->LinkEndChild(InputElement);
 
 	// Write action map
-	Actions.Serialize(Document, InputElement);
+	Actions.Serialize(_Input::KEYBOARD, Document, InputElement);
+	Actions.Serialize(_Input::MOUSE_BUTTON, Document, InputElement);
+	Actions.Serialize(_Input::MOUSE_AXIS, Document, InputElement);
 
 	// Replays
 	XMLElement *ReplayElement = Document.NewElement("replay");
@@ -323,5 +332,60 @@ int _Config::WriteConfig() {
 	// Write file
 	Document.SaveFile(Save.GetConfigFile().c_str());
 	
+	// Write joystick config to its own file based on name
+	WriteJoystickConfig();
+	
+	return 1;
+}
+
+// Read the current joystick's mapping
+int _Config::ReadJoystickConfig() {
+	if(!Input.HasJoystick())
+		return 1;
+
+	// Get joystick name
+	std::string Name = Input.GetCleanJoystickName().c_str();
+	std::string Path = Save.GetSavePath() + Name + ".xml";
+
+	// Open the XML file
+	XMLDocument Document;
+	if(Document.LoadFile(Path.c_str()) != XML_NO_ERROR) {
+		return 0;
+	}
+
+	// Get input element
+	XMLElement *InputMapElement = Document.FirstChildElement("inputmap");
+	if(InputMapElement) {
+
+		// Add action maps
+		Actions.ClearMappings(_Input::JOYSTICK_BUTTON);
+		Actions.ClearMappings(_Input::JOYSTICK_AXIS);
+		Actions.Unserialize(InputMapElement);
+	}
+
+	return 1;
+}
+
+// Write the current joystick's mapping
+int _Config::WriteJoystickConfig() {
+	if(!Input.HasJoystick())
+		return 1;
+
+	XMLDocument Document;
+	Document.InsertEndChild(Document.NewDeclaration());
+	
+	// Config
+	XMLElement *InputMapElement = Document.NewElement("inputmap");
+	InputMapElement->SetAttribute("name", Input.GetJoystickInfo().Name.c_str());
+	Document.InsertEndChild(InputMapElement);
+	
+	// Write action map
+	Actions.Serialize(_Input::JOYSTICK_BUTTON, Document, InputMapElement);
+	Actions.Serialize(_Input::JOYSTICK_AXIS, Document, InputMapElement);
+
+	// Write file
+	std::string Name = Input.GetCleanJoystickName().c_str();
+	Document.SaveFile((Save.GetSavePath() + Name + ".xml").c_str());
+
 	return 1;
 }

@@ -223,6 +223,25 @@ const irr::SJoystickInfo &_Input::GetJoystickInfo() {
 	return Joysticks[0];
 }
 
+// Return the joystick name suitable for a filename
+stringc _Input::GetCleanJoystickName() {
+	
+	// Get joystick name in lower case
+	stringc Name = "";
+	if(Input.HasJoystick()) {
+		Name = Input.GetJoystickInfo().Name;
+		Name.make_lower();
+		u32 Length = Name.size();
+		for(u32 i = 0; i < Length; i++) {
+			if(Name[i] == ' ') {
+				Name[i] = '_';
+			}
+		}
+	}
+
+	return Name;
+}
+
 // Get a joystick axis value
 float _Input::GetAxis(int Axis) {
 	if(!HasJoystick())
