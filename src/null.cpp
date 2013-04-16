@@ -70,9 +70,9 @@ int _NullState::Close() {
 }
 
 // Handle new actions
-bool _NullState::HandleAction(int Action, float Value) {
+bool _NullState::HandleAction(int InputType, int Action, float Value) {
 
-	return Menu.HandleAction(Action, Value);
+	return Menu.HandleAction(InputType, Action, Value);
 }
 
 // Key presses

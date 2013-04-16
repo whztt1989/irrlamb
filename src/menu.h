@@ -69,7 +69,7 @@ class _Menu {
 		void SaveReplay();
 
 		bool HandleKeyPress(int Key);
-		bool HandleAction(int Action, float Value);
+		bool HandleAction(int InputType, int Action, float Value);
 		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 
 		void Update(float FrameTime);

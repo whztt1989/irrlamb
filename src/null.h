@@ -34,7 +34,7 @@ class _NullState : public _State {
 
 		_NullState() { State = 0; }
 
-		bool HandleAction(int Action, float Value);
+		bool HandleAction(int InputType, int Action, float Value);
 		bool HandleKeyPress(int Key);
 		void HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, irr::gui::IGUIElement *Element);
 

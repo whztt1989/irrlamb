@@ -44,6 +44,7 @@ class _Game {
 
 		float GetTimeStep() { return TimeStep; }
 		float GetTimeScale() { return TimeScale; }
+		float GetLastFrameTime() { return LastFrameTime; }
 		void SetTimeScale(float Value) { TimeScale = Value; }
 		void UpdateTimeStepAccumulator(float Value) { TimeStepAccumulator += Value; }
 		void ResetTimer();
@@ -70,6 +71,7 @@ class _Game {
 		float SleepRate;
 
 		// Physics
+		float LastFrameTime;
 		float TimeStep, TimeStepAccumulator, TimeScale;
 
 		// Misc

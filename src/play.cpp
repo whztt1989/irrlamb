@@ -145,7 +145,7 @@ void _PlayState::ResetLevel() {
 }
 
 // Handle new actions
-bool _PlayState::HandleAction(int Action, float Value) {
+bool _PlayState::HandleAction(int InputType, int Action, float Value) {
 	if(Resetting)
 		return false;
 		
@@ -173,25 +173,37 @@ bool _PlayState::HandleAction(int Action, float Value) {
 				return true;
 			break;
 			case _Actions::CAMERA_LEFT:
-				if(Camera)
+				if(Camera) {
+					if(InputType == _Input::JOYSTICK_AXIS)
+						Value *= Game.GetLastFrameTime();
 					Camera->HandleMouseMotion(-Value, 0);
+				}
 			break;
 			case _Actions::CAMERA_RIGHT:
-				if(Camera)
+				if(Camera) {
+					if(InputType == _Input::JOYSTICK_AXIS)
+						Value *= Game.GetLastFrameTime();
 					Camera->HandleMouseMotion(Value, 0);
+				}
 			break;
 			case _Actions::CAMERA_UP:
-				if(Camera)
+				if(Camera) {
+					if(InputType == _Input::JOYSTICK_AXIS)
+						Value *= Game.GetLastFrameTime();
 					Camera->HandleMouseMotion(0, -Value);
+				}
 			break;
 			case _Actions::CAMERA_DOWN:
-				if(Camera)
+				if(Camera) {
+					if(InputType == _Input::JOYSTICK_AXIS)
+						Value *= Game.GetLastFrameTime();
 					Camera->HandleMouseMotion(0, Value);
+				}
 			break;
 		}
 	}
 	else {
-		Processed = Menu.HandleAction(Action, Value);
+		Processed = Menu.HandleAction(InputType, Action, Value);
 	}
 
 	//printf("action press %d %f\n", Action, Value);

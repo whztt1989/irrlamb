@@ -61,7 +61,7 @@ void _Config::Reset() {
 	MusicVolume = 1.0;
 
 	// Input
-	JoystickEnabled = Input.HasJoystick();
+	JoystickEnabled = true;
 	Keys[_Actions::MOVE_FORWARD] = KEY_KEY_E;
 	Keys[_Actions::MOVE_BACK] = KEY_KEY_D;
 	Keys[_Actions::MOVE_LEFT] = KEY_KEY_S;
@@ -111,35 +111,38 @@ void _Config::AddDefaultActionMap(bool Force) {
 	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::MOVE_RIGHT);
 	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::MOVE_FORWARD);
 	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::MOVE_BACK);
-	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 0, _Actions::CURSOR_LEFT, 3.0f);
-	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::CURSOR_RIGHT, 3.0f);
-	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::CURSOR_UP, 3.0f);
-	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::CURSOR_DOWN, 3.0f);
+	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 0, _Actions::CURSOR_LEFT, 400.0f);
+	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 1, _Actions::CURSOR_RIGHT, 400.0f);
+	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 2, _Actions::CURSOR_UP, 400.0f);
+	Actions.AddInputMap(_Input::JOYSTICK_AXIS, 3, _Actions::CURSOR_DOWN, 400.0f);
 	Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::JUMP);
 	Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 0, _Actions::MENU_GO);
 	Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 1, _Actions::MENU_BACK);
 	Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 6, _Actions::RESET);
 	Actions.AddInputMap(_Input::JOYSTICK_BUTTON, 7, _Actions::MENU_PAUSE);
 
+	float AxisScaleX = 130.0f;
+	float AxisScaleY = 100.0f;
+
 	#ifdef WIN32
 
 		// Assume xbox or similar controller
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_LEFT);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_RIGHT);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_UP);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_DOWN);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_LEFT, AxisScaleX);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_RIGHT, AxisScaleX);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_UP, AxisScaleY);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_DOWN, AxisScaleY);
 	#else
 		if(Name.find("x-box", 0) || Name.find("xbox", 0)) {
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, AxisScaleX);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, AxisScaleX);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP, AxisScaleY);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN, AxisScaleY);
 		}
 		else {
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP);
-			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, AxisScaleX);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, AxisScaleX);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP, AxisScaleY);
+			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN, AxisScaleY);
 		}
 
 	#endif

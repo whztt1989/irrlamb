@@ -68,7 +68,7 @@ enum GUIElements {
 };
 
 // Handle action inputs
-bool _Menu::HandleAction(int Action, float Value) {
+bool _Menu::HandleAction(int InputType, int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
 

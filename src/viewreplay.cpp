@@ -127,7 +127,7 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 }
 
 // Handle action inputs
-bool _ViewReplayState::HandleAction(int Action, float Value) {
+bool _ViewReplayState::HandleAction(int InputType, int Action, float Value) {
 	if(Input.HasJoystick())
 		Input.DriveMouse(Action, Value);
 

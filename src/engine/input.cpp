@@ -242,7 +242,6 @@ float _Input::GetAxis(int Axis) {
 
 // Use actions to drive the mouse
 void _Input::DriveMouse(int Action, float Value) {
-	//position2di MousePosition = irrDevice->getCursorControl()->getPosition();
 	
 	if(Action == _Actions::MENU_GO) {
 		//printf("%d %f\n", Action, Value);
@@ -265,22 +264,22 @@ void _Input::DriveMouse(int Action, float Value) {
 	//printf("%f %f\n", MouseX, MouseY);
 	switch(Action) {
 		case _Actions::CURSOR_LEFT:
-			MouseX -= Value;
+			MouseX -= Value * Game.GetLastFrameTime();
 			VirtualMouseMoved = true;
 			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_RIGHT:
-			MouseX += Value;
+			MouseX += Value * Game.GetLastFrameTime();
 			VirtualMouseMoved = true;
 			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_UP:
-			MouseY -= Value;
+			MouseY -= Value * Game.GetLastFrameTime();
 			VirtualMouseMoved = true;
 			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;
 		case _Actions::CURSOR_DOWN:
-			MouseY += Value;
+			MouseY += Value * Game.GetLastFrameTime();
 			VirtualMouseMoved = true;
 			irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
 		break;

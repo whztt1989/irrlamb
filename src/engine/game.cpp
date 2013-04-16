@@ -45,10 +45,11 @@ _Game Game;
 int _Game::Init(int Count, char **Arguments) {
 
 	// Defaults
-	SleepRate = 120.0f;
+	SleepRate = 180.0f;
 	TimeStep = PHYSICS_TIMESTEP;
 	TimeStepAccumulator = 0.0f;
 	TimeScale = 1.0f;
+	LastFrameTime = 0.0f;
 	TimeStamp = 0;
 	WindowActive = true;
 	MouseWasLocked = false;
@@ -178,11 +179,11 @@ void _Game::Update() {
 		Done = true;
 
 	// Get time difference from last frame
-	float FrameTime = (irrTimer->getTime() - TimeStamp) * 0.001f;	
+	LastFrameTime = (irrTimer->getTime() - TimeStamp) * 0.001f;
 	TimeStamp = irrTimer->getTime();
 
 	// Limit frame rate
-	float ExtraTime = 1.0f / SleepRate - FrameTime;
+	float ExtraTime = 1.0f / SleepRate - LastFrameTime;
 	if(ExtraTime > 0.0f) {
 		irrDevice->sleep((irr::u32)(ExtraTime * 1000));
 	}
@@ -205,7 +206,7 @@ void _Game::Update() {
 	}
 
 	// Update fader
-	Fader.Update(FrameTime * TimeScale);
+	Fader.Update(LastFrameTime * TimeScale);
 	Graphics.BeginFrame();
 
 	// Update the current state
@@ -223,7 +224,7 @@ void _Game::Update() {
 			ManagerState = STATE_UPDATE;
 		break;
 		case STATE_UPDATE:
-			TimeStepAccumulator += FrameTime * TimeScale;
+			TimeStepAccumulator += LastFrameTime * TimeScale;
 			while(TimeStepAccumulator >= TimeStep) {
 				State->Update(TimeStep);
 				TimeStepAccumulator -= TimeStep;

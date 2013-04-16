@@ -84,7 +84,7 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 		State[MapIterator->Action] = Value;
 
 		// If true is returned, stop handling the same key
-		if(Game.GetState()->HandleAction(MapIterator->Action, Value * MapIterator->Scale))
+		if(Game.GetState()->HandleAction(InputType, MapIterator->Action, Value * MapIterator->Scale))
 			break;
 	}
 }
