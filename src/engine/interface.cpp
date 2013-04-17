@@ -54,12 +54,20 @@ int _Interface::Init() {
 		return 0;
 	}
 
+	// Load alternate large font
+	Fonts[FONT_BUTTON] = irrGUI->getFont("fonts/fjallaone_24.xml");
+	if(!Fonts[FONT_BUTTON]) {
+		Log.Write("_Interface::Init - Unable to load fjallaone_24.xml");
+		return 0;
+	}
+	
 	// Load images
 	Images[IMAGE_MOUSECURSOR] = irrDriver->getTexture("art/cursor.png");
 	Images[IMAGE_FADE] = irrDriver->getTexture("art/fade.png");
 	Images[IMAGE_BUTTON80] = irrDriver->getTexture("art/button_80.png");
 	Images[IMAGE_BUTTON100] = irrDriver->getTexture("art/button_100.png");
 	Images[IMAGE_BUTTON128] = irrDriver->getTexture("art/button_128.png");
+	Images[IMAGE_BUTTONBIG] = irrDriver->getTexture("art/button_big.png");
 	Images[IMAGE_TEXTBOXSHEET0] = irrDriver->getTexture("art/sheet_textbox0.png");
 	Images[IMAGE_TEXTBOXSHEET1] = irrDriver->getTexture("art/sheet_textbox1.png");
 	Images[IMAGE_TEXTBOXSHEET2] = irrDriver->getTexture("art/sheet_textbox2.png");

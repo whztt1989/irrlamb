@@ -428,10 +428,10 @@ void _Menu::InitMain() {
 
 	// Button
 	int Y = Interface.GetCenterY() - 50;
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y, 130, 34), MAIN_SINGLEPLAYER, L"Single Player");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 50, 130, 34), MAIN_REPLAYS, L"Replays");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 100, 130, 34), MAIN_OPTIONS, L"Options");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 150, 130, 34), MAIN_QUIT, L"Quit");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player", _Interface::IMAGE_BUTTONBIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 1, 194, 52), MAIN_REPLAYS, L"Replays", _Interface::IMAGE_BUTTONBIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 2, 194, 52), MAIN_OPTIONS, L"Options", _Interface::IMAGE_BUTTONBIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 3, 194, 52), MAIN_QUIT, L"Quit", _Interface::IMAGE_BUTTONBIG);
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -1102,6 +1102,8 @@ IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, cons
 	Button->setImage(Interface.GetImage(ButtonImage));
 	Button->setUseAlphaChannel(true);
 	Button->setDrawBorder(false);
+	Button->setOverrideFont(Interface.GetFont(_Interface::FONT_BUTTON));
+	
 
 	return Button;
 }
