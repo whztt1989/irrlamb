@@ -79,7 +79,7 @@ class _Menu {
 
 	private:
 
-		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage=_Interface::IMAGE_BUTTON128);
+		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage=_Interface::IMAGE_BUTTONBIG);
 
 		void CancelKeyBind();
 		std::string GetReplayFile();

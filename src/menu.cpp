@@ -428,10 +428,10 @@ void _Menu::InitMain() {
 
 	// Button
 	int Y = Interface.GetCenterY() - 50;
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player", _Interface::IMAGE_BUTTONBIG);
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 1, 194, 52), MAIN_REPLAYS, L"Replays", _Interface::IMAGE_BUTTONBIG);
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 2, 194, 52), MAIN_OPTIONS, L"Options", _Interface::IMAGE_BUTTONBIG);
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 3, 194, 52), MAIN_QUIT, L"Quit", _Interface::IMAGE_BUTTONBIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 1, 194, 52), MAIN_REPLAYS, L"Replays");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 2, 194, 52), MAIN_OPTIONS, L"Options");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 3, 194, 52), MAIN_QUIT, L"Quit");
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -461,13 +461,13 @@ void _Menu::InitSinglePlayer() {
 	const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
 	for(u32 i = 0; i < Campaigns.size(); i++) {
 		irr::core::stringw Name(Campaigns[i].Name.c_str());
-		IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X, Y, 130, 34), PLAY_CAMPAIGNID + i, Name.c_str());
+		IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X, Y, 194, 52), PLAY_CAMPAIGNID + i, Name.c_str());
 
 		Y += 40;
 	}
 
 	Y += 50;
-	AddMenuButton(Interface.GetCenteredRect(X, Y, 130, 34), SINGLEPLAYER_BACK, L"Back");
+	AddMenuButton(Interface.GetCenteredRect(X, Y, 194, 52), SINGLEPLAYER_BACK, L"Back");
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -615,10 +615,10 @@ void _Menu::InitOptions() {
 	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
 
 	// Buttons
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 50, 130, 34), OPTIONS_VIDEO, L"Video");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY(), 130, 34), OPTIONS_AUDIO, L"Audio");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 50, 130, 34), OPTIONS_CONTROLS, L"Controls");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 100, 130, 34), OPTIONS_BACK, L"Back");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 50, 194, 52), OPTIONS_VIDEO, L"Video");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY(), 194, 52), OPTIONS_AUDIO, L"Audio");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 50, 194, 52), OPTIONS_CONTROLS, L"Controls");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 100, 194, 52), OPTIONS_BACK, L"Back");
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -777,11 +777,11 @@ void _Menu::InitPause() {
 	int X = Interface.GetCenterX();
 	int Y = Interface.GetCenterY() - 125;
 
-	AddMenuButton(Interface.GetCenteredRect(X, Y + 0 * 50, 130, 34), PAUSE_RESUME, L"Resume");
-	AddMenuButton(Interface.GetCenteredRect(X, Y + 1 * 50, 130, 34), PAUSE_SAVEREPLAY, L"Save Replay");
-	AddMenuButton(Interface.GetCenteredRect(X, Y + 2 * 50, 130, 34), PAUSE_RESTART, L"Restart Level");
-	AddMenuButton(Interface.GetCenteredRect(X, Y + 3 * 50, 130, 34), PAUSE_OPTIONS, L"Options");
-	AddMenuButton(Interface.GetCenteredRect(X, Y + 4 * 50, 130, 34), PAUSE_QUITLEVEL, L"Quit Level");
+	AddMenuButton(Interface.GetCenteredRect(X, Y + 0 * 50, 194, 52), PAUSE_RESUME, L"Resume");
+	AddMenuButton(Interface.GetCenteredRect(X, Y + 1 * 50, 194, 52), PAUSE_SAVEREPLAY, L"Save Replay");
+	AddMenuButton(Interface.GetCenteredRect(X, Y + 2 * 50, 194, 52), PAUSE_RESTART, L"Restart Level");
+	AddMenuButton(Interface.GetCenteredRect(X, Y + 3 * 50, 194, 52), PAUSE_OPTIONS, L"Options");
+	AddMenuButton(Interface.GetCenteredRect(X, Y + 4 * 50, 194, 52), PAUSE_QUITLEVEL, L"Quit Level");
 
 	Input.SetMouseLocked(false);
 
