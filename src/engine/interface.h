@@ -100,6 +100,9 @@ class _Interface {
 		void UnloadSounds();
 		void PlaySound(SoundType Sound);
 
+		int GetCenterX() { return CenterX; }
+		int GetCenterY() { return CenterY; }
+
 	private:
 
 		TutorialTextStruct TutorialText;
@@ -109,6 +112,8 @@ class _Interface {
 		irr::gui::IGUIFont *Fonts[FONT_COUNT];
 		irr::video::ITexture *Images[IMAGE_COUNT];
 		_AudioSource *Sounds[SOUND_COUNT];
+
+		int CenterX, CenterY;
 
 };
 

@@ -78,6 +78,9 @@ int _Interface::Init() {
 	ChangeSkin(SKIN_MENU);
 	Timer = 0.0f;
 
+	CenterX = irrDriver->getScreenSize().Width / 2;
+	CenterY = irrDriver->getScreenSize().Height / 2;
+
 	return 1;
 }
 

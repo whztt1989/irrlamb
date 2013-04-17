@@ -102,7 +102,6 @@ class _Menu {
 		const SaveLevelStruct *WinStats;
 
 		// Key mapping
-		static const wchar_t *ActionNames[_Actions::COUNT];
 		int CurrentKeys[_Actions::COUNT];
 		irr::gui::IGUIButton *KeyButton;
 		std::wstring KeyButtonOldText;
