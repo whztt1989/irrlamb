@@ -22,6 +22,7 @@
 #include <engine/log.h>
 #include <engine/audio.h>
 #include <engine/namespace.h>
+#include <font/CGUITTFont.h>
 
 _Interface Interface;
 
@@ -48,14 +49,14 @@ int _Interface::Init() {
 	}
 
 	// Load alternate large font
-	Fonts[FONT_LARGE] = irrGUI->getFont("fonts/font_large.xml");
+	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/PT_Sans-Web-Regular.ttf", 48);
 	if(!Fonts[FONT_LARGE]) {
 		Log.Write("_Interface::Init - Unable to load font_large.xml");
 		return 0;
 	}
 
 	// Load alternate large font
-	Fonts[FONT_BUTTON] = irrGUI->getFont("fonts/fjallaone_24.xml");
+	Fonts[FONT_BUTTON] = CGUITTFont::createTTFont(irrGUI, "fonts/FjallaOne-Regular.ttf", 24);
 	if(!Fonts[FONT_BUTTON]) {
 		Log.Write("_Interface::Init - Unable to load fjallaone_24.xml");
 		return 0;
@@ -94,6 +95,9 @@ int _Interface::Init() {
 
 // Closes the graphics system
 int _Interface::Close() {
+	
+	//for(int i = 0; i < FONT_COUNT; i++)
+	//	Fonts[i]->drop();
 	
 	return 1;
 }

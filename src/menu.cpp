@@ -38,6 +38,12 @@ _Menu Menu;
 const int CAMPAIGN_LEVELID = 1000;
 const int PLAY_CAMPAIGNID = 900;
 
+const int TITLE_Y = 200;
+const int TITLE_SPACING = 120;
+const int BUTTON_SPACING = 70;
+const int CAMPAIGN_SPACING = 60;
+const int BACK_Y = 220;
+
 enum GUIElements {
 	MAIN_SINGLEPLAYER, MAIN_REPLAYS, MAIN_OPTIONS, MAIN_QUIT,
 	SINGLEPLAYER_BACK,
@@ -427,11 +433,11 @@ void _Menu::InitMain() {
 	IGUIStaticText *TextVersion = irrGUI->addStaticText(stringw(GAME_VERSION).c_str(), Interface.GetCenteredRect(40, irrDriver->getScreenSize().Height - 20, 50, 15), false, false);
 
 	// Button
-	int Y = Interface.GetCenterY() - 50;
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 1, 194, 52), MAIN_REPLAYS, L"Replays");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 2, 194, 52), MAIN_OPTIONS, L"Options");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 70 * 3, 194, 52), MAIN_QUIT, L"Quit");
+	int Y = Interface.GetCenterY() - TITLE_Y + TITLE_SPACING;
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 1, 194, 52), MAIN_REPLAYS, L"Replays");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 2, 194, 52), MAIN_OPTIONS, L"Options");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 3, 194, 52), MAIN_QUIT, L"Quit");
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -451,22 +457,20 @@ void _Menu::InitSinglePlayer() {
 	SelectedLevel = -1;
 
 	// Text
-	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - 150;
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Level Sets", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
+	AddMenuText(position2di(X, Y), L"Level Sets");
 
 	// Campaigns
-	Y += 50;
+	Y += TITLE_SPACING;
 	const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
 	for(u32 i = 0; i < Campaigns.size(); i++) {
 		irr::core::stringw Name(Campaigns[i].Name.c_str());
 		IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X, Y, 194, 52), PLAY_CAMPAIGNID + i, Name.c_str());
 
-		Y += 40;
+		Y += CAMPAIGN_SPACING;
 	}
 
-	Y += 50;
+	Y = Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X, Y, 194, 52), SINGLEPLAYER_BACK, L"Back");
 
 	// Play sound
@@ -481,18 +485,17 @@ void _Menu::InitLevels() {
 	Interface.Clear();
 	LevelStats.clear();
 	SelectedLevel = -1;
-	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - 190;
+	const CampaignStruct &CampaignData = Campaign.GetCampaign(CampaignIndex);
+
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
 
 	// Text
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Levels", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	AddMenuText(position2di(X, Y), stringw(CampaignData.Name.c_str()).c_str());
 
 	// Add level list
 	X = Interface.GetCenterX() - 160;
-	Y += 60;
+	Y += TITLE_SPACING;
 	int Column = 0, Row = 0;
-	const CampaignStruct &CampaignData = Campaign.GetCampaign(CampaignIndex);
 	for(u32 i = 0; i < CampaignData.Levels.size(); i++) {
 		bool Unlocked = true;
 				
@@ -529,8 +532,8 @@ void _Menu::InitLevels() {
 
 	// Buttons
 	X = Interface.GetCenterX();
-	Y = Interface.GetCenterY() + 180;
-	AddMenuButton(Interface.GetCenteredRect(X, Y, 82, 34), LEVELS_BACK, L"Back", _Interface::IMAGE_BUTTON80);
+	Y = Interface.GetCenterY() + BACK_Y;
+	AddMenuButton(Interface.GetCenteredRect(X, Y, 194, 52), LEVELS_BACK, L"Back", _Interface::IMAGE_BUTTONBIG);
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -548,13 +551,11 @@ void _Menu::InitReplays() {
 	char Buffer[256];
 
 	// Text
-	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - 180;
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Replays", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
+	AddMenuText(position2di(X, Y), L"Replays");
 
 	// Level selection
-	Y += 160;
+	Y += TITLE_SPACING;
 	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 450, 250), 0, REPLAYS_FILES, true);
 
 	// Change directories
@@ -610,15 +611,16 @@ void _Menu::InitOptions() {
 	Interface.Clear();
 			
 	// Text
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Options", Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 120, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
+	AddMenuText(position2di(X, Y), L"Options");
+	
+	Y += TITLE_SPACING;
 
 	// Buttons
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 50, 194, 52), OPTIONS_VIDEO, L"Video");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY(), 194, 52), OPTIONS_AUDIO, L"Audio");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 50, 194, 52), OPTIONS_CONTROLS, L"Controls");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() + 100, 194, 52), OPTIONS_BACK, L"Back");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 0 * BUTTON_SPACING, 194, 52), OPTIONS_VIDEO, L"Video");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 1 * BUTTON_SPACING, 194, 52), OPTIONS_AUDIO, L"Audio");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 2 * BUTTON_SPACING, 194, 52), OPTIONS_CONTROLS, L"Controls");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + 3 * BUTTON_SPACING, 194, 52), OPTIONS_BACK, L"Back");
 
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
@@ -632,13 +634,11 @@ void _Menu::InitVideo() {
 	Interface.Clear();
 
 	// Text
-	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - 150;
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Video", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
+	AddMenuText(position2di(X, Y), L"Video");
 
 	// Video modes
-	Y += 40;
+	Y += TITLE_SPACING;
 	const std::vector<VideoModeStruct> &ModeList = Graphics.GetVideoModes();
 	if(ModeList.size() > 0) {
 		IGUIStaticText *TextScreenResolution = irrGUI->addStaticText(L"Screen Resolution", Interface.GetCenteredRect(X - 65, Y, 110, 25));
@@ -693,13 +693,11 @@ void _Menu::InitAudio() {
 	Interface.Clear();
 
 	// Text
-	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - 150;
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Audio", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
+	AddMenuText(position2di(X, Y), L"Audio");
 
 	// Sound enabled
-	Y += 60;
+	Y += TITLE_SPACING;
 	IGUIStaticText *TextAudioEnabled = irrGUI->addStaticText(L"Audio Enabled", Interface.GetCenteredRect(X - 65, Y, 110, 25));
 	TextAudioEnabled->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
 	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
@@ -721,15 +719,13 @@ void _Menu::InitControls() {
 	Interface.Clear();
 
 	int X = Interface.GetCenterX();
-	int Y = Interface.GetCenterY() - 250;
+	int Y = Interface.GetCenterY() - TITLE_Y;
 
 	// Text
-	IGUIStaticText *Text = irrGUI->addStaticText(L"Controls", Interface.GetCenteredRect(X, Y, 150, 40), false, false);
-	Text->setOverrideFont(Interface.GetFont(_Interface::FONT_LARGE));
-	Text->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	AddMenuText(position2di(X, Y), L"Controls");
 
 	// Create the key buttons
-	Y += 100;
+	Y += TITLE_SPACING;
 	KeyButton = NULL;
 	for(int i = 0; i <= _Actions::RESET; i++) {
 				
@@ -1049,6 +1045,7 @@ void _Menu::DrawWinScreen() {
 		HighY += 17;
 	}
 }
+
 // Cancels the key bind state
 void _Menu::CancelKeyBind() {
 	KeyButton->setText(KeyButtonOldText.c_str());
@@ -1103,7 +1100,20 @@ IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, cons
 	Button->setUseAlphaChannel(true);
 	Button->setDrawBorder(false);
 	Button->setOverrideFont(Interface.GetFont(_Interface::FONT_BUTTON));
-	
 
 	return Button;
+}
+
+// Add menu text label
+IGUIStaticText *_Menu::AddMenuText(const position2di &CenterPosition, const wchar_t *Text, _Interface::FontType Font, int ID) {
+	
+	// Get text dimensions
+	dimension2du Size = Interface.GetFont(Font)->getDimension(Text);
+	
+	// Add text
+	IGUIStaticText *NewText = irrGUI->addStaticText(Text, Interface.GetCenteredRect(CenterPosition.X, CenterPosition.Y, Size.Width, Size.Height), false, false);
+	NewText->setOverrideFont(Interface.GetFont(Font));
+	NewText->setTextAlignment(EGUIA_CENTER, EGUIA_UPPERLEFT);
+	
+	return NewText;
 }

@@ -26,6 +26,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <ft2build.h>
 
 #include <lua.hpp>
 #include <al.h>

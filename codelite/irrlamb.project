@@ -190,4 +190,9 @@
     <File Name="../src/tinyxml/tinyxml2.cpp"/>
     <File Name="../src/tinyxml/tinyxml2.h"/>
   </VirtualDirectory>
+  <VirtualDirectory Name="font">
+    <File Name="../src/font/CGUITTFont.cpp"/>
+    <File Name="../src/font/CGUITTFont.h"/>
+    <File Name="../src/font/irrUString.h"/>
+  </VirtualDirectory>
 </CodeLite_Project>
