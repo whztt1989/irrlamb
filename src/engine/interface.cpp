@@ -65,10 +65,9 @@ int _Interface::Init() {
 	// Load images
 	Images[IMAGE_MOUSECURSOR] = irrDriver->getTexture("art/cursor.png");
 	Images[IMAGE_FADE] = irrDriver->getTexture("art/fade.png");
-	Images[IMAGE_BUTTON80] = irrDriver->getTexture("art/button_80.png");
-	Images[IMAGE_BUTTON100] = irrDriver->getTexture("art/button_100.png");
-	Images[IMAGE_BUTTON128] = irrDriver->getTexture("art/button_128.png");
-	Images[IMAGE_BUTTONBIG] = irrDriver->getTexture("art/button_big.png");
+	Images[IMAGE_BUTTON_SMALL] = irrDriver->getTexture("art/button_small.png");
+	Images[IMAGE_BUTTON_MEDIUM] = irrDriver->getTexture("art/button_100.png");
+	Images[IMAGE_BUTTON_BIG] = irrDriver->getTexture("art/button_big.png");
 	Images[IMAGE_TEXTBOXSHEET0] = irrDriver->getTexture("art/sheet_textbox0.png");
 	Images[IMAGE_TEXTBOXSHEET1] = irrDriver->getTexture("art/sheet_textbox1.png");
 	Images[IMAGE_TEXTBOXSHEET2] = irrDriver->getTexture("art/sheet_textbox2.png");
@@ -96,8 +95,8 @@ int _Interface::Init() {
 // Closes the graphics system
 int _Interface::Close() {
 	
-	//for(int i = 0; i < FONT_COUNT; i++)
-	//	Fonts[i]->drop();
+	for(int i = 0; i < FONT_COUNT; i++)
+		Fonts[i]->drop();
 	
 	return 1;
 }
@@ -164,7 +163,7 @@ void _Interface::Draw(float Time) {
 	// Draw timer
 	char TimeString[32];
 	ConvertSecondsToString(Time, TimeString);
-	RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_LARGE);
+	RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 
 	// Draw tutorial text
 	if(TutorialText.Text.size() > 0) {

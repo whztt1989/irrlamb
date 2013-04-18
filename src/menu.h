@@ -79,7 +79,7 @@ class _Menu {
 
 	private:
 
-		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage=_Interface::IMAGE_BUTTONBIG);
+		irr::gui::IGUIButton *AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage=_Interface::IMAGE_BUTTON_BIG);
 		irr::gui::IGUIStaticText *AddMenuText(const irr::core::position2di &CenterPosition, const wchar_t *Text, _Interface::FontType Type=_Interface::FONT_LARGE, int ID=-1);
 
 		void CancelKeyBind();

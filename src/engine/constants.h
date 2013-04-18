@@ -19,7 +19,7 @@
 #pragma once
 
 // Constants
-const char * const GAME_VERSION = "v0.1.2";
+const char * const GAME_VERSION = "0.1.2";
 const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
 const float SLEEP_RATE = 1.0f / 180.0f;
 const float FADE_SPEED = 5.0f;
