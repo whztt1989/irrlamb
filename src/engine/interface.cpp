@@ -34,31 +34,31 @@ int _Interface::Init() {
 	IGUISkin *Skin = irrGUI->getSkin();
 
 	// Set font
-	Fonts[FONT_SMALL] = irrGUI->getFont("fonts/font_small.xml");
+	Fonts[FONT_SMALL] = CGUITTFont::createTTFont(irrGUI, "fonts/Arimo-Regular.ttf", 16);
 	if(!Fonts[FONT_SMALL]) {
-		Log.Write("_Interface::Init - Unable to load font_small.xml");
+		Log.Write("_Interface::Init - Unable to load FONT_SMALL");
 		return 0;
 	}
 	Skin->setFont(Fonts[FONT_SMALL]);
 
 	// Load alternate medium font
-	Fonts[FONT_MEDIUM] = irrGUI->getFont("fonts/font_medium.xml");
+	Fonts[FONT_MEDIUM] = CGUITTFont::createTTFont(irrGUI, "fonts/Arimo-Regular.ttf", 24);
 	if(!Fonts[FONT_MEDIUM]) {
-		Log.Write("_Interface::Init - Unable to load font_medium.xml");
+		Log.Write("_Interface::Init - Unable to load FONT_MEDIUM");
 		return 0;
 	}
 
 	// Load alternate large font
 	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/PT_Sans-Web-Regular.ttf", 48);
 	if(!Fonts[FONT_LARGE]) {
-		Log.Write("_Interface::Init - Unable to load font_large.xml");
+		Log.Write("_Interface::Init - Unable to load FONT_LARGE");
 		return 0;
 	}
 
 	// Load alternate large font
 	Fonts[FONT_BUTTON] = CGUITTFont::createTTFont(irrGUI, "fonts/FjallaOne-Regular.ttf", 24);
 	if(!Fonts[FONT_BUTTON]) {
-		Log.Write("_Interface::Init - Unable to load fjallaone_24.xml");
+		Log.Write("_Interface::Init - Unable to load FONT_BUTTON");
 		return 0;
 	}
 	

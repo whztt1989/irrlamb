@@ -555,7 +555,7 @@ void _Menu::InitReplays() {
 	AddMenuText(position2di(X, Y), L"Replays");
 
 	// Level selection
-	Y += TITLE_SPACING;
+	Y = Interface.GetCenterY();
 	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 450, 250), 0, REPLAYS_FILES, true);
 
 	// Change directories
