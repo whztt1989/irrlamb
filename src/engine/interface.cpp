@@ -46,10 +46,9 @@ int _Interface::Init() {
 		Log.Write("_Interface::Init - Unable to load FONT_MEDIUM");
 		return 0;
 	}
-	Skin->setFont(Fonts[FONT_MEDIUM]);
 
 	// Load alternate large font
-	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/PT_Sans-Web-Regular.ttf", 48);
+	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/RobotoCondensed-Regular.ttf", 48);
 	if(!Fonts[FONT_LARGE]) {
 		Log.Write("_Interface::Init - Unable to load FONT_LARGE");
 		return 0;
@@ -61,6 +60,7 @@ int _Interface::Init() {
 		Log.Write("_Interface::Init - Unable to load FONT_BUTTON");
 		return 0;
 	}
+	Skin->setFont(Fonts[FONT_MEDIUM]);
 	
 	// Load images
 	Images[IMAGE_MOUSECURSOR] = irrDriver->getTexture("art/cursor.png");

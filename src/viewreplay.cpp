@@ -324,7 +324,7 @@ void _ViewReplayState::SetupGUI() {
 
 	// Exit
 	X += 45;
-	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 82, 34), 0, MAIN_EXIT, L"Exit");
+	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 108, 44), 0, MAIN_EXIT, L"Exit");
 	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON_SMALL));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);

@@ -563,7 +563,7 @@ void _Menu::InitReplays() {
 
 	// Level selection
 	Y = Interface.GetCenterY();
-	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 450, 250), 0, REPLAYS_FILES, true);
+	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 250), 0, REPLAYS_FILES, true);
 
 	// Change directories
 	std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
@@ -660,12 +660,12 @@ void _Menu::InitVideo() {
 	// Full Screen
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"Fullscreen", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_FULLSCREEN);
+	IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, VIDEO_FULLSCREEN);
 
 	// Shadows
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"Shadows", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADOWS);
+	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, VIDEO_SHADOWS);
 /*
 	// Shaders
 	Y += 30;
@@ -700,9 +700,8 @@ void _Menu::InitAudio() {
 
 	// Sound enabled
 	Y += TITLE_SPACING;
-	IGUIStaticText *TextAudioEnabled = irrGUI->addStaticText(L"Audio Enabled", Interface.GetCenteredRect(X - 65, Y, 110, 25));
-	TextAudioEnabled->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, AUDIO_ENABLED);
+	AddMenuText(position2di(X, Y), L"Audio Enabled", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, AUDIO_ENABLED);
 
 	// Save
 	Y += 90;
