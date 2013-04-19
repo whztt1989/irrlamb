@@ -39,7 +39,6 @@ int _Interface::Init() {
 		Log.Write("_Interface::Init - Unable to load FONT_SMALL");
 		return 0;
 	}
-	Skin->setFont(Fonts[FONT_SMALL]);
 
 	// Load alternate medium font
 	Fonts[FONT_MEDIUM] = CGUITTFont::createTTFont(irrGUI, "fonts/Arimo-Regular.ttf", 24);
@@ -47,6 +46,7 @@ int _Interface::Init() {
 		Log.Write("_Interface::Init - Unable to load FONT_MEDIUM");
 		return 0;
 	}
+	Skin->setFont(Fonts[FONT_MEDIUM]);
 
 	// Load alternate large font
 	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/PT_Sans-Web-Regular.ttf", 48);
@@ -195,6 +195,12 @@ void _Interface::ConvertSecondsToString(float Time, char *String) {
 recti _Interface::GetCenteredRect(int PositionX, int PositionY, int Width, int Height) {
 
 	return recti(PositionX - (Width >> 1), PositionY - (Height >> 1), PositionX + (Width >> 1), PositionY + (Height >> 1));
+}
+
+// Gets a rectangle aligned right
+recti _Interface::GetRightRect(int PositionX, int PositionY, int Width, int Height) {
+
+	return recti(PositionX - Width, PositionY - (Height >> 1), PositionX, PositionY + (Height >> 1));
 }
 
 // Gets a rectangle

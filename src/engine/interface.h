@@ -87,6 +87,7 @@ class _Interface {
 		void ConvertSecondsToString(float Time, char *String);
 
 		irr::core::recti GetCenteredRect(int PositionX, int PositionY, int Width, int Height);
+		irr::core::recti GetRightRect(int PositionX, int PositionY, int Width, int Height);
 		irr::core::recti GetRect(int PositionX, int PositionY, int Width, int Height);
 		
 		irr::video::ITexture *GetImage(ImageType Image) { return Images[Image]; }
