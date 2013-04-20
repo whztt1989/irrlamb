@@ -29,8 +29,9 @@ namespace irr {
 
 // Structures
 struct TutorialTextStruct {
-	std::string Text;
+	irr::gui::IGUIStaticText *Text;
 	float DeleteTime;
+	int MessageX, MessageY;
 };
 
 // Classes
@@ -122,7 +123,6 @@ class _Interface {
 		_AudioSource *Sounds[SOUND_COUNT];
 
 		int CenterX, CenterY;
-
 };
 
 // Singletons

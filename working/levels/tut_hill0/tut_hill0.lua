@@ -11,4 +11,4 @@ end
 GoalCount = 1
 
 -- Show text
-GUI.TutorialText("When climbing a steep hill, try hitting\n[" .. KEY_JUMP .. "] repeatedly.", 20)
+GUI.TutorialText("When climbing a steep hill, try hitting [" .. KEY_JUMP .. "] repeatedly.", 20)

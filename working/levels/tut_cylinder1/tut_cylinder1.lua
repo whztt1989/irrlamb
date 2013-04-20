@@ -21,4 +21,4 @@ for i = 0, 3 do
 end
 
 -- Show text
-GUI.TutorialText("When rolling on the cylinders, tap [" .. KEY_LEFT .. "]\n and [" .. KEY_RIGHT .. "] to counteract the rotation.", 10)
+GUI.TutorialText("When rolling on the cylinders, tap [" .. KEY_LEFT .. "]  and [" .. KEY_RIGHT .. "] to counteract the rotation.", 10)

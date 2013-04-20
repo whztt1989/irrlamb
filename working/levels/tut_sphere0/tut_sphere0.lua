@@ -22,4 +22,4 @@ end
 GoalCount = 1
 
 -- Show text
-GUI.TutorialText("Get near the top of the ball, then tap\n[" .. KEY_BACK .."] to roll the ball forward.", 10)
+GUI.TutorialText("Get near the top of the ball, then tap [" .. KEY_BACK .."] to roll the ball forward.", 10)

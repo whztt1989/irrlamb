@@ -108,6 +108,7 @@ void _PlayState::ResetLevel() {
 
 	// Set up GUI
 	Menu.InitPlay();
+	Interface.Clear();
 	Timer = 0.0f;
 
 	// Set up camera

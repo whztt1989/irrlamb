@@ -860,6 +860,7 @@ void _Menu::InitLose() {
 
 // Create the win screen
 void _Menu::InitWin() {
+	Interface.Clear();
 	
 	// Skip stats if just testing a level
 	bool LastLevelInCampaign = false;
@@ -1189,9 +1190,12 @@ IGUIStaticText *_Menu::AddMenuText(const position2di &CenterPosition, const wcha
 
 // Clear out the current menu layout
 void _Menu::ClearCurrentLayout() {
-	if(CurrentLayout)
+	if(CurrentLayout) {
+		irrGUI->setFocus(0);
 		CurrentLayout->remove();
+	}
 	
 	CurrentLayout = irrGUI->addModalScreen(0);
 	CurrentLayout->setVisible(false);
+	CurrentLayout->setEnabled(false);
 }
