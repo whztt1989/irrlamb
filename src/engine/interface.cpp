@@ -71,7 +71,7 @@ int _Interface::Init() {
 	Images[IMAGE_MOUSECURSOR] = irrDriver->getTexture("art/cursor.png");
 	Images[IMAGE_FADE] = irrDriver->getTexture("art/fade.png");
 	Images[IMAGE_BUTTON_SMALL] = irrDriver->getTexture("art/button_small.png");
-	Images[IMAGE_BUTTON_MEDIUM] = irrDriver->getTexture("art/button_100.png");
+	Images[IMAGE_BUTTON_MEDIUM] = irrDriver->getTexture("art/button_medium.png");
 	Images[IMAGE_BUTTON_BIG] = irrDriver->getTexture("art/button_big.png");
 	Images[IMAGE_TEXTBOXSHEET0] = irrDriver->getTexture("art/sheet_textbox0.png");
 	Images[IMAGE_TEXTBOXSHEET1] = irrDriver->getTexture("art/sheet_textbox1.png");

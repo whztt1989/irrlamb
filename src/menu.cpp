@@ -52,6 +52,9 @@ const int STATS_PADDING = 15;
 const int STATS_MOUSE_OFFSETX = 20;
 const int STATS_MOUSE_OFFSETY = -105;
 
+const int WIN_WIDTH = 560;
+const int WIN_HEIGHT = 380;
+
 enum GUIElements {
 	MAIN_SINGLEPLAYER, MAIN_REPLAYS, MAIN_OPTIONS, MAIN_QUIT,
 	SINGLEPLAYER_BACK,
@@ -894,12 +897,14 @@ void _Menu::InitWin() {
 	// Clear interface
 	ClearCurrentLayout();
 
-	int X = Interface.GetCenterX();
-	int Y = Interface.GetCenterY() + WIN_HEIGHT / 2 + 25;
-	AddMenuButton(Interface.GetCenteredRect(X - 165, Y, 102, 34), WIN_RESTARTLEVEL, L"Retry Level", _Interface::IMAGE_BUTTON_MEDIUM);
-	IGUIButton *ButtonNextLevel = AddMenuButton(Interface.GetCenteredRect(X - 55, Y, 102, 34), WIN_NEXTLEVEL, L"Next Level", _Interface::IMAGE_BUTTON_MEDIUM);
-	AddMenuButton(Interface.GetCenteredRect(X + 55, Y, 102, 34), WIN_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON_MEDIUM);
-	AddMenuButton(Interface.GetCenteredRect(X + 165, Y, 102, 34), WIN_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON_MEDIUM);
+	int X = Interface.GetCenterX() - WIN_WIDTH / 2 + 128/2;
+	int Y = Interface.GetCenterY() + WIN_HEIGHT / 2 + 40;
+
+	int Spacing = WIN_WIDTH/4 + 3;
+	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 0, Y, 130, 44), WIN_RESTARTLEVEL, L"Retry Level", _Interface::IMAGE_BUTTON_MEDIUM);
+	IGUIButton *ButtonNextLevel = AddMenuButton(Interface.GetCenteredRect(X + Spacing * 1, Y, 130, 44), WIN_NEXTLEVEL, L"Next Level", _Interface::IMAGE_BUTTON_MEDIUM);
+	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 2, Y, 130, 44), WIN_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON_MEDIUM);
+	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 3, Y, 130, 44), WIN_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON_MEDIUM);
 
 	if(LastLevelInCampaign)
 		ButtonNextLevel->setEnabled(false);
@@ -1062,20 +1067,20 @@ void _Menu::DrawWinScreen() {
 	Interface.RenderText("Level Completed!", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
 
 	// Draw time
-	Y += 45;
-	Interface.RenderText("Your Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
-	Interface.RenderText(TimeString, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+	Y += 75;
+	Interface.RenderText("Your Time", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM);
+	Interface.RenderText(TimeString, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 
 	// Best time
-	Y += 25;
+	Y += 30;
 	if(WinStats->HighScores.size() > 0) {
-		Interface.RenderText("Best Time", X - 115, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+		Interface.RenderText("Best Time", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM);
 		Interface.ConvertSecondsToString(WinStats->HighScores[0].Time, Buffer);
-		Interface.RenderText(Buffer, X + 115, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM, SColor(200, 255, 255, 255));
+		Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 	}
 
 	// High scores
-	int HighX = Interface.GetCenterX() - 75, HighY = Y + 48;
+	int HighX = Interface.GetCenterX() - 100, HighY = Y + 48;
 
 	// Draw header
 	Interface.RenderText("#", HighX, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));

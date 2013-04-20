@@ -31,5 +31,3 @@ const int STATS_MAXSCORES = 10;
 const float ORB_GLOWSIZE = 2.5f;
 const float ORB_PITCH = 2.0f;
 const float ORB_DEACTIVATETIME = 2.0f;
-const int WIN_WIDTH = 430;
-const int WIN_HEIGHT = 350;
