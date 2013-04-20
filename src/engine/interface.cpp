@@ -171,16 +171,16 @@ void _Interface::Update(float FrameTime) {
 
 // Draw interface elements
 void _Interface::Draw(float Time) {
-	if(!DrawHUD)
-		return;
 	
 	// Draw timer
 	char TimeString[32];
 	ConvertSecondsToString(Time, TimeString);
-	RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
+	if(DrawHUD)
+		RenderText(TimeString, 10, 10, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 
 	// Draw tutorial text
 	if(TutorialText.Text) {
+		TutorialText.Text->setVisible(DrawHUD);
 
 		// Get tutorial text alpha
 		SColor TextColor(255, 255, 255, 255), BoxColor(160, 255, 255, 255);
@@ -188,14 +188,14 @@ void _Interface::Draw(float Time) {
 		if(TimeLeft < 2.0f) {
 			TextColor.setAlpha((u32)(255 * TimeLeft / 2.0));
 			BoxColor.setAlpha((u32)(160 * TimeLeft / 2.0));
-			TutorialText.Text->setOverrideColor(TextColor);
-		}
-		else {
-			TutorialText.Text->setOverrideColor(TextColor);
 		}
 
+		// Update tutorial text color
+		TutorialText.Text->setOverrideColor(TextColor);
+
 		// Draw tutorial text
-		DrawTextBox(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH, MESSAGE_HEIGHT, BoxColor);
+		if(DrawHUD)
+			DrawTextBox(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH, MESSAGE_HEIGHT, BoxColor);
 	}
 }
 
@@ -229,7 +229,8 @@ recti _Interface::GetRect(int PositionX, int PositionY, int Width, int Height) {
 void _Interface::FadeScreen(float Amount) {
 	irrDriver->draw2DImage(Images[IMAGE_FADE], position2di(0, 0), recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, SColor((u32)(Amount * 255), 255, 255, 255), true);
 	if(TutorialText.Text) {
-		SColor TextColor((u32)(255 * (1.0f - Amount)), 255, 255, 255);
+		SColor TextColor = TutorialText.Text->getOverrideColor();
+		TextColor.setAlpha((u32)(TextColor.getAlpha() * (1.0f - Amount)));
 		TutorialText.Text->setOverrideColor(TextColor);
 	}
 }
