@@ -169,7 +169,7 @@ bool _Menu::HandleKeyPress(int Key) {
 						if(CurrentKeys[i] == Key) {
 							
 							// Get button
-							IGUIButton *SwapButton = static_cast<IGUIButton *>(irrGUI->getRootGUIElement()->getElementFromId(CONTROLS_MOVEFORWARD + i));
+							IGUIButton *SwapButton = static_cast<IGUIButton *>(CurrentLayout->getElementFromId(CONTROLS_MOVEFORWARD + i));
 
 							// Swap text
 							SwapButton->setText(stringw(Input.GetKeyName(CurrentKeys[ActionType])).c_str());
@@ -236,7 +236,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case REPLAYS_DELETE: {
 
 					// Get list
-					IGUIListBox *ReplayList = static_cast<IGUIListBox *>(irrGUI->getRootGUIElement()->getElementFromId(REPLAYS_FILES));
+					IGUIListBox *ReplayList = static_cast<IGUIListBox *>(CurrentLayout->getElementFromId(REPLAYS_FILES));
 					int SelectedIndex = ReplayList->getSelected();
 					if(SelectedIndex != -1) {
 
@@ -270,7 +270,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case VIDEO_SAVE: {
 					
 					// Save the video mode
-					IGUIComboBox *VideoModes = static_cast<IGUIComboBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_VIDEOMODES));
+					IGUIComboBox *VideoModes = static_cast<IGUIComboBox *>(CurrentLayout->getElementFromId(VIDEO_VIDEOMODES));
 					if(VideoModes != NULL) {
 						VideoModeStruct Mode = Graphics.GetVideoModes()[VideoModes->getSelected()];
 						Config.ScreenWidth = Mode.Width;
@@ -278,15 +278,15 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					}
 
 					// Save full screen
-					IGUICheckBox *Fullscreen = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_FULLSCREEN));
+					IGUICheckBox *Fullscreen = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_FULLSCREEN));
 					Config.Fullscreen = Fullscreen->isChecked();
 
 					// Save shadows
-					IGUICheckBox *Shadows = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_SHADOWS));
+					IGUICheckBox *Shadows = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_SHADOWS));
 					Config.Shadows = Shadows->isChecked();
 
 					// Save the anisotropy
-					IGUIComboBox *Anisotropy = static_cast<IGUIComboBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_ANISOTROPY));
+					IGUIComboBox *Anisotropy = static_cast<IGUIComboBox *>(CurrentLayout->getElementFromId(VIDEO_ANISOTROPY));
 					if(Anisotropy != NULL) {
 						if(Anisotropy->getSelected() == 0)
 							Config.AnisotropicFiltering = 0;
@@ -295,7 +295,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					}
 
 					// Save the antialiasing
-					IGUIComboBox *Antialiasing = static_cast<IGUIComboBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_ANTIALIASING));
+					IGUIComboBox *Antialiasing = static_cast<IGUIComboBox *>(CurrentLayout->getElementFromId(VIDEO_ANTIALIASING));
 					if(Antialiasing != NULL) {
 						if(Antialiasing->getSelected() == 0)
 							Config.AntiAliasing = 0;
@@ -304,7 +304,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					}
 
 					/*// Save shaders
-					IGUICheckBox *Shaders = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_SHADERS));
+					IGUICheckBox *Shaders = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_SHADERS));
 					Config.Shaders = Shaders->isChecked();
 					 */
 
@@ -321,7 +321,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					bool OldAudioEnabled = Config.AudioEnabled;
 
 					// Get settings
-					IGUICheckBox *AudioEnabled = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(AUDIO_ENABLED));
+					IGUICheckBox *AudioEnabled = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(AUDIO_ENABLED));
 					bool Enabled = AudioEnabled->isChecked();
 
 					// Save
@@ -350,7 +350,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						Config.Keys[i] = CurrentKeys[i];
 
 					// Save invert mouse
-					IGUICheckBox *InvertMouse = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(CONTROLS_INVERTMOUSE));
+					IGUICheckBox *InvertMouse = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(CONTROLS_INVERTMOUSE));
 					Config.InvertMouse = InvertMouse->isChecked();
 
 					Config.WriteConfig();
@@ -452,18 +452,18 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 void _Menu::InitMain() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
 	Input.SetMouseLocked(false);
-	Interface.Clear();
+	ClearCurrentLayout();
 
 	// Logo
-	irrGUI->addImage(irrDriver->getTexture("art/logo.jpg"), position2di(Interface.GetCenterX() - 256, Interface.GetCenterY() - 270));
+	irrGUI->addImage(irrDriver->getTexture("art/logo.jpg"), position2di(Interface.GetCenterX() - 256, Interface.GetCenterY() - 270), true, CurrentLayout);
 	AddMenuText(position2di(40, irrDriver->getScreenSize().Height - 20), stringw(GAME_VERSION).c_str(), _Interface::FONT_SMALL);
 
 	// Button
 	int Y = Interface.GetCenterY() - TITLE_Y + TITLE_SPACING;
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 1, 194, 52), MAIN_REPLAYS, L"Replays");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 2, 194, 52), MAIN_OPTIONS, L"Options");
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 3, 194, 52), MAIN_QUIT, L"Quit");
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 0, 194, 52), MAIN_SINGLEPLAYER, L"Single Player", _Interface::IMAGE_BUTTON_BIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 1, 194, 52), MAIN_REPLAYS, L"Replays", _Interface::IMAGE_BUTTON_BIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 2, 194, 52), MAIN_OPTIONS, L"Options", _Interface::IMAGE_BUTTON_BIG);
+	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX(), Y + BUTTON_SPACING * 3, 194, 52), MAIN_QUIT, L"Quit", _Interface::IMAGE_BUTTON_BIG);
 
 	// Play sound
 	if(!FirstStateLoad)
@@ -476,8 +476,8 @@ void _Menu::InitMain() {
 
 // Create the single player menu
 void _Menu::InitSinglePlayer() {
-	Interface.Clear();
-
+	ClearCurrentLayout();
+	
 	// Reset menu variables
 	CampaignIndex = 0;
 	SelectedLevel = -1;
@@ -508,7 +508,7 @@ void _Menu::InitSinglePlayer() {
 
 // Create the levels menu
 void _Menu::InitLevels() {
-	Interface.Clear();
+	ClearCurrentLayout();
 	LevelStats.clear();
 	SelectedLevel = -1;
 	const CampaignStruct &CampaignData = Campaign.GetCampaign(CampaignIndex);
@@ -541,7 +541,7 @@ void _Menu::InitLevels() {
 		}				
 
 		// Add button
-		IGUIButton *Level = irrGUI->addButton(Interface.GetCenteredRect(X + Column * 80, Y + Row * 80, 64, 64), 0, CAMPAIGN_LEVELID + i);
+		IGUIButton *Level = irrGUI->addButton(Interface.GetCenteredRect(X + Column * 80, Y + Row * 80, 64, 64), CurrentLayout, CAMPAIGN_LEVELID + i);
 
 		// Set thumbnail
 		if(Unlocked)
@@ -573,7 +573,7 @@ void _Menu::InitLevels() {
 // Create the replay menu
 void _Menu::InitReplays() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
-	Interface.Clear();
+	ClearCurrentLayout();
 	char Buffer[256];
 
 	// Text
@@ -582,7 +582,7 @@ void _Menu::InitReplays() {
 
 	// Level selection
 	Y = Interface.GetCenterY();
-	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 250), 0, REPLAYS_FILES, true);
+	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 250), CurrentLayout, REPLAYS_FILES, true);
 
 	// Change directories
 	std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
@@ -634,7 +634,7 @@ void _Menu::InitReplays() {
 // Create the options menu
 void _Menu::InitOptions() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
-	Interface.Clear();
+	ClearCurrentLayout();
 			
 	// Text
 	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
@@ -657,7 +657,7 @@ void _Menu::InitOptions() {
 
 // Create the video options menu
 void _Menu::InitVideo() {
-	Interface.Clear();
+	ClearCurrentLayout();
 
 	// Text
 	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
@@ -668,7 +668,7 @@ void _Menu::InitVideo() {
 	const std::vector<VideoModeStruct> &ModeList = Graphics.GetVideoModes();
 	if(ModeList.size() > 0) {
 		AddMenuText(position2di(X, Y), L"Screen Resolution", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-		IGUIComboBox *ListScreenResolution = irrGUI->addComboBox(Interface.GetCenteredRect(X + 111, Y, 200, 30), 0, VIDEO_VIDEOMODES);
+		IGUIComboBox *ListScreenResolution = irrGUI->addComboBox(Interface.GetCenteredRect(X + 111, Y, 200, 30), CurrentLayout, VIDEO_VIDEOMODES);
 
 		// Populate mode list
 		for(u32 i = 0; i < ModeList.size(); i++)
@@ -679,18 +679,18 @@ void _Menu::InitVideo() {
 	// Full Screen
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"Fullscreen", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, VIDEO_FULLSCREEN);
+	IGUICheckBox *CheckBoxFullscreen = irrGUI->addCheckBox(Config.Fullscreen, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_FULLSCREEN);
 
 	// Shadows
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"Shadows", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, VIDEO_SHADOWS);
+	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_SHADOWS);
 
 	// Anisotropic Filtering
 	Y += 40;
 	int MaxAnisotropy = irrDriver->getDriverAttributes().getAttributeAsInt("MaxAnisotropy");
 	AddMenuText(position2di(X, Y), L"Anisotropic Filtering", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUIComboBox *Anisotropy = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), 0, VIDEO_ANISOTROPY);
+	IGUIComboBox *Anisotropy = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), CurrentLayout, VIDEO_ANISOTROPY);
 
 	// Populate anisotropy list
 	Anisotropy->addItem(stringw(0).c_str());
@@ -703,7 +703,7 @@ void _Menu::InitVideo() {
 	// Anti-aliasing
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"MSAA", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUIComboBox *Antialiasing = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), 0, VIDEO_ANTIALIASING);
+	IGUIComboBox *Antialiasing = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), CurrentLayout, VIDEO_ANTIALIASING);
 
 	// Populate anti-aliasing list
 	Antialiasing->addItem(stringw(0).c_str());
@@ -717,7 +717,7 @@ void _Menu::InitVideo() {
 	// Shaders
 	Y += 30;
 	IGUIStaticText *TextShaders = irrGUI->addStaticText(L"Shaders", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
-	IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, VIDEO_SHADERS);
+	IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 60, Y, 100, 25), CurrentLayout, VIDEO_SHADERS);
 	if(!Graphics.GetShadersSupported())
 		CheckBoxShaders->setEnabled(false);
 */
@@ -740,7 +740,7 @@ void _Menu::InitVideo() {
 
 // Create the audio options menu
 void _Menu::InitAudio() {
-	Interface.Clear();
+	ClearCurrentLayout();
 
 	// Text
 	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
@@ -749,7 +749,7 @@ void _Menu::InitAudio() {
 	// Sound enabled
 	Y += TITLE_SPACING;
 	AddMenuText(position2di(X, Y), L"Audio Enabled", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, AUDIO_ENABLED);
+	IGUICheckBox *CheckBoxAudioEnabled = irrGUI->addCheckBox(Config.AudioEnabled, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, AUDIO_ENABLED);
 
 	// Save
 	Y += 90;
@@ -765,7 +765,7 @@ void _Menu::InitAudio() {
 
 // Create the control options menu
 void _Menu::InitControls() {
-	Interface.Clear();
+	ClearCurrentLayout();
 
 	int X = Interface.GetCenterX();
 	int Y = Interface.GetCenterY() - TITLE_Y;
@@ -779,7 +779,7 @@ void _Menu::InitControls() {
 	for(int i = 0; i <= _Actions::RESET; i++) {
 				
 		CurrentKeys[i] = Config.Keys[i];
-		IGUIStaticText *Text = irrGUI->addStaticText(stringw(Actions.GetName(i).c_str()).c_str(), Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false);
+		IGUIStaticText *Text = irrGUI->addStaticText(stringw(Actions.GetName(i).c_str()).c_str(), Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false, CurrentLayout);
 		Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
 		AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 108, 44), CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str(), _Interface::IMAGE_BUTTON_SMALL);
 
@@ -788,9 +788,9 @@ void _Menu::InitControls() {
 
 	// Invert mouse
 	Y += 5;
-	IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface.GetCenteredRect(X - 65, Y, 110, 25));
+	IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false, CurrentLayout);
 	TextInvertMouse->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), 0, CONTROLS_INVERTMOUSE);
+	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), CurrentLayout, CONTROLS_INVERTMOUSE);
 
 	// Save
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + BACK_Y, 108, 44), CONTROLS_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
@@ -806,7 +806,7 @@ void _Menu::InitControls() {
 // Init play GUI
 void _Menu::InitPlay() {
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
-	irrGUI->clear();
+	ClearCurrentLayout();
 
 	Graphics.SetClearColor(SColor(255, 0, 0, 0));
 	Input.SetMouseLocked(true);
@@ -817,7 +817,7 @@ void _Menu::InitPlay() {
 
 // Create the pause menu
 void _Menu::InitPause() {
-	irrGUI->clear();
+	ClearCurrentLayout();
 
 	int X = Interface.GetCenterX();
 	int Y = Interface.GetCenterY() - 125;
@@ -837,10 +837,10 @@ void _Menu::InitPause() {
 // Create the save replay GUI
 void _Menu::InitSaveReplay() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
-	irrGUI->clear();
+	ClearCurrentLayout();
 
 	// Draw interface
-	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 20, 172, 32), true, 0, SAVEREPLAY_NAME);
+	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 20, 172, 32), true, CurrentLayout, SAVEREPLAY_NAME);
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + 20, 108, 44), SAVEREPLAY_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() + SAVE_X, Interface.GetCenterY() + 20, 108, 44), SAVEREPLAY_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON_SMALL);
 
@@ -891,7 +891,7 @@ void _Menu::InitWin() {
 	WinStats = Save.GetLevelStats(Level.GetLevelName());
 	
 	// Clear interface
-	Interface.Clear();
+	ClearCurrentLayout();
 
 	int X = Interface.GetCenterX();
 	int Y = Interface.GetCenterY() + WIN_HEIGHT / 2 + 25;
@@ -914,7 +914,7 @@ void _Menu::InitWin() {
 // Saves a replay
 void _Menu::SaveReplay() {
 
-	IGUIEditBox *EditName = static_cast<IGUIEditBox *>(irrGUI->getRootGUIElement()->getElementFromId(SAVEREPLAY_NAME));
+	IGUIEditBox *EditName = static_cast<IGUIEditBox *>(CurrentLayout->getElementFromId(SAVEREPLAY_NAME));
 	if(EditName != NULL) {
 		irr::core::stringc ReplayTitle(EditName->getText());
 		Replay.SaveReplay(ReplayTitle.c_str());
@@ -924,14 +924,14 @@ void _Menu::SaveReplay() {
 		case STATE_WIN: {
 			InitWin();
 			
-			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(irrGUI->getRootGUIElement()->getElementFromId(WIN_SAVEREPLAY));
+			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(CurrentLayout->getElementFromId(WIN_SAVEREPLAY));
 			ButtonSaveReplay->setEnabled(false);
 		}
 		break;
 		case STATE_LOSE: {
 			InitLose();
 			
-			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(irrGUI->getRootGUIElement()->getElementFromId(LOSE_SAVEREPLAY));
+			IGUIButton *ButtonSaveReplay = static_cast<IGUIButton *>(CurrentLayout->getElementFromId(LOSE_SAVEREPLAY));
 			ButtonSaveReplay->setEnabled(false);
 		}
 		break;
@@ -1111,7 +1111,9 @@ void _Menu::CancelKeyBind() {
 std::string _Menu::GetReplayFile() {
 
 	// Get list
-	IGUIListBox *ReplayList = static_cast<IGUIListBox *>(irrGUI->getRootGUIElement()->getElementFromId(REPLAYS_FILES));
+	IGUIListBox *ReplayList = static_cast<IGUIListBox *>(CurrentLayout->getElementFromId(REPLAYS_FILES));
+	if(!ReplayList)
+		return "";
 	
 	int SelectedIndex = ReplayList->getSelected();
 	if(SelectedIndex != -1) {
@@ -1150,7 +1152,7 @@ void _Menu::LaunchReplay() {
 
 // Add a regular menu button
 IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID, const wchar_t *Text, _Interface::ImageType ButtonImage) {
-	IGUIButton *Button = irrGUI->addButton(Rectangle, 0, ID, Text);
+	IGUIButton *Button = irrGUI->addButton(Rectangle, CurrentLayout, ID, Text);
 	Button->setImage(Interface.GetImage(ButtonImage));
 	Button->setUseAlphaChannel(true);
 	Button->setDrawBorder(false);
@@ -1179,8 +1181,16 @@ IGUIStaticText *_Menu::AddMenuText(const position2di &CenterPosition, const wcha
 	}
 	
 	// Add text
-	IGUIStaticText *NewText = irrGUI->addStaticText(Text, Rectangle, false, false);
+	IGUIStaticText *NewText = irrGUI->addStaticText(Text, Rectangle, false, false, CurrentLayout);
 	NewText->setOverrideFont(Interface.GetFont(Font));
 	
 	return NewText;
+}
+
+// Clear out the current menu layout
+void _Menu::ClearCurrentLayout() {
+	if(CurrentLayout)
+		CurrentLayout->remove();
+	
+	CurrentLayout = irrGUI->addModalScreen(0);
 }

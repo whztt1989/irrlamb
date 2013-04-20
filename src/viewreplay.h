@@ -74,6 +74,9 @@ class _ViewReplayState : public _State {
 
 		// Events
 		int NextPacketType;
+
+		// GUI
+		irr::gui::IGUIElement *Layout;
 };
 
 extern _ViewReplayState ViewReplayState;

@@ -133,7 +133,6 @@ void _Interface::ChangeSkin(SkinType Type) {
 
 // Clear all the GUI elements
 void _Interface::Clear() {
-	irrGUI->clear();
 	TutorialText.Text = "";
 	Timer = 0.0f;
 }

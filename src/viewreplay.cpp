@@ -42,6 +42,8 @@ _ViewReplayState ViewReplayState;
 
 // Initializes the state
 int _ViewReplayState::Init() {
+	Menu.ClearCurrentLayout();
+	Layout = irrGUI->addModalScreen(0);
 
 	// Set up state
 	PauseSpeed = 1.0f;
@@ -88,6 +90,7 @@ int _ViewReplayState::Close() {
 	ObjectManager.ClearObjects();
 	Interface.Clear();
 	irrScene->clear();
+	Layout->remove();
 	
 	return 1;
 }
@@ -289,42 +292,42 @@ void _ViewReplayState::SetupGUI() {
 
 	// Restart replay
 	int X = Right - 285, Y = 19;
-	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_RESTART);
+	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_RESTART);
 	ButtonRewind->setImage(Interface.GetImage(_Interface::IMAGE_REWIND));
 	ButtonRewind->setUseAlphaChannel(true);
 	ButtonRewind->setDrawBorder(false);
 
 	// Decrease replay speed
 	X += 45;
-	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_DECREASE);
+	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_DECREASE);
 	ButtonDecrease->setImage(Interface.GetImage(_Interface::IMAGE_DECREASE));
 	ButtonDecrease->setUseAlphaChannel(true);
 	ButtonDecrease->setDrawBorder(false);
 
 	// Increase replay speed
 	X += 37;
-	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_INCREASE);
+	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_INCREASE);
 	ButtonIncrease->setImage(Interface.GetImage(_Interface::IMAGE_INCREASE));
 	ButtonIncrease->setUseAlphaChannel(true);
 	ButtonIncrease->setDrawBorder(false);
 
 	// Pause
 	X += 45;
-	IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_PAUSE);
+	IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_PAUSE);
 	ButtonPause->setImage(Interface.GetImage(_Interface::IMAGE_PAUSE));
 	ButtonPause->setUseAlphaChannel(true);
 	ButtonPause->setDrawBorder(false);
 
 	// Skip ahead
 	X += 37;
-	IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), 0, MAIN_SKIP);
+	IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_SKIP);
 	ButtonSkip->setImage(Interface.GetImage(_Interface::IMAGE_FASTFORWARD));
 	ButtonSkip->setUseAlphaChannel(true);
 	ButtonSkip->setDrawBorder(false);
 
 	// Exit
 	X += 45;
-	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 108, 44), 0, MAIN_EXIT, L"Exit");
+	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 108, 44), Layout, MAIN_EXIT, L"Exit");
 	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON_SMALL));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);

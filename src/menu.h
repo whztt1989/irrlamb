@@ -50,7 +50,7 @@ class _Menu {
 			STATE_WIN
 		};
 
-		_Menu() { State = PreviousState = STATE_NONE; FirstStateLoad = true; }
+		_Menu() { State = PreviousState = STATE_NONE; FirstStateLoad = true; CurrentLayout = 0; }
 
 		void InitMain();
 		void InitSinglePlayer();
@@ -76,6 +76,7 @@ class _Menu {
 		void Draw();
 
 		void DrawWinScreen();
+		void ClearCurrentLayout();
 
 	private:
 
@@ -89,7 +90,7 @@ class _Menu {
 
 		MenuType State, PreviousState;
 		bool FirstStateLoad;
-		std::string MenuMessage;
+		irr::gui::IGUIElement *CurrentLayout;
 
 		// Replays
 		std::vector<std::string> ReplayFiles;
