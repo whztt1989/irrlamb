@@ -26,11 +26,13 @@ set(EXTRA_LIBS)
 
 # windows only options
 if(MSVC)
+	set(FREETYPE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extlibs/include")
 	set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/extlibs/lua51/include)
 	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51.lib)
 	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
 	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
-	
+	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
+		
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 	link_directories("${PROJECT_SOURCE_DIR}/extlibs/")
