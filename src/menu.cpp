@@ -32,6 +32,7 @@
 #include <play.h>
 #include <null.h>
 #include <engine/namespace.h>
+#include <font/CGUITTFont.h>
 
 _Menu Menu;
 
@@ -58,7 +59,7 @@ enum GUIElements {
 	LEVELINFO_DESCRIPTION, LEVELINFO_ATTEMPTS, LEVELINFO_WINS, LEVELINFO_LOSSES, LEVELINFO_PLAYTIME, LEVELINFO_BESTTIME,
 	REPLAYS_FILES, REPLAYS_GO, REPLAYS_DELETE, REPLAYS_BACK,
 	OPTIONS_VIDEO, OPTIONS_AUDIO, OPTIONS_CONTROLS, OPTIONS_BACK,
-	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS,
+	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS, VIDEO_ANISOTROPY, VIDEO_ANTIALIASING,
 	AUDIO_ENABLED, AUDIO_SAVE, AUDIO_CANCEL,
 	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_MOVEFORWARD, CONTROLS_MOVEBACK, CONTROLS_MOVELEFT, CONTROLS_MOVERIGHT, CONTROLS_MOVERESET, CONTROLS_MOVEJUMP,
 	PAUSE_RESUME, PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
@@ -283,6 +284,24 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					// Save shadows
 					IGUICheckBox *Shadows = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_SHADOWS));
 					Config.Shadows = Shadows->isChecked();
+
+					// Save the anisotropy
+					IGUIComboBox *Anisotropy = static_cast<IGUIComboBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_ANISOTROPY));
+					if(Anisotropy != NULL) {
+						if(Anisotropy->getSelected() == 0)
+							Config.AnisotropicFiltering = 0;
+						else
+							Config.AnisotropicFiltering = 1 << (Anisotropy->getSelected() - 1);
+					}
+
+					// Save the antialiasing
+					IGUIComboBox *Antialiasing = static_cast<IGUIComboBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_ANTIALIASING));
+					if(Antialiasing != NULL) {
+						if(Antialiasing->getSelected() == 0)
+							Config.AntiAliasing = 0;
+						else
+							Config.AntiAliasing = 1 << (Antialiasing->getSelected());
+					}
 
 					/*// Save shaders
 					IGUICheckBox *Shaders = static_cast<IGUICheckBox *>(irrGUI->getRootGUIElement()->getElementFromId(VIDEO_SHADERS));
@@ -666,6 +685,34 @@ void _Menu::InitVideo() {
 	Y += 40;
 	AddMenuText(position2di(X, Y), L"Shadows", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
 	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 20, Y, 18, 18), 0, VIDEO_SHADOWS);
+
+	// Anisotropic Filtering
+	Y += 40;
+	int MaxAnisotropy = irrDriver->getDriverAttributes().getAttributeAsInt("MaxAnisotropy");
+	AddMenuText(position2di(X, Y), L"Anisotropic Filtering", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUIComboBox *Anisotropy = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), 0, VIDEO_ANISOTROPY);
+
+	// Populate anisotropy list
+	Anisotropy->addItem(stringw(0).c_str());
+	for(int i = 0, Level = 1; Level <= MaxAnisotropy; i++, Level <<= 1) {
+		Anisotropy->addItem(stringw(Level).c_str());
+		if(Config.AnisotropicFiltering == Level)
+			Anisotropy->setSelected(i+1);
+	}
+
+	// Anti-aliasing
+	Y += 40;
+	AddMenuText(position2di(X, Y), L"MSAA", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUIComboBox *Antialiasing = irrGUI->addComboBox(Interface.GetCenteredRect(X + 61, Y, 100, 30), 0, VIDEO_ANTIALIASING);
+
+	// Populate anti-aliasing list
+	Antialiasing->addItem(stringw(0).c_str());
+	for(int i = 0, Level = 2; Level <= 8; i++, Level <<= 1) {
+		Antialiasing->addItem(stringw(Level).c_str());
+		if(Config.AntiAliasing == Level)
+			Antialiasing->setSelected(i+1);
+	}
+	
 /*
 	// Shaders
 	Y += 30;
@@ -674,6 +721,7 @@ void _Menu::InitVideo() {
 	if(!Graphics.GetShadersSupported())
 		CheckBoxShaders->setEnabled(false);
 */
+
 	// Save
 	Y =  Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X - SAVE_X, Y, 108, 44), VIDEO_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);

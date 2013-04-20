@@ -564,7 +564,7 @@ void CGUITTFont::draw(const core::stringw& text, const core::rect<s32>& position
 		uchar32_t currentChar = *iter;
 		n = getGlyphIndexByChar(currentChar);
 		bool visible = (Invisible.findFirst(currentChar) == -1);
-		if (n > 0 && visible)
+		if ((n > 0 || currentChar == '\r' || currentChar == '\n') && visible)
 		{
 			bool lineBreak=false;
 			if (currentChar == L'\r') // Mac or Windows breaks

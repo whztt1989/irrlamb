@@ -177,7 +177,7 @@ void _Interface::Draw(float Time) {
 		}
 
 		// Draw tutorial text
-		int Width = 370, Height = 115;
+		int Width = 470, Height = 115;
 		DrawTextBox(irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height / 2 - 30, Width, Height, BoxColor);
 		Interface.RenderText(TutorialText.Text.c_str(), irrDriver->getScreenSize().Width / 2, irrDriver->getScreenSize().Height - Height - 13, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, TextColor);
 	}

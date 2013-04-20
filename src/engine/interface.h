@@ -21,6 +21,12 @@
 // Forward Declarations
 class _AudioSource;
 
+namespace irr {
+	namespace gui {
+		class CGUITTFont;
+	}
+}
+
 // Structures
 struct TutorialTextStruct {
 	std::string Text;
@@ -91,7 +97,7 @@ class _Interface {
 		irr::core::recti GetRect(int PositionX, int PositionY, int Width, int Height);
 		
 		irr::video::ITexture *GetImage(ImageType Image) { return Images[Image]; }
-		irr::gui::IGUIFont *GetFont(FontType Font) { return Fonts[Font]; }
+		irr::gui::CGUITTFont *GetFont(FontType Font) { return Fonts[Font]; }
 
 		void FadeScreen(float Amount);
 		void RenderText(const char *Text, int PositionX, int PositionY, AlignType AlignType, FontType FontType=FONT_SMALL, const irr::video::SColor &Color=irr::video::SColor(255, 255, 255, 255));
@@ -111,7 +117,7 @@ class _Interface {
 		bool DrawHUD;
 		float Timer;
 
-		irr::gui::IGUIFont *Fonts[FONT_COUNT];
+		irr::gui::CGUITTFont *Fonts[FONT_COUNT];
 		irr::video::ITexture *Images[IMAGE_COUNT];
 		_AudioSource *Sounds[SOUND_COUNT];
 

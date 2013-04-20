@@ -1,6 +1,8 @@
 irrlamb 0.1.2 -
 - Added joystick support
-- Can access options now in game
+- Made menus and fonts bigger
+- Can access options in-game now
+- Added Anistropic Filtering and MSAA to video options
 - Added level names to menu
 - Fixed replay bug
 
