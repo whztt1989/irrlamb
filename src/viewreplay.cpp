@@ -44,6 +44,7 @@ _ViewReplayState ViewReplayState;
 int _ViewReplayState::Init() {
 	Menu.ClearCurrentLayout();
 	Layout = irrGUI->addModalScreen(0);
+	Layout->setVisible(false);
 
 	// Set up state
 	PauseSpeed = 1.0f;

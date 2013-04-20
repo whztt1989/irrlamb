@@ -1193,4 +1193,5 @@ void _Menu::ClearCurrentLayout() {
 		CurrentLayout->remove();
 	
 	CurrentLayout = irrGUI->addModalScreen(0);
+	CurrentLayout->setVisible(false);
 }
