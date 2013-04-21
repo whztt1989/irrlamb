@@ -19,7 +19,6 @@
 #include <engine/audio.h>
 #include <engine/log.h>
 #include <engine/config.h>
-#include <vorbis/vorbisfile.h>
 
 _Audio Audio;
 

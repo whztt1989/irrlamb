@@ -32,6 +32,9 @@ if(MSVC)
 	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
 	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
+	set(VORBIS_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis.lib)
+	set(VORBISFILE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile.lib)
+	set(OGG_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg.lib)
 		
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
@@ -47,6 +50,7 @@ else()
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
 	set(SQLITE3_LIBRARIES sqlite3)
 	set(SQLITE3_INCLUDE_DIR "/usr/include")
+	set(VORBISFILE_LIBRARY vorbisfile)
 	
 	# x11
 	find_package(X11 REQUIRED)
@@ -121,7 +125,18 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 add_pch(${CMAKE_PROJECT_NAME} src/all.cpp ${PROJECT_SOURCE_DIR}/src/all.h)
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${EXTRA_LIBS} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES} ${FREETYPE_LIBRARIES} vorbisfile)
+target_link_libraries(${CMAKE_PROJECT_NAME}
+	${IRRLICHT_LIBRARIES}
+	${EXTRA_LIBS}
+	${BULLET_LIBRARIES}
+	${OPENAL_LIBRARY}
+	${LUA_LIBRARIES}
+	${SQLITE3_LIBRARIES}
+	${FREETYPE_LIBRARIES}
+	${VORBIS_LIBRARY}
+	${VORBISFILE_LIBRARY}
+	${OGG_LIBRARY}
+	)
 
 # copy irrlicht DLLs to working directory
 if(WIN32)

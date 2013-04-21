@@ -27,6 +27,7 @@
 #include <sstream>
 #include <iostream>
 #include <ft2build.h>
+#include <vorbis/vorbisfile.h>
 
 #include <lua.hpp>
 #include <al.h>
@@ -35,6 +36,7 @@
 #include <cstring>
 #include <cstdarg>
 #include <ctime>
+#include <cassert>
 
 #ifdef _WIN32
 	#define WIN32_LEAN_AND_MEAN
