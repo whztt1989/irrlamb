@@ -156,6 +156,11 @@ void _Interface::Clear() {
 
 // Adds tutorial text to the screen
 void _Interface::SetTutorialText(const std::string &Text, float Length) {
+	if(TutorialText.Text) {
+		TutorialText.Text->remove();
+		TutorialText.Text = NULL;
+	}
+		
 	TutorialText.Text = irrGUI->addStaticText(stringw(Text.c_str()).c_str(), GetCenteredRect(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH - MESSAGE_PADDING, MESSAGE_HEIGHT), false, true);
 	TutorialText.Text->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
 	TutorialText.DeleteTime = Length + Timer;
