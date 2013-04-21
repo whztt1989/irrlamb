@@ -164,6 +164,7 @@ int _Save::LoadLevelStats() {
 			HighScore.DateStamp = Database->GetInt(3, 1);
 			Stat.HighScores.push_back(HighScore);
 		}
+		Database->CloseQuery(1);
 		
 		// Add record to map
 		LevelStats[LevelFile] = Stat;

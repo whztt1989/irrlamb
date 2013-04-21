@@ -93,7 +93,8 @@ int _Database::RunQuery(const char *QueryString) {
 
 // Runs a query that returns data
 int _Database::RunDataQuery(const char *QueryString, int Handle) {
-
+	assert(QueryHandle[Handle] == NULL);
+	
 	const char *Tail;
 	int Result = sqlite3_prepare_v2(Database, QueryString, strlen(QueryString), &QueryHandle[Handle], &Tail);
 	if(Result != SQLITE_OK) {
@@ -141,6 +142,7 @@ int _Database::CloseQuery(int Handle) {
 		Log.Write("_Database::CloseQuery - %s", sqlite3_errmsg(Database));
 		return 0;
 	}
+	QueryHandle[Handle] = NULL;
 
 	return 1;
 }
