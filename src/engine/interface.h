@@ -40,6 +40,7 @@ const int MGUIET_EMPTY = irr::gui::EGUIET_COUNT+1;
 class CGUIEmptyElement : public irr::gui::IGUIElement {
 
 	public:
+
 		CGUIEmptyElement(irr::gui::IGUIEnvironment *Environment, irr::gui::IGUIElement *Parent);
 		irr::gui::IGUIEnvironment *GetEnvironment() { return Environment; }
 		virtual const irr::c8 *getTypeName() const { return "empty"; }

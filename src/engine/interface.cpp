@@ -31,6 +31,20 @@ const int MESSAGE_WIDTH = 470;
 const int MESSAGE_HEIGHT = 115;
 const int MESSAGE_PADDING = 15;
 
+struct _Font {
+	const char *Path;
+	int Type;
+	int Size;
+};
+
+// List of fonts
+const _Font DefaultFonts[] = {
+	"fonts/Arimo-Regular.ttf", _Interface::FONT_SMALL, 16,
+	"fonts/Arimo-Regular.ttf", _Interface::FONT_MEDIUM, 24,
+	"fonts/RobotoCondensed-Regular.ttf", _Interface::FONT_LARGE, 48,
+	"fonts/FjallaOne-Regular.ttf", _Interface::FONT_BUTTON, 24,
+};
+
 // Constructor for empty element
 CGUIEmptyElement::CGUIEmptyElement(IGUIEnvironment *Environment, irr::gui::IGUIElement *Parent)
 	:	irr::gui::IGUIElement((EGUI_ELEMENT_TYPE)MGUIET_EMPTY, Environment, Parent, -1, recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height)) { }
@@ -42,32 +56,15 @@ int _Interface::Init() {
 	// Get skin
 	IGUISkin *Skin = irrGUI->getSkin();
 
-	// Set font
-	Fonts[FONT_SMALL] = CGUITTFont::createTTFont(irrGUI, "fonts/Arimo-Regular.ttf", 16);
-	if(!Fonts[FONT_SMALL]) {
-		Log.Write("_Interface::Init - Unable to load FONT_SMALL");
-		return 0;
-	}
+	// Load all fonts
+	for(int i = 0; i < FONT_COUNT; i++) {
 
-	// Load alternate medium font
-	Fonts[FONT_MEDIUM] = CGUITTFont::createTTFont(irrGUI, "fonts/Arimo-Regular.ttf", 24);
-	if(!Fonts[FONT_MEDIUM]) {
-		Log.Write("_Interface::Init - Unable to load FONT_MEDIUM");
-		return 0;
-	}
-
-	// Load alternate large font
-	Fonts[FONT_LARGE] = CGUITTFont::createTTFont(irrGUI, "fonts/RobotoCondensed-Regular.ttf", 48);
-	if(!Fonts[FONT_LARGE]) {
-		Log.Write("_Interface::Init - Unable to load FONT_LARGE");
-		return 0;
-	}
-
-	// Load alternate large font
-	Fonts[FONT_BUTTON] = CGUITTFont::createTTFont(irrGUI, "fonts/FjallaOne-Regular.ttf", 24);
-	if(!Fonts[FONT_BUTTON]) {
-		Log.Write("_Interface::Init - Unable to load FONT_BUTTON");
-		return 0;
+		// Load font
+		Fonts[DefaultFonts[i].Type] = CGUITTFont::createTTFont(irrGUI, DefaultFonts[i].Path, DefaultFonts[i].Size);
+		if(!Fonts[DefaultFonts[i].Type]) {
+			Log.Write("_Interface::Init - Unable to load font %s", DefaultFonts[i].Path);
+			return 0;
+		}
 	}
 	Skin->setFont(Fonts[FONT_MEDIUM]);
 	
