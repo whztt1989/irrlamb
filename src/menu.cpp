@@ -1190,6 +1190,7 @@ IGUIStaticText *_Menu::AddMenuText(const position2di &CenterPosition, const wcha
 	
 	// Get text dimensions
 	dimension2du Size = Interface.GetFont(Font)->getDimension(Text);
+	Size.Width++;
 	
 	recti Rectangle;
 	switch(HorizontalAlign) {

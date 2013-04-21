@@ -1,4 +1,4 @@
-irrlamb 0.1.2 -
+irrlamb 0.2.0 -
 - Added joystick support
 - Made menus and fonts bigger
 - Can access options in-game now

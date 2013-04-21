@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "irrlamb"
-!define PRODUCT_VERSION "0.1.2"
+!define PRODUCT_VERSION "0.2.0"
 !define PRODUCT_PUBLISHER "Alan Witkowski"
 !define PRODUCT_WEB_SITE "http://irrlamb.googlecode.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\irrlamb.exe"

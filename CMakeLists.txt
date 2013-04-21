@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+# define constants
+add_definitions(-DGAME_VERSION="0.2.0")
+
 # extra modules
 include(AddPCH.cmake)
 
