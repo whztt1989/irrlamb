@@ -596,7 +596,7 @@ void _Menu::InitReplays() {
 
 	// Level selection
 	Y = Interface.GetCenterY();
-	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 250), CurrentLayout, REPLAYS_FILES, true);
+	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 350), CurrentLayout, REPLAYS_FILES, true);
 
 	// Change directories
 	std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
@@ -630,7 +630,7 @@ void _Menu::InitReplays() {
 	}
 
 	// Confirmations
-	Y += 160;
+	Y = Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X - 123, Y, 108, 44), REPLAYS_GO, L"View", _Interface::IMAGE_BUTTON_SMALL);
 	AddMenuButton(Interface.GetCenteredRect(X, Y, 108, 44), REPLAYS_DELETE, L"Delete", _Interface::IMAGE_BUTTON_SMALL);
 	AddMenuButton(Interface.GetCenteredRect(X + 123, Y, 108, 44), REPLAYS_BACK, L"Back", _Interface::IMAGE_BUTTON_SMALL);
@@ -736,7 +736,7 @@ void _Menu::InitVideo() {
 */
 
 	// Save
-	Y =  Interface.GetCenterY() + BACK_Y;
+	Y = Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X - SAVE_X, Y, 108, 44), VIDEO_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
 	AddMenuButton(Interface.GetCenteredRect(X + SAVE_X, Y, 108, 44), VIDEO_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON_SMALL);
 
