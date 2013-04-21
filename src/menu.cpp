@@ -611,6 +611,7 @@ void _Menu::InitReplays() {
 			ReplayFiles.push_back(FileList->getFileName(i).c_str());
 		}
 	}
+	FileList->drop();
 	irrFile->changeWorkingDirectoryTo(OldWorkingDirectory.c_str());
 
 	// Add replays to menu list
