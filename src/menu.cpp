@@ -243,8 +243,19 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					int SelectedIndex = ReplayList->getSelected();
 					if(SelectedIndex != -1) {
 
+						// Get replay file name
+						std::string FileName = GetReplayFile();
+
+						// Delete from replay files array
+						for(std::vector<std::string>::iterator Iterator = ReplayFiles.begin(); Iterator != ReplayFiles.end(); ++Iterator) {
+							if(*Iterator == FileName) {
+								ReplayFiles.erase(Iterator);
+								break;
+							}
+						}
+
 						// Remove file
-						std::string FilePath = Save.GetReplayPath() + GetReplayFile();
+						std::string FilePath = Save.GetReplayPath() + FileName;
 						remove(FilePath.c_str());
 
 						// Remove entry
@@ -611,8 +622,7 @@ void _Menu::InitReplays() {
 			Interface.ConvertSecondsToString(Replay.GetFinishTime(), Buffer);
 
 			// Build replay string
-			std::string ReplayInfo = ReplayFiles[i] + std::string(" - ") + Replay.GetLevelName()
-									+ std::string(" - ") + Replay.GetDescription() + std::string(" - ") + Buffer;
+			std::string ReplayInfo = Replay.GetDescription() + " - " + Replay.GetLevelName() + " - " + Buffer;
 
 			irr::core::stringw ReplayString(ReplayInfo.c_str());
 			ListReplays->addItem(ReplayString.c_str());
@@ -843,9 +853,15 @@ void _Menu::InitSaveReplay() {
 	ClearCurrentLayout();
 
 	// Draw interface
-	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(Interface.GetCenterX(), Interface.GetCenterY() - 20, 172, 32), true, CurrentLayout, SAVEREPLAY_NAME);
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + 20, 108, 44), SAVEREPLAY_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
-	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() + SAVE_X, Interface.GetCenterY() + 20, 108, 44), SAVEREPLAY_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON_SMALL);
+	int X = Interface.GetCenterX();
+	int Y = Interface.GetCenterY() - 50;
+
+	AddMenuText(position2di(X, Y), L"Enter a name", _Interface::FONT_MEDIUM);
+	Y += 40;
+	IGUIEditBox *EditName = irrGUI->addEditBox(L"", Interface.GetCenteredRect(X, Y, 230, 32), true, CurrentLayout, SAVEREPLAY_NAME);
+	Y += 80;
+	AddMenuButton(Interface.GetCenteredRect(X - SAVE_X, Y, 108, 44), SAVEREPLAY_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
+	AddMenuButton(Interface.GetCenteredRect(X + SAVE_X, Y, 108, 44), SAVEREPLAY_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON_SMALL);
 
 	irrGUI->setFocus(EditName);
 	EditName->setMax(32);

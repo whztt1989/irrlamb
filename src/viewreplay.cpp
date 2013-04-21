@@ -45,7 +45,8 @@ int _ViewReplayState::Init() {
 	Menu.ClearCurrentLayout();
 	Layout = irrGUI->addModalScreen(0);
 	Layout->setVisible(false);
-
+	Camera = NULL;
+	
 	// Set up state
 	PauseSpeed = 1.0f;
 	Game.SetTimeScale(1.0f);
@@ -102,9 +103,11 @@ bool _ViewReplayState::HandleKeyPress(int Key) {
 	bool Processed = true;
 	switch(Key) {
 		case KEY_ESCAPE:
+			NullState.State = _Menu::STATE_REPLAYS;
 			Game.ChangeState(&NullState);
 		break;
 		case KEY_F1:
+			NullState.State = _Menu::STATE_REPLAYS;
 			Game.ChangeState(&NullState);
 		break;
 		case KEY_F12:
@@ -292,7 +295,7 @@ void _ViewReplayState::SetupGUI() {
 	int Right = irrDriver->getScreenSize().Width;
 
 	// Restart replay
-	int X = Right - 285, Y = 19;
+	int X = Right - 295, Y = 25;
 	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_RESTART);
 	ButtonRewind->setImage(Interface.GetImage(_Interface::IMAGE_REWIND));
 	ButtonRewind->setUseAlphaChannel(true);
@@ -327,8 +330,8 @@ void _ViewReplayState::SetupGUI() {
 	ButtonSkip->setDrawBorder(false);
 
 	// Exit
-	X += 45;
-	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(Right - 50, Y, 108, 44), Layout, MAIN_EXIT, L"Exit");
+	X += 108/2 + 20;
+	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 108, 44), Layout, MAIN_EXIT, L"Exit");
 	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON_SMALL));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);
