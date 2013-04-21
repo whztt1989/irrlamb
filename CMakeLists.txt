@@ -104,10 +104,9 @@ file(GLOB SRC_ENGINE src/engine/*.cpp src/engine/*.h)
 file(GLOB SRC_OBJECTS src/objects/*.cpp src/objects/*.h)
 file(GLOB SRC_IRRB src/irrb/*.cpp src/irrb/*.h)
 file(GLOB SRC_FONT src/font/*.cpp src/font/*.h)
-file(GLOB SRC_STBVORBIS src/stb_vorbis/*.cpp src/stb_vorbis/*.h)
 file(GLOB SRC_TINYXML src/tinyxml/*.cpp src/tinyxml/*.h)
 
-file(GLOB SRC_ALL ${SRC_MAIN} ${SRC_ENGINE} ${SRC_OBJECTS} ${SRC_IRRB} ${SRC_STBVORBIS} ${SRC_TINYXML} ${SRC_FONT})
+file(GLOB SRC_ALL ${SRC_MAIN} ${SRC_ENGINE} ${SRC_OBJECTS} ${SRC_IRRB} ${SRC_TINYXML} ${SRC_FONT})
 
 # add virtual folders
 source_group(main FILES ${SRC_MAIN})
@@ -115,7 +114,6 @@ source_group(engine FILES ${SRC_ENGINE})
 source_group(objects FILES ${SRC_OBJECTS})
 source_group(irrb FILES ${SRC_IRRB})
 source_group(font FILES ${SRC_FONT})
-source_group(stbvorbis FILES ${SRC_STBVORBIS})
 source_group(tinyxml FILES ${SRC_TINYXML})
 
 # create exe
@@ -123,7 +121,7 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 add_pch(${CMAKE_PROJECT_NAME} src/all.cpp ${PROJECT_SOURCE_DIR}/src/all.h)
 
 # link libraries
-target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${EXTRA_LIBS} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES} ${FREETYPE_LIBRARIES})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${IRRLICHT_LIBRARIES} ${EXTRA_LIBS} ${BULLET_LIBRARIES} ${OPENAL_LIBRARY} ${LUA_LIBRARIES} ${SQLITE3_LIBRARIES} ${FREETYPE_LIBRARIES} vorbisfile)
 
 # copy irrlicht DLLs to working directory
 if(WIN32)

@@ -19,7 +19,7 @@
 #include <engine/audio.h>
 #include <engine/log.h>
 #include <engine/config.h>
-#include <stb_vorbis/stb_vorbis.h>
+#include <vorbis/vorbisfile.h>
 
 _Audio Audio;
 
@@ -97,24 +97,25 @@ bool _Audio::LoadBuffer(const std::string &File) {
 	if(Buffers.find(Path) != Buffers.end())
 		return true;
 
-	// Load file
-	stb_vorbis *Stream = stb_vorbis_open_filename((char*)Path.c_str(), NULL, NULL);
-	if(!Stream) {
-		Log.Write("_Audio::LoadBuffer - Unable to load %s", Path.c_str());
+	// Open vorbis stream
+	OggVorbis_File VorbisStream;
+	int ReturnCode = ov_fopen(Path.c_str(), &VorbisStream);
+	if(ReturnCode != 0) {
+		Log.Write("_Audio::LoadBuffer - ov_fopen failed on file %s with code %d", Path.c_str(), ReturnCode);
 		return false;
 	}
 
-	// Get audio information
-	stb_vorbis_info Info = stb_vorbis_get_info(Stream);
-
+	// Get vorbis file info
+	vorbis_info *Info = ov_info(&VorbisStream, -1);
+	
 	// Create new buffer
-	AudioBufferStruct Buffer;
-	switch(Info.channels) {
+	AudioBufferStruct AudioBuffer;
+	switch(Info->channels) {
 		case 1:
-			Buffer.Format = AL_FORMAT_MONO16;
+			AudioBuffer.Format = AL_FORMAT_MONO16;
 		break;
 		case 2:
-			Buffer.Format = AL_FORMAT_STEREO16;
+			AudioBuffer.Format = AL_FORMAT_STEREO16;
 		break;
 		default:
 			Log.Write("_Audio::LoadBuffer - Unsupported # of channels %d for %s", Path.c_str());
@@ -122,25 +123,27 @@ bool _Audio::LoadBuffer(const std::string &File) {
 		break;
 	}
 
-	// Get sample count
-	unsigned int SampleCount = stb_vorbis_stream_length_in_samples(Stream) * Info.channels;
-
 	// Alloc some memory for the samples
-	ALshort *Data = new ALshort[SampleCount];
+	std::vector<char> Data;
 
-	// Get samples from ogg file
-	int Read = stb_vorbis_get_samples_short_interleaved(Stream, Info.channels, Data, (int)SampleCount);
-
+	// Decode vorbis file
+	long BytesRead;
+	char Buffer[4096];
+	int BitStream;
+	do {
+		BytesRead = ov_read(&VorbisStream, Buffer, 4096, 0, 2, 1, &BitStream);
+		Data.insert(Data.end(), Buffer, Buffer + BytesRead);
+	} while(BytesRead > 0);
+	
 	// Create buffer
-	alGenBuffers(1, &Buffer.ID);
-	alBufferData(Buffer.ID, Buffer.Format, Data, SampleCount * sizeof(ALshort), Info.sample_rate);
+	alGenBuffers(1, &AudioBuffer.ID);
+	alBufferData(AudioBuffer.ID, AudioBuffer.Format, &Data[0], (ALsizei)Data.size(), Info->rate);
 
-	// Free memory
-	stb_vorbis_close(Stream);
-	delete[] Data;
-
+	// Close vorbis file
+	ov_clear(&VorbisStream);
+	
 	// Add to map
-	Buffers[Path] = Buffer;
+	Buffers[Path] = AudioBuffer;
 
 	return true;
 }

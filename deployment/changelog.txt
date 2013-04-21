@@ -5,6 +5,7 @@ irrlamb 0.1.2 -
 - Added Anistropic Filtering and MSAA to video options
 - Added level names to menu
 - Fixed replay bug
+- Fixed memory leaks
 
 irrlamb 0.1.1 - 3/3/2013
 - Added audio (OpenAL)
