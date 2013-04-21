@@ -26,13 +26,14 @@
 #include <engine/level.h>
 #include <engine/objectmanager.h>
 #include <engine/replay.h>
-#include <engine/interface.h>
 #include <engine/camera.h>
 #include <engine/game.h>
 #include <engine/filestream.h>
+#include <engine/interface.h>
 #include <engine/constants.h>
 #include <objects/orb.h>
 #include <objects/template.h>
+#include <font/CGUITTFont.h>
 #include <play.h>
 #include <menu.h>
 #include <null.h>
@@ -43,8 +44,8 @@ _ViewReplayState ViewReplayState;
 // Initializes the state
 int _ViewReplayState::Init() {
 	Menu.ClearCurrentLayout();
-	Layout = irrGUI->addModalScreen(0);
-	Layout->setVisible(false);
+	Layout = new CGUIEmptyElement(irrGUI, irrGUI->getRootGUIElement());
+	Layout->drop();
 	Camera = NULL;
 	
 	// Set up state
@@ -265,7 +266,7 @@ void _ViewReplayState::Draw() {
 	int CenterX = irrDriver->getScreenSize().Width / 2, CenterY = irrDriver->getScreenSize().Height / 2;
 
 	// Draw box
-	int Left = 5, Top = 5, Width = 175, Height = 70;
+	int Left = 5, Top = 5, Width = 230, Height = 85;
 	Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height, SColor(150, 255, 255, 255));
 
 	// Draw timer
@@ -277,15 +278,15 @@ void _ViewReplayState::Draw() {
 
 	// Draw time
 	int X = Left + Width/2 - 10, Y = Top + 15;
-	Interface.RenderText("Time", X - 5, Y, _Interface::ALIGN_RIGHT);
+	Interface.RenderText("Time", X - 8, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM);
 	Interface.ConvertSecondsToString(DisplayTime, Buffer);
-	Interface.RenderText(Buffer, X + 5, Y, _Interface::ALIGN_LEFT);
+	Interface.RenderText(Buffer, X + 8, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 
 	// Draw controls
-	Y += 17;
-	Interface.RenderText("Speed", X - 5, Y, _Interface::ALIGN_RIGHT);
+	Y += 27;
+	Interface.RenderText("Speed", X - 8, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_MEDIUM);
 	sprintf(Buffer, "%.2f", Game.GetTimeScale());
-	Interface.RenderText(Buffer, X + 5, Y, _Interface::ALIGN_LEFT);
+	Interface.RenderText(Buffer, X + 8, Y, _Interface::ALIGN_LEFT, _Interface::FONT_MEDIUM);
 
 	irrGUI->drawAll();
 }
@@ -335,6 +336,7 @@ void _ViewReplayState::SetupGUI() {
 	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON_SMALL));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);
+	ButtonExit->setOverrideFont(Interface.GetFont(_Interface::FONT_BUTTON));
 }
 
 // Change replay speed

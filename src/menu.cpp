@@ -595,8 +595,8 @@ void _Menu::InitReplays() {
 	AddMenuText(position2di(X, Y), L"Replays");
 
 	// Level selection
-	Y = Interface.GetCenterY();
-	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 350), CurrentLayout, REPLAYS_FILES, true);
+	Y = Interface.GetCenterY() + 20;
+	IGUIListBox *ListReplays = irrGUI->addListBox(Interface.GetCenteredRect(X, Y, 650, 325), CurrentLayout, REPLAYS_FILES, true);
 
 	// Change directories
 	std::string OldWorkingDirectory(irrFile->getWorkingDirectory().c_str());
@@ -969,6 +969,7 @@ void _Menu::Update(float FrameTime) {
 
 // Draws the current state
 void _Menu::Draw() {
+	CurrentLayout->draw();
 	irrGUI->drawAll();
 
 	// Draw level tooltip
@@ -1214,9 +1215,8 @@ void _Menu::ClearCurrentLayout() {
 	if(CurrentLayout) {
 		irrGUI->setFocus(0);
 		CurrentLayout->remove();
+		CurrentLayout = NULL;
 	}
-	
-	CurrentLayout = irrGUI->addModalScreen(0);
-	CurrentLayout->setVisible(false);
-	CurrentLayout->setEnabled(false);
+	CurrentLayout = new CGUIEmptyElement(irrGUI, irrGUI->getRootGUIElement());
+	CurrentLayout->drop();
 }

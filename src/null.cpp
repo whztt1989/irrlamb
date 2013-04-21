@@ -65,7 +65,7 @@ int _NullState::Init() {
 
 // Shuts the state down
 int _NullState::Close() {
-
+	
 	return 1;
 }
 

@@ -31,6 +31,10 @@ const int MESSAGE_WIDTH = 470;
 const int MESSAGE_HEIGHT = 115;
 const int MESSAGE_PADDING = 15;
 
+// Constructor for empty element
+CGUIEmptyElement::CGUIEmptyElement(IGUIEnvironment *Environment, irr::gui::IGUIElement *Parent)
+	:	irr::gui::IGUIElement((EGUI_ELEMENT_TYPE)MGUIET_EMPTY, Environment, Parent, -1, recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height)) { }
+
 // Initializes the graphics system
 int _Interface::Init() {
 	DrawHUD = true;
