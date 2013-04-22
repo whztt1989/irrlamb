@@ -50,7 +50,7 @@ void _Config::Reset() {
 	ScreenHeight = 600;
 	Fullscreen = false;
 	Shadows = true;
-	Shaders = false;
+	Shaders = true;
 	TrilinearFiltering = true;
 	AnisotropicFiltering = 0;
 	AntiAliasing = 0;

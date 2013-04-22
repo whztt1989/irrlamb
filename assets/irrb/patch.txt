@@ -1,3 +1,64 @@
+Index: src/TLuaProxy.cpp
+===================================================================
+--- src/TLuaProxy.cpp	(revision 1919)
++++ src/TLuaProxy.cpp	(working copy)
+@@ -286,7 +286,7 @@
+     }
+ 
+     template<class T> int TLuaProxy<T>::constructor(lua_State *L) {
+-        return inject(L, new T(L));
++        return TLuaProxy::inject(L, new T(L));
+     }
+     //-------------------------------------------------------------------------
+     //                         _ d u m p T a b l e
+Index: src/TGUIAnimation.cpp
+===================================================================
+--- src/TGUIAnimation.cpp	(revision 1919)
++++ src/TGUIAnimation.cpp	(working copy)
+@@ -4,6 +4,7 @@
+ // Additional Unlicense information may be found at http://unlicense.org.
+ //-----------------------------------------------------------------------------
+ #include "tubras.h"
++#include <IAnimatedMesh.h>
+ 
+ #define GID_NODES           1000
+ #define GID_ANIMATIONS      1001
+@@ -188,7 +189,7 @@
+     //-----------------------------------------------------------------------
+     void TGUIAnimation::updateSelectedAnimation()
+     {
+-        const wchar_t* wname = m_cbAnimations->getText();
++      /*  const wchar_t* wname = m_cbAnimations->getText();
+         stringc name = wname;
+ 
+         if(!m_selected)
+@@ -229,7 +230,7 @@
+         m_sbFrame->setMax(end);
+         m_sbFrame->setPos(start);
+         m_sbFrame->setSmallStep(1);
+-        m_sbFrame->setLargeStep(5);
++        m_sbFrame->setLargeStep(5);*/
+ 
+     }
+ 
+@@ -238,7 +239,7 @@
+     //-----------------------------------------------------------------------
+     void TGUIAnimation::updateSelectedNode()
+     {
+-        s32 idx = m_cbNodes->getSelected();
++        /*s32 idx = m_cbNodes->getSelected();
+         if(idx < 0)
+             return;
+ 
+@@ -293,7 +294,7 @@
+         {
+             m_cbAnimations->setSelected(0);
+             updateSelectedAnimation();
+-        }
++        }*/
+     }
+ 
+     //-----------------------------------------------------------------------
 Index: projects/win32/vc9/Tubras.sln
 ===================================================================
 --- projects/win32/vc9/Tubras.sln	(revision 1919)
@@ -180,69 +241,32 @@ Index: projects/win32/vc9/Tubras.vcproj
  	</Configurations>
  	<References>
  	</References>
-Index: src/TGUIAnimation.cpp
+Index: tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp
 ===================================================================
---- src/TGUIAnimation.cpp	(revision 1919)
-+++ src/TGUIAnimation.cpp	(working copy)
-@@ -4,6 +4,7 @@
- // Additional Unlicense information may be found at http://unlicense.org.
- //-----------------------------------------------------------------------------
- #include "tubras.h"
-+#include <IAnimatedMesh.h>
+--- tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(revision 1919)
++++ tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(working copy)
+@@ -374,7 +374,7 @@
+     attr->addInt("startFrame", FrameBase);
+     attr->addInt("endFrame", FrameBase + TotalFrames);
  
- #define GID_NODES           1000
- #define GID_ANIMATIONS      1001
-@@ -188,7 +189,7 @@
-     //-----------------------------------------------------------------------
-     void TGUIAnimation::updateSelectedAnimation()
-     {
--        const wchar_t* wname = m_cbAnimations->getText();
-+      /*  const wchar_t* wname = m_cbAnimations->getText();
-         stringc name = wname;
+-    AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
++   // AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
  
-         if(!m_selected)
-@@ -229,7 +230,7 @@
-         m_sbFrame->setMax(end);
-         m_sbFrame->setPos(start);
-         m_sbFrame->setSmallStep(1);
--        m_sbFrame->setLargeStep(5);
-+        m_sbFrame->setLargeStep(5);*/
- 
-     }
- 
-@@ -238,7 +239,7 @@
-     //-----------------------------------------------------------------------
-     void TGUIAnimation::updateSelectedNode()
-     {
--        s32 idx = m_cbNodes->getSelected();
-+        /*s32 idx = m_cbNodes->getSelected();
-         if(idx < 0)
-             return;
- 
-@@ -293,7 +294,7 @@
-         {
-             m_cbAnimations->setSelected(0);
-             updateSelectedAnimation();
--        }
-+        }*/
-     }
- 
-     //-----------------------------------------------------------------------
-Index: tools/imeshcvt/imeshcvt.cpp
+ 	while(reader->read())
+ 	{
+Index: tools/irrlicht/extensions/CIrrBMeshWriter.cpp
 ===================================================================
---- tools/imeshcvt/imeshcvt.cpp	(revision 1919)
-+++ tools/imeshcvt/imeshcvt.cpp	(working copy)
-@@ -368,8 +368,8 @@
-         writer = new CIrrBMeshWriter(m_videoDriver, m_fileSystem, &customMaterials);
-         ((CIrrBMeshWriter*)writer)->setVersion(oIrrbVersion);
-         ((CIrrBMeshWriter*)writer)->setCreator("imeshcvt 0.6");
--        if(baseDirectory.size())
--            ((CIrrBMeshWriter*)writer)->setRelativeBase(baseDirectory);
-+       // if(baseDirectory.size())
-+            ((CIrrBMeshWriter*)writer)->setRelativeBase(saveDir + "/");
-     }
-     else if(ext == ".dae")
-         writer = m_sceneManager->createMeshWriter(EMWT_COLLADA);
+--- tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(revision 1919)
++++ tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(working copy)
+@@ -266,7 +266,7 @@
+                 for(u8 t=0; t<tCount; t++)
+                 {
+                     irr::core::stringc textureName;
+-                    if(VMajor == 1)
++                    //if(VMajor == 1)
+                     {
+                         updateMaterialLayer(Materials[i],t,textureName,iLayer);
+                         _writeStringChunk(textureName);
 Index: tools/imeshcvt/imeshcvt.sln
 ===================================================================
 --- tools/imeshcvt/imeshcvt.sln	(revision 1919)
@@ -264,6 +288,21 @@ Index: tools/imeshcvt/imeshcvt.sln
  EndProject
  Global
  	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+Index: tools/imeshcvt/imeshcvt.cpp
+===================================================================
+--- tools/imeshcvt/imeshcvt.cpp	(revision 1919)
++++ tools/imeshcvt/imeshcvt.cpp	(working copy)
+@@ -368,8 +368,8 @@
+         writer = new CIrrBMeshWriter(m_videoDriver, m_fileSystem, &customMaterials);
+         ((CIrrBMeshWriter*)writer)->setVersion(oIrrbVersion);
+         ((CIrrBMeshWriter*)writer)->setCreator("imeshcvt 0.6");
+-        if(baseDirectory.size())
+-            ((CIrrBMeshWriter*)writer)->setRelativeBase(baseDirectory);
++       // if(baseDirectory.size())
++            ((CIrrBMeshWriter*)writer)->setRelativeBase(saveDir + "/");
+     }
+     else if(ext == ".dae")
+         writer = m_sceneManager->createMeshWriter(EMWT_COLLADA);
 Index: tools/imeshcvt/imeshcvt.vcproj
 ===================================================================
 --- tools/imeshcvt/imeshcvt.vcproj	(revision 1919)
@@ -454,29 +493,3 @@ Index: tools/imeshcvt/imeshcvt.vcproj
  	</Configurations>
  	<References>
  	</References>
-Index: tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp
-===================================================================
---- tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(revision 1919)
-+++ tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(working copy)
-@@ -374,7 +374,7 @@
-     attr->addInt("startFrame", FrameBase);
-     attr->addInt("endFrame", FrameBase + TotalFrames);
- 
--    AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
-+   // AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
- 
- 	while(reader->read())
- 	{
-Index: tools/irrlicht/extensions/CIrrBMeshWriter.cpp
-===================================================================
---- tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(revision 1919)
-+++ tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(working copy)
-@@ -266,7 +266,7 @@
-                 for(u8 t=0; t<tCount; t++)
-                 {
-                     irr::core::stringc textureName;
--                    if(VMajor == 1)
-+                    //if(VMajor == 1)
-                     {
-                         updateMaterialLayer(Materials[i],t,textureName,iLayer);
-                         _writeStringChunk(textureName);

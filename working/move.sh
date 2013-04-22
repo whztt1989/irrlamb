@@ -13,4 +13,10 @@ for f in $(ls *.obj 2>/dev/null); do
 	rm $f
 done;
 
+for f in $(ls meshes/*.irrmesh 2>/dev/null); do
+	nf=${f%.*}.irrbmesh
+	../../tubras-read-only/bin/imeshcvt -i $f -o $nf
+	rm $f
+done;
+
 rm -f irrb.log
