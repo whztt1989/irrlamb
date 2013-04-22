@@ -15,7 +15,7 @@ done;
 
 for f in $(ls meshes/*.irrmesh 2>/dev/null); do
 	nf=${f%.*}.irrbmesh
-	../../tubras-read-only/bin/imeshcvt -i $f -o $nf
+	$IMESHCVT -i $f -o $nf
 	rm $f
 done;
 
