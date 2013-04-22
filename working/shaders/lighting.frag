@@ -16,7 +16,7 @@ void main(void) {
 	//vec3 reflect_vector = normalize(-reflect(light_vector, normal)); 
 
 	// Ambient
-	vec4 ambient = vec4(0.1, 0.1, 0.1, 1);
+	vec4 ambient = vec4(0.25, 0.25, 0.25, 1);
 
 	// Diffuse
 	vec4 diffuse = gl_LightSource[0].diffuse * max(dot(normal, light_vector), 0.0);

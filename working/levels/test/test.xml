@@ -12,18 +12,18 @@
 		<player name="player" />
 		<orb name="orb" />
 		<box name="box">
-			<mesh file="cube.irrbmesh" scale="4" />
-			<shape w="4" h="4" l="4" />
+			<mesh file="cube.irrbmesh" scale="1" />
+			<shape w="1" h="1" l="1" />
 			<texture t1="crate0.jpg" />
-			<physics mass="0.0" />
+			<physics mass="0.5" />
 		</box>
 	</templates>
 	<objects>
 		<object name="player" template="player">
 			<position x="0.71" y="2.5" z="0.800" />
 		</object>
-		<!--<object name="a" template="box">
-			<position x="0" y="-1.5" z="0" />
-		</object>-->
+		<object name="a" template="box">
+			<position x="0" y="4.5" z="0" />
+		</object>
 	</objects>
 </level>
