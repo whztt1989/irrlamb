@@ -9,7 +9,7 @@ void main(void) {
 	
 	// Attenuate
 	float attenuation = 1.0f / (0.5 + distance * 0.05 + distance * distance * 0.05);
-	attenuation = clamp(attenuation, 0.0, 3.0);
+	attenuation = clamp(attenuation, 0.0, 2.0);
 	
 	vec3 light_vector = normalize(gl_LightSource[0].position.xyz - vertex); 
 	//vec3 eye_vector = normalize(-vertex);
@@ -22,14 +22,14 @@ void main(void) {
 	vec4 diffuse = gl_LightSource[0].diffuse * max(dot(normal, light_vector), 0.0);
 
 	// Specular
-	//vec4 specular_color = vec4(1, 1, 1, 1);
-	//vec4 specular = specular_color * pow(max(dot(reflect_vector, eye_vector), 0.0), 0.3*1000);
+	//vec4 specular_color = vec4(0, 0, 1, 1);
+	//vec4 specular = specular_color * pow(max(dot(reflect_vector, eye_vector), 0.0), 3);
 					  
 	// Texture color
 	vec4 texture_color = texture2D(texture, vec2(gl_TexCoord[0]));
 	
 	// Final color
-	vec4 frag_color = texture_color * (ambient + attenuation * diffuse);
+	vec4 frag_color = texture_color * (ambient + attenuation * diffuse); // + specular);
 	
 	// Fog
 	if(0 && gl_Fog.density > 0) {

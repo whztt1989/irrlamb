@@ -123,7 +123,7 @@ void _Player::Update(float FrameTime) {
 
 	// Update light
 	if(Light)
-		Light->setPosition(vector3df(Position[0], Position[1] + 0.5f, Position[2]));
+		Light->setPosition(vector3df(Position[0], Position[1], Position[2]));
 
 	// Get pitch for player idle sound
 	float Pitch = GetAngularVelocity().length();
