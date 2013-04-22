@@ -7,10 +7,10 @@
 #ifndef __IRR_IRRB_MESH_WRITER_H_INCLUDED__
 #define __IRR_IRRB_MESH_WRITER_H_INCLUDED__
 
-#include <IMeshWriter.h>
-#include <S3DVertex.h>
-#include <IVideoDriver.h>
-#include <IFileSystem.h>
+#include "IMeshWriter.h"
+#include "S3DVertex.h"
+#include "IVideoDriver.h"
+#include "IFileSystem.h"
 
 namespace irr
 {
@@ -140,17 +140,7 @@ namespace irr
             struct Irrb3f   vBiNormal;
         } PACK_STRUCT;
 
-        struct IrrbMaterialLayer_1_6
-        {
-            u32     mTextureWrap;
-            f32     mMatrix[16];
-            u8      mAnisotropicFilter;
-            u8      mLODBias;
-            bool    mBilinearFilter:1;
-            bool    mTrilinearFilter:1;
-        } PACK_STRUCT;
-
-        struct IrrbMaterialLayer_1_7
+        struct IrrbMaterialLayer
         {
             u8      mTextureWrapU:4;
             u8      mTextureWrapV:4;
@@ -161,7 +151,7 @@ namespace irr
             bool    mTrilinearFilter:1;
         } PACK_STRUCT;
 
-        struct IrrbMaterial_1_6
+        struct IrrbMaterial
         {
             u32     mType;
             u32     mAmbient;
@@ -175,6 +165,10 @@ namespace irr
             u8      mZBuffer;
             u8      mAntiAliasing;
             u8      mColorMask;
+            u8      mColorMaterial;
+		    u8      mBlendOperation;
+		    u8      mPolygonOffsetFactor;
+    		u8      mPolygonOffsetDirection;
             u8      mLayerCount;
             bool    mWireframe:1;
             bool    mPointCloud:1;
@@ -185,9 +179,10 @@ namespace irr
             bool    mFrontfaceCulling:1;
             bool    mFogEnable:1;
             bool    mNormalizeNormals:1;
+            bool    mUseMipMaps:1;
         } PACK_STRUCT;
 
-        struct IrrbMeshBufInfo_1_6
+        struct IrrbMeshBufInfo
         {
             u32     iVertexType;
             u32     iVertCount;
@@ -196,9 +191,17 @@ namespace irr
             u32     iIndexStart;
             u32     iFaceCount;
             u32     iMaterialIndex;
+            char    iMaterialName[64];
             Irrb3f  ibbMin;
             Irrb3f  ibbMax;
         } PACK_STRUCT;
+
+        struct SCustomMaterial
+        {
+            core::stringc Name;
+            video::E_MATERIAL_TYPE  Type;
+            video::IMaterialRenderer* Renderer;
+        };
 
         // Default alignment
 #if defined(_MSC_VER) ||  defined(__BORLANDC__) || defined (__BCPLUSPLUS__) 
@@ -215,7 +218,7 @@ namespace irr
         {
         public:
 
-            CIrrBMeshWriter(video::IVideoDriver* driver, io::IFileSystem* fs);
+            CIrrBMeshWriter(video::IVideoDriver* driver, io::IFileSystem* fs, core::array<SCustomMaterial>* customMaterials=0);
             virtual ~CIrrBMeshWriter();
 
             //! Returns the type of the mesh writer
@@ -232,13 +235,14 @@ namespace irr
             }
             void setCreator(irr::core::stringc value) {Creator = value;}
 
+            void setRelativeBase(irr::core::stringc value) {RelativeBase = value;}
+
         protected:
 
             void writeHeader(const scene::IMesh* mesh);
 
-            void updateMaterial(const video::SMaterial& material,struct IrrbMaterial_1_6& mat);
-            void updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer_1_6& layer);
-            void updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer_1_7& layer);
+            void updateMaterial(const video::SMaterial& material,struct IrrbMaterial& mat);
+            void updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer& layer);
 
             bool _writeMesh(const scene::IMesh* mesh);
 
@@ -249,6 +253,7 @@ namespace irr
 
             bool addMaterial(irr::video::SMaterial& material);
             u32 getMaterialIndex(irr::video::SMaterial& material);
+            irr::core::stringc getMaterialName(irr::video::SMaterial& material);
 
             // member variables:
             irr::core::array<irr::video::SMaterial> Materials;
@@ -256,9 +261,11 @@ namespace irr
             u32*    IBuffer;
             io::IFileSystem* FileSystem;
             video::IVideoDriver* VideoDriver;
+            core::array<SCustomMaterial>* CustomMaterials;
             io::IWriteFile* Writer;
             u16 Version, VMajor, VMinor;
             irr::core::stringc Creator;
+            irr::core::stringc RelativeBase;
         };
 
     int get_endianess(void);  // 1-big, 0-lil

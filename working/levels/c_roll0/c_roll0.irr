@@ -32,7 +32,7 @@
          <bool name="DebugDataVisible" value="false"/>
          <bool name="IsDebugObject" value="false"/>
          <bool name="ReadOnlyMaterials" value="false"/>
-         <string name="Mesh" value="meshes/c_roll0.irrmesh"/>
+         <string name="Mesh" value="meshes/c_roll0.irrbmesh"/>
          <enum name="HardwareMappingHint" value="never"/>
          <enum name="HardwareMappingBufferType" value="vertexindex"/>
       </attributes>

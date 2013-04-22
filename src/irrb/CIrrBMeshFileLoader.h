@@ -7,13 +7,13 @@
 #ifndef __C_IRRB_MESH_FILE_LOADER_H_INCLUDED__
 #define __C_IRRB_MESH_FILE_LOADER_H_INCLUDED__
 
-#include <IMeshLoader.h>
-#include <IFileSystem.h>
-#include <IVideoDriver.h>
-#include <irrString.h>
-#include <SMesh.h>
-#include <SMeshBuffer.h>
-#include <ISceneManager.h>
+#include "IMeshLoader.h"
+#include "IFileSystem.h"
+#include "IVideoDriver.h"
+#include "irrString.h"
+#include "SMesh.h"
+#include "SMeshBuffer.h"
+#include "ISceneManager.h"
 
 namespace irr
 {
@@ -51,28 +51,23 @@ private:
     u32 readChunk(struct IrrbChunkInfo& chunk);
     irr::core::stringc readStringChunk();
 
-    SMesh* _readMesh_1_6(u32 index);
-    SMesh* _readMesh_1_7(u32 index);
+    SMesh* _readMesh(u32 index);
 	IMeshBuffer* createMeshBuffer(u32 idx);
-    void setMaterial(video::SMaterial& material, struct IrrbMaterial_1_6& mat);
-    void setMaterialLayer(video::SMaterial& material, u8 layerNumber, irr::core::stringc mTexture, struct IrrbMaterialLayer_1_6& layer);
-    void setMaterialLayer(video::SMaterial& material, u8 layerNumber, irr::core::stringc mTexture, struct IrrbMaterialLayer_1_7& layer);
+    void setMaterial(video::SMaterial& material, struct IrrbMaterial& mat);
+    void setMaterialLayer(video::SMaterial& material, u8 layerNumber, irr::core::stringc mTexture, struct IrrbMaterialLayer& layer);
 
 	// member variables
     u32* IBuffer;
     struct IrrbVertex* VBuffer;
-    struct IrrbMeshBufInfo_1_6* MBuffer;
-    struct IrrbMaterial_1_6* Material;
-    struct IrrbMaterialLayer_1_6* Layer;
-    struct IrrbMaterialLayer_1_7* Layer_1_7;
+    struct IrrbMeshBufInfo* MBuffer;
+    struct IrrbMaterial* Material;
+    struct IrrbMaterialLayer* Layer;
     core::array<video::SMaterial> Materials;
-
 
 	video::IVideoDriver* Driver;
 	scene::ISceneManager* SceneManager;
 	io::IFileSystem* FileSystem;
     io::IReadFile* Reader;
-
 };
 
 

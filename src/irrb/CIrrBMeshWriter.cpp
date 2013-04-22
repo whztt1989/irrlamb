@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------------
 #include <all.h>
 #include "CIrrBMeshWriter.h"
-#include <IWriteFile.h>
-#include <IXMLWriter.h>
-#include <IMesh.h>
-#include <IAttributes.h>
+#include "IWriteFile.h"
+#include "IXMLWriter.h"
+#include "IMesh.h"
+#include "IAttributes.h"
 
 namespace irr
 {
@@ -28,9 +28,11 @@ namespace irr
         }
 
         CIrrBMeshWriter::CIrrBMeshWriter(video::IVideoDriver* driver,
-            io::IFileSystem* fs)
-            : FileSystem(fs), VideoDriver(driver), Writer(0), Version(IRRB_VERSION), 
-            VMajor(IRRLICHT_VERSION_MAJOR), VMinor(IRRLICHT_VERSION_MINOR), Creator("unknown")
+            io::IFileSystem* fs, core::array<SCustomMaterial>* customMaterials)
+            : FileSystem(fs), VideoDriver(driver), CustomMaterials(customMaterials), 
+            Writer(0), Version(IRRB_VERSION), 
+            VMajor(IRRLICHT_VERSION_MAJOR), VMinor(IRRLICHT_VERSION_MINOR), Creator("unknown"),
+            RelativeBase("")
         {
             if (VideoDriver)
                 VideoDriver->grab();
@@ -147,6 +149,29 @@ namespace irr
             return 0;
         }
 
+        irr::core::stringc CIrrBMeshWriter::getMaterialName(irr::video::SMaterial& material)
+        {
+            irr::core::stringc result="solid";
+
+            if((u32)material.MaterialType > sizeof(irr::video::sBuiltInMaterialTypeNames))
+            {
+                result = irr::video::sBuiltInMaterialTypeNames[material.MaterialType];
+            }
+            else 
+            {
+                for(u32 i=0; i < CustomMaterials->size(); i++)
+                {
+                    if((*CustomMaterials)[i].Type == material.MaterialType)
+                    {
+                        result = (*CustomMaterials)[i].Name;
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         bool CIrrBMeshWriter::_writeMesh(const scene::IMesh* mesh)
         {
             bool rc = false;
@@ -222,10 +247,9 @@ namespace irr
             //
             for(u32 i=0; i<Materials.size(); i++)
             {
-                struct IrrbMaterial_1_6 iMat;
+                struct IrrbMaterial iMat;
 
-                struct IrrbMaterialLayer_1_6 iLayer_1_6;
-                struct IrrbMaterialLayer_1_7 iLayer_1_7;
+                struct IrrbMaterialLayer iLayer;
 
                 updateMaterial(Materials[i],iMat);
                 u32 tCount=0;
@@ -242,20 +266,11 @@ namespace irr
                 for(u8 t=0; t<tCount; t++)
                 {
                     irr::core::stringc textureName;
-                    if(VMajor == 1)
+                    //if(VMajor == 1)
                     {
-                        if(VMinor <= 6)
-                        {
-                            updateMaterialLayer(Materials[i],t,textureName,iLayer_1_6);
-                            _writeStringChunk(textureName);
-                            Writer->write(&iLayer_1_6,sizeof(iLayer_1_6));
-                        }
-                        else
-                        {
-                            updateMaterialLayer(Materials[i],t,textureName,iLayer_1_7);
-                            _writeStringChunk(textureName);
-                            Writer->write(&iLayer_1_7,sizeof(iLayer_1_7));
-                        }
+                        updateMaterialLayer(Materials[i],t,textureName,iLayer);
+                        _writeStringChunk(textureName);
+                        Writer->write(&iLayer,sizeof(iLayer));
                     }
                 }
             }
@@ -270,10 +285,11 @@ namespace irr
                 if (buffer)
                 {
 
-                    struct IrrbMeshBufInfo_1_6 mbi;
+                    struct IrrbMeshBufInfo mbi;
 
                     // write meshbuffer info
 
+                    memset(&mbi, 0, sizeof(mbi));
                     mbi.iVertexType = buffer->getVertexType();
                     mbi.iVertCount = buffer->getVertexCount();
                     mbi.iVertStart = voffsets[i];
@@ -281,6 +297,12 @@ namespace irr
                     mbi.iIndexStart = ioffsets[i];
                     mbi.iFaceCount = buffer->getIndexCount() / 3;
                     mbi.iMaterialIndex = getMaterialIndex(buffer->getMaterial());
+                    core::stringc mname = getMaterialName(buffer->getMaterial());
+                    strncpy(mbi.iMaterialName, mname.c_str(), sizeof(mbi.iMaterialName)-1);
+
+                    video::IMaterialRenderer* mr = 
+                        VideoDriver->getMaterialRenderer(mbi.iMaterialIndex);
+
                     buffer->recalculateBoundingBox();
                     mbb = buffer->getBoundingBox();
                     mbi.ibbMin.x = mbb.MinEdge.X;
@@ -432,7 +454,7 @@ namespace irr
             }
         }
 
-        void CIrrBMeshWriter::updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer_1_6& layer)
+        void CIrrBMeshWriter::updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer& layer)
         {
             if(layerNumber > 3)
                 return;
@@ -440,39 +462,36 @@ namespace irr
             memset(&layer,0,sizeof(layer));
 
             textureName = material.TextureLayer[layerNumber].Texture->getName().getPath().c_str();
+
+            if(RelativeBase.size())
+            {
+                // simple relative path calculation
+                int blen = RelativeBase.size();
+                int tlen = textureName.size();
+                int idx = 0;
+                
+                const char *bp = RelativeBase.c_str();
+                const char *tp = textureName.c_str();
+                
+                while( (idx < blen) & (idx < tlen))
+                {
+                    if(bp[idx] != tp[idx])
+                        break;
+                    ++idx;
+                }
+                textureName = textureName.subString(idx, textureName.size());
+            }
+
             layer.mBilinearFilter = material.TextureLayer[layerNumber].BilinearFilter;
             layer.mTrilinearFilter = material.TextureLayer[layerNumber].TrilinearFilter;
             layer.mAnisotropicFilter = material.TextureLayer[layerNumber].AnisotropicFilter;
-#if IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR <= 6
-            layer.mTextureWrap = material.TextureLayer[layerNumber].TextureWrap;
-#elif IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR == 7
-            layer.mTextureWrap = material.TextureLayer[layerNumber].TextureWrapU;
-#endif
-            memcpy(&layer.mMatrix,material.TextureLayer[layerNumber].getTextureMatrix().pointer(),sizeof(f32)*16);
-        }
-
-        void CIrrBMeshWriter::updateMaterialLayer(const video::SMaterial& material,u8 layerNumber, irr::core::stringc& textureName, struct IrrbMaterialLayer_1_7& layer)
-        {
-            if(layerNumber > 3)
-                return;
-
-            memset(&layer,0,sizeof(layer));
-
-            textureName = material.TextureLayer[layerNumber].Texture->getName().getPath().c_str();
-            layer.mBilinearFilter = material.TextureLayer[layerNumber].BilinearFilter;
-            layer.mTrilinearFilter = material.TextureLayer[layerNumber].TrilinearFilter;
-            layer.mAnisotropicFilter = material.TextureLayer[layerNumber].AnisotropicFilter;
-#if IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR <= 6
-            layer.mTextureWrapU = material.TextureLayer[layerNumber].TextureWrap;
-            layer.mTextureWrapV = layer.mTextureWrapU;
-#elif IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR == 7
             layer.mTextureWrapU = material.TextureLayer[layerNumber].TextureWrapU;
             layer.mTextureWrapV = material.TextureLayer[layerNumber].TextureWrapV;
-#endif
+            layer.mLODBias = material.TextureLayer[layerNumber].LODBias;
             memcpy(&layer.mMatrix,material.TextureLayer[layerNumber].getTextureMatrix().pointer(),sizeof(f32)*16);
         }
 
-        void CIrrBMeshWriter::updateMaterial(const video::SMaterial& material, struct IrrbMaterial_1_6& mat)
+        void CIrrBMeshWriter::updateMaterial(const video::SMaterial& material, struct IrrbMaterial& mat)
         {
 
             memset(&mat,0,sizeof(mat));
@@ -488,7 +507,11 @@ namespace irr
             mat.mThickness = material.Thickness;
             mat.mZBuffer = material.ZBuffer;
             mat.mAntiAliasing = material.AntiAliasing;
-            mat.mColorMask = material.ColorMask;
+            mat.mColorMask = material.ColorMask;  
+            mat.mColorMaterial = material.ColorMaterial;
+            mat.mBlendOperation = material.BlendOperation;
+            mat.mPolygonOffsetFactor = material.PolygonOffsetFactor;
+            mat.mPolygonOffsetDirection = material.PolygonOffsetDirection;
 
             mat.mWireframe = material.Wireframe;
             mat.mPointCloud = material.PointCloud;
@@ -499,6 +522,7 @@ namespace irr
             mat.mFrontfaceCulling = material.FrontfaceCulling;
             mat.mFogEnable = material.FogEnable;
             mat.mNormalizeNormals = material.NormalizeNormals;
+            mat.mUseMipMaps = material.UseMipMaps;
         }
     } // end namespace
 } // end namespace
