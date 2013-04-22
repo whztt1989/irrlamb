@@ -265,7 +265,7 @@ _G = {
         'physics': False,
         'pack': False,
         'makeexec': False,
-        'binary': False,
+        'binary': True,
         'debug': True,
         'walktest': True,
         'out_directory': '',
@@ -1419,7 +1419,7 @@ def _registerIrrbProperties():
         gMeshCvtPath = os.environ['IMESHCVT']
         bpy.types.Scene.irrb_export_binary = BoolProperty(name='Binary Meshes',
             description='Convert meshes to binary (.irrbmesh)',
-            default=False, options=emptySet)
+            default=True, options=emptySet)
 
     gWalkTestPath = None
     if gHaveWalkTest:
@@ -4417,7 +4417,7 @@ class iExporter:
         if self.gExportExec:
             self.gExportPack = True
 
-        self.gBinary = Binary
+        self.gBinary = True
         self.gDebug = Debug
         self.gMeshFileName = ''
         self.gSceneFileName = ''
@@ -5071,7 +5071,7 @@ class iExporter:
         oName = bObject.name
         debug('\n[Mesh - ob:{}, me:{}]'.format(oName, meshData.name))
 
-        self.gMeshFileName = self.gMeshDir + meshData.name + '.irrbmesh'
+        self.gMeshFileName = self.gMeshDir + meshData.name + '.irrmesh'
         binaryMeshFileName = ''
         if self.gBinary:
             binaryMeshFileName = (self.gMeshDir +
@@ -5539,7 +5539,7 @@ class IrrbExportOp(bpy.types.Operator):
         _G['export']['pack'] = scene.irrb_export_pack
         _G['walktest']['show_help'] = scene.irrb_wt_showhelp
         _G['walktest']['show_debug'] = scene.irrb_wt_debug
-        exportBinary = False
+        exportBinary = True
         if 'IMESHCVT' in os.environ:
             _G['export']['binary'] = scene.irrb_export_binary
             if scene.irrb_export_binary:
