@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<!-- Created 05/16/2010 23:30 by irrb v0.5 - "Irrlicht/Blender Exporter" -->
+<!-- Created 04/22/2013 13:48 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
 <irr_scene>
    <attributes>
       <string name="Name" value="root"/>
       <int name="Id" value="-1"/>
-      <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
-      <vector3d name="Rotation" value="0.000000, 0.000000, 0.000000"/>
-      <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-      <colorf name="AmbientLight" value="0.300000, 0.300000, 0.300000 1.000000"/>
+      <vector3d name="Position" value="0, 0, 0"/>
+      <vector3d name="Rotation" value="0, 0, 0"/>
+      <vector3d name="Scale" value="1, 1, 1"/>
+      <colorf name="AmbientLight" value="0.15, 0.15, 0.15, 1"/>
       <bool name="AutomaticCulling" value="true"/>
       <bool name="DebugDataVisible" value="false"/>
       <bool name="IsDebugObject" value="false"/>
@@ -15,126 +15,26 @@
    </attributes>
    <userData>
       <attributes>
-         <string name="Exporter" value="irrb"/>
-         <string name="Exporter.Version" value="0.5"/>
-         <float name="Gravity" value="-9.800000"/>
-         <int name="OccludesLight" value="0"/>
-         <int name="Physics.Enabled" value="0"/>
+         <bool name="Physics.Enabled" value="false"/>
+         <float name="Gravity" value="-9.81"/>
+         <colorf name="BackgroundColor" value="0.056563, 0.220815, 0.4, 1"/>
       </attributes>
    </userData>
-   <node type="light">
-      <attributes>
-         <string name="Name" value="Lamp.003"/>
-         <int name="Id" value="-1"/>
-         <vector3d name="Position" value="39.981098, 5.125609, 10.227551"/>
-         <vector3d name="Rotation" value="90.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-         <bool name="Visible" value="true"/>
-         <enum name="AutomaticCulling" value="frustum_box"/>
-         <bool name="DebugDataVisible" value="false"/>
-         <bool name="IsDebugObject" value="false"/>
-         <bool name="ReadOnlyMaterials" value="false"/>
-         <enum name="LightType" value="Point"/>
-         <colorf name="AmbientColor" value="0.000000,0.000000, 0.000000, 1.000000"/>
-         <colorf name="DiffuseColor" value="1.000000, 1.000000, 1.000000 1.000000"/>
-         <colorf name="SpecularColor" value="1.000000,1.000000, 1.000000, 1.000000"/>
-         <vector3d name="Attenuation" value="0.000000 0.500000 0.000000"/>
-         <float name="Radius" value="20.00"/>
-         <bool name="CastShadows" value="true"/>
-      </attributes>
-      <userData>
-         <attributes>
-         </attributes>
-      </userData>
-   </node>
-   <node type="light">
-      <attributes>
-         <string name="Name" value="Lamp.002"/>
-         <int name="Id" value="-1"/>
-         <vector3d name="Position" value="-0.018902, 5.125609, -19.772449"/>
-         <vector3d name="Rotation" value="90.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-         <bool name="Visible" value="true"/>
-         <enum name="AutomaticCulling" value="frustum_box"/>
-         <bool name="DebugDataVisible" value="false"/>
-         <bool name="IsDebugObject" value="false"/>
-         <bool name="ReadOnlyMaterials" value="false"/>
-         <enum name="LightType" value="Point"/>
-         <colorf name="AmbientColor" value="0.000000,0.000000, 0.000000, 1.000000"/>
-         <colorf name="DiffuseColor" value="1.000000, 1.000000, 1.000000 1.000000"/>
-         <colorf name="SpecularColor" value="1.000000,1.000000, 1.000000, 1.000000"/>
-         <vector3d name="Attenuation" value="0.000000 0.500000 0.000000"/>
-         <float name="Radius" value="20.00"/>
-         <bool name="CastShadows" value="true"/>
-      </attributes>
-      <userData>
-         <attributes>
-         </attributes>
-      </userData>
-   </node>
-   <node type="light">
-      <attributes>
-         <string name="Name" value="Lamp.001"/>
-         <int name="Id" value="-1"/>
-         <vector3d name="Position" value="-40.018902, 5.125609, 0.227551"/>
-         <vector3d name="Rotation" value="90.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-         <bool name="Visible" value="true"/>
-         <enum name="AutomaticCulling" value="frustum_box"/>
-         <bool name="DebugDataVisible" value="false"/>
-         <bool name="IsDebugObject" value="false"/>
-         <bool name="ReadOnlyMaterials" value="false"/>
-         <enum name="LightType" value="Point"/>
-         <colorf name="AmbientColor" value="0.000000,0.000000, 0.000000, 1.000000"/>
-         <colorf name="DiffuseColor" value="1.000000, 1.000000, 1.000000 1.000000"/>
-         <colorf name="SpecularColor" value="1.000000,1.000000, 1.000000, 1.000000"/>
-         <vector3d name="Attenuation" value="0.000000 0.500000 0.000000"/>
-         <float name="Radius" value="20.00"/>
-         <bool name="CastShadows" value="true"/>
-      </attributes>
-      <userData>
-         <attributes>
-         </attributes>
-      </userData>
-   </node>
-   <node type="light">
-      <attributes>
-         <string name="Name" value="Lamp"/>
-         <int name="Id" value="-1"/>
-         <vector3d name="Position" value="-0.018901, 5.125609, 20.227551"/>
-         <vector3d name="Rotation" value="90.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-         <bool name="Visible" value="true"/>
-         <enum name="AutomaticCulling" value="frustum_box"/>
-         <bool name="DebugDataVisible" value="false"/>
-         <bool name="IsDebugObject" value="false"/>
-         <bool name="ReadOnlyMaterials" value="false"/>
-         <enum name="LightType" value="Point"/>
-         <colorf name="AmbientColor" value="0.000000,0.000000, 0.000000, 1.000000"/>
-         <colorf name="DiffuseColor" value="1.000000, 1.000000, 1.000000 1.000000"/>
-         <colorf name="SpecularColor" value="1.000000,1.000000, 1.000000, 1.000000"/>
-         <vector3d name="Attenuation" value="0.000000 0.500000 0.000000"/>
-         <float name="Radius" value="20.00"/>
-         <bool name="CastShadows" value="true"/>
-      </attributes>
-      <userData>
-         <attributes>
-         </attributes>
-      </userData>
-   </node>
    <node type="mesh">
       <attributes>
          <string name="Name" value="tut_move1"/>
          <int name="Id" value="-1"/>
-         <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
-         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
          <bool name="Visible" value="true"/>
+         <vector3d name="Position" value="0, 0, 0"/>
+         <vector3d name="Rotation" value="0, 0, 0"/>
+         <vector3d name="Scale" value="1, 1, 1"/>
          <enum name="AutomaticCulling" value="frustum_box"/>
          <bool name="DebugDataVisible" value="false"/>
          <bool name="IsDebugObject" value="false"/>
          <bool name="ReadOnlyMaterials" value="false"/>
          <string name="Mesh" value="meshes/tut_move1.irrbmesh"/>
+         <enum name="HardwareMappingHint" value="never"/>
+         <enum name="HardwareMappingBufferType" value="vertexindex"/>
       </attributes>
       <userData>
          <attributes>

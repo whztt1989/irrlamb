@@ -9,7 +9,7 @@ void main(void) {
 	
 	// Attenuate
 	float attenuation = 1.0f / (0.5 + distance * 0.05 + distance * distance * 0.05);
-	attenuation = clamp(attenuation, 0.0, 2.0);
+	attenuation = clamp(attenuation, 0.0, 1.0);
 	
 	vec3 light_vector = normalize(gl_LightSource[0].position.xyz - vertex); 
 	//vec3 eye_vector = normalize(-vertex);
