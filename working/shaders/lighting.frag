@@ -32,7 +32,7 @@ void main(void) {
 	vec4 frag_color = texture_color * (ambient + attenuation * diffuse);
 	
 	// Fog
-	if(gl_Fog.density > 0) {
+	if(0 && gl_Fog.density > 0) {
 		const float LOG2 = 1.442695;
 		float frag_z = gl_FragCoord.z / gl_FragCoord.w;
 		float fog_factor = clamp(exp2(-gl_Fog.density * gl_Fog.density * frag_z * frag_z * LOG2), 0.0, 1.0);

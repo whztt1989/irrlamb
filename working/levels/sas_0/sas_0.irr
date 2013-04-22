@@ -1,48 +1,48 @@
 <?xml version="1.0"?>
-<!-- Created 05/18/2010 19:15 by irrb v0.5 - "Irrlicht/Blender Exporter" -->
+<!-- Created 04/21/2013 21:22 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
 <irr_scene>
    <attributes>
       <string name="Name" value="root"/>
       <int name="Id" value="-1"/>
-      <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
-      <vector3d name="Rotation" value="0.000000, 0.000000, 0.000000"/>
-      <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
-      <colorf name="AmbientLight" value="0.2, 0.2, 0.2 1.000000"/>
+      <vector3d name="Position" value="0, 0, 0"/>
+      <vector3d name="Rotation" value="0, 0, 0"/>
+      <vector3d name="Scale" value="1, 1, 1"/>
+      <colorf name="AmbientLight" value="0.187198, 0.172222, 0.164734, 1"/>
       <bool name="AutomaticCulling" value="true"/>
       <bool name="DebugDataVisible" value="false"/>
       <bool name="IsDebugObject" value="false"/>
       <bool name="Visible" value="true"/>
-	  <enum name="FogType" value="FogExp"/>
+      <enum name="FogType" value="FogExp"/>
       <float name="FogStart" value="1.000000"/>
       <float name="FogEnd" value="50.000000"/>
       <float name="FogHeight" value="0.000000"/>
-      <float name="FogDensity" value="0.030000"/>
+      <float name="FogDensity" value="0.050000"/>
       <colorf name="FogColor" value="0.000000, 0.000000, 0.000000, 1.000000"/>
       <bool name="FogPixel" value="false"/>
       <bool name="FogRange" value="false"/>
    </attributes>
    <userData>
       <attributes>
-         <string name="Exporter" value="irrb"/>
-         <string name="Exporter.Version" value="0.5"/>
-         <float name="Gravity" value="-9.800000"/>
-         <int name="OccludesLight" value="0"/>
-         <int name="Physics.Enabled" value="0"/>
+         <bool name="Physics.Enabled" value="false"/>
+         <float name="Gravity" value="-9.81"/>
+         <colorf name="BackgroundColor" value="0, 0, 0, 1"/>
       </attributes>
    </userData>
    <node type="mesh">
       <attributes>
-         <string name="Name" value="a_hills0"/>
+         <string name="Name" value="sas_0"/>
          <int name="Id" value="-1"/>
-         <vector3d name="Position" value="0.000000, 0.000000, 0.000000"/>
-         <vector3d name="Rotation" value="0.000000, -0.000000, 0.000000"/>
-         <vector3d name="Scale" value="1.000000, 1.000000, 1.000000"/>
          <bool name="Visible" value="true"/>
+         <vector3d name="Position" value="0, 0, 0"/>
+         <vector3d name="Rotation" value="0, 0, 0"/>
+         <vector3d name="Scale" value="1, 1, 1"/>
          <enum name="AutomaticCulling" value="frustum_box"/>
          <bool name="DebugDataVisible" value="false"/>
          <bool name="IsDebugObject" value="false"/>
          <bool name="ReadOnlyMaterials" value="false"/>
-         <string name="Mesh" value="meshes/sas_0.irrbmesh"/>
+         <string name="Mesh" value="meshes/sas_0.irrmesh"/>
+         <enum name="HardwareMappingHint" value="never"/>
+         <enum name="HardwareMappingBufferType" value="vertexindex"/>
       </attributes>
       <userData>
          <attributes>

@@ -5071,7 +5071,7 @@ class iExporter:
         oName = bObject.name
         debug('\n[Mesh - ob:{}, me:{}]'.format(oName, meshData.name))
 
-        self.gMeshFileName = self.gMeshDir + meshData.name + '.irrmesh'
+        self.gMeshFileName = self.gMeshDir + meshData.name + '.irrbmesh'
         binaryMeshFileName = ''
         if self.gBinary:
             binaryMeshFileName = (self.gMeshDir +
