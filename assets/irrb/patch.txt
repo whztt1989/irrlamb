@@ -1,0 +1,482 @@
+Index: projects/win32/vc9/Tubras.sln
+===================================================================
+--- projects/win32/vc9/Tubras.sln	(revision 1919)
++++ projects/win32/vc9/Tubras.sln	(working copy)
+@@ -1,6 +1,6 @@
+ ﻿
+-Microsoft Visual Studio Solution File, Format Version 10.00
+-# Visual Studio 2008
++Microsoft Visual Studio Solution File, Format Version 11.00
++# Visual C++ Express 2010
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tubras", "Tubras.vcproj", "{312ACD2F-01D7-442C-9101-1A0EFBB2A433}"
+ EndProject
+ Global
+Index: projects/win32/vc9/Tubras.vcproj
+===================================================================
+--- projects/win32/vc9/Tubras.vcproj	(revision 1919)
++++ projects/win32/vc9/Tubras.vcproj	(working copy)
+@@ -12,9 +12,6 @@
+ 		<Platform
+ 			Name="Win32"
+ 		/>
+-		<Platform
+-			Name="x64"
+-		/>
+ 	</Platforms>
+ 	<ToolFiles>
+ 	</ToolFiles>
+@@ -86,75 +83,8 @@
+ 				Name="VCPostBuildEventTool"
+ 			/>
+ 		</Configuration>
++		
+ 		<Configuration
+-			Name="Debug|x64"
+-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+-			ConfigurationType="4"
+-			CharacterSet="0"
+-			>
+-			<Tool
+-				Name="VCPreBuildEventTool"
+-			/>
+-			<Tool
+-				Name="VCCustomBuildTool"
+-			/>
+-			<Tool
+-				Name="VCXMLDataGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCWebServiceProxyGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCMIDLTool"
+-				TargetEnvironment="3"
+-			/>
+-			<Tool
+-				Name="VCCLCompilerTool"
+-				Optimization="0"
+-				AdditionalIncludeDirectories="&quot;$(TUBRAS_SDK)\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht\zlib&quot;;&quot;$(TUBRAS_SDK)\deps\fmod\api\inc&quot;;&quot;$(TUBRAS_SDK)\deps\bullet\src&quot;;&quot;$(TUBRAS_SDK)\deps\irrklang\include&quot;;&quot;$(TUBRAS_SDK)\src\lua\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\timing&quot;;&quot;$(TUBRAS_SDK)\deps\oolua\include&quot;"
+-				PreprocessorDefinitions="WIN32;WIN64;_DEBUG;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_IRR_STATIC_LIB_;STATIC_LINKED;PROFILING_ENABLED;NO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_"
+-				MinimalRebuild="true"
+-				BasicRuntimeChecks="3"
+-				RuntimeLibrary="1"
+-				EnableEnhancedInstructionSet="0"
+-				FloatingPointModel="0"
+-				UsePrecompiledHeader="2"
+-				PrecompiledHeaderThrough="Tubras.h"
+-				WarningLevel="3"
+-				Detect64BitPortabilityProblems="false"
+-				DebugInformationFormat="3"
+-			/>
+-			<Tool
+-				Name="VCManagedResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCPreLinkEventTool"
+-			/>
+-			<Tool
+-				Name="VCLibrarianTool"
+-				OutputFile="$(TUBRAS_SDK)\libs\debug64\Tubras_d.lib"
+-			/>
+-			<Tool
+-				Name="VCALinkTool"
+-			/>
+-			<Tool
+-				Name="VCXDCMakeTool"
+-			/>
+-			<Tool
+-				Name="VCBscMakeTool"
+-			/>
+-			<Tool
+-				Name="VCFxCopTool"
+-			/>
+-			<Tool
+-				Name="VCPostBuildEventTool"
+-			/>
+-		</Configuration>
+-		<Configuration
+ 			Name="Release|Win32"
+ 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+ 			IntermediateDirectory="$(ConfigurationName)"
+@@ -223,76 +153,7 @@
+ 				Name="VCPostBuildEventTool"
+ 			/>
+ 		</Configuration>
+-		<Configuration
+-			Name="Release|x64"
+-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+-			ConfigurationType="4"
+-			CharacterSet="0"
+-			WholeProgramOptimization="1"
+-			>
+-			<Tool
+-				Name="VCPreBuildEventTool"
+-			/>
+-			<Tool
+-				Name="VCCustomBuildTool"
+-			/>
+-			<Tool
+-				Name="VCXMLDataGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCWebServiceProxyGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCMIDLTool"
+-				TargetEnvironment="3"
+-			/>
+-			<Tool
+-				Name="VCCLCompilerTool"
+-				EnableIntrinsicFunctions="true"
+-				WholeProgramOptimization="false"
+-				AdditionalIncludeDirectories="&quot;$(TUBRAS_SDK)\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht\zlib&quot;;&quot;$(TUBRAS_SDK)\deps\fmod\api\inc&quot;;&quot;$(TUBRAS_SDK)\deps\bullet\src&quot;;&quot;$(TUBRAS_SDK)\deps\irrklang\include&quot;;&quot;$(TUBRAS_SDK)\src\lua\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\timing&quot;;&quot;$(TUBRAS_SDK)\deps\oolua\include&quot;"
+-				PreprocessorDefinitions="WIN64;NDEBUG;_LIB;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_IRR_STATIC_LIB_;STATIC_LINKED;xPROFILING_ENABLED;NO_IRR_COMPILE_WITH_JOYSTICK_EVENTS_"
+-				RuntimeLibrary="0"
+-				BufferSecurityCheck="false"
+-				EnableFunctionLevelLinking="true"
+-				EnableEnhancedInstructionSet="0"
+-				FloatingPointModel="2"
+-				UsePrecompiledHeader="2"
+-				PrecompiledHeaderThrough="Tubras.h"
+-				WarningLevel="3"
+-				Detect64BitPortabilityProblems="false"
+-				DebugInformationFormat="0"
+-			/>
+-			<Tool
+-				Name="VCManagedResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCPreLinkEventTool"
+-			/>
+-			<Tool
+-				Name="VCLibrarianTool"
+-				OutputFile="$(TUBRAS_SDK)\libs\release64\Tubras.lib"
+-			/>
+-			<Tool
+-				Name="VCALinkTool"
+-			/>
+-			<Tool
+-				Name="VCXDCMakeTool"
+-			/>
+-			<Tool
+-				Name="VCBscMakeTool"
+-			/>
+-			<Tool
+-				Name="VCFxCopTool"
+-			/>
+-			<Tool
+-				Name="VCPostBuildEventTool"
+-			/>
+-		</Configuration>
++		
+ 	</Configurations>
+ 	<References>
+ 	</References>
+Index: src/TGUIAnimation.cpp
+===================================================================
+--- src/TGUIAnimation.cpp	(revision 1919)
++++ src/TGUIAnimation.cpp	(working copy)
+@@ -4,6 +4,7 @@
+ // Additional Unlicense information may be found at http://unlicense.org.
+ //-----------------------------------------------------------------------------
+ #include "tubras.h"
++#include <IAnimatedMesh.h>
+ 
+ #define GID_NODES           1000
+ #define GID_ANIMATIONS      1001
+@@ -188,7 +189,7 @@
+     //-----------------------------------------------------------------------
+     void TGUIAnimation::updateSelectedAnimation()
+     {
+-        const wchar_t* wname = m_cbAnimations->getText();
++      /*  const wchar_t* wname = m_cbAnimations->getText();
+         stringc name = wname;
+ 
+         if(!m_selected)
+@@ -229,7 +230,7 @@
+         m_sbFrame->setMax(end);
+         m_sbFrame->setPos(start);
+         m_sbFrame->setSmallStep(1);
+-        m_sbFrame->setLargeStep(5);
++        m_sbFrame->setLargeStep(5);*/
+ 
+     }
+ 
+@@ -238,7 +239,7 @@
+     //-----------------------------------------------------------------------
+     void TGUIAnimation::updateSelectedNode()
+     {
+-        s32 idx = m_cbNodes->getSelected();
++        /*s32 idx = m_cbNodes->getSelected();
+         if(idx < 0)
+             return;
+ 
+@@ -293,7 +294,7 @@
+         {
+             m_cbAnimations->setSelected(0);
+             updateSelectedAnimation();
+-        }
++        }*/
+     }
+ 
+     //-----------------------------------------------------------------------
+Index: tools/imeshcvt/imeshcvt.cpp
+===================================================================
+--- tools/imeshcvt/imeshcvt.cpp	(revision 1919)
++++ tools/imeshcvt/imeshcvt.cpp	(working copy)
+@@ -368,8 +368,8 @@
+         writer = new CIrrBMeshWriter(m_videoDriver, m_fileSystem, &customMaterials);
+         ((CIrrBMeshWriter*)writer)->setVersion(oIrrbVersion);
+         ((CIrrBMeshWriter*)writer)->setCreator("imeshcvt 0.6");
+-        if(baseDirectory.size())
+-            ((CIrrBMeshWriter*)writer)->setRelativeBase(baseDirectory);
++       // if(baseDirectory.size())
++            ((CIrrBMeshWriter*)writer)->setRelativeBase(saveDir + "/");
+     }
+     else if(ext == ".dae")
+         writer = m_sceneManager->createMeshWriter(EMWT_COLLADA);
+Index: tools/imeshcvt/imeshcvt.sln
+===================================================================
+--- tools/imeshcvt/imeshcvt.sln	(revision 1919)
++++ tools/imeshcvt/imeshcvt.sln	(working copy)
+@@ -1,12 +1,9 @@
+ ﻿
+-Microsoft Visual Studio Solution File, Format Version 10.00
+-# Visual Studio 2008
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imeshcvt", "imeshcvt.vcproj", "{C444AF3C-6C11-434E-B1C3-E36067037F84}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{312ACD2F-01D7-442C-9101-1A0EFBB2A433} = {312ACD2F-01D7-442C-9101-1A0EFBB2A433}
+-	EndProjectSection
++Microsoft Visual Studio Solution File, Format Version 11.00
++# Visual C++ Express 2010
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imeshcvt", "imeshcvt.vcxproj", "{C444AF3C-6C11-434E-B1C3-E36067037F84}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tubras", "..\..\projects\win32\vc9\Tubras.vcproj", "{312ACD2F-01D7-442C-9101-1A0EFBB2A433}"
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tubras", "..\..\projects\win32\vc9\Tubras.vcxproj", "{312ACD2F-01D7-442C-9101-1A0EFBB2A433}"
+ EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+Index: tools/imeshcvt/imeshcvt.vcproj
+===================================================================
+--- tools/imeshcvt/imeshcvt.vcproj	(revision 1919)
++++ tools/imeshcvt/imeshcvt.vcproj	(working copy)
+@@ -12,9 +12,6 @@
+ 		<Platform
+ 			Name="Win32"
+ 		/>
+-		<Platform
+-			Name="x64"
+-		/>
+ 	</Platforms>
+ 	<ToolFiles>
+ 	</ToolFiles>
+@@ -98,87 +95,8 @@
+ 				Name="VCPostBuildEventTool"
+ 			/>
+ 		</Configuration>
++		
+ 		<Configuration
+-			Name="Debug|x64"
+-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+-			ConfigurationType="1"
+-			CharacterSet="2"
+-			>
+-			<Tool
+-				Name="VCPreBuildEventTool"
+-			/>
+-			<Tool
+-				Name="VCCustomBuildTool"
+-			/>
+-			<Tool
+-				Name="VCXMLDataGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCWebServiceProxyGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCMIDLTool"
+-				TargetEnvironment="3"
+-			/>
+-			<Tool
+-				Name="VCCLCompilerTool"
+-				Optimization="0"
+-				AdditionalIncludeDirectories="&quot;$(TUBRAS_SDK)\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht\zlib&quot;;&quot;$(TUBRAS_SDK)\deps\fmod\api\inc&quot;;&quot;$(TUBRAS_SDK)\deps\bullet\src&quot;;&quot;$(TUBRAS_SDK)\deps\irrklang\include&quot;;&quot;$(TUBRAS_SDK)\src\lua\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\timing&quot;;&quot;$(TUBRAS_SDK)\deps\oolua\include&quot;"
+-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_IRR_STATIC_LIB_;"
+-				MinimalRebuild="true"
+-				BasicRuntimeChecks="3"
+-				RuntimeLibrary="1"
+-				UsePrecompiledHeader="2"
+-				PrecompiledHeaderThrough="tubras.h"
+-				WarningLevel="3"
+-				Detect64BitPortabilityProblems="false"
+-				DebugInformationFormat="3"
+-			/>
+-			<Tool
+-				Name="VCManagedResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCPreLinkEventTool"
+-			/>
+-			<Tool
+-				Name="VCLinkerTool"
+-				AdditionalDependencies="user32.lib gdi32.lib "
+-				OutputFile="$(TUBRAS_SDK)\bin\$(ProjectName).exe"
+-				LinkIncremental="2"
+-				AdditionalLibraryDirectories="$(TUBRAS_SDK)\libs\debug64;"
+-				GenerateDebugInformation="true"
+-				SubSystem="1"
+-				RandomizedBaseAddress="1"
+-				DataExecutionPrevention="0"
+-				TargetMachine="17"
+-			/>
+-			<Tool
+-				Name="VCALinkTool"
+-			/>
+-			<Tool
+-				Name="VCManifestTool"
+-			/>
+-			<Tool
+-				Name="VCXDCMakeTool"
+-			/>
+-			<Tool
+-				Name="VCBscMakeTool"
+-			/>
+-			<Tool
+-				Name="VCFxCopTool"
+-			/>
+-			<Tool
+-				Name="VCAppVerifierTool"
+-			/>
+-			<Tool
+-				Name="VCPostBuildEventTool"
+-			/>
+-		</Configuration>
+-		<Configuration
+ 			Name="Release|Win32"
+ 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+ 			IntermediateDirectory="$(ConfigurationName)"
+@@ -256,85 +174,7 @@
+ 				Name="VCPostBuildEventTool"
+ 			/>
+ 		</Configuration>
+-		<Configuration
+-			Name="Release|x64"
+-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+-			ConfigurationType="1"
+-			CharacterSet="1"
+-			WholeProgramOptimization="1"
+-			>
+-			<Tool
+-				Name="VCPreBuildEventTool"
+-			/>
+-			<Tool
+-				Name="VCCustomBuildTool"
+-			/>
+-			<Tool
+-				Name="VCXMLDataGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCWebServiceProxyGeneratorTool"
+-			/>
+-			<Tool
+-				Name="VCMIDLTool"
+-				TargetEnvironment="3"
+-			/>
+-			<Tool
+-				Name="VCCLCompilerTool"
+-				AdditionalIncludeDirectories="&quot;$(TUBRAS_SDK)\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\include&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht&quot;;&quot;$(TUBRAS_SDK)\deps\irrlicht\source\irrlicht\zlib&quot;;&quot;$(TUBRAS_SDK)\deps\fmod\api\inc&quot;;&quot;$(TUBRAS_SDK)\deps\bullet\src&quot;;&quot;$(TUBRAS_SDK)\deps\irrklang\include&quot;;&quot;$(TUBRAS_SDK)\src\lua\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\&quot;;&quot;$(TUBRAS_SDK)\tools\irrlicht\extensions\timing&quot;;&quot;$(TUBRAS_SDK)\deps\oolua\include&quot;"
+-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_IRR_STATIC_LIB_;"
+-				RuntimeLibrary="0"
+-				UsePrecompiledHeader="0"
+-				WarningLevel="3"
+-				Detect64BitPortabilityProblems="false"
+-				DebugInformationFormat="3"
+-			/>
+-			<Tool
+-				Name="VCManagedResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCResourceCompilerTool"
+-			/>
+-			<Tool
+-				Name="VCPreLinkEventTool"
+-			/>
+-			<Tool
+-				Name="VCLinkerTool"
+-				AdditionalDependencies="user32.lib gdi32.lib "
+-				OutputFile="$(TUBRAS_SDK)\bin\$(ProjectName).exe"
+-				LinkIncremental="1"
+-				AdditionalLibraryDirectories="$(TUBRAS_SDK)\libs\release64;"
+-				GenerateDebugInformation="true"
+-				SubSystem="1"
+-				OptimizeReferences="2"
+-				EnableCOMDATFolding="2"
+-				RandomizedBaseAddress="1"
+-				DataExecutionPrevention="0"
+-				TargetMachine="17"
+-			/>
+-			<Tool
+-				Name="VCALinkTool"
+-			/>
+-			<Tool
+-				Name="VCManifestTool"
+-			/>
+-			<Tool
+-				Name="VCXDCMakeTool"
+-			/>
+-			<Tool
+-				Name="VCBscMakeTool"
+-			/>
+-			<Tool
+-				Name="VCFxCopTool"
+-			/>
+-			<Tool
+-				Name="VCAppVerifierTool"
+-			/>
+-			<Tool
+-				Name="VCPostBuildEventTool"
+-			/>
+-		</Configuration>
++		
+ 	</Configurations>
+ 	<References>
+ 	</References>
+Index: tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp
+===================================================================
+--- tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(revision 1919)
++++ tools/irrlicht/extensions/CIrrAMeshFileLoader.cpp	(working copy)
+@@ -374,7 +374,7 @@
+     attr->addInt("startFrame", FrameBase);
+     attr->addInt("endFrame", FrameBase + TotalFrames);
+ 
+-    AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
++   // AnimatedMesh->addNamedAnimationData(animationName.c_str(), attr);    
+ 
+ 	while(reader->read())
+ 	{
+Index: tools/irrlicht/extensions/CIrrBMeshWriter.cpp
+===================================================================
+--- tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(revision 1919)
++++ tools/irrlicht/extensions/CIrrBMeshWriter.cpp	(working copy)
+@@ -266,7 +266,7 @@
+                 for(u8 t=0; t<tCount; t++)
+                 {
+                     irr::core::stringc textureName;
+-                    if(VMajor == 1)
++                    //if(VMajor == 1)
+                     {
+                         updateMaterialLayer(Materials[i],t,textureName,iLayer);
+                         _writeStringChunk(textureName);
