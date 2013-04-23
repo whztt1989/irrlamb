@@ -4,9 +4,9 @@
 		<name>Skate Park II</name>
 	</info>
 	<resources>
-		<script file="a_skate1.lua" />
-		<scene file="a_skate1.irr" />
-		<collision file="a_skate1.col" />
+		<script file="skate_1.lua" />
+		<scene file="skate_1.irr" />
+		<collision file="skate_1.col" />
 	</resources>
 	<templates>
 		<player name="player" />
