@@ -123,7 +123,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 	// Options
 	bool Fog = false;
-	bool EmitLight = true;
+	bool EmitLight = false;
 
 	// Load options
 	XMLElement *OptionsElement = LevelElement->FirstChildElement("options");
