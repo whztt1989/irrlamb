@@ -396,8 +396,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						KeyButtonOldText = KeyButton->getText();
 						KeyButton->setText(L"");
 					}
-
-					if(Element->getID() >= CAMPAIGN_LEVELID) {
+					else if(Element->getID() >= CAMPAIGN_LEVELID) {
 						SelectedLevel = Element->getID() - CAMPAIGN_LEVELID;
 						LaunchLevel();
 					}

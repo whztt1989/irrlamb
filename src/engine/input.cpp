@@ -339,141 +339,87 @@ void _Input::SetMouseLocked(bool Value) {
 const char *_Input::GetKeyName(int Key) {
 
 	switch(Key) {
-		case KEY_KEY_0:
-			return "0";
-		break;
-		case KEY_KEY_1:
-			return "1";
-		break;
-		case KEY_KEY_2:
-			return "2";
-		break;
-		case KEY_KEY_3:
-			return "3";
-		break;
-		case KEY_KEY_4:
-			return "4";
-		break;
-		case KEY_KEY_5:
-			return "5";
-		break;
-		case KEY_KEY_6:
-			return "6";
-		break;
-		case KEY_KEY_7:
-			return "7";
-		break;
-		case KEY_KEY_8:
-			return "8";
-		break;
-		case KEY_KEY_9:
-			return "9";
-		break;
-		case KEY_KEY_A:
-			return "a";
-		break;
-		case KEY_KEY_B:
-			return "b";
-		break;
-		case KEY_KEY_C:
-			return "c";
-		break;
-		case KEY_KEY_D:
-			return "d";
-		break;
-		case KEY_KEY_E:
-			return "e";
-		break;
-		case KEY_KEY_F:
-			return "f";
-		break;
-		case KEY_KEY_G:
-			return "g";
-		break;
-		case KEY_KEY_H:
-			return "h";
-		break;
-		case KEY_KEY_I:
-			return "i";
-		break;
-		case KEY_KEY_J:
-			return "j";
-		break;
-		case KEY_KEY_K:
-			return "k";
-		break;
-		case KEY_KEY_L:
-			return "l";
-		break;
-		case KEY_KEY_M:
-			return "m";
-		break;
-		case KEY_KEY_N:
-			return "n";
-		break;
-		case KEY_KEY_O:
-			return "o";
-		break;
-		case KEY_KEY_P:
-			return "p";
-		break;
-		case KEY_KEY_Q:
-			return "q";
-		break;
-		case KEY_KEY_R:
-			return "r";
-		break;
-		case KEY_KEY_S:
-			return "s";
-		break;
-		case KEY_KEY_T:
-			return "t";
-		break;
-		case KEY_KEY_U:
-			return "u";
-		break;
-		case KEY_KEY_V:
-			return "v";
-		break;
-		case KEY_KEY_W:
-			return "w";
-		break;
-		case KEY_KEY_X:
-			return "x";
-		break;
-		case KEY_KEY_Y:
-			return "y";
-		break;
-		case KEY_KEY_Z:
-			return "z";
-		break;
-		case KEY_LEFT:
-			return "left";
-		break;
-		case KEY_UP:
-			return "up";
-		break;
-		case KEY_RIGHT:
-			return "right";
-		break;
-		case KEY_DOWN:
-			return "down";
-		break;
-		case KEY_SPACE:
-			return "space";
-		break;
-		case KEY_SHIFT:
-			return "shift";
-		break;
-		case KEY_CONTROL:
-			return "control";
-		break;
-		case KEY_TAB:
-			return "tab";
-		break;
-		case KEY_RETURN:
-			return "enter";
-		break;
+		case KEY_KEY_0: return "0"; break;
+		case KEY_KEY_1:	return "1";	break;
+		case KEY_KEY_2:	return "2";	break;
+		case KEY_KEY_3:	return "3";	break;
+		case KEY_KEY_4:	return "4";	break;
+		case KEY_KEY_5:	return "5";	break;
+		case KEY_KEY_6:	return "6";	break;
+		case KEY_KEY_7:	return "7";	break;
+		case KEY_KEY_8:	return "8";	break;
+		case KEY_KEY_9:	return "9";	break;
+		case KEY_KEY_A:	return "a";	break;
+		case KEY_KEY_B:	return "b";	break;
+		case KEY_KEY_C:	return "c";	break;
+		case KEY_KEY_D:	return "d";	break;
+		case KEY_KEY_E:	return "e";	break;
+		case KEY_KEY_F:	return "f";	break;
+		case KEY_KEY_G:	return "g";	break;
+		case KEY_KEY_H:	return "h";	break;
+		case KEY_KEY_I:	return "i";	break;
+		case KEY_KEY_J:	return "j";	break;
+		case KEY_KEY_K:	return "k";	break;
+		case KEY_KEY_L:	return "l";	break;
+		case KEY_KEY_M:	return "m";	break;
+		case KEY_KEY_N:	return "n";	break;
+		case KEY_KEY_O:	return "o";	break;
+		case KEY_KEY_P:	return "p";	break;
+		case KEY_KEY_Q:	return "q";	break;
+		case KEY_KEY_R:	return "r";	break;
+		case KEY_KEY_S:	return "s";	break;
+		case KEY_KEY_T:	return "t";	break;
+		case KEY_KEY_U:	return "u";	break;
+		case KEY_KEY_V:	return "v";	break;
+		case KEY_KEY_W:	return "w";	break;
+		case KEY_KEY_X:	return "x";	break;
+		case KEY_KEY_Y:	return "y";	break;
+		case KEY_KEY_Z:	return "z";	break;
+		case KEY_LEFT:  return "left"; break;
+		case KEY_UP:    return "up"; break;
+		case KEY_RIGHT:	return "right";	break;
+		case KEY_DOWN:  return "down"; break;
+		case KEY_SPACE:	return "space";	break;
+		case KEY_SHIFT:	return "shift";	break;
+		case KEY_LSHIFT: return "left shift"; break;
+		case KEY_RSHIFT: return "right shift"; break;
+		case KEY_CONTROL: return "ctrl"; break;
+		case KEY_LCONTROL: return "left ctrl"; break;
+		case KEY_RCONTROL: return "right ctrl";	break;
+		case KEY_LMENU: return "left alt"; break;
+		case KEY_RMENU: return "right alt"; break;
+		case KEY_TAB: return "tab";	break;
+		case KEY_RETURN: return "enter"; break;
+		case KEY_MINUS: return "-";	break;
+		case KEY_PLUS:	return "+";	break;
+		case KEY_COMMA:	return ",";	break;
+		case KEY_PERIOD:return ".";	break;
+		case KEY_BACK:	return "backspace";	break;
+		case KEY_INSERT: return "insert"; break;
+		case KEY_DELETE: return "delete"; break;
+		case KEY_PRIOR: return "page up"; break;
+		case KEY_NEXT: return "page down"; break;
+		case KEY_END: return "end"; break;
+		case KEY_HOME: return "home"; break;
+		case KEY_OEM_1: return ";"; break;
+		case KEY_OEM_2:	return "/";	break;
+		case KEY_OEM_3:	return "`";	break;
+		case KEY_OEM_4:	return "[";	break;
+		case KEY_OEM_5:	return "\\"; break;
+		case KEY_OEM_6:	return "]";	break;
+		case KEY_OEM_7:	return "'";	break;
+		case KEY_SNAPSHOT: return "print scr"; break;
+		case KEY_NUMPAD0: return "KP 0"; break;
+		case KEY_NUMPAD1: return "KP 1"; break;
+		case KEY_NUMPAD2: return "KP 2"; break;
+		case KEY_NUMPAD3: return "KP 3"; break;
+		case KEY_NUMPAD4: return "KP 4"; break;
+		case KEY_NUMPAD5: return "KP 5"; break;
+		case KEY_NUMPAD6: return "KP 6"; break;
+		case KEY_NUMPAD7: return "KP 7"; break;
+		case KEY_NUMPAD8: return "KP 8"; break;
+		case KEY_NUMPAD9: return "KP 9"; break;
+		case KEY_CAPITAL: return "caps lock"; break;
 	}
 
 	return "";
