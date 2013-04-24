@@ -3,9 +3,6 @@
 	<info>
 		<name>Tutorial - Basic Movement</name>
 	</info>
-	<options>
-		<emitlight enabled="0" />
-	</options>
 	<resources>
 		<script file="tut_move0.lua" />
 		<scene file="tut_move0.irr" />

@@ -3,6 +3,9 @@
 	<info>
 		<name>Test</name>
 	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
 	<resources>
 		<script file="test.lua" />
 		<scene file="test.irr" />

@@ -153,6 +153,9 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 				return 0;
 			}
 
+			// Reset fog
+			irrDriver->setFog(SColor(0, 0, 0, 0), EFT_FOG_EXP, 0, 0, 0.0f);
+
 			// Load scene
 			if(IsCustomLevel) {
 				irrFile->changeWorkingDirectoryTo(DataPath.c_str());
@@ -165,7 +168,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 			// Set texture filters on meshes in the scene
 			array<ISceneNode *> MeshNodes;
-			irrScene->getSceneNodesFromType(ESNT_MESH, MeshNodes);
+				irrScene->getSceneNodesFromType(ESNT_MESH, MeshNodes);
 			for(u32 i = 0; i < MeshNodes.size(); i++) {
 				if(EmitLight && Config.Shaders)
 					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics.GetCustomMaterial());
