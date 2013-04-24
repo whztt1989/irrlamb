@@ -22,6 +22,7 @@
 const float PHYSICS_TIMESTEP = 1.0f / 100.0f;
 const float SLEEP_RATE = 1.0f / 180.0f;
 const float FADE_SPEED = 5.0f;
+const float FADE_AMOUNT = 0.9f;
 const int REPLAY_STRINGSIZE = 64;
 const int REPLAY_VERSION = 1;
 const float REPLAY_TIME_INCREMENT = 0.1f;

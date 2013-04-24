@@ -347,7 +347,7 @@ void _PlayState::Draw() {
 
 	// Darken the screen
 	if(IsPaused())
-		Interface.FadeScreen(0.8f);
+		Interface.FadeScreen(FADE_AMOUNT);
 
 	// Draw irrlicht GUI
 	Menu.Draw();
