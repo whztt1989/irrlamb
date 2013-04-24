@@ -52,7 +52,6 @@ class _Config {
 		float SoundVolume, MusicVolume;
 
 		// Input
-		int Keys[_Actions::COUNT];
 		float MouseScaleX, MouseScaleY;
 		bool InvertMouse;
 		bool JoystickEnabled;

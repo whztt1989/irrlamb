@@ -65,6 +65,19 @@ void _Actions::ClearMappings(int InputType) {
 		InputMap[InputType][i].clear();
 }
 
+// Remove a mapping for an action
+void _Actions::ClearMappingsForAction(int InputType, int Action) {
+	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
+		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); ) {
+			if(MapIterator->Action == Action) {
+				MapIterator = InputMap[InputType][i].erase(MapIterator);
+			}
+			else
+				++MapIterator;
+		}
+	}
+}
+
 // Get action
 float _Actions::GetState(int Action) {
 	if(Action < 0 || Action >= COUNT)
@@ -78,22 +91,22 @@ void _Actions::AddInputMap(int InputType, int Input, int Action, float Scale, bo
 	if(Action < 0 || Action >= COUNT || Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
 		
-	if(!IfNone || (IfNone && !FindInputForAction(InputType, Action))) {
+	if(!IfNone || (IfNone && GetInputForAction(InputType, Action) == -1)) {
 		InputMap[InputType][Input].push_back(_ActionMap(Action, Scale));
 	}
 }
 
-// Find an existing input mapping for an action
-bool _Actions::FindInputForAction(int InputType, int Action) {
+// Returns the first input for an action
+int _Actions::GetInputForAction(int InputType, int Action) {
 	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
 		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
 			if(MapIterator->Action == Action) {
-				return true;
+				return i;
 			}
 		}
 	}
-	
-	return false;
+
+	return -1;
 }
 
 // Inject an input into the action handler

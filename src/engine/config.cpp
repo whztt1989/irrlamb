@@ -62,12 +62,6 @@ void _Config::Reset() {
 
 	// Input
 	JoystickEnabled = true;
-	Keys[_Actions::MOVE_FORWARD] = KEY_KEY_E;
-	Keys[_Actions::MOVE_BACK] = KEY_KEY_D;
-	Keys[_Actions::MOVE_LEFT] = KEY_KEY_S;
-	Keys[_Actions::MOVE_RIGHT] = KEY_KEY_F;
-	Keys[_Actions::RESET] = KEY_KEY_X;
-	Keys[_Actions::JUMP] = KEY_SPACE;
 
 	// Set up mapping
 	AddDefaultActionMap(true);

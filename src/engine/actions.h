@@ -71,6 +71,7 @@ class _Actions {
 
 		void ResetState();
 		void ClearMappings(int InputType);
+		void ClearMappingsForAction(int InputType, int Action);
 
 		// Actions
 		float GetState(int Action);
@@ -78,7 +79,7 @@ class _Actions {
 
 		// Maps
 		void AddInputMap(int InputType, int Input, int Action, float Scale=1.0f, bool IfNone=true);
-		bool FindInputForAction(int InputType, int Action);
+		int GetInputForAction(int InputType, int Action);
 
 		// Handlers
 		void InputEvent(int InputType, int Input, float Value);

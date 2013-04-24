@@ -572,13 +572,13 @@ void _Level::RunScripts() {
 	Scripting.Reset();
 
 	// Add key names to lua scope
-	Scripting.DefineLuaVariable("KEY_FORWARD", Input.GetKeyName(Config.Keys[_Actions::MOVE_FORWARD]));
-	Scripting.DefineLuaVariable("KEY_BACK", Input.GetKeyName(Config.Keys[_Actions::MOVE_BACK]));
-	Scripting.DefineLuaVariable("KEY_LEFT", Input.GetKeyName(Config.Keys[_Actions::MOVE_LEFT]));
-	Scripting.DefineLuaVariable("KEY_RIGHT", Input.GetKeyName(Config.Keys[_Actions::MOVE_RIGHT]));
-	Scripting.DefineLuaVariable("KEY_RESET", Input.GetKeyName(Config.Keys[_Actions::RESET]));
-	Scripting.DefineLuaVariable("KEY_JUMP", Input.GetKeyName(Config.Keys[_Actions::JUMP]));
-	
+	Scripting.DefineLuaVariable("KEY_FORWARD", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::MOVE_FORWARD)));
+	Scripting.DefineLuaVariable("KEY_BACK", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::MOVE_BACK)));
+	Scripting.DefineLuaVariable("KEY_LEFT", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::MOVE_LEFT)));
+	Scripting.DefineLuaVariable("KEY_RIGHT", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::MOVE_RIGHT)));
+	Scripting.DefineLuaVariable("KEY_RESET", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::RESET)));
+	Scripting.DefineLuaVariable("KEY_JUMP", Input.GetKeyName(Actions.GetInputForAction(_Input::KEYBOARD, _Actions::JUMP)));
+
 	// Run scripts
 	for(u32 i = 0; i < Scripts.size(); i++) {
 		

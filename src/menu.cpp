@@ -55,6 +55,15 @@ const int STATS_MOUSE_OFFSETY = -105;
 const int WIN_WIDTH = 560;
 const int WIN_HEIGHT = 380;
 
+const int KeyMapOrder[] = {
+	_Actions::MOVE_FORWARD,
+	_Actions::MOVE_BACK,
+	_Actions::MOVE_LEFT,
+	_Actions::MOVE_RIGHT,
+	_Actions::JUMP,
+	_Actions::RESET
+};
+
 enum GUIElements {
 	MAIN_SINGLEPLAYER, MAIN_REPLAYS, MAIN_OPTIONS, MAIN_QUIT,
 	SINGLEPLAYER_BACK,
@@ -64,8 +73,8 @@ enum GUIElements {
 	OPTIONS_VIDEO, OPTIONS_AUDIO, OPTIONS_CONTROLS, OPTIONS_BACK,
 	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS, VIDEO_ANISOTROPY, VIDEO_ANTIALIASING,
 	AUDIO_ENABLED, AUDIO_SAVE, AUDIO_CANCEL,
-	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_MOVEFORWARD, CONTROLS_MOVEBACK, CONTROLS_MOVELEFT, CONTROLS_MOVERIGHT, CONTROLS_MOVERESET, CONTROLS_MOVEJUMP,
-	PAUSE_RESUME, PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
+	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_KEYMAP,
+	PAUSE_RESUME=(CONTROLS_KEYMAP + _Actions::COUNT), PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
 	SAVEREPLAY_NAME, SAVEREPLAY_SAVE, SAVEREPLAY_CANCEL,
 	LOSE_RESTARTLEVEL, LOSE_SAVEREPLAY, LOSE_MAINMENU,
 	WIN_RESTARTLEVEL, WIN_NEXTLEVEL, WIN_SAVEREPLAY, WIN_MAINMENU,
@@ -164,26 +173,25 @@ bool _Menu::HandleKeyPress(int Key) {
 
 				// Assign the key
 				if(Key != KEY_ESCAPE && KeyName != "") {
-					
-					int ActionType = KeyButton->getID() - CONTROLS_MOVEFORWARD;
+					int ActionType = KeyMapOrder[KeyButton->getID() - CONTROLS_KEYMAP];
 
 					// Swap if the key already exists
 					for(int i = 0; i <= _Actions::RESET; i++) {
-						if(CurrentKeys[i] == Key) {
+						if(CurrentKeys[KeyMapOrder[i]] == Key) {
 							
 							// Get button
-							IGUIButton *SwapButton = static_cast<IGUIButton *>(CurrentLayout->getElementFromId(CONTROLS_MOVEFORWARD + i));
+							IGUIButton *SwapButton = static_cast<IGUIButton *>(CurrentLayout->getElementFromId(CONTROLS_KEYMAP + KeyMapOrder[i]));
 
 							// Swap text
-							SwapButton->setText(stringw(Input.GetKeyName(CurrentKeys[ActionType])).c_str());
-							CurrentKeys[i] = CurrentKeys[ActionType];
+							SwapButton->setText(stringw(Input.GetKeyName(CurrentKeys[KeyMapOrder[ActionType]])).c_str());
+							CurrentKeys[KeyMapOrder[i]] = CurrentKeys[KeyMapOrder[ActionType]];
 							break;
 						}
 					}
 
 					// Update key
 					KeyButton->setText(KeyName.c_str());
-					CurrentKeys[ActionType] = Key;
+					CurrentKeys[KeyMapOrder[ActionType]] = Key;
 				}
 				else
 					KeyButton->setText(KeyButtonOldText.c_str());
@@ -360,8 +368,11 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case CONTROLS_SAVE: {
 
 					// Write config
-					for(int i = 0; i <= _Actions::RESET; i++)
-						Config.Keys[i] = CurrentKeys[i];
+					
+					for(int i = 0; i <= _Actions::RESET; i++) {
+						Actions.ClearMappingsForAction(_Input::KEYBOARD, KeyMapOrder[i]);
+						Actions.AddInputMap(_Input::KEYBOARD, CurrentKeys[KeyMapOrder[i]], KeyMapOrder[i], 1.0f, false);
+					}
 
 					// Save invert mouse
 					IGUICheckBox *InvertMouse = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(CONTROLS_INVERTMOUSE));
@@ -375,21 +386,16 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case CONTROLS_CANCEL:
 					InitOptions();
 				break;
-				case CONTROLS_MOVEFORWARD:
-				case CONTROLS_MOVEBACK:
-				case CONTROLS_MOVELEFT:
-				case CONTROLS_MOVERIGHT:
-				case CONTROLS_MOVERESET:
-				case CONTROLS_MOVEJUMP:	{
-					if(KeyButton)
-						CancelKeyBind();
-
-					KeyButton = static_cast<IGUIButton *>(Element);
-					KeyButtonOldText = KeyButton->getText();
-					KeyButton->setText(L"");
-				}
-				break;
 				default: {
+
+					if(Element->getID() >= CONTROLS_KEYMAP && Element->getID() < CONTROLS_KEYMAP + _Actions::COUNT) {
+						if(KeyButton)
+							CancelKeyBind();
+
+						KeyButton = static_cast<IGUIButton *>(Element);
+						KeyButtonOldText = KeyButton->getText();
+						KeyButton->setText(L"");
+					}
 
 					if(Element->getID() >= CAMPAIGN_LEVELID) {
 						SelectedLevel = Element->getID() - CAMPAIGN_LEVELID;
@@ -788,23 +794,21 @@ void _Menu::InitControls() {
 	AddMenuText(position2di(X, Y), L"Controls");
 
 	// Create the key buttons
-	Y += TITLE_SPACING;
+	Y = Interface.GetCenterY() - TITLE_Y + TITLE_SPACING - 40;
 	KeyButton = NULL;
 	for(int i = 0; i <= _Actions::RESET; i++) {
 				
-		CurrentKeys[i] = Config.Keys[i];
-		IGUIStaticText *Text = irrGUI->addStaticText(stringw(Actions.GetName(i).c_str()).c_str(), Interface.GetCenteredRect(X - 50, Y, 80, 20), false, false, CurrentLayout);
-		Text->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_UPPERLEFT);
-		AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 108, 44), CONTROLS_MOVEFORWARD + i, stringw(Input.GetKeyName(CurrentKeys[i])).c_str(), _Interface::IMAGE_BUTTON_SMALL);
+		CurrentKeys[KeyMapOrder[i]] = Actions.GetInputForAction(_Input::KEYBOARD, KeyMapOrder[i]);
+		AddMenuText(position2di(X - 25, Y), stringw(Actions.GetName(KeyMapOrder[i]).c_str()).c_str(), _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+		AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 130, 44), CONTROLS_KEYMAP + KeyMapOrder[i], stringw(Input.GetKeyName(CurrentKeys[KeyMapOrder[i]])).c_str(), _Interface::IMAGE_BUTTON_MEDIUM);
 
-		Y += 35;
+		Y += 45;
 	}
 
 	// Invert mouse
-	Y += 5;
-	IGUIStaticText *TextInvertMouse = irrGUI->addStaticText(L"Invert Mouse", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false, CurrentLayout);
-	TextInvertMouse->setTextAlignment(EGUIA_LOWERRIGHT, EGUIA_CENTER);
-	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 60, Y, 100, 25), CurrentLayout, CONTROLS_INVERTMOUSE);
+	Y += 15;
+	AddMenuText(position2di(X - 15, Y), L"Invert Mouse Y", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 15, Y, 100, 25), CurrentLayout, CONTROLS_INVERTMOUSE);
 
 	// Save
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + BACK_Y, 108, 44), CONTROLS_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
