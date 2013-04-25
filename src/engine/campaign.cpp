@@ -86,3 +86,17 @@ int _Campaign::Close() {
 
 	return 1;
 }
+
+// Get the level count for the campaign
+int _Campaign::GetLevelCount(int Campaign) { 
+	if(Campaign < 0 || Campaign >= (int)Campaigns.size())
+		return 0;
+	
+	return Campaigns[Campaign].Levels.size();
+}
+
+// Check if a level is the last in the campaign
+bool _Campaign::IsLastLevel(int Campaign, int Level) {
+
+	return Level + 1 >= GetLevelCount(Campaign);
+}

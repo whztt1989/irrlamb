@@ -490,7 +490,7 @@ int _Scripting::TimerDelayedFunction(lua_State *LuaObject) {
 // Restarts the level
 int _Scripting::LevelLose(lua_State *LuaObject) {
 
-	//PlayState.InitLose();
+	//PlayState.LoseLevel();
 	
 	return 0;
 }
@@ -498,7 +498,7 @@ int _Scripting::LevelLose(lua_State *LuaObject) {
 // Wins the level
 int _Scripting::LevelWin(lua_State *LuaObject) {
 
-	Menu.InitWin();
+	PlayState.WinLevel();
 	
 	return 0;
 }

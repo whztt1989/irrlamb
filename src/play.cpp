@@ -368,3 +368,28 @@ void _PlayState::StartReset() {
 	Resetting = true;
 }
 
+// Win the level and update stats
+void _PlayState::WinLevel() {
+
+	// Skip stats if just testing a level
+	if(PlayState.TestLevel == "") {
+
+		// Increment win count
+		Save.IncrementLevelWinCount(Level.GetLevelName());
+
+		// Add high score
+		Save.AddScore(Level.GetLevelName(), PlayState.Timer);
+
+		// Unlock next level
+		if(!Campaign.IsLastLevel(PlayState.CurrentCampaign, PlayState.CampaignLevel)) {
+			const std::string &NextLevelFile = Campaign.GetLevel(PlayState.CurrentCampaign, PlayState.CampaignLevel+1);
+			Save.UnlockLevel(NextLevelFile);
+		}
+
+		// Save stats to a file
+		Save.SaveLevelStats(Level.GetLevelName());
+	}
+
+	// Show win screen
+	Menu.InitWin();
+}

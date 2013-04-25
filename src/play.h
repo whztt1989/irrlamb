@@ -49,6 +49,7 @@ class _PlayState : public _State {
 		bool IsPaused();
 		void StartReset();
 		void ResetLevel();
+		void WinLevel();
 
 		void SetTestLevel(const std::string &Level) { TestLevel = Level; }
 		void SetCampaign(int Value) { CurrentCampaign = Value; }

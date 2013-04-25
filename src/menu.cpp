@@ -885,32 +885,6 @@ void _Menu::InitLose() {
 void _Menu::InitWin() {
 	Interface.Clear();
 	
-	// Skip stats if just testing a level
-	bool LastLevelInCampaign = false;
-	if(PlayState.TestLevel == "") {
-
-		// Increment win count
-		Save.IncrementLevelWinCount(Level.GetLevelName());
-
-		// Add high score
-		Save.AddScore(Level.GetLevelName(), PlayState.Timer);
-
-		// Unlock next level
-		int LevelCount = Campaign.GetLevelCount(PlayState.CurrentCampaign);
-		if(PlayState.CampaignLevel+1 >= LevelCount) {
-			LastLevelInCampaign = true;
-		}
-		else {
-			const std::string &NextLevelFile = Campaign.GetLevel(PlayState.CurrentCampaign, PlayState.CampaignLevel+1);
-			Save.UnlockLevel(NextLevelFile);
-		}
-
-		// Save stats to a file
-		Save.SaveLevelStats(Level.GetLevelName());
-	}
-	else
-		LastLevelInCampaign = true;
-
 	// Get level stats
 	WinStats = Save.GetLevelStats(Level.GetLevelName());
 	
@@ -926,7 +900,7 @@ void _Menu::InitWin() {
 	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 2, Y, 130, 44), WIN_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON_MEDIUM);
 	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 3, Y, 130, 44), WIN_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON_MEDIUM);
 
-	if(LastLevelInCampaign)
+	if(Campaign.IsLastLevel(PlayState.CurrentCampaign, PlayState.CampaignLevel))
 		ButtonNextLevel->setEnabled(false);
 
 	Input.SetMouseLocked(false);

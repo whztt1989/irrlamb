@@ -37,12 +37,13 @@ class _Campaign {
 		int Init();
 		int Close();
 
-		const std::vector<CampaignStruct> &GetCampaigns() const { return Campaigns; }
-		const CampaignStruct &GetCampaign(int Index) const { return Campaigns[Index]; }
+		const std::vector<CampaignStruct> &GetCampaigns() { return Campaigns; }
+		const CampaignStruct &GetCampaign(int Index) { return Campaigns[Index]; }
 
-		const std::string &GetLevel(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].File; }
-		const std::string &GetLevelNiceName(int Campaign, int Level) const { return Campaigns[Campaign].Levels[Level].NiceName; }
-		int GetLevelCount(int Campaign) const { return Campaigns[Campaign].Levels.size(); }
+		const std::string &GetLevel(int Campaign, int Level) { return Campaigns[Campaign].Levels[Level].File; }
+		const std::string &GetLevelNiceName(int Campaign, int Level) { return Campaigns[Campaign].Levels[Level].NiceName; }
+		int GetLevelCount(int Campaign);
+		bool IsLastLevel(int Campaign, int Level);
 
 	private:
 
