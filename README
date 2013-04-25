@@ -1,6 +1,9 @@
 irrlamb - 3D physics game
 by Alan Witkowski
 
+Building on linux:
+sudo apt-get install build-essential cmake libx11-dev libopenal-dev liblua5.1-0-dev libfreetype6-dev libxrandr-dev libvorbis-dev libogg-dev libsqlite3-dev
+
 Latest version can be found at:
 http://irrlamb.googlecode.com
 
