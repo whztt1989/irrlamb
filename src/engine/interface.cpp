@@ -27,9 +27,9 @@
 
 _Interface Interface;
 
-const int MESSAGE_WIDTH = 470;
-const int MESSAGE_HEIGHT = 115;
-const int MESSAGE_PADDING = 15;
+const int MESSAGE_WIDTH = 475;
+const int MESSAGE_HEIGHT = 120;
+const int MESSAGE_PADDING = 20;
 
 struct _Font {
 	const char *Path;
