@@ -24,10 +24,16 @@
 	</templates>
 	<objects>
 		<object name="player" template="player">
-			<position x="0" y="2.9" z="-3" />
+			<position x="0" y="2.9" z="-2" />
 		</object>
 		<object name="orb0" template="orb">
-			<position x="-22" y="3.2" z="1.75" />
+			<position x="-22" y="3.2" z="2.5" />
+		</object>
+		<object name="orb1" template="orb">
+			<position x="-5" y="3.2" z="10.5" />
+		</object>
+		<object name="orb2" template="orb">
+			<position x="-22" y="3.2" z="18.5" />
 		</object>
 	</objects>
 </level>
