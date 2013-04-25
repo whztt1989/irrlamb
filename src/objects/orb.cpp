@@ -23,8 +23,8 @@
 #include <engine/replay.h>
 #include <engine/constants.h>
 #include <engine/audio.h>
-#include <engine/namespace.h>
 #include <objects/template.h>
+#include <engine/namespace.h>
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)

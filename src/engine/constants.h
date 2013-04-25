@@ -31,3 +31,5 @@ const int STATS_MAXSCORES = 10;
 const float ORB_GLOWSIZE = 2.5f;
 const float ORB_PITCH = 2.0f;
 const float ORB_DEACTIVATETIME = 2.0f;
+const float JUMP_WINDOW = 0.1f;
+const float JUMP_POWER = 5.0f;

@@ -17,18 +17,16 @@
 **************************************************************************************/
 #include <all.h>
 #include <objects/player.h>
+#include <engine/constants.h>
 #include <engine/globals.h>
 #include <engine/physics.h>
-#include <engine/objectmanager.h>
 #include <engine/input.h>
-#include <engine/config.h>
-#include <engine/level.h>
 #include <engine/audio.h>
 #include <engine/actions.h>
-#include <engine/namespace.h>
 #include <objects/sphere.h>
 #include <objects/constraint.h>
 #include <objects/template.h>
+#include <engine/namespace.h>
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)
@@ -134,13 +132,20 @@ void _Player::Update(float FrameTime) {
 	Pitch -= 3.0f;
 	Pitch /= 30.0f;
 	Pitch += 1.5f;
-	//printf("%f\n", Pitch);
 	Sound->SetPitch(Pitch);
 
 	// Update jump timer
-	JumpTimer -= FrameTime;
-	if(JumpTimer < 0.0f)
-		JumpTimer = 0.0f;
+	if(JumpTimer > 0.0f) {
+		JumpTimer -= FrameTime;
+		if(JumpTimer < 0.0f)
+			JumpTimer = 0.0f;
+
+		if(TouchingGround) {
+			RigidBody->activate();
+			RigidBody->applyCentralImpulse(btVector3(0.0f, JUMP_POWER, 0.0f));
+			JumpTimer = 0.0f;
+		}
+	}	
 }
 
 // Processes input from the keyboard
@@ -173,11 +178,7 @@ void _Player::HandleInput() {
 	}
 }
 
-// Attempts to jump
+// Request a jump
 void _Player::Jump() {
-	if(TouchingGround && JumpTimer == 0) {
-		RigidBody->activate();
-		RigidBody->applyCentralImpulse(btVector3(0.0f, 5.0f, 0.0f));
-		JumpTimer = 0.2f;
-	}
+	JumpTimer = JUMP_WINDOW;
 }

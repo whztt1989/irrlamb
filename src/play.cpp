@@ -305,8 +305,8 @@ void _PlayState::Update(float FrameTime) {
 		ObjectManager.BeginFrame();
 
 		Player->HandleInput();
-		ObjectManager.Update(FrameTime);
 		Physics.Update(FrameTime);
+		ObjectManager.Update(FrameTime);
 		Interface.Update(FrameTime);
 		Scripting.UpdateTimedCallbacks();
 
