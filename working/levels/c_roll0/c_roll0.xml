@@ -3,6 +3,9 @@
 	<info>
 		<name>Challenge - Roll out</name>
 	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
 	<resources>
 		<script file="c_roll0.lua" />
 		<scene file="c_roll0.irr" />
