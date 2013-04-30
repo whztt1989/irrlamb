@@ -101,7 +101,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 		// Create shader materials
 		if(Config.Shaders) {
 			ShaderCallback *Shader = new ShaderCallback();
-			CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "vertexMain", EVST_VS_1_1, "shaders/lighting.frag", "pixelMain", EPST_PS_1_1, Shader, EMT_SOLID);
+			CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "main", EVST_VS_1_1, "shaders/lighting.frag", "main", EPST_PS_1_1, Shader, EMT_SOLID);
 			Shader->drop();
 		}
 	}
@@ -186,4 +186,8 @@ void _Graphics::CreateScreenshot() {
 
 	// Drop request
 	ScreenshotRequested = 0;
+}
+
+// Shader callback
+void ShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *Services, irr::s32 UserData) {
 }

@@ -29,11 +29,12 @@ struct VideoModeStruct {
 class ShaderCallback : public irr::video::IShaderConstantSetCallBack {
 
 	public:
-		virtual void OnSetConstants(irr::video::IMaterialRendererServices *Services, irr::s32 UserData) { }
+		virtual void OnSetConstants(irr::video::IMaterialRendererServices *Services, irr::s32 UserData);
 };
 
 // Classes
 class _Graphics {
+	friend class ShaderCallback;
 
 	public:
 

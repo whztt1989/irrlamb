@@ -23,6 +23,7 @@
 #include <engine/input.h>
 #include <engine/audio.h>
 #include <engine/actions.h>
+#include <engine/graphics.h>
 #include <objects/sphere.h>
 #include <objects/constraint.h>
 #include <objects/template.h>
@@ -120,8 +121,9 @@ void _Player::Update(float FrameTime) {
 	Sound->SetPosition(Position[0], Position[1], Position[2]);
 
 	// Update light
-	if(Light)
+	if(Light) {
 		Light->setPosition(vector3df(Position[0], Position[1], Position[2]));
+	}
 
 	// Get pitch for player idle sound
 	float Pitch = GetAngularVelocity().length();
