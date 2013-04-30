@@ -126,7 +126,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="-level tut_move0" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="yes"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="../bin/Debug/irrlamb" CommandArguments="-level c_roll0" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="../working" PauseExecWhenProcTerminates="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>

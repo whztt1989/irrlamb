@@ -108,6 +108,9 @@ _Player::_Player(const SpawnStruct &Object)
 
 // Destructor
 _Player::~_Player() {
+	
+	if(Light)
+		Light->remove();
 
 	delete Sound;
 }
