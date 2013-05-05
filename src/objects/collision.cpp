@@ -42,6 +42,7 @@ static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btColli
 _Collision::_Collision(const SpawnStruct &Object)
 :	_Object(),
 	TriangleIndexVertexArray(NULL),
+	TriangleInfoMap(NULL),
 	VertexList(NULL),
 	FaceList(NULL) {
 	

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Tutorial - Basic Movement</name>
+		<name>Basic Movement</name>
 	</info>
 	<resources>
 		<script file="tut_move0.lua" />

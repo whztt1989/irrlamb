@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Tutorial - Crate Jumping</name>
+		<name>Crate Jumping</name>
 	</info>
 	<resources>
 		<script file="tut_jump2.lua" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Challenge - Roll out</name>
+		<name>Roll out</name>
 	</info>
 	<options>
 		<emitlight enabled="1" />

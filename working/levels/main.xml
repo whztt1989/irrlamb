@@ -15,6 +15,7 @@
 		<level>tut_jump3</level>
 		<level>tut_cylinder1</level>
 		<level>tut_jump4</level>
+		<level>tut_longjump0</level>
 	</campaign>
 	<!--<campaign name="Cave I">
 		<level unlocked="1">sas_0</level>

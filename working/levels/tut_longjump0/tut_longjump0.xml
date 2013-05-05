@@ -1,12 +1,15 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Stair Climbing</name>
+		<name>Long Jump</name>
 	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
 	<resources>
-		<script file="tut_jump3.lua" />
-		<scene file="tut_jump3.irr" />
-		<collision file="tut_jump3.col" />
+		<script file="tut_longjump0.lua" />
+		<scene file="tut_longjump0.irr" />
+		<collision file="tut_longjump0.col" />
 	</resources>
 	<templates>
 		<player name="player" />
@@ -14,10 +17,10 @@
 	</templates>
 	<objects>
 		<object name="player" template="player">
-			<position x="0" y="0.5" z="0" />
+			<position x="0" y="0.5" z="0.5" />
 		</object>
 		<object name="orb0" template="orb">
-			<position x="0" y="6.5" z="16" />
+			<position x="-1.5" y="0.5" z="7" />
 		</object>
 	</objects>
 </level>

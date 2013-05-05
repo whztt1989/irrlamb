@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Tutorial - Sphere Rolling</name>
+		<name>Sphere Rolling</name>
 	</info>
 	<resources>
 		<script file="tut_sphere0.lua" />

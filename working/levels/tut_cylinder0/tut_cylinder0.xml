@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <level version="0" gameversion="0.1.0">
 	<info>
-		<name>Tutorial - Cylinders</name>
+		<name>Cylinders</name>
 	</info>
 	<resources>
 		<script file="tut_cylinder0.lua" />
