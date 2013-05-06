@@ -75,6 +75,7 @@ class _Menu {
 		void Update(float FrameTime);
 		void Draw();
 
+		void DrawLoseScreen();
 		void DrawWinScreen();
 		void ClearCurrentLayout();
 

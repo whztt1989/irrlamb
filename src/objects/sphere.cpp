@@ -34,15 +34,17 @@ _Sphere::_Sphere(const SpawnStruct &Object)
 	// Add mesh
 	IAnimatedMesh *AnimatedMesh = irrScene->getMesh(MeshPath.c_str());
 	Node = irrScene->addAnimatedMeshSceneNode(AnimatedMesh);
-	Node->setScale(vector3df(Template->Scale, Template->Scale, Template->Scale));
-	if(Template->Textures[0] != "")
-		Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
-	if(Template->CustomMaterial != -1)
-		Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
+	if(Node) {
+		Node->setScale(vector3df(Template->Scale, Template->Scale, Template->Scale));
+		if(Template->Textures[0] != "")
+			Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
+		if(Template->CustomMaterial != -1)
+			Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
 
-	// Add shadows
-	if(Config.Shadows) {
-		((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+		// Add shadows
+		if(Config.Shadows) {
+			((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+		}
 	}
 
 	// Set up physics

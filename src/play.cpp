@@ -393,3 +393,20 @@ void _PlayState::WinLevel() {
 	// Show win screen
 	Menu.InitWin();
 }
+
+// Lose the level and update stats
+void _PlayState::LoseLevel() {
+
+	// Skip stats if just testing a level
+	if(PlayState.TestLevel == "") {
+
+		// Increment win count
+		Save.IncrementLevelLoseCount(Level.GetLevelName());
+
+		// Save stats to a file
+		Save.SaveLevelStats(Level.GetLevelName());
+	}
+
+	// Show lose screen
+	Menu.InitLose();
+}

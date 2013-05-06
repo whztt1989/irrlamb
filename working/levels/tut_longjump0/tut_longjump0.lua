@@ -6,6 +6,18 @@ function OnOrbDeactivate()
 	end
 end
 
+-- Display lose message
+function OnHitZone(HitType, Zone, Object)
+	
+	if Object == Player then
+		Level.Lose()
+		return 1
+	end
+	
+	return 0
+end
+
+
 -- Set up camera
 Camera.SetYaw(-90)
 Camera.SetPitch(5)

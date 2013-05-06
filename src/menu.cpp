@@ -52,6 +52,8 @@ const int STATS_PADDING = 15;
 const int STATS_MOUSE_OFFSETX = 20;
 const int STATS_MOUSE_OFFSETY = -105;
 
+const int LOSE_WIDTH = 500;
+const int LOSE_HEIGHT = 380;
 const int WIN_WIDTH = 560;
 const int WIN_HEIGHT = 380;
 
@@ -113,6 +115,7 @@ bool _Menu::HandleAction(int InputType, int Action, float Value) {
 					case STATE_PAUSED:
 						InitPlay();
 					break;
+					case STATE_LOSE:
 					case STATE_WIN:
 						NullState.State = STATE_LEVELS;
 						Game.ChangeState(&NullState);
@@ -120,6 +123,8 @@ bool _Menu::HandleAction(int InputType, int Action, float Value) {
 					case STATE_SAVEREPLAY:
 						if(PreviousState == STATE_WIN)
 							InitWin();
+						else if(PreviousState == STATE_LOSE)
+							InitLose();
 						else
 							InitPause();
 					break;
@@ -428,9 +433,12 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 				case SAVEREPLAY_CANCEL:
 					if(PreviousState == STATE_WIN)
 						InitWin();
+					else if(PreviousState == STATE_LOSE)
+						InitLose();
 					else
 						InitPause();
 				break;
+				case LOSE_RESTARTLEVEL:
 				case WIN_RESTARTLEVEL:
 					PlayState.StartReset();
 				break;
@@ -439,9 +447,11 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 						PlayState.CampaignLevel++;
 					Game.ChangeState(&PlayState);
 				break;
+				case LOSE_SAVEREPLAY:
 				case WIN_SAVEREPLAY:
 					InitSaveReplay();
 				break;
+				case LOSE_MAINMENU:
 				case WIN_MAINMENU:
 					NullState.State = STATE_LEVELS;
 					Game.ChangeState(&NullState);
@@ -876,6 +886,22 @@ void _Menu::InitSaveReplay() {
 
 // Create the lose screen
 void _Menu::InitLose() {
+	Interface.Clear();
+	
+	// Clear interface
+	ClearCurrentLayout();
+
+	int X = Interface.GetCenterX() - LOSE_WIDTH / 2 + 128/2;
+	int Y = Interface.GetCenterY() + LOSE_HEIGHT / 2 + 40;
+
+	int Spacing = LOSE_WIDTH/3 + 3;
+	IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X + Spacing * 0, Y, 130, 44), LOSE_RESTARTLEVEL, L"Retry Level", _Interface::IMAGE_BUTTON_MEDIUM);
+	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 1, Y, 130, 44), LOSE_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON_MEDIUM);
+	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 2, Y, 130, 44), LOSE_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON_MEDIUM);
+	
+	Input.SetMouseLocked(false);
+	vector2di Position = Button->getAbsolutePosition().getCenter();
+	irrDevice->getCursorControl()->setPosition(Position.X, Position.Y);
 
 	PreviousState = State;
 	State = STATE_LOSE;
@@ -1042,6 +1068,9 @@ void _Menu::Draw() {
 				}
 			}
 		break;
+		case STATE_LOSE:
+			Menu.DrawLoseScreen();
+		break;
 		case STATE_WIN:
 			Menu.DrawWinScreen();
 		break;
@@ -1100,6 +1129,16 @@ void _Menu::DrawWinScreen() {
 
 		HighY += 17;
 	}
+}
+
+// Draw the lose screen
+void _Menu::DrawLoseScreen() {
+
+	// Draw header
+	int X = Interface.GetCenterX();
+	int Y = Interface.GetCenterY() - WIN_HEIGHT / 2 - 40;
+	//Interface.DrawTextBox(Interface.GetCenterX(), Interface.GetCenterY(), WIN_WIDTH, WIN_HEIGHT);
+	Interface.RenderText("You died!", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
 }
 
 // Cancels the key bind state

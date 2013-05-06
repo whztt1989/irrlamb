@@ -50,6 +50,7 @@ class _PlayState : public _State {
 		void StartReset();
 		void ResetLevel();
 		void WinLevel();
+		void LoseLevel();
 
 		void SetTestLevel(const std::string &Level) { TestLevel = Level; }
 		void SetCampaign(int Value) { CurrentCampaign = Value; }
