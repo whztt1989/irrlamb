@@ -47,7 +47,7 @@ const int BACK_Y = 220;
 const int SAVE_X = 60;
 				
 const int STATS_MIN_WIDTH = 250;
-const int STATS_MIN_HEIGHT = 310;
+const int STATS_MIN_HEIGHT = 330;
 const int STATS_PADDING = 15;
 const int STATS_MOUSE_OFFSETX = 20;
 const int STATS_MOUSE_OFFSETY = -105;
@@ -1027,6 +1027,12 @@ void _Menu::Draw() {
 					Y += 17;
 					Interface.RenderText("Wins", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 					sprintf(Buffer, "%d", Stats->WinCount);
+					Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+
+					// Lose count
+					Y += 17;
+					Interface.RenderText("Deaths", X - 10, Y, _Interface::ALIGN_RIGHT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
+					sprintf(Buffer, "%d", Stats->LoseCount);
 					Interface.RenderText(Buffer, X + 10, Y, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, SColor(255, 255, 255, 255));
 
 					// Scores
