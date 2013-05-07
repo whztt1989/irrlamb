@@ -18,6 +18,7 @@
 #include <all.h>
 #include <objects/orb.h>
 #include <engine/globals.h>
+#include <engine/graphics.h>
 #include <engine/physics.h>
 #include <engine/scripting.h>
 #include <engine/replay.h>
@@ -31,6 +32,7 @@ _Orb::_Orb(const SpawnStruct &Object)
 :	_Object(),
 	DeactivationCallback(""),
 	Sound(NULL),
+	Light(NULL),
 	State(ORBSTATE_NORMAL),
 	OrbTime(0.0f),
 	DeactivateLength(ORB_DEACTIVATETIME) {
@@ -59,6 +61,16 @@ _Orb::_Orb(const SpawnStruct &Object)
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[1].c_str()));
 	else
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture("textures/orb_glow0.png"));
+	
+	// Emit Light
+	if(Object.Template->EmitLight) {
+		Light = irrScene->addLightSceneNode(0, core::vector3df(0.0f, 0.0f, 0.0f), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+
+		SLight LightData;
+		LightData.Attenuation.set(0.5f, 0.05f, 0.05f);
+		LightData.CastShadows = false;
+		Light->setLightData(LightData);
+	}
 
 	// Set up physics
 	if(Physics.IsEnabled()) {
@@ -83,6 +95,8 @@ _Orb::_Orb(const SpawnStruct &Object)
 
 // Destructor
 _Orb::~_Orb() {
+	if(Light)
+		Light->remove();
 
 	delete Sound;
 }
@@ -111,8 +125,15 @@ void _Orb::Update(float FrameTime) {
 	// Update object
 	_Object::Update(FrameTime);
 
-	// Update audio
+	// Get object position
 	const btVector3 &Position = GetPosition();
+
+	// Update light
+	if(Light) {
+		Light->setPosition(vector3df(Position[0], Position[1], Position[2]));
+	}
+
+	// Update audio
 	Sound->SetPosition(Position[0], Position[1], Position[2]);
 
 	// Update orb
@@ -140,6 +161,10 @@ void _Orb::UpdateDeactivation(float FrameTime) {
 			if(Sound)
 				Sound->SetPitch(ORB_PITCH * PercentLeft);
 
+			if(Light) {
+				Light->getLightData().DiffuseColor.set(1.0f, PercentLeft, PercentLeft, PercentLeft);
+			}
+
 			// Change states
 			if(OrbTime >= DeactivateLength) {
 				Scripting.CallFunction(DeactivationCallback);
@@ -151,6 +176,11 @@ void _Orb::UpdateDeactivation(float FrameTime) {
 			}
 		} break;
 		case ORBSTATE_DEACTIVATED:
+			if(Light) {
+				Light->remove();
+				Light = NULL;
+				Graphics.SetLightCount();
+			}
 		break;
 	}
 }

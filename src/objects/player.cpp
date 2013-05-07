@@ -47,8 +47,11 @@ _Player::_Player(const SpawnStruct &Object)
 	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
 
 	// Emit Light
-	if(Object.Template->EmitLight)
+	if(Object.Template->EmitLight) {
 		Light = irrScene->addLightSceneNode(0, core::vector3df(0.0f, 0.0f, 0.0f), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+		Light->getLightData().Attenuation.set(0.5f, 0.05f, 0.05f);
+		Light->getLightData().DiffuseColor.set(1.0f, 0.75f, 0.75f, 1.0f);
+	}
 
 	// Add glow
 	ISceneNode *InnerNode;

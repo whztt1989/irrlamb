@@ -48,6 +48,7 @@ class _Orb : public _Object {
 		// Graphics
 		irr::video::SColor GlowColor;
 		irr::scene::IBillboardSceneNode *InnerNode;
+		irr::scene::ILightSceneNode *Light;
 
 		// Deactivation
 		std::string DeactivationCallback;

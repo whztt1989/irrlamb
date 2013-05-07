@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- Created 04/22/2013 19:49 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
+<!-- Created 05/06/2013 21:19 by irrb v0.6 - "Irrlicht/Blender Exporter" -->
 <irr_scene>
    <attributes>
       <string name="Name" value="root"/>
@@ -35,28 +35,6 @@
          <string name="Mesh" value="meshes/tut_hill0.irrbmesh"/>
          <enum name="HardwareMappingHint" value="never"/>
          <enum name="HardwareMappingBufferType" value="vertexindex"/>
-      </attributes>
-      <userData>
-         <attributes>
-         </attributes>
-      </userData>
-   </node>
-   <node type="light">
-      <attributes>
-         <string name="Name" value="Lamp"/>
-         <int name="Id" value="-1"/>
-         <bool name="Visible" value="true"/>
-         <vector3d name="Position" value="-5.623914, 27.080408, 31.681919"/>
-         <vector3d name="Rotation" value="42.466462, -107.22076, 10.743632"/>
-         <enum name="LightType" value="Point"/>
-         <colorf name="AmbientColor" value="0, 0, 0, 1"/>
-         <colorf name="DiffuseColor" value="1, 1, 1, 1"/>
-         <colorf name="SpecularColor" value="1, 1, 1, 1"/>
-         <vector3d name="Attenuation" value="1, 0, 0"/>
-         <float name="Radius" value="100.00"/>
-         <float name="OuterCone" value="45.00"/>
-         <float name="InnerCone" value="0.00"/>
-         <bool name="CastShadows" value="true"/>
       </attributes>
       <userData>
          <attributes>

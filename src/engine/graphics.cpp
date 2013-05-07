@@ -34,6 +34,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 	ShowCursor = true;
 	ShadersSupported = false;
 	CustomMaterial = -1;
+	LightCount = 0;
 
 	// irrlicht parameters
 	SIrrlichtCreationParameters Parameters;
@@ -188,6 +189,15 @@ void _Graphics::CreateScreenshot() {
 	ScreenshotRequested = 0;
 }
 
+// Update the internal light count variable
+void _Graphics::SetLightCount() {
+	array<scene::ISceneNode *> LightNodes;
+	irrScene->getSceneNodesFromType(ESNT_LIGHT, LightNodes);
+
+	LightCount = LightNodes.size();
+}
+
 // Shader callback
 void ShaderCallback::OnSetConstants(irr::video::IMaterialRendererServices *Services, irr::s32 UserData) {
+	Services->setPixelShaderConstant("light_count", &Graphics.LightCount, 1);
 }

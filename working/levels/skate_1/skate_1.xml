@@ -3,6 +3,9 @@
 	<info>
 		<name>Skate Park II</name>
 	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
 	<resources>
 		<script file="skate_1.lua" />
 		<scene file="skate_1.irr" />

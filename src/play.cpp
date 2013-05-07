@@ -125,6 +125,7 @@ void _PlayState::ResetLevel() {
 	// Load level objects
 	Level.SpawnObjects();
 	Level.RunScripts();
+	Graphics.SetLightCount();
 
 	// Get the player
 	Player = static_cast<_Player *>(ObjectManager.GetObjectByType(_Object::PLAYER));

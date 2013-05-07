@@ -52,6 +52,7 @@ class _Graphics {
 		void SetClearColor(const irr::video::SColor &Color) { ClearColor = Color; }
 		void SetDrawScene(bool Value) { DrawScene = Value; }
 		void ToggleCursor(bool Value) { ShowCursor = Value; }
+		void SetLightCount();
 
 		const std::vector<VideoModeStruct> &GetVideoModes() { return VideoModes; }
 		std::size_t GetCurrentVideoModeIndex();
@@ -67,6 +68,7 @@ class _Graphics {
 		// Shaders
 		int CustomMaterial;
 		bool ShadersSupported;
+		int LightCount;
 
 		// Screenshots
 		bool ScreenshotRequested;

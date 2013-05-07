@@ -128,13 +128,11 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	// Load options
 	XMLElement *OptionsElement = LevelElement->FirstChildElement("options");
 	if(OptionsElement) {
-		int Value;
 
 		// Does the player emit light?
 		XMLElement *EmitLightElement = OptionsElement->FirstChildElement("emitlight");
 		if(EmitLightElement) {
-			EmitLightElement->QueryIntAttribute("enabled", &Value);
-			EmitLight = Value!=0;
+			EmitLightElement->QueryBoolAttribute("enabled", &EmitLight);
 		}
 	}
 
@@ -246,7 +244,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 					Template->CustomMaterial = Graphics.GetCustomMaterial();
 
 				// Set the player to emit light
-				if(Template->Type == _Object::PLAYER)
+				if(Template->Type == _Object::PLAYER || Template->Type == _Object::ORB)
 					Template->EmitLight = true;
 			}
 			TemplateID++;

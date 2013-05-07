@@ -3,6 +3,9 @@
 	<info>
 		<name>Hillclimbing</name>
 	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
 	<resources>
 		<script file="tut_move2.lua" />
 		<scene file="tut_move2.irr" />
