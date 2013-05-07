@@ -229,7 +229,7 @@ void _ObjectManager::UpdateFromReplay() {
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		_Object *Object = *Iterator;
 		if(ObjectID == Object->GetID()) {
-			Object->GetNode()->setPosition(Position);
+			Object->SetPositionFromReplay(Position);
 			Object->GetNode()->setRotation(Rotation);
 
 			//printf("ObjectPacket ObjectID=%d Type=%d Position=%f %f %f Rotation=%f %f %f\n", ObjectID, Object->GetType(), Position.X, Position.Y, Position.Z, Rotation.X, Rotation.Y, Rotation.Z);

@@ -73,6 +73,7 @@ class _Object : public btMotionState {
 		
 		void CalculateInterpolatedPosition(float BlendFactor);
 		void SetPosition(const btVector3 &Position);
+		virtual void SetPositionFromReplay(const irr::core::vector3df &Position);
 		const btVector3 &GetPosition() const { return RigidBody->getWorldTransform().getOrigin(); }
 		const btVector3 &GetGraphicsPosition() const { return CenterOfMassTransform.getOrigin(); }
 

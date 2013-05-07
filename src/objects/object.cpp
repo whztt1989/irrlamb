@@ -210,3 +210,10 @@ void _Object::EndFrame() {
 		NeedsReplayPacket = true;
 	}
 }
+
+// Update the graphic node position
+void _Object::SetPositionFromReplay(const irr::core::vector3df &Position) {
+	if(Node) {
+		Node->setPosition(Position);
+	}
+}

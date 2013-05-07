@@ -187,3 +187,12 @@ void _Player::HandleInput() {
 void _Player::Jump() {
 	JumpTimer = JUMP_WINDOW;
 }
+
+// Update the graphic node position
+void _Player::SetPositionFromReplay(const irr::core::vector3df &Position) {
+	if(Node)
+		Node->setPosition(Position);
+
+	if(Light)
+		Light->setPosition(Position);
+}
