@@ -11,7 +11,7 @@ void main(void) {
 		float distance = length(gl_LightSource[i].position.xyz - vertex);
 		
 		// Attenuate
-		float attenuation = 1.0f / (gl_LightSource[i].constantAttenuation + distance * gl_LightSource[i].linearAttenuation + distance * distance * gl_LightSource[i].quadraticAttenuation);
+		float attenuation = 1.0 / (gl_LightSource[i].constantAttenuation + distance * gl_LightSource[i].linearAttenuation + distance * distance * gl_LightSource[i].quadraticAttenuation);
 		attenuation = clamp(attenuation, 0.0, 1.0);
 		
 		vec3 light_vector = normalize(gl_LightSource[i].position.xyz - vertex); 
@@ -40,7 +40,7 @@ void main(void) {
 	//vec4 frag_color = vec4(0, 0, 0, 1);
 	
 	// Fog
-	if(gl_Fog.density > 0) {
+	if(gl_Fog.density > 0.0) {
 		const float LOG2 = 1.442695;
 		float frag_z = gl_FragCoord.z / gl_FragCoord.w;
 		float fog_factor = clamp(exp2(-gl_Fog.density * gl_Fog.density * frag_z * frag_z * LOG2), 0.0, 1.0);
