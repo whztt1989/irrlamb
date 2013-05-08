@@ -64,7 +64,7 @@ _Orb::_Orb(const SpawnStruct &Object)
 	
 	// Emit Light
 	if(Object.Template->EmitLight) {
-		Light = irrScene->addLightSceneNode(0, core::vector3df(0.0f, 0.0f, 0.0f), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+		Light = irrScene->addLightSceneNode(0, vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
 
 		SLight LightData;
 		LightData.Attenuation.set(0.5f, 0.05f, 0.05f);
@@ -183,4 +183,13 @@ void _Orb::UpdateDeactivation(float FrameTime) {
 			}
 		break;
 	}
+}
+
+// Update the graphic node position
+void _Orb::SetPositionFromReplay(const irr::core::vector3df &Position) {
+	if(Node)
+		Node->setPosition(Position);
+
+	if(Light)
+		Light->setPosition(Position);
 }

@@ -37,6 +37,7 @@ class _Orb : public _Object {
 
 		void Update(float FrameTime);
 		void UpdateReplay(float FrameTime);
+		void SetPositionFromReplay(const irr::core::vector3df &Position);
 
 		void StartDeactivation(const std::string &TCallback, float Length);
 		bool IsStillActive() const { return State == ORBSTATE_NORMAL; }

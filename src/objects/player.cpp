@@ -48,7 +48,7 @@ _Player::_Player(const SpawnStruct &Object)
 
 	// Emit Light
 	if(Object.Template->EmitLight) {
-		Light = irrScene->addLightSceneNode(0, core::vector3df(0.0f, 0.0f, 0.0f), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+		Light = irrScene->addLightSceneNode(0, vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
 		Light->getLightData().Attenuation.set(0.5f, 0.05f, 0.05f);
 		Light->getLightData().DiffuseColor.set(1.0f, 0.75f, 0.75f, 1.0f);
 	}

@@ -69,6 +69,9 @@ int _ViewReplayState::Init() {
 	if(!Level.Init(Replay.GetLevelName()))
 		return 0;
 
+	// Update number of lights
+	Graphics.SetLightCount();
+
 	// Add camera
 	Camera = new _Camera();
 
@@ -209,6 +212,9 @@ void _ViewReplayState::Update(float FrameTime) {
 					_Object *NewObject = Level.CreateObject(Spawn);
 					NewObject->SetID(ObjectID);
 				}
+			
+				// Update number of lights
+				Graphics.SetLightCount();
 			}
 			break;
 			case _Replay::PACKET_DELETE: {
@@ -247,6 +253,9 @@ void _ViewReplayState::Update(float FrameTime) {
 				// Deactivate orb
 				_Orb *Orb = static_cast<_Orb *>(ObjectManager.GetObjectByID(ObjectID));
 				Orb->StartDeactivation("", Length);
+
+				// Update number of lights
+				Graphics.SetLightCount();
 			}
 			break;
 			default:
