@@ -44,6 +44,7 @@ class _Graphics {
 		void BeginFrame();
 		void EndFrame();
 
+		void LoadShaders();
 		int GetCustomMaterial() { return CustomMaterial; }
 		bool GetShadersSupported() { return ShadersSupported; }
 

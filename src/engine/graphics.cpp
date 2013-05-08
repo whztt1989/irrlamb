@@ -99,12 +99,8 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 	&& irrDriver->queryFeature(EVDF_ARB_VERTEX_PROGRAM_1)) {
 		ShadersSupported = true;
 
-		// Create shader materials
-		if(Config.Shaders) {
-			ShaderCallback *Shader = new ShaderCallback();
-			CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "main", EVST_VS_1_1, "shaders/lighting.frag", "main", EPST_PS_1_1, Shader, EMT_SOLID);
-			Shader->drop();
-		}
+		if(Config.Shaders)
+			LoadShaders();
 	}
 	else {
 		Log.Write("Shaders not supported.");
@@ -126,6 +122,17 @@ int _Graphics::Close() {
 	irrDevice->drop();
 
 	return 1;
+}
+
+// Load all shaders
+void _Graphics::LoadShaders() {
+	
+	// Create shader materials
+	if(ShadersSupported && CustomMaterial == -1) {
+		ShaderCallback *Shader = new ShaderCallback();
+		CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "main", EVST_VS_1_1, "shaders/lighting.frag", "main", EPST_PS_1_1, Shader, EMT_SOLID);
+		Shader->drop();
+	}
 }
 
 // Erases the buffer and sets irrlicht up for the next frame

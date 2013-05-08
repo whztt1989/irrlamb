@@ -330,10 +330,11 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 							Config.AntiAliasing = 1 << (Antialiasing->getSelected());
 					}
 
-					/*// Save shaders
+					// Save shaders
 					IGUICheckBox *Shaders = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_SHADERS));
 					Config.Shaders = Shaders->isChecked();
-					 */
+					if(Config.Shaders)
+						Graphics.LoadShaders();
 
 					// Write config
 					Config.WriteConfig();
@@ -715,6 +716,13 @@ void _Menu::InitVideo() {
 	AddMenuText(position2di(X, Y), L"Shadows", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
 	IGUICheckBox *CheckBoxShadows = irrGUI->addCheckBox(Config.Shadows, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_SHADOWS);
 
+	// Shaders
+	Y += 40;
+	AddMenuText(position2di(X, Y), L"Shaders", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_SHADERS);
+	if(!Graphics.GetShadersSupported())
+		CheckBoxShaders->setEnabled(false);
+
 	// Anisotropic Filtering
 	Y += 40;
 	int MaxAnisotropy = irrDriver->getDriverAttributes().getAttributeAsInt("MaxAnisotropy");
@@ -742,15 +750,6 @@ void _Menu::InitVideo() {
 			Antialiasing->setSelected(i+1);
 	}
 	
-/*
-	// Shaders
-	Y += 30;
-	IGUIStaticText *TextShaders = irrGUI->addStaticText(L"Shaders", Interface.GetCenteredRect(X - 65, Y, 110, 25), false, false);
-	IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 60, Y, 100, 25), CurrentLayout, VIDEO_SHADERS);
-	if(!Graphics.GetShadersSupported())
-		CheckBoxShaders->setEnabled(false);
-*/
-
 	// Save
 	Y = Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X - SAVE_X, Y, 108, 44), VIDEO_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
