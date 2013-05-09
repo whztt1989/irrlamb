@@ -382,11 +382,7 @@ const char *_Input::GetKeyName(int Key) {
 		case KEY_SPACE:     return "space";        break;
 		case KEY_SHIFT:     return "shift";        break;
 		case KEY_LSHIFT:    return "left shift";   break;
-		case KEY_RSHIFT:    return "right shift";  break;
 		case KEY_CONTROL:   return "ctrl";         break;
-		case KEY_LCONTROL:  return "left ctrl";    break;
-		case KEY_RCONTROL:  return "right ctrl";   break;
-		case KEY_LMENU:     return "left alt";     break;
 		case KEY_RMENU:     return "right alt";    break;
 		case KEY_TAB:       return "tab";          break;
 		case KEY_RETURN:    return "enter";        break;
@@ -397,10 +393,25 @@ const char *_Input::GetKeyName(int Key) {
 		case KEY_BACK:      return "backspace";    break;
 		case KEY_INSERT:    return "insert";       break;
 		case KEY_DELETE:    return "delete";       break;
+	#ifdef PANDORA
+		case KEY_RSHIFT:    return "left trigger"; break;
+		case KEY_LCONTROL:  return "(select)";     break;
+		case KEY_RCONTROL:  return "right trigger";break;
+		case KEY_LMENU:     return "(start)";      break;
+		case KEY_PRIOR:     return "(Y)";          break;
+		case KEY_NEXT:      return "(X)";          break;
+		case KEY_END:       return "(B)";          break;
+		case KEY_HOME:      return "(A)";          break;
+	#else
+		case KEY_RSHIFT:    return "right shift";  break;
+		case KEY_LCONTROL:  return "left ctrl";    break;
+		case KEY_RCONTROL:  return "right ctrl";   break;
+		case KEY_LMENU:     return "left alt";     break;
 		case KEY_PRIOR:     return "page up";      break;
 		case KEY_NEXT:      return "page down";    break;
 		case KEY_END:       return "end";          break;
 		case KEY_HOME:      return "home";         break;
+	#endif
 		case KEY_OEM_1:     return ";";            break;
 		case KEY_OEM_2:     return "/";            break;
 		case KEY_OEM_3:     return "`";            break;

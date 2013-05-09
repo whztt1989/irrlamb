@@ -61,6 +61,10 @@ else()
 	include_directories(${X11_Xrandr_INCLUDE_PATH})
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
+	
+	if(PANDORA)
+		add_definitions("-DPANDORA")
+	endif()
 
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})

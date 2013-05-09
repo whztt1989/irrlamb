@@ -18,6 +18,15 @@
 #include <all.h>
 #pragma once
 
+#ifdef PANDORA
+	#if !defined(luaL_reg)
+		#define luaL_reg 	luaL_Reg
+	#endif
+	#if !defined(lua_open)
+		#define lua_open()  luaL_newstate()
+	#endif
+#endif
+
 // Structures
 struct TimedCallbackStruct {
 	float TimeStamp;

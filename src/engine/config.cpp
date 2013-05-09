@@ -73,6 +73,16 @@ void _Config::Reset() {
 
 	// Replays
 	ReplayInterval = 0.02f;
+
+#ifdef PANDORA
+	DriverType = EDT_OGLES1;
+	ScreenHeight = 480;
+	Fullscreen = true;
+	Shaders = false;
+	TrilinearFiltering = false;
+	MouseScaleX = 5.0f;
+	MouseScaleY = 5.0f;
+#endif
 }
 
 // Add default actions
@@ -82,13 +92,23 @@ void _Config::AddDefaultActionMap(bool Force) {
 		for(int i = 0; i < _Input::INPUT_COUNT; i++)
 			Actions.ClearMappings(i);
 	}
-		
+	
+#ifdef PANDORA
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_UP, _Actions::MOVE_FORWARD);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_DOWN, _Actions::MOVE_BACK);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_LEFT, _Actions::MOVE_LEFT);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_RIGHT, _Actions::MOVE_RIGHT);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_RSHIFT, _Actions::JUMP);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_RCONTROL, _Actions::JUMP);
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_NEXT, _Actions::JUMP);
+#else
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_E, _Actions::MOVE_FORWARD);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_D, _Actions::MOVE_BACK);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_S, _Actions::MOVE_LEFT);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_F, _Actions::MOVE_RIGHT);
-	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_X, _Actions::RESET);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_SPACE, _Actions::JUMP);
+#endif
+	Actions.AddInputMap(_Input::KEYBOARD, KEY_KEY_X, _Actions::RESET);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_ESCAPE, _Actions::MENU_PAUSE);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_ESCAPE, _Actions::MENU_BACK);
 	Actions.AddInputMap(_Input::MOUSE_AXIS, 0, _Actions::CAMERA_LEFT);
