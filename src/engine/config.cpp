@@ -70,6 +70,7 @@ void _Config::Reset() {
 	MouseScaleY = 1.0f;
 
 	InvertMouse = false;
+	InvertGamepadY = false; 
 
 	// Replays
 	ReplayInterval = 0.02f;
@@ -245,7 +246,8 @@ int _Config::ReadConfig() {
 	if(InputElement) {
 		InputElement->QueryFloatAttribute("mousex", &MouseScaleX);
 		InputElement->QueryFloatAttribute("mousey", &MouseScaleY);
-		InputElement->QueryBoolAttribute("invert", &InvertMouse);
+		InputElement->QueryBoolAttribute("invert_mouse", &InvertMouse);
+		InputElement->QueryBoolAttribute("invert_gamepad_y", &InvertGamepadY);
 		InputElement->QueryBoolAttribute("joystick_enabled", &JoystickEnabled);
 	}
 
@@ -329,7 +331,8 @@ int _Config::WriteConfig() {
 	XMLElement *InputElement = Document.NewElement("input");
 	InputElement->SetAttribute("mousex", 1.0);
 	InputElement->SetAttribute("mousey", 1.0);
-	InputElement->SetAttribute("invert", InvertMouse);
+	InputElement->SetAttribute("invert_mouse", InvertMouse);
+	InputElement->SetAttribute("invert_gamepad_y", InvertGamepadY);
 	InputElement->SetAttribute("joystick_enabled", JoystickEnabled);
 	ConfigElement->LinkEndChild(InputElement);
 

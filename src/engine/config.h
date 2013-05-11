@@ -53,7 +53,7 @@ class _Config {
 
 		// Input
 		float MouseScaleX, MouseScaleY;
-		bool InvertMouse;
+		bool InvertMouse, InvertGamepadY;
 		bool JoystickEnabled;
 
 		// Replays

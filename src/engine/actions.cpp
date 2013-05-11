@@ -19,6 +19,7 @@
 #include <engine/actions.h>
 #include <engine/game.h>
 #include <engine/state.h>
+#include <engine/config.h>
 #include <tinyxml/tinyxml2.h>
 
 _Actions Actions;
@@ -116,9 +117,15 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 
 	for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
 		State[MapIterator->Action] = Value;
-
+		float InputValue = Value * MapIterator->Scale;
+		
+		// Invert gamepad camera Y
+		if(Config.InvertGamepadY && InputType == _Input::JOYSTICK_AXIS && (MapIterator->Action == _Actions::CAMERA_UP || MapIterator->Action == _Actions::CAMERA_DOWN)) {
+			InputValue = -InputValue;
+		}
+		
 		// If true is returned, stop handling the same key
-		if(Game.GetState()->HandleAction(InputType, MapIterator->Action, Value * MapIterator->Scale))
+		if(Game.GetState()->HandleAction(InputType, MapIterator->Action, InputValue))
 			break;
 	}
 }

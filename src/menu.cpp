@@ -75,7 +75,7 @@ enum GUIElements {
 	OPTIONS_VIDEO, OPTIONS_AUDIO, OPTIONS_CONTROLS, OPTIONS_BACK,
 	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS, VIDEO_ANISOTROPY, VIDEO_ANTIALIASING,
 	AUDIO_ENABLED, AUDIO_SAVE, AUDIO_CANCEL,
-	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_KEYMAP,
+	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_INVERTGAMEPADY, CONTROLS_KEYMAP,
 	PAUSE_RESUME=(CONTROLS_KEYMAP + _Actions::COUNT), PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
 	SAVEREPLAY_NAME, SAVEREPLAY_SAVE, SAVEREPLAY_CANCEL,
 	LOSE_RESTARTLEVEL, LOSE_SAVEREPLAY, LOSE_MAINMENU,
@@ -383,6 +383,10 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element)
 					// Save invert mouse
 					IGUICheckBox *InvertMouse = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(CONTROLS_INVERTMOUSE));
 					Config.InvertMouse = InvertMouse->isChecked();
+
+					// Save invert gamepad Y
+					IGUICheckBox *InvertGamepadY = static_cast<IGUICheckBox *>(CurrentLayout->getElementFromId(CONTROLS_INVERTGAMEPADY));
+					Config.InvertGamepadY = InvertGamepadY->isChecked();
 
 					Config.WriteConfig();
 
@@ -816,7 +820,11 @@ void _Menu::InitControls() {
 	// Invert mouse
 	Y += 15;
 	AddMenuText(position2di(X - 15, Y), L"Invert Mouse Y", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
-	IGUICheckBox *CheckBoxInvertMouse = irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 15, Y, 100, 25), CurrentLayout, CONTROLS_INVERTMOUSE);
+	irrGUI->addCheckBox(Config.InvertMouse, Interface.GetCenteredRect(X + 15, Y, 100, 25), CurrentLayout, CONTROLS_INVERTMOUSE);
+
+	// Invert Gamepad Y
+	AddMenuText(position2di(X - 15 + 145, Y), L"Gamepad Y", _Interface::FONT_MEDIUM, -1, EGUIA_LOWERRIGHT);
+	IGUICheckBox *CheckBoxInvertGamepadY = irrGUI->addCheckBox(Config.InvertGamepadY, Interface.GetCenteredRect(X + 15 + 170, Y, 100, 25), CurrentLayout, CONTROLS_INVERTGAMEPADY);
 
 	// Save
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + BACK_Y, 108, 44), CONTROLS_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
