@@ -568,7 +568,7 @@ void _Menu::InitLevels() {
 			Unlocked = false;
 
 			// Unlock the level if it's always unlocked in the campaign
-			if(CampaignData.Levels[i].Unlocked) {
+			if((Input.GetKeyState(KEY_F1) && Input.GetKeyState(KEY_F10)) || CampaignData.Levels[i].Unlocked) {
 				Save.UnlockLevel(CampaignData.Levels[i].File);
 				Unlocked = true;
 			}
