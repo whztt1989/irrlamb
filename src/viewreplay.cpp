@@ -80,6 +80,9 @@ int _ViewReplayState::Init() {
 
 	// Initialize controls
 	SetupGUI();
+	
+	// Set fog background color
+	Graphics.SetClearColor(Level.GetClearColor());
 
 	return 1;
 }
