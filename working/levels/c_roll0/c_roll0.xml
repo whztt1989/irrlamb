@@ -23,7 +23,10 @@
 			<physics mass="7.0" restitution="0" />
 			<damping angular="0" linear="0" />
 			<texture t1="woodfloor0.jpg" />
-		</cylinder>		
+		</cylinder>
+		<zone name="losezone">
+			<shape w="100" h="5" l="100" />
+		</zone>
 	</templates>
 	<objects>
 		<object name="player" template="player">
@@ -37,6 +40,9 @@
 		</object>
 		<object name="orb2" template="orb">
 			<position x="-22" y="3.2" z="18.5" />
+		</object>
+		<object name="losezone" template="losezone">
+			<position x="-12.5" y="-20" z="-10" />
 		</object>
 	</objects>
 </level>

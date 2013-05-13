@@ -6,6 +6,19 @@ function OnOrbDeactivate()
 	end
 end
 
+-- Display lose message
+function OnHitZone(HitType, Zone, HitObject)
+	
+	if HitObject == Player then
+		Level.Lose()
+		return 1
+	else
+		Object.SetLifetime(HitObject, 2);
+	end
+	
+	return 0
+end
+
 -- Set up level
 tConstraint = Level.GetTemplate("constraint_z")
 tLog = Level.GetTemplate("log")
