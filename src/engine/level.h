@@ -27,8 +27,16 @@ struct TemplateStruct;
 struct SpawnStruct;
 struct ConstraintStruct;
 
+// Handle user data from .irr file
+class _UserDataLoader : public irr::scene::ISceneUserDataSerializer {
+	void OnCreateNode(irr::scene::ISceneNode *Node) { }
+	void OnReadUserData(irr::scene::ISceneNode *ForSceneNode, irr::io::IAttributes *UserData);
+	irr::io::IAttributes* createUserData(irr::scene::ISceneNode *ForSceneNode) { return 0; }
+};
+
 // Classes
 class _Level {
+	friend class _UserDataLoader;
 
 	public:
 
@@ -39,6 +47,7 @@ class _Level {
 		const std::string &GetLevelName() { return LevelName; }
 		const std::string &GetLevelNiceName() { return LevelNiceName; }
 		int GetLevelVersion() { return LevelVersion; }
+		const irr::video::SColor &GetClearColor() { return ClearColor; }
 
 		// Objects
 		void SpawnObjects();
@@ -63,6 +72,8 @@ class _Level {
 		int LevelVersion;
 		bool IsCustomLevel;
 		std::string GameVersion;
+		irr::video::SColor ClearColor;
+		_UserDataLoader UserDataLoader;
 
 		// Resources
 		std::vector<std::string> Scripts;

@@ -46,6 +46,21 @@ _Level Level;
 
 using namespace tinyxml2;
 
+// Handle user data from .irr file
+void _UserDataLoader::OnReadUserData(irr::scene::ISceneNode *ForSceneNode, irr::io::IAttributes *UserData) {
+
+	for(u32 i = 0; i < UserData->getAttributeCount(); i++) {
+		stringc Name(UserData->getAttributeName(i));
+
+		if(Name == "BackgroundColor") {
+			SColorf FloatColor(UserData->getAttributeAsColorf(i));
+			Level.ClearColor.set(255, (u32)(255 * FloatColor.r), (u32)(255 * FloatColor.g), (u32)(255 * FloatColor.b));
+		}
+	}
+
+	return;
+}
+
 // Loads a level file
 int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(!HeaderOnly)
@@ -124,6 +139,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	// Options
 	bool Fog = false;
 	bool EmitLight = false;
+	Level.ClearColor.set(255, 0, 0, 0);
 
 	// Load options
 	XMLElement *OptionsElement = LevelElement->FirstChildElement("options");
@@ -157,11 +173,11 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			// Load scene
 			if(IsCustomLevel) {
 				irrFile->changeWorkingDirectoryTo(DataPath.c_str());
-				irrScene->loadScene(File.c_str());
+				irrScene->loadScene(File.c_str(), &UserDataLoader);
 				irrFile->changeWorkingDirectoryTo(Game.GetWorkingPath().c_str());
 			}
 			else {
-				irrScene->loadScene((DataPath + File).c_str());
+				irrScene->loadScene((DataPath + File).c_str(), &UserDataLoader);
 			}
 
 			// Set texture filters on meshes in the scene

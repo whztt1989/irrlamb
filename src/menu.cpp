@@ -842,7 +842,7 @@ void _Menu::InitPlay() {
 	Interface.ChangeSkin(_Interface::SKIN_GAME);
 	ClearCurrentLayout();
 
-	Graphics.SetClearColor(SColor(255, 0, 0, 0));
+	Graphics.SetClearColor(Level.GetClearColor());
 	Input.SetMouseLocked(true);
 
 	PreviousState = State;
