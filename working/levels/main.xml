@@ -27,5 +27,6 @@
 	</campaign>
 	<campaign name="Challenges">
 		<level unlocked="1">c_roll0</level>
+		<level>c_trees0</level>
 	</campaign>
 </campaigns>

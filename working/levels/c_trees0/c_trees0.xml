@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.1.0">
+	<info>
+		<name>Trees</name>
+	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
+	<resources>
+		<script file="c_trees0.lua" />
+		<scene file="c_trees0.irr" />
+		<collision file="c_trees0.col" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<cylinder name="log">
+			<mesh file="cylinder_tall.irrbmesh" scale="2" />
+			<shape w="2" h="12" l="2" />
+			<physics mass="6.0" restitution="0" />
+			<!--<damping angular="0.1" linear="0.1" />-->
+			<texture t1="bark0.jpg" />
+		</cylinder>
+		<zone name="losezone">
+			<shape w="100" h="5" l="100" />
+		</zone>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0" y="13" z="-10" />
+		</object>
+		<!--<object name="orb0" template="orb">
+			<position x="-22" y="3.2" z="2.5" />
+		</object>-->
+		<object name="losezone" template="losezone">
+			<position x="0" y="-20" z="0" />
+		</object>
+	</objects>
+</level>
