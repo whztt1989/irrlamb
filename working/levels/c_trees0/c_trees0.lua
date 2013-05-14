@@ -23,6 +23,7 @@ end
 Camera.SetYaw(25)
 
 tLog = Level.GetTemplate("log")
+tOrb = Level.GetTemplate("orb")
 
 X = 0;
 Z = -10;
@@ -38,7 +39,10 @@ Z = Z + 4;
 oLog = Level.CreateObject("log3", tLog, X, 6, Z, 0, 0, 0);
 X = X - 5;
 Z = Z + 1;
-oLog = Level.CreateObject("log3", tLog, X, 6, Z, 0, 0, 0);
+oLog = Level.CreateObject("log4", tLog, X, 6, Z, 0, 0, 0);
+Level.CreateObject("orb0", tOrb, X, 12, Z, 0, 0, 0);
+
+print(Z);
 
 
 -- Set up goal
