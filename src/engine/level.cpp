@@ -245,6 +245,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			
 			// Create a template
 			TemplateStruct *Template = new TemplateStruct;
+			Template->Fog = Fog;
 
 			// Get the template properties
 			if(!GetTemplateProperties(TemplateElement, *Template))
@@ -252,7 +253,6 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 			// Assign options
 			Template->TemplateID = TemplateID;
-			Template->Fog = Fog;
 			if(EmitLight) {
 				
 				// Use shaders on materials that receive light
@@ -412,6 +412,7 @@ int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &O
 	if(ObjectType == "player") {
 		Object.Type = _Object::PLAYER;
 		Object.CollisionGroup &= ~_Physics::FILTER_CAMERA;
+		Object.Fog = false;
 	}
 	else if(ObjectType == "orb") {
 		Object.Type = _Object::ORB;
