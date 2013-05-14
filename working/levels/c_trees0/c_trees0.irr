@@ -12,7 +12,7 @@
       <bool name="DebugDataVisible" value="false"/>
       <bool name="IsDebugObject" value="false"/>
       <bool name="Visible" value="true"/>
-      <enum name="FogType" value="FogExp"/>
+      <enum name="FogType" value="FogExp2"/>
       <float name="FogStart" value="5.000000"/>
       <float name="FogEnd" value="25.000000"/>
       <float name="FogHeight" value="0.000000"/>

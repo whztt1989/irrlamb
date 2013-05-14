@@ -20,6 +20,8 @@ function OnHitZone(HitType, Zone, HitObject)
 end
 
 -- Set up level
+Camera.SetYaw(25)
+
 tLog = Level.GetTemplate("log")
 
 X = 0;

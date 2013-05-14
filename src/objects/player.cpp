@@ -62,32 +62,6 @@ _Player::_Player(const SpawnStruct &Object)
 	InnerNode->setMaterialType(EMT_ONETEXTURE_BLEND);
 	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
 
-	// Particle system
-	IParticleSystemSceneNode *ParticleSystem = irrScene->addParticleSystemSceneNode(false, Node);
-
-	// Create the emitter
-	IParticleEmitter *Emitter = ParticleSystem->createBoxEmitter(
-		aabbox3df(-0.02f, -0.02f, -0.02f, 0.02f, 0.02f, 0.02f), 
-		vector3df(0.0f, 0.0f, 0.0f),
-		80, 80,
-		SColor(0, 255, 255, 255), video::SColor(0, 255, 255, 255),
-		1000, 1000);
-	Emitter->setMinStartSize(dimension2d<f32>(0.25f, 0.25f));
-	Emitter->setMaxStartSize(dimension2d<f32>(0.25f, 0.25f));
-	ParticleSystem->setEmitter(Emitter);
-	Emitter->drop();
-
-	// Make the particles fade out
-	IParticleAffector *ParticleAffector = ParticleSystem->createFadeOutParticleAffector();
-	ParticleSystem->addAffector(ParticleAffector);
-	ParticleAffector->drop();
-
-	// Set materials
-	ParticleSystem->setMaterialFlag(EMF_LIGHTING, false);
-	ParticleSystem->setMaterialFlag(EMF_ZBUFFER, false);
-	ParticleSystem->setMaterialTexture(0, irrDriver->getTexture("textures/player_trail0.png"));
-	ParticleSystem->setMaterialType(EMT_TRANSPARENT_VERTEX_ALPHA);
-
 	if(Physics.IsEnabled()) {
 
 		// Create shape
