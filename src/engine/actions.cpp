@@ -134,6 +134,12 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 void _Actions::Serialize(int InputType, XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
 		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
+			
+			// Insert action name
+			XMLComment *Comment = Document.NewComment(Names[MapIterator->Action].c_str());
+			InputElement->InsertEndChild(Comment);
+
+			// Add input map line
 			XMLElement *Element = Document.NewElement("map");
 			Element->SetAttribute("type", InputType);
 			Element->SetAttribute("input", i);
