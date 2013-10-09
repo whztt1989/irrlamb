@@ -28,11 +28,6 @@
 #include <iostream>
 #include <ft2build.h>
 #include <vorbis/vorbisfile.h>
-
-#ifdef PANDORA
-	#define LUA_COMPAT_ALL 1
-	#define LUA_USE_LINUX 1
-#endif
 #include <lua.hpp>
 #include <al.h>
 #include <alc.h>

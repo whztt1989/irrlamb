@@ -9,5 +9,6 @@ codelite/release
 codelite/*.mk
 codelite/*.tags
 codelite/*.db
+codelite/Makefile
 codelite/cscope*
 codelite/irrlamb.workspace.*

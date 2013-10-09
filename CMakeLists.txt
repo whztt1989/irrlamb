@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 add_definitions(-DGAME_VERSION="0.2.0")
 
 # extra modules
-include(AddPCH.cmake)
+include(cmake/AddPCH.cmake)
 
 # projects
 project(irrlamb)
@@ -22,23 +22,25 @@ if(DEFINED ENV{CC})
 endif()
 
 # add extra find modules
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/;${CMAKE_MODULE_PATH}")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
 # set default build type
 set(EXTRA_LIBS)
+add_definitions("-DLUA_COMPAT_ALL")
 
 # windows only options
 if(MSVC)
 	set(FREETYPE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extlibs/include")
-	set(LUA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/extlibs/lua51/include)
-	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/lua51/lua51.lib)
+	set(LUA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/lua5.2")
+	
 	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
 	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
 	set(VORBIS_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis.lib)
 	set(VORBISFILE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile.lib)
 	set(OGG_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg.lib)
-		
+	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/debug/lua52_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/release/lua52.lib)
+	
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 	link_directories("${PROJECT_SOURCE_DIR}/extlibs/")
@@ -62,8 +64,14 @@ else()
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 	
+	find_package(Lua 5.2 REQUIRED)
+	if(NOT LUA_FOUND)
+		message(SEND_ERROR "Could not find Lua 5.2!")
+	endif()
+	
 	if(PANDORA)
 		add_definitions("-DPANDORA")
+		add_definitions("-DLUA_USE_LINUX")
 	endif()
 
 	# set output path
@@ -85,11 +93,6 @@ endif()
 find_package(OpenAL REQUIRED)
 if(NOT OPENAL_FOUND)
 	message(SEND_ERROR "Could not find OpenAL!")
-endif()
-
-find_package(Lua51 REQUIRED)
-if(NOT LUA51_FOUND)
-	message(SEND_ERROR "Could not find Lua 5.1!")
 endif()
 
 find_package(Freetype REQUIRED)

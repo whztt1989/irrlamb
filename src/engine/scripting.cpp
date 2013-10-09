@@ -132,7 +132,7 @@ void _Scripting::Reset() {
 		lua_close(LuaObject);
 	
 	// Initialize Lua object
-	LuaObject = lua_open();
+	LuaObject = luaL_newstate();
 	luaopen_base(LuaObject);
 	luaopen_math(LuaObject);
 
