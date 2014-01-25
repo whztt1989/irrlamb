@@ -43,10 +43,14 @@ macro(add_pch target sourcecpp header)
 		# Create a target that depends on the pch
 		add_custom_target(${target}_pre DEPENDS ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch)
 		
+		# Workaround for cmake not handling spaces in CMAKE_CXX_COMPILER correctly
+		set(_compiler "${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}")
+		separate_arguments(_compiler)
+		
 		# Create command to generate pch
 		add_custom_command(
 			OUTPUT ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch
-			COMMAND ${CMAKE_CXX_COMPILER} ${compiledef_flag} ${include_flag} -xc++-header ${header} -o ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch ${compiler_flags}
+			COMMAND ${_compiler} ${compiledef_flag} ${include_flag} -xc++-header ${header} -o ${EXECUTABLE_OUTPUT_PATH}/${headerfile}.gch ${compiler_flags}
 			DEPENDS ${header}
 		)
 		
