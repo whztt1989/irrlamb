@@ -2,13 +2,13 @@ bin
 build
 *.blend[0-9]
 *.dll
+*.swp
 deployment/*.exe
 deployment/*-src
 codelite/debug
 codelite/release
-codelite/*.mk
-codelite/*.tags
-codelite/*.db
+codelite/.codelite
 codelite/Makefile
 codelite/cscope*
 codelite/irrlamb.workspace.*
+codelite/irrlamb.mk
