@@ -27,26 +27,30 @@
 _Cylinder::_Cylinder(const SpawnStruct &Object)
 :	_Object() {
 	TemplateStruct *Template = Object.Template;
+	
+	// Check for mesh file
+	if(Template->Mesh != "") {
+		
+		// Get file path
+		std::string MeshPath = std::string("meshes/") + Template->Mesh;
 
-	// Get file path
-	std::string MeshPath = std::string("meshes/") + Template->Mesh;
+		// Add mesh
+		IAnimatedMesh *AnimatedMesh = irrScene->getMesh(MeshPath.c_str());
+		Node = irrScene->addAnimatedMeshSceneNode(AnimatedMesh);
+		if(Node) {
+			Node->setScale(vector3df(Template->Scale, Template->Scale, Template->Scale));
+			if(Template->Textures[0] != "")
+				Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
+			if(Template->CustomMaterial != -1)
+				Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
 
-	// Add mesh
-	IAnimatedMesh *AnimatedMesh = irrScene->getMesh(MeshPath.c_str());
-	Node = irrScene->addAnimatedMeshSceneNode(AnimatedMesh);
-	if(Node) {
-		Node->setScale(vector3df(Template->Scale, Template->Scale, Template->Scale));
-		if(Template->Textures[0] != "")
-			Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
-		if(Template->CustomMaterial != -1)
-			Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
-
-		// Add shadows
-		if(Config.Shadows) {
-			//((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+			// Add shadows
+			if(Config.Shadows) {
+				//((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+			}
 		}
 	}
-
+	
 	// Set up physics
 	if(Physics.IsEnabled()) {
 
