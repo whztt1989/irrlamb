@@ -29,6 +29,7 @@ class _File {
 		void Close() { File.close(); File.clear(); }
 		bool Eof() { return File.eof(); }
 		void Flush() { File.flush(); }
+		void Ignore(size_t Size) { File.ignore(Size); }
 
 		void WriteChar(unsigned char Data) { File.put(Data); }
 		void WriteInt(int Data) { File.write(reinterpret_cast<char *>(&Data), sizeof(Data)); }

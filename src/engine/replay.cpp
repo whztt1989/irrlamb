@@ -22,6 +22,7 @@
 #include <engine/config.h>
 #include <engine/constants.h>
 #include <engine/level.h>
+#include <engine/game.h>
 
 _Replay Replay;
 
@@ -80,34 +81,47 @@ bool _Replay::SaveReplay(const std::string &PlayerDescription) {
 
 	// Write replay version
 	ReplayFile.WriteChar(PACKET_REPLAYVERSION);
+	ReplayFile.WriteInt(sizeof(ReplayVersion));
 	ReplayFile.WriteInt(ReplayVersion);
 
 	// Write level version
 	ReplayFile.WriteChar(PACKET_LEVELVERSION);
+	ReplayFile.WriteInt(sizeof(LevelVersion));
 	ReplayFile.WriteInt(LevelVersion);
 
 	// Write record interval
 	ReplayFile.WriteChar(PACKET_INTERVAL);
+	ReplayFile.WriteInt(sizeof(RecordInterval));
 	ReplayFile.WriteFloat(RecordInterval);
+	
+	// Write timestep value
+	ReplayFile.WriteChar(PACKET_TIMESTEP);
+	ReplayFile.WriteInt(sizeof(Game.GetTimeStep()));
+	ReplayFile.WriteFloat(Game.GetTimeStep());
 
 	// Write level file
 	ReplayFile.WriteChar(PACKET_LEVELFILE);
+	ReplayFile.WriteInt(LevelName.length());
 	ReplayFile.WriteString(LevelName.c_str(), REPLAY_STRINGSIZE);
 
 	// Write player's description of replay
 	ReplayFile.WriteChar(PACKET_DESCRIPTION);
+	ReplayFile.WriteInt(Description.length());
 	ReplayFile.WriteString(Description.c_str(), REPLAY_STRINGSIZE);
 
 	// Write time stamp
 	ReplayFile.WriteChar(PACKET_DATE);
+	ReplayFile.WriteInt(sizeof(TimeStamp));
 	ReplayFile.WriteInt((int)TimeStamp);
 
 	// Write finish time
 	ReplayFile.WriteChar(PACKET_FINISHTIME);
+	ReplayFile.WriteInt(sizeof(FinishTime));
 	ReplayFile.WriteFloat(FinishTime);
 
 	// Finished with header
 	ReplayFile.WriteChar(PACKET_OBJECTDATA);
+	ReplayFile.WriteInt(0);
 
 	// Copy current data to new replay file
 	std::ifstream CurrentReplayFile(ReplayDataFile.c_str(), std::ios::in | std::ios::binary);
@@ -133,10 +147,12 @@ void _Replay::LoadHeader() {
 
 	// Write replay version
 	int PacketType;
+	int PacketSize;
 	bool Done = false;
 	char Buffer[256];
 	while(!ReplayStream.Eof() && !Done) {
 		PacketType = ReplayStream.ReadChar();
+		PacketSize = ReplayStream.ReadInt();
 		switch(PacketType) {
 			case PACKET_REPLAYVERSION:
 				ReplayVersion = ReplayStream.ReadInt();
@@ -163,6 +179,9 @@ void _Replay::LoadHeader() {
 			break;
 			case PACKET_OBJECTDATA:
 				Done = true;
+			break;
+			default:
+				ReplayStream.Ignore(PacketSize);
 			break;
 		}
 	}

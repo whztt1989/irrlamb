@@ -42,6 +42,7 @@ class _Replay {
 			PACKET_DATE,
 			PACKET_FINISHTIME,
 			PACKET_INTERVAL,
+			PACKET_TIMESTEP,
 
 			// Object updates
 			PACKET_OBJECTDATA = 127,
