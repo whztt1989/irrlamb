@@ -11,14 +11,8 @@
 	<templates>
 		<player name="player" />
 		<orb name="orb" />
-		<box name="crate">
-			<mesh file="cube.irrbmesh" scale="2" />
-			<shape w="2" h="2" l="2" />
-			<physics mass="3.0" />
-			<texture t1="crate0.jpg" />
-		</box>
 		<sphere name="ball">
-			<mesh file="sphere.irrbmesh" scale="10" />
+			<mesh file="sphere_hi.irrbmesh" scale="10" />
 			<shape r="5" />
 			<physics mass="1.5" />
 			<texture t1="tiles0.jpg" />
@@ -26,6 +20,10 @@
 		<zone name="losezone">
 			<shape w="50" h="2" l="50" />
 		</zone>
+		<box name="floor">
+			<shape w="50" h="2" l="50" />
+			<physics mass="0" />
+		</box>
 	</templates>
 	<objects>
 		<object name="player" template="player">
@@ -41,5 +39,8 @@
 		<object name="losezone" template="losezone">
 			<position x="0" y="-7" z="7" />
 		</object>
+		<object name="floor" template="floor">
+			<position x="0" y="-9" z="11" />
+		</object>		
 	</objects>
 </level>
