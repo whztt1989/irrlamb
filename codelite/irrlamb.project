@@ -109,10 +109,6 @@
     <File Name="../src/objects/box.cpp"/>
     <File Name="../src/objects/orb.h"/>
   </VirtualDirectory>
-  <VirtualDirectory Name="stb_vorbis">
-    <File Name="../src/stb_vorbis/stb_vorbis.h"/>
-    <File Name="../src/stb_vorbis/stb_vorbis.cpp"/>
-  </VirtualDirectory>
   <VirtualDirectory Name="tinyxml">
     <File Name="../src/tinyxml/tinyxml2.cpp"/>
     <File Name="../src/tinyxml/tinyxml2.h"/>
