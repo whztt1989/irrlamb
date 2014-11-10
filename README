@@ -14,13 +14,11 @@ Building and running:
 mkdir build
 cd build
 cmake ..
-make -j`nproc`
-cd ../working
-../bin/Release/irrlamb
+make -j`nproc` && cd ../working && ../bin/Release/irrlamb
 
 Building in Codelite:
 Open codelite/emptyclip.workspace with codelite. Right-click the project
-(green folder icon in left sidepane) and select "Run other". Then build with F7.
+(green folder icon in left sidepane) and select "Run CMake". Then build with F7.
 
 Installing:
 run "sudo make install" from the build directory.
