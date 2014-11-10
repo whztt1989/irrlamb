@@ -10,15 +10,20 @@ https://github.com/jazztickets/irrlamb
 Dependencies for Ubuntu:
 sudo apt-get install build-essential cmake libx11-dev libopenal-dev liblua5.2-0-dev libfreetype6-dev libxrandr-dev libvorbis-dev libogg-dev libsqlite3-dev
 
-Building:
+Building and running:
 mkdir build
 cd build
 cmake ..
 make -j`nproc`
+cd ../working
+../bin/Release/irrlamb
 
 Building in Codelite:
 Open codelite/emptyclip.workspace with codelite. Right-click the project
 (green folder icon in left sidepane) and select "Run other". Then build with F7.
+
+Installing:
+run "sudo make install" from the build directory.
 
 Command-line arguments
 -level [.xml file]        Test a level
