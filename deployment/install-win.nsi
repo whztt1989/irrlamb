@@ -49,8 +49,8 @@ ShowUnInstDetails show
 Section "MainSection" SEC01
   SetShellVarContext all
   SetOutPath "$INSTDIR"
-  File "changelog.txt"
-  File "license.txt"
+  File "..\CHANGELOG"
+  File "..\LICENSE"
   File "..\README"
   File "..\bin\Release\irrlamb.exe"
   CreateDirectory "$SMPROGRAMS\irrlamb"
@@ -104,8 +104,8 @@ Section Uninstall
   Delete "$INSTDIR\Irrlicht.dll"
   Delete "$INSTDIR\OpenAL32.dll"
   Delete "$INSTDIR\irrlamb.exe"
-  Delete "$INSTDIR\license.txt"
-  Delete "$INSTDIR\changelog.txt"
+  Delete "$INSTDIR\LICENSE"
+  Delete "$INSTDIR\CHANGELOG"
   Delete "$INSTDIR\README"
   
   Delete "$SMPROGRAMS\irrlamb\Uninstall.lnk"
