@@ -15,13 +15,13 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/camera.h>
 #include <engine/replay.h>
 #include <engine/globals.h>
 #include <engine/audio.h>
 #include <engine/physics.h>
 #include <engine/namespace.h>
+#include <irrlicht/ISceneManager.h>
 
 // Constructor
 _Camera::_Camera()

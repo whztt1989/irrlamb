@@ -15,12 +15,14 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/collision.h>
 #include <engine/physics.h>
 #include <engine/globals.h>
 #include <engine/filestream.h>
 #include <objects/template.h>
+#include <bullet/BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
+#include <bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
+#include <bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
 
 static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btCollisionObjectWrapper *Object0, int PartID0, int Index0, const btCollisionObjectWrapper *Object1, int PartID1, int Index1) {
 

@@ -15,11 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/constraint.h>
 #include <engine/globals.h>
 #include <engine/physics.h>
 #include <objects/template.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h>
 
 // Constructor
 _Constraint::_Constraint(const ConstraintStruct &Object)

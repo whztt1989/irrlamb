@@ -15,9 +15,10 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/database.h>
 #include <engine/log.h>
+#include <cstring>
+#include <cassert>
 
 // Constructor
 _Database::_Database()

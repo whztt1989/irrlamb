@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/orb.h>
 #include <engine/globals.h>
 #include <engine/graphics.h>
@@ -26,6 +25,9 @@
 #include <engine/audio.h>
 #include <objects/template.h>
 #include <engine/namespace.h>
+#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
+#include <irrlicht/ISceneManager.h>
+#include <irrlicht/IMeshSceneNode.h>
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)

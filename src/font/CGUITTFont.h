@@ -27,12 +27,18 @@
    John Norman
    john@suckerfreegames.com
 */
-#include <all.h>
 #ifndef __C_GUI_TTFONT_H_INCLUDED__
 #define __C_GUI_TTFONT_H_INCLUDED__
 
 #include "irrUString.h"
-
+#include <irrlicht/IImage.h>
+#include <irrlicht/IVideoDriver.h>
+#include <irrlicht/IGUIEnvironment.h>
+#include <irrlicht/IrrlichtDevice.h>
+#include <irrlicht/IGUIFont.h>
+#include <irrlicht/irrMap.h>
+#include <irrlicht/SMesh.h>
+#include <ft2build.h>
 #include FT_FREETYPE_H
 
 namespace irr

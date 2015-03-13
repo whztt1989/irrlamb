@@ -2,11 +2,11 @@
 <CodeLite_Workspace Name="irrlamb" Database="./irrlamb.tags">
   <Project Name="irrlamb" Path="irrlamb.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Project Name="irrlamb" ConfigName="Debug"/>
       <Project Name="irrlamb" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release" Selected="yes">
       <Project Name="irrlamb" ConfigName="Release"/>
       <Project Name="irrlamb" ConfigName="Release"/>
     </WorkspaceConfiguration>

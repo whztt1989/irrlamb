@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/game.h>
 #include <engine/input.h>
 #include <engine/globals.h>
@@ -38,6 +37,7 @@
 #include <menu.h>
 #include <null.h>
 #include <engine/namespace.h>
+#include <irrlicht/IFileSystem.h>
 
 _Game Game;
 

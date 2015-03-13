@@ -15,9 +15,8 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
-
+#include <irrlicht/IrrlichtDevice.h>
 extern irr::IrrlichtDevice *irrDevice;
 extern irr::video::IVideoDriver *irrDriver;
 extern irr::scene::ISceneManager *irrScene;

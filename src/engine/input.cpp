@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/input.h>
 #include <engine/state.h>
 #include <engine/config.h>
@@ -25,6 +24,8 @@
 #include <engine/namespace.h>
 #include <engine/actions.h>
 #include <engine/log.h>
+#include <irrlicht.h>
+#include <irrlicht/SIrrCreationParameters.h>
 
 _Input Input;
 

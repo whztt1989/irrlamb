@@ -15,13 +15,14 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
 
 // Libraries
 #include <engine/state.h>
 #include <engine/actions.h>
 #include <engine/interface.h>
+#include <irrlicht/IGUIButton.h>
+#include <vector>
 
 // Forward Declarations
 struct SaveLevelStruct;

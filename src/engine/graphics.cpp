@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/graphics.h>
 #include <engine/save.h>
 #include <engine/globals.h>
@@ -24,8 +23,11 @@
 #include <engine/log.h>
 #include <engine/fader.h>
 #include <engine/config.h>
+#include <irrlicht.h>
 #include <irrb/CIrrBMeshFileLoader.h>
 #include <engine/namespace.h>
+#include <string>
+#include <sstream>
 
 _Graphics Graphics;
 

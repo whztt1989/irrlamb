@@ -3,9 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 # define constants
 add_definitions(-DGAME_VERSION="0.2.0")
 
-# extra modules
-include(cmake/AddPCH.cmake)
-
 # projects
 project(irrlamb)
 subdirs(tools)
@@ -132,7 +129,6 @@ source_group(tinyxml FILES ${SRC_TINYXML})
 
 # create exe
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
-add_pch(${CMAKE_PROJECT_NAME} src/all.cpp ${PROJECT_SOURCE_DIR}/src/all.h)
 
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}

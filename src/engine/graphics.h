@@ -15,8 +15,13 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+#include <irrlicht/IEventReceiver.h>
+#include <irrlicht/IShaderConstantSetCallBack.h>
+#include <irrlicht/EDriverTypes.h>
+#include <irrlicht/SColor.h>
+#include <vector>
+#include <string>
 
 // Structures
 struct VideoModeStruct {

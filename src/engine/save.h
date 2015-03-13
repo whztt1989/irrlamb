@@ -15,8 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+#include <vector>
+#include <map>
+#include <string>
+#include <ctime>
 
 // Forward Declarations
 class _Database;

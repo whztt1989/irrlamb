@@ -27,8 +27,13 @@
    John Norman
    john@suckerfreegames.com
 */
-#include <all.h>
 #include "CGUITTFont.h"
+#include <irrlicht/IFileSystem.h>
+#include <irrlicht/ISceneManager.h>
+#include <irrlicht/SIrrCreationParameters.h>
+#include <irrlicht/SMeshBuffer.h>
+#include <irrlicht/IMeshManipulator.h>
+#include <irrlicht/IMeshSceneNode.h>
 
 namespace irr
 {

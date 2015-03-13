@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <engine/replay.h>
 #include <engine/save.h>
 #include <engine/log.h>
@@ -23,6 +22,7 @@
 #include <engine/constants.h>
 #include <engine/level.h>
 #include <engine/game.h>
+#include <sstream>
 
 _Replay Replay;
 

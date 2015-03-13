@@ -15,8 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+#include <al.h>
+#include <alc.h>
+#include <string>
+#include <map>
 
 // Struct for OpenAL buffers
 struct AudioBufferStruct {

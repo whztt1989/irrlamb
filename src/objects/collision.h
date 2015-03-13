@@ -15,11 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
 
 // Libraries
 #include <objects/object.h>
+#include <bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h>
 
 // Forward Declarations
 class btTriangleIndexVertexArray;

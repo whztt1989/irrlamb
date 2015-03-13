@@ -15,8 +15,14 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+#include <bullet/LinearMath/btMotionState.h>
+#include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
+#include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
+#include <irrlicht/irrTypes.h>
+#include <irrlicht/vector3d.h>
+#include <irrlicht/ISceneNode.h>
+#include <string>
 
 // Forward Declarations
 struct SpawnStruct;

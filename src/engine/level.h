@@ -15,8 +15,11 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+#include <irrlicht/ISceneNode.h>
+#include <irrlicht/ISceneUserDataSerializer.h>
+#include <string>
+#include <vector>
 
 // Forward Declarations
 namespace tinyxml2 {

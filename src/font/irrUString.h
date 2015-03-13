@@ -27,7 +27,6 @@
    John Norman
    john@suckerfreegames.com
 */
-#include <all.h>
 #ifndef __IRR_USTRING_H_INCLUDED__
 #define __IRR_USTRING_H_INCLUDED__
 
@@ -41,6 +40,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
 
 #ifdef USTRING_CPP0X
 #	include <utility>

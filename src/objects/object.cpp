@@ -15,13 +15,13 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/object.h>
 #include <objects/template.h>
 #include <engine/config.h>
 #include <engine/scripting.h>
 #include <engine/physics.h>
 #include <engine/namespace.h>
+#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 
 // Constructor
 _Object::_Object()

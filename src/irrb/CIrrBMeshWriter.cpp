@@ -3,7 +3,6 @@
 // For the full text of the Unlicense, see the file "docs/unlicense.html".
 // Additional Unlicense information may be found at http://unlicense.org.
 //-----------------------------------------------------------------------------
-#include <all.h>
 #include "CIrrBMeshWriter.h"
 #include "IWriteFile.h"
 #include "IXMLWriter.h"

@@ -15,8 +15,12 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
+
+// Libraries
+#include <string>
+#include <list>
+#include <irrlicht/irrTypes.h>
 
 // Forward Declarations
 class _Object;

@@ -15,13 +15,16 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/sphere.h>
 #include <engine/globals.h>
 #include <engine/physics.h>
 #include <engine/config.h>
 #include <engine/namespace.h>
 #include <objects/template.h>
+#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
+#include <irrlicht/IAnimatedMesh.h>
+#include <irrlicht/IAnimatedMeshSceneNode.h>
+#include <irrlicht/ISceneManager.h>
 
 // Constructor
 _Sphere::_Sphere(const SpawnStruct &Object)

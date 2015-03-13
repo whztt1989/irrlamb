@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <play.h>
 #include <engine/constants.h>
 #include <engine/globals.h>
@@ -40,6 +39,8 @@
 #include <menu.h>
 #include <viewreplay.h>
 #include <engine/namespace.h>
+#include <irrlicht/ISceneManager.h>
+#include <irrlicht/IFileSystem.h>
 
 _PlayState PlayState;
 

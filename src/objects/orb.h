@@ -15,11 +15,12 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #pragma once
 
 // Libraries
 #include <objects/object.h>
+#include <irrlicht/IBillboardSceneNode.h>
+#include <irrlicht/ILightSceneNode.h>
 
 // Classes
 class _Orb : public _Object {

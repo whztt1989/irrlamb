@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <menu.h>
 #include <engine/graphics.h>
 #include <engine/input.h>
@@ -33,6 +32,12 @@
 #include <null.h>
 #include <engine/namespace.h>
 #include <font/CGUITTFont.h>
+#include <irrlicht/IGUIElement.h>
+#include <irrlicht/IGUIListBox.h>
+#include <irrlicht/IGUIComboBox.h>
+#include <irrlicht/IGUICheckBox.h>
+#include <irrlicht/IGUIEditBox.h>
+#include <irrlicht/IFileSystem.h>
 
 _Menu Menu;
 

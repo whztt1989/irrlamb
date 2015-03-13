@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <viewreplay.h>
 #include <engine/globals.h>
 #include <engine/input.h>
@@ -37,6 +36,7 @@
 #include <play.h>
 #include <menu.h>
 #include <null.h>
+#include <irrlicht/ISceneManager.h>
 #include <engine/namespace.h>
 
 _ViewReplayState ViewReplayState;

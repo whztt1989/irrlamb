@@ -15,7 +15,6 @@
 *	You should have received a copy of the GNU General Public License
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
-#include <all.h>
 #include <objects/player.h>
 #include <engine/constants.h>
 #include <engine/globals.h>
@@ -28,6 +27,13 @@
 #include <objects/constraint.h>
 #include <objects/template.h>
 #include <engine/namespace.h>
+#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
+#include <irrlicht/IAnimatedMesh.h>
+#include <irrlicht/IAnimatedMeshSceneNode.h>
+#include <irrlicht/ISceneManager.h>
+#include <irrlicht/ISceneNode.h>
+#include <irrlicht/IMeshSceneNode.h>
+#include <irrlicht/IBillboardSceneNode.h>
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)
