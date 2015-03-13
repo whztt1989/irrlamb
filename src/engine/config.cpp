@@ -1,5 +1,5 @@
 /*************************************************************************************
-*	irrlamb - http://irrlamb.googlecode.com
+*	irrlamb - https://github.com/jazztickets/irrlamb
 *	Copyright (C) 2013  Alan Witkowski
 *
 *	This program is free software: you can redistribute it and/or modify

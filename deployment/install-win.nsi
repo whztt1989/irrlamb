@@ -4,7 +4,7 @@
 !define PRODUCT_NAME "irrlamb"
 !define PRODUCT_VERSION "0.2.0"
 !define PRODUCT_PUBLISHER "Alan Witkowski"
-!define PRODUCT_WEB_SITE "http://irrlamb.googlecode.com"
+!define PRODUCT_WEB_SITE "https://github.com/jazztickets/irrlamb"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\irrlamb.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
