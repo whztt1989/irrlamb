@@ -61,7 +61,7 @@ else()
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 	
-	find_package(Lua 5.2 REQUIRED)
+	find_package(Lua REQUIRED)
 	if(NOT LUA_FOUND)
 		message(SEND_ERROR "Could not find Lua 5.2!")
 	endif()

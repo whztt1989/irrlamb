@@ -74,4 +74,3 @@ private:
 } // end namespace irr
 
 #endif
-
