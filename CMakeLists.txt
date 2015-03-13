@@ -7,17 +7,6 @@ add_definitions(-DGAME_VERSION="0.2.0")
 project(irrlamb)
 subdirs(tools)
 
-# for codelite clang and ccache integration
-if(DEFINED ENV{CXX})
-    message("-- Using CXX $ENV{CXX} and $ENV{PATH}")
-    set(CMAKE_CXX_COMPILER $ENV{CXX})
-endif()
-
-if(DEFINED ENV{CC})
-    message("-- Using CC $ENV{CC}")
-    set(CMAKE_CC_COMPILER $ENV{CC})
-endif()
-
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
@@ -165,10 +154,8 @@ else()
 	install(FILES ${PROJECT_SOURCE_DIR}/deployment/license.txt DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 	install(FILES ${PROJECT_SOURCE_DIR}/deployment/changelog.txt DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 	install(FILES ${PROJECT_SOURCE_DIR}/README DESTINATION share/doc/${CMAKE_PROJECT_NAME})
-	install(PROGRAMS ${PROJECT_SOURCE_DIR}/deployment/irrlamb DESTINATION games)
+	
+	# generate the script to launch the program
+	configure_file(${PROJECT_SOURCE_DIR}/deployment/${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
+	install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${CMAKE_PROJECT_NAME} DESTINATION bin)
 endif()
-
-#get_cmake_property(vars VARIABLES)
-#foreach(vars ${vars})
-#    message(STATUS "${vars}=${${vars}}")
-#endforeach()

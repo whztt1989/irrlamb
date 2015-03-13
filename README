@@ -4,18 +4,27 @@ by Alan Witkowski
 Source code at:
 https://github.com/jazztickets/irrlamb
 
-Dependencies for Ubuntu:
-sudo apt-get install build-essential cmake libx11-dev libopenal-dev liblua5.2-0-dev libfreetype6-dev libxrandr-dev libvorbis-dev libogg-dev libsqlite3-dev
+Linux dependencies:
+cmake
+irrlicht
+bullet
+freetype
+sqlite3
+lua
+openal
+libvorbis
+libogg
 
 Building and running:
 mkdir build
 cd build
 cmake ..
-make -j`nproc` && cd ../working && ../bin/Release/irrlamb
+make -j`nproc`
+cd ../working && ../bin/Release/irrlamb
 
 Building in Codelite:
-Open codelite/emptyclip.workspace with codelite. Right-click the project
-(green folder icon in left sidepane) and select "Run CMake". Then build with F7.
+Open codelite/emptyclip.workspace with codelite. Run the custom build
+target 'CMake', then build with F7.
 
 Installing:
 run "sudo make install" from the build directory.
