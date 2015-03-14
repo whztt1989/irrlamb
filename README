@@ -23,8 +23,7 @@ make -j`nproc`
 cd ../working && ../bin/Release/irrlamb
 
 Building in Codelite:
-Open codelite/emptyclip.workspace with codelite. Run the custom build
-target 'CMake', then build with F7.
+Open codelite/emptyclip.workspace with codelite. Run the custom build target 'CMake', then build with F7.
 
 Installing:
 run "sudo make install" from the build directory.
@@ -52,3 +51,18 @@ F12                       Screenshot
 
 Save data is in %APPDATA%/irrlamb for windows and
 ~/.irrlamb for linux.
+
+
+Setting up blender for exporting:
+
+In blender, select File -> User Preferences -> Add-ons -> Install from File...
+
+Select the file irrlamb/assets/irrb/io_export_irrlicht.py 
+
+Enable the add-on by checking the checkbox.
+
+Run the setup_env.sh script:
+cd irrlamb/assets/irrb/
+./setup_env.sh
+
+Log out or reboot for the environment variable to take effect.
