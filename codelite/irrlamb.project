@@ -144,7 +144,7 @@
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="yes">
-        <Target Name="CMake">cmake -DCMAKE_BUILD_TYPE=Debug ../../</Target>
+        <Target Name="CMake">rm -f CMakeCache.txt &amp;&amp; rm -rf CMakeFiles &amp;&amp; cmake -DCMAKE_BUILD_TYPE=Debug ../../</Target>
         <RebuildCommand/>
         <CleanCommand>make clean</CleanCommand>
         <BuildCommand>make -j`nproc`</BuildCommand>
@@ -183,7 +183,7 @@
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="yes">
-        <Target Name="CMake">cmake -DCMAKE_BUILD_TYPE=Release ../../</Target>
+        <Target Name="CMake">rm -f CMakeCache.txt &amp;&amp; rm -rf CMakeFiles &amp;&amp; cmake -DCMAKE_BUILD_TYPE=Release ../../</Target>
         <RebuildCommand/>
         <CleanCommand>make clean</CleanCommand>
         <BuildCommand>make -j`nproc`</BuildCommand>
