@@ -42,5 +42,9 @@ Z = Z + 1;
 oLog = Level.CreateObject("log4", tLog, X, 6, Z, 0, 0, 0);
 Level.CreateObject("orb0", tOrb, X, 12, Z, 0, 0, 0);
 
+Level.CreateObject("orb0", tOrb, -14.318, 13.974, 13.698, 0, 0, 0);
+Level.CreateObject("orb0", tOrb, 9.084, 13.234, 15.085, 0, 0, 0);
+
+
 -- Set up goal
 GoalCount = 3
