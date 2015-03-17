@@ -20,9 +20,9 @@
 #include <engine/globals.h>
 #include <engine/filestream.h>
 #include <objects/template.h>
-#include <bullet/BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
-#include <bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
-#include <bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
+#include <BulletCollision/CollisionDispatch/btInternalEdgeUtility.h>
+#include <BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
+#include <BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
 
 static bool CustomMaterialCallback(btManifoldPoint &ManifoldPoint, const btCollisionObjectWrapper *Object0, int PartID0, int Index0, const btCollisionObjectWrapper *Object1, int PartID1, int Index1) {
 

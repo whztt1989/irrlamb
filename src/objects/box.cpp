@@ -24,7 +24,7 @@
 #include <irrlicht/IAnimatedMesh.h>
 #include <irrlicht/IAnimatedMeshSceneNode.h>
 #include <irrlicht/ISceneManager.h>
-#include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
+#include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 // Constructor
 _Box::_Box(const SpawnStruct &Object)

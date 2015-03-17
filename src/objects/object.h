@@ -16,9 +16,9 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <bullet/LinearMath/btMotionState.h>
-#include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
-#include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
+#include <LinearMath/btMotionState.h>
+#include <BulletDynamics/Dynamics/btRigidBody.h>
+#include <BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
 #include <irrlicht/irrTypes.h>
 #include <irrlicht/vector3d.h>
 #include <irrlicht/ISceneNode.h>

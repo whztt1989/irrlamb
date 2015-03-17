@@ -16,9 +16,9 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
-#include <bullet/BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
-#include <bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h>
+#include <BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
+#include <BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h>
+#include <BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h>
 
 // Custom world that overrides stepSimulation for applications that implement their own fixed time step calculations
 class btFixedWorld : public btDiscreteDynamicsWorld {

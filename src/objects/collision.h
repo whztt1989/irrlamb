@@ -19,7 +19,7 @@
 
 // Libraries
 #include <objects/object.h>
-#include <bullet/BulletCollision/CollisionShapes/btTriangleInfoMap.h>
+#include <BulletCollision/CollisionShapes/btTriangleInfoMap.h>
 
 // Forward Declarations
 class btTriangleIndexVertexArray;

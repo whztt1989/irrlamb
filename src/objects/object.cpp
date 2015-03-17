@@ -21,7 +21,7 @@
 #include <engine/scripting.h>
 #include <engine/physics.h>
 #include <engine/namespace.h>
-#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <BulletCollision/CollisionShapes/btCollisionShape.h>
 
 // Constructor
 _Object::_Object()

@@ -19,7 +19,7 @@
 #include <engine/globals.h>
 #include <engine/physics.h>
 #include <objects/template.h>
-#include <bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h>
+#include <BulletDynamics/ConstraintSolver/btHingeConstraint.h>
 
 // Constructor
 _Constraint::_Constraint(const ConstraintStruct &Object)

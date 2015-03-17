@@ -19,8 +19,8 @@
 #include <engine/globals.h>
 #include <engine/game.h>
 #include <objects/object.h>
-#include <bullet/LinearMath/btIDebugDraw.h>
-#include <bullet/BulletCollision/BroadphaseCollision/btDbvtBroadphase.h>
+#include <LinearMath/btIDebugDraw.h>
+#include <BulletCollision/BroadphaseCollision/btDbvtBroadphase.h>
 
 _Physics Physics;
 

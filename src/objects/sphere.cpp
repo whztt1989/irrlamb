@@ -21,7 +21,7 @@
 #include <engine/config.h>
 #include <engine/namespace.h>
 #include <objects/template.h>
-#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
+#include <BulletCollision/CollisionShapes/btSphereShape.h>
 #include <irrlicht/IAnimatedMesh.h>
 #include <irrlicht/IAnimatedMeshSceneNode.h>
 #include <irrlicht/ISceneManager.h>

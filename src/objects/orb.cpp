@@ -25,7 +25,7 @@
 #include <engine/audio.h>
 #include <objects/template.h>
 #include <engine/namespace.h>
-#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
+#include <BulletCollision/CollisionShapes/btSphereShape.h>
 #include <irrlicht/ISceneManager.h>
 #include <irrlicht/IMeshSceneNode.h>
 
