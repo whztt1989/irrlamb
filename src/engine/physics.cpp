@@ -18,6 +18,7 @@
 #include <engine/physics.h>
 #include <engine/globals.h>
 #include <engine/game.h>
+#include <engine/constants.h>
 #include <objects/object.h>
 #include <LinearMath/btIDebugDraw.h>
 #include <BulletCollision/BroadphaseCollision/btDbvtBroadphase.h>
@@ -58,6 +59,10 @@ int _Physics::Init() {
 	World = new btFixedWorld(Dispatcher, BroadPhase, Solver, CollisionConfiguration);
 	World->setGravity(btVector3(0.0f, -9.81f, 0.0f));
 	World->setDebugDrawer(&DebugDrawer);
+	btContactSolverInfo &SolverInfo = World->getSolverInfo();
+	SolverInfo.m_timeStep = PHYSICS_TIMESTEP;
+	SolverInfo.m_solverMode |= SOLVER_USE_2_FRICTION_DIRECTIONS;
+	
 	DebugDrawer.setDebugMode(btIDebugDraw::DBG_DrawText|btIDebugDraw::DBG_NoHelpText+btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
 
 	Enabled = false;
