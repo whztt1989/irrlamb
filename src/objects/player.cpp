@@ -47,7 +47,6 @@ _Player::_Player(const SpawnStruct &Object)
 	// Graphics
 	Node = irrScene->addSphereSceneNode(Object.Template->Radius, 24);
 	Node->setMaterialTexture(0, irrDriver->getTexture("textures/player_outer0.png"));
-	Node->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	Node->setMaterialFlag(EMF_LIGHTING, false);
 	Node->setMaterialType(EMT_ONETEXTURE_BLEND);
 	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
