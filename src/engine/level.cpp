@@ -39,22 +39,22 @@
 #include <objects/constraint.h>
 #include <objects/springjoint.h>
 #include <tinyxml/tinyxml2.h>
-#include <engine/namespace.h>
 #include <ISceneManager.h>
 #include <IFileSystem.h>
 
 _Level Level;
 
+using namespace irr;
 using namespace tinyxml2;
 
 // Handle user data from .irr file
 void _UserDataLoader::OnReadUserData(irr::scene::ISceneNode *ForSceneNode, irr::io::IAttributes *UserData) {
 
 	for(u32 i = 0; i < UserData->getAttributeCount(); i++) {
-		stringc Name(UserData->getAttributeName(i));
+		core::stringc Name(UserData->getAttributeName(i));
 
 		if(Name == "BackgroundColor") {
-			SColorf FloatColor(UserData->getAttributeAsColorf(i));
+			video::SColorf FloatColor(UserData->getAttributeAsColorf(i));
 			Level.ClearColor.set(255, (u32)(255 * FloatColor.r), (u32)(255 * FloatColor.g), (u32)(255 * FloatColor.b));
 		}
 	}
@@ -169,7 +169,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			}
 
 			// Reset fog
-			irrDriver->setFog(SColor(0, 0, 0, 0), EFT_FOG_EXP, 0, 0, 0.0f);
+			irrDriver->setFog(video::SColor(0, 0, 0, 0), video::EFT_FOG_EXP, 0, 0, 0.0f);
 
 			// Load scene
 			if(IsCustomLevel) {
@@ -182,19 +182,19 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			}
 
 			// Set texture filters on meshes in the scene
-			array<irr::scene::ISceneNode *> MeshNodes;
-				irrScene->getSceneNodesFromType(ESNT_MESH, MeshNodes);
+			core::array<irr::scene::ISceneNode *> MeshNodes;
+				irrScene->getSceneNodesFromType(scene::ESNT_MESH, MeshNodes);
 			for(u32 i = 0; i < MeshNodes.size(); i++) {
 				if(EmitLight && Config.Shaders) {
 					video::SMaterial &Material = MeshNodes[i]->getMaterial(0);
 					int ShaderType = 0;
-					if(Material.MaterialType == EMT_TRANSPARENT_ALPHA_CHANNEL) {
+					if(Material.MaterialType == video::EMT_TRANSPARENT_ALPHA_CHANNEL) {
 						ShaderType = 1;
 					}
-					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics.GetCustomMaterial(ShaderType));
+					MeshNodes[i]->setMaterialType((video::E_MATERIAL_TYPE)Graphics.GetCustomMaterial(ShaderType));
 				}
 
-				MeshNodes[i]->setMaterialFlag(EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
+				MeshNodes[i]->setMaterialFlag(video::EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
 				for(u32 j = 0; j < MeshNodes[i]->getMaterialCount(); j++) {
 					for(int k = 0; k < 4; k++) {
 						MeshNodes[i]->getMaterial(j).TextureLayer[k].AnisotropicFilter = Config.AnisotropicFiltering;

@@ -36,8 +36,9 @@
 #include <viewreplay.h>
 #include <menu.h>
 #include <null.h>
-#include <engine/namespace.h>
 #include <IFileSystem.h>
+
+using namespace irr;
 
 _Game Game;
 
@@ -55,7 +56,7 @@ int _Game::Init(int Count, char **Arguments) {
 	MouseWasLocked = false;
 	Done = false;
 	_State *FirstState = &NullState;
-	E_DRIVER_TYPE DriverType = EDT_NULL;
+	video::E_DRIVER_TYPE DriverType = video::EDT_NULL;
 	bool AudioEnabled = true;
 	PlayState.SetCampaign(-1);
 	PlayState.SetCampaignLevel(-1);
@@ -98,7 +99,7 @@ int _Game::Init(int Count, char **Arguments) {
 	int HasConfigFile = Config.ReadConfig();
 
 	// Set up the graphics
-	DriverType = (E_DRIVER_TYPE)Config.DriverType;
+	DriverType = (video::E_DRIVER_TYPE)Config.DriverType;
 	if(!Graphics.Init(Config.ScreenWidth, Config.ScreenHeight, Config.Fullscreen, DriverType, &Input))
 		return 0;
 	
@@ -274,7 +275,7 @@ void _Game::ResetTimer() {
 
 // Resets the graphics for a state
 void _Game::ResetGraphics() {
-	Graphics.SetClearColor(SColor(0, 0, 0, 0));
+	Graphics.SetClearColor(video::SColor(0, 0, 0, 0));
 	Graphics.SetDrawScene(true);
 	Interface.Clear();
 }

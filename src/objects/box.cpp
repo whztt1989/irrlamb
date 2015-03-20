@@ -19,12 +19,13 @@
 #include <engine/globals.h>
 #include <engine/physics.h>
 #include <engine/config.h>
-#include <engine/namespace.h>
 #include <objects/template.h>
 #include <IAnimatedMesh.h>
 #include <IAnimatedMeshSceneNode.h>
 #include <ISceneManager.h>
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
+
+using namespace irr;
 
 // Constructor
 _Box::_Box(const SpawnStruct &Object)
@@ -38,18 +39,18 @@ _Box::_Box(const SpawnStruct &Object)
 		std::string MeshPath = std::string("meshes/") + Template->Mesh;
 
 		// Add mesh
-		IAnimatedMesh *AnimatedMesh = irrScene->getMesh(MeshPath.c_str());
+		scene::IAnimatedMesh *AnimatedMesh = irrScene->getMesh(MeshPath.c_str());
 		Node = irrScene->addAnimatedMeshSceneNode(AnimatedMesh);
 		if(Node) {
-			Node->setScale(vector3df(Template->Scale, Template->Scale, Template->Scale));
+			Node->setScale(core::vector3df(Template->Scale, Template->Scale, Template->Scale));
 			if(Template->Textures[0] != "")
 				Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
 			if(Template->CustomMaterial != -1)
-				Node->setMaterialType((E_MATERIAL_TYPE)Template->CustomMaterial);
+				Node->setMaterialType((video::E_MATERIAL_TYPE)Template->CustomMaterial);
 
 			// Add shadows
 			if(Config.Shadows) {
-				((IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
+				((scene::IAnimatedMeshSceneNode *)Node)->addShadowVolumeSceneNode();
 			}
 		}
 	}

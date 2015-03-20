@@ -19,7 +19,8 @@
 #include <engine/audio.h>
 #include <engine/globals.h>
 #include <engine/constants.h>
-#include <engine/namespace.h>
+
+using namespace irr;
 
 _Fader Fader;
 
@@ -82,7 +83,7 @@ void _Fader::Update(float FrameTime) {
 
 // Draw fader
 void _Fader::Draw() {
-	irrDriver->draw2DImage(FadeImage, position2di(0, 0), recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, SColor((u32)((1.0f - Fade) * 255), 255, 255, 255), true);	
+	irrDriver->draw2DImage(FadeImage, core::position2di(0, 0), core::recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, video::SColor((u32)((1.0f - Fade) * 255), 255, 255, 255), true);	
 }
 
 // Starts fading the audio/screen

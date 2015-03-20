@@ -21,11 +21,12 @@
 #include <engine/globals.h>
 #include <engine/graphics.h>
 #include <engine/game.h>
-#include <engine/namespace.h>
 #include <engine/actions.h>
 #include <engine/log.h>
 #include <irrlicht.h>
 #include <SIrrCreationParameters.h>
+
+using namespace irr;
 
 _Input Input;
 
@@ -98,10 +99,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 				
 					// Check for mouse locking
 					if(MouseLocked) {
-						position2df MouseUpdate = irrDevice->getCursorControl()->getRelativePosition();
+						core::position2df MouseUpdate = irrDevice->getCursorControl()->getRelativePosition();
 
 						// Center the cursor
-						if(!(equals(MouseUpdate.X, 0.5f) && equals(MouseUpdate.Y, 0.5f)))
+						if(!(core::equals(MouseUpdate.X, 0.5f) && core::equals(MouseUpdate.Y, 0.5f)))
 							irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);						
 						
 						// Invert mouse
@@ -188,7 +189,7 @@ void _Input::InitializeJoysticks(bool ShowLog) {
 	IrrlichtDevice *Device = irrDevice;
 	if(Device == NULL) {
 		SIrrlichtCreationParameters Parameters;
-		Parameters.DriverType = EDT_NULL;
+		Parameters.DriverType = video::EDT_NULL;
 		Parameters.LoggingLevel = ELL_ERROR;
 		Device = createDeviceEx(Parameters);
 	}
@@ -235,10 +236,10 @@ const irr::SJoystickInfo &_Input::GetJoystickInfo() {
 }
 
 // Return the joystick name suitable for a filename
-stringc _Input::GetCleanJoystickName() {
+core::stringc _Input::GetCleanJoystickName() {
 	
 	// Get joystick name in lower case
-	stringc Name = "";
+	core::stringc Name = "";
 	if(Input.HasJoystick()) {
 		Name = Input.GetJoystickInfo().Name;
 		Name.make_lower();

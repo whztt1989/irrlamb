@@ -37,7 +37,8 @@
 #include <menu.h>
 #include <null.h>
 #include <ISceneManager.h>
-#include <engine/namespace.h>
+
+using namespace irr;
 
 _ViewReplayState ViewReplayState;
 
@@ -158,10 +159,10 @@ void _ViewReplayState::HandleMouseWheel(float Direction) {
 }
 
 // GUI events
-void _ViewReplayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
+void _ViewReplayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Element) {
 
 	switch(EventType) {
-		case EGET_BUTTON_CLICKED:
+		case gui::EGET_BUTTON_CLICKED:
 			switch(Element->getID()) {
 				case MAIN_EXIT:
 					NullState.State = _Menu::STATE_REPLAYS;
@@ -233,7 +234,7 @@ void _ViewReplayState::Update(float FrameTime) {
 			case _Replay::PACKET_CAMERA: {
 				
 				// Read replay
-				vector3df Position, LookAt;
+				core::vector3df Position, LookAt;
 				_File &ReplayStream = Replay.GetReplayStream();
 				ReplayStream.ReadData(&Position.X, sizeof(float) * 3);
 				ReplayStream.ReadData(&LookAt.X, sizeof(float) * 3);
@@ -279,7 +280,7 @@ void _ViewReplayState::Draw() {
 
 	// Draw box
 	int Left = 5, Top = 5, Width = 230, Height = 85;
-	Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height, SColor(150, 255, 255, 255));
+	Interface.DrawTextBox(Left + Width/2, Top + Height/2, Width, Height, video::SColor(150, 255, 255, 255));
 
 	// Draw timer
 	float DisplayTime;
@@ -309,42 +310,42 @@ void _ViewReplayState::SetupGUI() {
 
 	// Restart replay
 	int X = Right - 295, Y = 25;
-	IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_RESTART);
+	gui::IGUIButton *ButtonRewind = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_RESTART);
 	ButtonRewind->setImage(Interface.GetImage(_Interface::IMAGE_REWIND));
 	ButtonRewind->setUseAlphaChannel(true);
 	ButtonRewind->setDrawBorder(false);
 
 	// Decrease replay speed
 	X += 45;
-	IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_DECREASE);
+	gui::IGUIButton *ButtonDecrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_DECREASE);
 	ButtonDecrease->setImage(Interface.GetImage(_Interface::IMAGE_DECREASE));
 	ButtonDecrease->setUseAlphaChannel(true);
 	ButtonDecrease->setDrawBorder(false);
 
 	// Increase replay speed
 	X += 37;
-	IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_INCREASE);
+	gui::IGUIButton *ButtonIncrease = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_INCREASE);
 	ButtonIncrease->setImage(Interface.GetImage(_Interface::IMAGE_INCREASE));
 	ButtonIncrease->setUseAlphaChannel(true);
 	ButtonIncrease->setDrawBorder(false);
 
 	// Pause
 	X += 45;
-	IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_PAUSE);
+	gui::IGUIButton *ButtonPause = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_PAUSE);
 	ButtonPause->setImage(Interface.GetImage(_Interface::IMAGE_PAUSE));
 	ButtonPause->setUseAlphaChannel(true);
 	ButtonPause->setDrawBorder(false);
 
 	// Skip ahead
 	X += 37;
-	IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_SKIP);
+	gui::IGUIButton *ButtonSkip = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 34, 34), Layout, MAIN_SKIP);
 	ButtonSkip->setImage(Interface.GetImage(_Interface::IMAGE_FASTFORWARD));
 	ButtonSkip->setUseAlphaChannel(true);
 	ButtonSkip->setDrawBorder(false);
 
 	// Exit
 	X += 108/2 + 20;
-	IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 108, 44), Layout, MAIN_EXIT, L"Exit");
+	gui::IGUIButton *ButtonExit = irrGUI->addButton(Interface.GetCenteredRect(X, Y, 108, 44), Layout, MAIN_EXIT, L"Exit");
 	ButtonExit->setImage(Interface.GetImage(_Interface::IMAGE_BUTTON_SMALL));
 	ButtonExit->setUseAlphaChannel(true);
 	ButtonExit->setDrawBorder(false);

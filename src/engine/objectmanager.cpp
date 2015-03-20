@@ -20,7 +20,8 @@
 #include <engine/level.h>
 #include <engine/physics.h>
 #include <objects/object.h>
-#include <engine/namespace.h>
+
+using namespace irr;
 
 _ObjectManager ObjectManager;
 
@@ -212,7 +213,7 @@ void _ObjectManager::UpdateReplay(float FrameTime) {
 
 // Updates all objects in the scene from a replay file
 void _ObjectManager::UpdateFromReplay() {
-	vector3df Position, Rotation;
+	core::vector3df Position, Rotation;
 
 	// Get replay stream and read object count
 	_File &ReplayStream = Replay.GetReplayStream();

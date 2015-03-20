@@ -20,8 +20,9 @@
 #include <engine/config.h>
 #include <engine/scripting.h>
 #include <engine/physics.h>
-#include <engine/namespace.h>
 #include <BulletCollision/CollisionShapes/btCollisionShape.h>
+
+using namespace irr;
 
 // Constructor
 _Object::_Object()
@@ -60,7 +61,7 @@ void _Object::CreateRigidBody(const SpawnStruct &Object, btCollisionShape *Shape
 	TemplateStruct *Template = Object.Template;
 
 	// Rotation
-	btQuaternion QuaternionRotation(Object.Rotation[1] * DEGTORAD, Object.Rotation[0] * DEGTORAD, Object.Rotation[2] * DEGTORAD);
+	btQuaternion QuaternionRotation(Object.Rotation[1] * core::DEGTORAD, Object.Rotation[0] * core::DEGTORAD, Object.Rotation[2] * core::DEGTORAD);
 
 	// Transform
 	CenterOfMassTransform.setIdentity();
@@ -110,12 +111,12 @@ void _Object::SetProperties(const SpawnStruct &Object) {
 
 	// Graphics
 	if(Node) {
-		Node->setPosition(vector3df(Object.Position[0], Object.Position[1], Object.Position[2]));
-		Node->setRotation(vector3df(Object.Rotation[0], Object.Rotation[1], Object.Rotation[2]));
+		Node->setPosition(core::vector3df(Object.Position[0], Object.Position[1], Object.Position[2]));
+		Node->setRotation(core::vector3df(Object.Rotation[0], Object.Rotation[1], Object.Rotation[2]));
 		//Node->setVisible(Template->Visible);
-		Node->setMaterialFlag(EMF_FOG_ENABLE, Template->Fog);
-		Node->setMaterialFlag(EMF_NORMALIZE_NORMALS, true);
-		Node->setMaterialFlag(EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
+		Node->setMaterialFlag(video::EMF_FOG_ENABLE, Template->Fog);
+		Node->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+		Node->setMaterialFlag(video::EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
 		Node->getMaterial(0).TextureLayer[0].AnisotropicFilter = Config.AnisotropicFiltering;
 	}
 
@@ -153,13 +154,13 @@ void _Object::setWorldTransform(const btTransform &Transform) {
 
 		// Set position
 		const btVector3 &Position = CenterOfMassTransform.getOrigin();
-		Node->setPosition(vector3df((f32)Position.x(), (f32)Position.y(), (f32)Position.z()));
+		Node->setPosition(core::vector3df((f32)Position.x(), (f32)Position.y(), (f32)Position.z()));
 		
 		// Rotation
 		btVector3 EulerRotation;
 		btQuaternion RigidRotation = CenterOfMassTransform.getRotation();
 		Physics.QuaternionToEuler(RigidRotation, EulerRotation);
-		Node->setRotation(vector3df(EulerRotation[0], EulerRotation[1], EulerRotation[2]));
+		Node->setRotation(core::vector3df(EulerRotation[0], EulerRotation[1], EulerRotation[2]));
 	}
 }
 

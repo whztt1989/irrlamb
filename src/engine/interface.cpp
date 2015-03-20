@@ -20,9 +20,10 @@
 #include <engine/config.h>
 #include <engine/log.h>
 #include <engine/audio.h>
-#include <engine/namespace.h>
 #include <font/CGUITTFont.h>
 #include <menu.h>
+
+using namespace irr;
 
 _Interface Interface;
 
@@ -45,21 +46,21 @@ const _Font DefaultFonts[] = {
 };
 
 // Constructor for empty element
-CGUIEmptyElement::CGUIEmptyElement(IGUIEnvironment *Environment, irr::gui::IGUIElement *Parent)
-	:	irr::gui::IGUIElement((EGUI_ELEMENT_TYPE)MGUIET_EMPTY, Environment, Parent, -1, recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height)) { }
+CGUIEmptyElement::CGUIEmptyElement(irr::gui::IGUIEnvironment *Environment, irr::gui::IGUIElement *Parent)
+	:	irr::gui::IGUIElement((gui::EGUI_ELEMENT_TYPE)MGUIET_EMPTY, Environment, Parent, -1, core::recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height)) { }
 
 // Initializes the graphics system
 int _Interface::Init() {
 	DrawHUD = true;
 		
 	// Get skin
-	IGUISkin *Skin = irrGUI->getSkin();
+	gui::IGUISkin *Skin = irrGUI->getSkin();
 
 	// Load all fonts
 	for(int i = 0; i < FONT_COUNT; i++) {
 
 		// Load font
-		Fonts[DefaultFonts[i].Type] = CGUITTFont::createTTFont(irrGUI, DefaultFonts[i].Path, DefaultFonts[i].Size);
+		Fonts[DefaultFonts[i].Type] = gui::CGUITTFont::createTTFont(irrGUI, DefaultFonts[i].Path, DefaultFonts[i].Size);
 		if(!Fonts[DefaultFonts[i].Type]) {
 			Log.Write("_Interface::Init - Unable to load font %s", DefaultFonts[i].Path);
 			return 0;
@@ -114,29 +115,29 @@ int _Interface::Close() {
 // Changes irrlicht skins
 void _Interface::ChangeSkin(SkinType Type) {
 
-	IGUISkin *Skin = irrGUI->getSkin();
-	Skin->setColor(EGDC_BUTTON_TEXT, SColor(255, 255, 255, 255));
-	Skin->setColor(EGDC_WINDOW, SColor(255, 0, 0, 20));	
-	Skin->setColor(EGDC_WINDOW_SYMBOL, SColor(255, 255, 255, 255));
-	Skin->setColor(EGDC_GRAY_WINDOW_SYMBOL, SColor(255, 128, 128, 128));
-	Skin->setColor(EGDC_GRAY_EDITABLE, SColor(255, 0, 0, 0));
-	Skin->setColor(EGDC_FOCUSED_EDITABLE, SColor(255, 0, 0, 0));
-	Skin->setColor(EGDC_EDITABLE, SColor(255, 0, 0, 0));
+	gui::IGUISkin *Skin = irrGUI->getSkin();
+	Skin->setColor(gui::EGDC_BUTTON_TEXT, video::SColor(255, 255, 255, 255));
+	Skin->setColor(gui::EGDC_WINDOW, video::SColor(255, 0, 0, 20));	
+	Skin->setColor(gui::EGDC_WINDOW_SYMBOL, video::SColor(255, 255, 255, 255));
+	Skin->setColor(gui::EGDC_GRAY_WINDOW_SYMBOL, video::SColor(255, 128, 128, 128));
+	Skin->setColor(gui::EGDC_GRAY_EDITABLE, video::SColor(255, 0, 0, 0));
+	Skin->setColor(gui::EGDC_FOCUSED_EDITABLE, video::SColor(255, 0, 0, 0));
+	Skin->setColor(gui::EGDC_EDITABLE, video::SColor(255, 0, 0, 0));
 	
 	switch(Type) {
 		case SKIN_MENU:
-			Skin->setColor(EGDC_3D_FACE, SColor(255, 32, 32, 32));
-			Skin->setColor(EGDC_3D_SHADOW, SColor(255, 0, 0, 16));
+			Skin->setColor(gui::EGDC_3D_FACE, video::SColor(255, 32, 32, 32));
+			Skin->setColor(gui::EGDC_3D_SHADOW, video::SColor(255, 0, 0, 16));
 
-			Skin->setColor(EGDC_3D_HIGH_LIGHT, SColor(255, 16, 16, 16));
-			Skin->setColor(EGDC_3D_DARK_SHADOW, SColor(255, 0, 0, 16));
+			Skin->setColor(gui::EGDC_3D_HIGH_LIGHT, video::SColor(255, 16, 16, 16));
+			Skin->setColor(gui::EGDC_3D_DARK_SHADOW, video::SColor(255, 0, 0, 16));
 		break;
 		case SKIN_GAME:
-			Skin->setColor(EGDC_3D_FACE, SColor(0, 0, 0, 0));
-			Skin->setColor(EGDC_3D_SHADOW, SColor(0, 0, 0, 0));
+			Skin->setColor(gui::EGDC_3D_FACE, video::SColor(0, 0, 0, 0));
+			Skin->setColor(gui::EGDC_3D_SHADOW, video::SColor(0, 0, 0, 0));
 
-			Skin->setColor(EGDC_3D_HIGH_LIGHT, SColor(0, 0, 0, 0));
-			Skin->setColor(EGDC_3D_DARK_SHADOW, SColor(0, 0, 0, 0));
+			Skin->setColor(gui::EGDC_3D_HIGH_LIGHT, video::SColor(0, 0, 0, 0));
+			Skin->setColor(gui::EGDC_3D_DARK_SHADOW, video::SColor(0, 0, 0, 0));
 		break;
 	}
 }
@@ -157,8 +158,8 @@ void _Interface::SetTutorialText(const std::string &Text, float Length) {
 		TutorialText.Text = NULL;
 	}
 		
-	TutorialText.Text = irrGUI->addStaticText(stringw(Text.c_str()).c_str(), GetCenteredRect(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH - MESSAGE_PADDING, MESSAGE_HEIGHT), false, true);
-	TutorialText.Text->setTextAlignment(EGUIA_CENTER, EGUIA_CENTER);
+	TutorialText.Text = irrGUI->addStaticText(core::stringw(Text.c_str()).c_str(), GetCenteredRect(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH - MESSAGE_PADDING, MESSAGE_HEIGHT), false, true);
+	TutorialText.Text->setTextAlignment(gui::EGUIA_CENTER, gui::EGUIA_CENTER);
 	TutorialText.DeleteTime = Length + Timer;
 }
 
@@ -188,7 +189,7 @@ void _Interface::Draw(float Time) {
 		TutorialText.Text->setVisible(DrawHUD);
 
 		// Get tutorial text alpha
-		SColor TextColor(255, 255, 255, 255), BoxColor(160, 255, 255, 255);
+		video::SColor TextColor(255, 255, 255, 255), BoxColor(160, 255, 255, 255);
 		float TimeLeft = TutorialText.DeleteTime - Timer;
 		if(TimeLeft < 2.0f) {
 			TextColor.setAlpha((u32)(255 * TimeLeft / 2.0));
@@ -213,41 +214,41 @@ void _Interface::ConvertSecondsToString(float Time, char *String) {
 }
 
 // Gets a rectangle centered around a point
-recti _Interface::GetCenteredRect(int PositionX, int PositionY, int Width, int Height) {
+core::recti _Interface::GetCenteredRect(int PositionX, int PositionY, int Width, int Height) {
 
-	return recti(PositionX - (Width >> 1), PositionY - (Height >> 1), PositionX + (Width >> 1), PositionY + (Height >> 1));
+	return core::recti(PositionX - (Width >> 1), PositionY - (Height >> 1), PositionX + (Width >> 1), PositionY + (Height >> 1));
 }
 
 // Gets a rectangle aligned right
-recti _Interface::GetRightRect(int PositionX, int PositionY, int Width, int Height) {
+core::recti _Interface::GetRightRect(int PositionX, int PositionY, int Width, int Height) {
 
-	return recti(PositionX - Width, PositionY - (Height >> 1), PositionX, PositionY + (Height >> 1));
+	return core::recti(PositionX - Width, PositionY - (Height >> 1), PositionX, PositionY + (Height >> 1));
 }
 
 // Gets a rectangle
-recti _Interface::GetRect(int PositionX, int PositionY, int Width, int Height) {
+core::recti _Interface::GetRect(int PositionX, int PositionY, int Width, int Height) {
 
-	return recti(PositionX, PositionY, PositionX + Width, PositionY + Height);
+	return core::recti(PositionX, PositionY, PositionX + Width, PositionY + Height);
 }
 
 // Fades the screen
 void _Interface::FadeScreen(float Amount) {
-	irrDriver->draw2DImage(Images[IMAGE_FADE], position2di(0, 0), recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, SColor((u32)(Amount * 255), 255, 255, 255), true);
+	irrDriver->draw2DImage(Images[IMAGE_FADE], core::position2di(0, 0), core::recti(0, 0, irrDriver->getScreenSize().Width, irrDriver->getScreenSize().Height), 0, video::SColor((u32)(Amount * 255), 255, 255, 255), true);
 	if(TutorialText.Text) {
-		SColor TextColor = TutorialText.Text->getOverrideColor();
+		video::SColor TextColor = TutorialText.Text->getOverrideColor();
 		TextColor.setAlpha((u32)(TextColor.getAlpha() * (1.0f - Amount)));
 		TutorialText.Text->setOverrideColor(TextColor);
 	}
 }
 
 // Draws text to the screen
-void _Interface::RenderText(const char *Text, int PositionX, int PositionY, AlignType AlignType, FontType FontType, const SColor &Color) {
+void _Interface::RenderText(const char *Text, int PositionX, int PositionY, AlignType AlignType, FontType FontType, const video::SColor &Color) {
 
 	// Convert string
-	stringw String(Text);
+	core::stringw String(Text);
 
 	// Get dimensions
-	dimension2d<u32> TextArea = Fonts[FontType]->getDimension(String.c_str());
+	core::dimension2d<u32> TextArea = Fonts[FontType]->getDimension(String.c_str());
 
 	switch(AlignType) {
 		case ALIGN_LEFT:
@@ -261,34 +262,34 @@ void _Interface::RenderText(const char *Text, int PositionX, int PositionY, Alig
 	}
 
 	// Draw text
-	Fonts[FontType]->draw(String.c_str(), recti(PositionX, PositionY, PositionX + TextArea.Width, PositionY + TextArea.Height), Color);
+	Fonts[FontType]->draw(String.c_str(), core::recti(PositionX, PositionY, PositionX + TextArea.Width, PositionY + TextArea.Height), Color);
 }
 
 // Draws an interface image centered around a position
-void _Interface::DrawImage(ImageType Type, int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
+void _Interface::DrawImage(ImageType Type, int PositionX, int PositionY, int Width, int Height, const video::SColor &Color) {
 
-	irrDriver->draw2DImage(Images[Type], position2di(PositionX - (Width >> 1), PositionY - (Height >> 1)), recti(0, 0, Width, Height), 0, Color, true);
+	irrDriver->draw2DImage(Images[Type], core::position2di(PositionX - (Width >> 1), PositionY - (Height >> 1)), core::recti(0, 0, Width, Height), 0, Color, true);
 }
 
 // Draws a text box
-void _Interface::DrawTextBox(int PositionX, int PositionY, int Width, int Height, const SColor &Color) {
+void _Interface::DrawTextBox(int PositionX, int PositionY, int Width, int Height, const video::SColor &Color) {
 	PositionX -= Width >> 1;
 	PositionY -= Height >> 1;
 
 	// Draw corners
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], position2di(PositionX, PositionY), recti(0, 0, 10, 10), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], position2di(PositionX + Width - 10, PositionY), recti(10, 0, 20, 10), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], position2di(PositionX, PositionY + Height - 10), recti(0, 10, 10, 20), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], position2di(PositionX + Width - 10, PositionY + Height - 10), recti(10, 10, 20, 20), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], core::position2di(PositionX, PositionY), core::recti(0, 0, 10, 10), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], core::position2di(PositionX + Width - 10, PositionY), core::recti(10, 0, 20, 10), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], core::position2di(PositionX, PositionY + Height - 10), core::recti(0, 10, 10, 20), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET0], core::position2di(PositionX + Width - 10, PositionY + Height - 10), core::recti(10, 10, 20, 20), 0, Color, true);
 
 	// Draw middle
-	irrDriver->draw2DImage(Images[IMAGE_FADE], position2di(PositionX + 10, PositionY + 10), recti(0, 0, Width - 20, Height - 20), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_FADE], core::position2di(PositionX + 10, PositionY + 10), core::recti(0, 0, Width - 20, Height - 20), 0, Color, true);
 
 	// Draw edges
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET1], position2di(PositionX + 10, PositionY), recti(0, 0, Width - 20, 10), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET1], position2di(PositionX + 10, PositionY + Height - 10), recti(0, 6, Width - 20, 16), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET2], position2di(PositionX, PositionY + 10), recti(0, 0, 10, Height - 20), 0, Color, true);
-	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET2], position2di(PositionX + Width - 10, PositionY + 10), recti(6, 0, 16, Height - 20), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET1], core::position2di(PositionX + 10, PositionY), core::recti(0, 0, Width - 20, 10), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET1], core::position2di(PositionX + 10, PositionY + Height - 10), core::recti(0, 6, Width - 20, 16), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET2], core::position2di(PositionX, PositionY + 10), core::recti(0, 0, 10, Height - 20), 0, Color, true);
+	irrDriver->draw2DImage(Images[IMAGE_TEXTBOXSHEET2], core::position2di(PositionX + Width - 10, PositionY + 10), core::recti(6, 0, 16, Height - 20), 0, Color, true);
 }
 
 // Load GUI sounds

@@ -24,10 +24,11 @@
 #include <engine/constants.h>
 #include <engine/audio.h>
 #include <objects/template.h>
-#include <engine/namespace.h>
 #include <BulletCollision/CollisionShapes/btSphereShape.h>
 #include <ISceneManager.h>
 #include <IMeshSceneNode.h>
+
+using namespace irr;
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)
@@ -47,18 +48,18 @@ _Orb::_Orb(const SpawnStruct &Object)
 		Node->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[0].c_str()));
 	else
 		Node->setMaterialTexture(0, irrDriver->getTexture("textures/orb_outer0.png"));
-	Node->setMaterialType(EMT_ONETEXTURE_BLEND);
-	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
+	Node->setMaterialType(video::EMT_ONETEXTURE_BLEND);
+	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(video::EBF_ONE, video::EBF_ONE);
 	
 	// Create glow
-	//GlowColor = SColor(255, 255, 240, 130);
-	GlowColor = SColor(255, 255, 255, 255);
-	InnerNode = irrScene->addBillboardSceneNode(Node, dimension2df(ORB_GLOWSIZE, ORB_GLOWSIZE));
+	//GlowColor = video::SColor(255, 255, 240, 130);
+	GlowColor = video::SColor(255, 255, 255, 255);
+	InnerNode = irrScene->addBillboardSceneNode(Node, core::dimension2df(ORB_GLOWSIZE, ORB_GLOWSIZE));
 	InnerNode->setColor(GlowColor);
-	InnerNode->setMaterialFlag(EMF_LIGHTING, false);
-	InnerNode->setMaterialFlag(EMF_ZBUFFER, false);
-	InnerNode->setMaterialType(EMT_ONETEXTURE_BLEND);
-	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
+	InnerNode->setMaterialFlag(video::EMF_LIGHTING, false);
+	InnerNode->setMaterialFlag(video::EMF_ZBUFFER, false);
+	InnerNode->setMaterialType(video::EMT_ONETEXTURE_BLEND);
+	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(video::EBF_ONE, video::EBF_ONE);
 	if(Template->Textures[1] != "")
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[1].c_str()));
 	else
@@ -66,9 +67,9 @@ _Orb::_Orb(const SpawnStruct &Object)
 	
 	// Emit Light
 	if(Object.Template->EmitLight) {
-		Light = irrScene->addLightSceneNode(0, vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+		Light = irrScene->addLightSceneNode(0, core::vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
 
-		SLight LightData;
+		video::SLight LightData;
 		LightData.Attenuation.set(0.5f, 0.05f, 0.05f);
 		LightData.CastShadows = false;
 		Light->setLightData(LightData);
@@ -132,7 +133,7 @@ void _Orb::Update(float FrameTime) {
 
 	// Update light
 	if(Light) {
-		Light->setPosition(vector3df(Position[0], Position[1], Position[2]));
+		Light->setPosition(core::vector3df(Position[0], Position[1], Position[2]));
 	}
 
 	// Update audio
@@ -159,7 +160,7 @@ void _Orb::UpdateDeactivation(float FrameTime) {
 
 			// Set glow size
 			float PercentLeft = 1.0f - OrbTime / DeactivateLength;
-			InnerNode->setSize(dimension2df(ORB_GLOWSIZE * PercentLeft, ORB_GLOWSIZE * PercentLeft));
+			InnerNode->setSize(core::dimension2df(ORB_GLOWSIZE * PercentLeft, ORB_GLOWSIZE * PercentLeft));
 			if(Sound)
 				Sound->SetPitch(ORB_PITCH * PercentLeft);
 

@@ -20,7 +20,8 @@
 #include <engine/globals.h>
 #include <engine/save.h>
 #include <engine/input.h>
-#include <engine/namespace.h>
+
+using namespace irr;
 
 _Config Config;
 
@@ -44,7 +45,7 @@ int _Config::Close() {
 void _Config::Reset() {
 	
 	// Video
-	DriverType = EDT_OPENGL;
+	DriverType = video::EDT_OPENGL;
 	ScreenWidth = 800;
 	ScreenHeight = 600;
 	Fullscreen = false;
@@ -117,7 +118,7 @@ void _Config::AddDefaultActionMap(bool Force) {
 	Actions.AddInputMap(_Input::MOUSE_AXIS, 3, _Actions::CAMERA_DOWN);
 
 	// Get joystick name in lower case
-	stringc Name = "";
+	core::stringc Name = "";
 	if(Input.HasJoystick()) {
 		Name = Input.GetJoystickInfo().Name;
 		Name.make_lower();

@@ -20,8 +20,9 @@
 #include <engine/globals.h>
 #include <engine/audio.h>
 #include <engine/physics.h>
-#include <engine/namespace.h>
 #include <ISceneManager.h>
+
+using namespace irr;
 
 // Constructor
 _Camera::_Camera()
@@ -56,17 +57,17 @@ void _Camera::HandleMouseMotion(float UpdateX, float UpdateY) {
 }
 
 // Updates the camera
-void _Camera::Update(const vector3df &Target) {
+void _Camera::Update(const core::vector3df &Target) {
 	
 	// Get camera rotation
 	Transform.makeIdentity();
-    Transform.setRotationDegrees(vector3df(Pitch, Yaw, 0.0f)); 
+    Transform.setRotationDegrees(core::vector3df(Pitch, Yaw, 0.0f)); 
 
 	// Set distance from object
 	Distance = MaxDistance;
 
 	// Get camera offset
-	vector3df Offset(0.0f, 0.0f, 1.0f);
+	core::vector3df Offset(0.0f, 0.0f, 1.0f);
 	Transform.transformVect(Offset);
 
 	// Set listener direction
@@ -97,7 +98,7 @@ void _Camera::Update(const vector3df &Target) {
 
 	// Set the new position
 	RayEnd = RayStart + NewOffset;
-	Node->setPosition(vector3df(RayEnd[0], RayEnd[1], RayEnd[2]));
+	Node->setPosition(core::vector3df(RayEnd[0], RayEnd[1], RayEnd[2]));
 
 	// Note changes
 	if(!MovementChanged && (PreviousPosition != Node->getPosition() || PreviousLookAt != Node->getTarget()))
@@ -117,7 +118,7 @@ void _Camera::RecordReplay() {
 		// Write replay information
 		_File &ReplayStream = Replay.GetReplayStream();
 		Replay.WriteEvent(_Replay::PACKET_CAMERA);
-		ReplayStream.WriteData((void *)&Node->getPosition(), sizeof(vector3df));
-		ReplayStream.WriteData((void *)&Node->getTarget(), sizeof(vector3df));
+		ReplayStream.WriteData((void *)&Node->getPosition(), sizeof(core::vector3df));
+		ReplayStream.WriteData((void *)&Node->getTarget(), sizeof(core::vector3df));
 	}
 }

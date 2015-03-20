@@ -38,7 +38,8 @@
 #include <objects/player.h>
 #include <menu.h>
 #include <viewreplay.h>
-#include <engine/namespace.h>
+
+using namespace irr;
 
 _NullState NullState;
 
@@ -81,7 +82,7 @@ bool _NullState::HandleKeyPress(int Key) {
 }
 
 // GUI events
-void _NullState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
+void _NullState::HandleGUI(gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Element) {
 	
 	Menu.HandleGUI(EventType, Element);
 }

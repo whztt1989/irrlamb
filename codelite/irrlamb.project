@@ -43,7 +43,6 @@
     <File Name="../src/engine/fader.cpp"/>
     <File Name="../src/engine/game.cpp"/>
     <File Name="../src/engine/replay.h"/>
-    <File Name="../src/engine/namespace.h"/>
     <File Name="../src/engine/filestream.h"/>
     <File Name="../src/engine/config.cpp"/>
     <File Name="../src/engine/level.h"/>

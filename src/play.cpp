@@ -38,9 +38,10 @@
 #include <objects/player.h>
 #include <menu.h>
 #include <viewreplay.h>
-#include <engine/namespace.h>
 #include <ISceneManager.h>
 #include <IFileSystem.h>
+
+using namespace irr;
 
 _PlayState PlayState;
 
@@ -138,7 +139,7 @@ void _PlayState::ResetLevel() {
 
 	// Record camera in replay
 	btVector3 Position = Player->GetPosition();
-	Camera->Update(vector3df(Position[0], Position[1], Position[2]));
+	Camera->Update(core::vector3df(Position[0], Position[1], Position[2]));
 	Camera->RecordReplay();
 
 	// Reset game timer
@@ -276,7 +277,7 @@ void _PlayState::HandleMouseWheel(float Direction) {
 }
 
 // GUI events
-void _PlayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, IGUIElement *Element) {
+void _PlayState::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Element) {
 	if(Resetting)
 		return;
 
@@ -319,7 +320,7 @@ void _PlayState::Update(float FrameTime) {
 		Audio.SetPosition(Position[0], Position[1], Position[2]);
 
 		// Update camera for replay
-		Camera->Update(vector3df(Position[0], Position[1], Position[2]));
+		Camera->Update(core::vector3df(Position[0], Position[1], Position[2]));
 		Camera->RecordReplay();
 
 		Replay.ResetNextPacketTimer();
@@ -337,7 +338,7 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 
 		// Set camera position
 		btVector3 Position = Player->GetGraphicsPosition();
-		Camera->Update(vector3df(Position[0], Position[1], Position[2]));
+		Camera->Update(core::vector3df(Position[0], Position[1], Position[2]));
 	}
 }
 

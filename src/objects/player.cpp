@@ -26,7 +26,6 @@
 #include <objects/sphere.h>
 #include <objects/constraint.h>
 #include <objects/template.h>
-#include <engine/namespace.h>
 #include <BulletCollision/CollisionShapes/btSphereShape.h>
 #include <IAnimatedMesh.h>
 #include <IAnimatedMeshSceneNode.h>
@@ -34,6 +33,8 @@
 #include <ISceneNode.h>
 #include <IMeshSceneNode.h>
 #include <IBillboardSceneNode.h>
+
+using namespace irr;
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)
@@ -47,25 +48,25 @@ _Player::_Player(const SpawnStruct &Object)
 	// Graphics
 	Node = irrScene->addSphereSceneNode(Object.Template->Radius, 24);
 	Node->setMaterialTexture(0, irrDriver->getTexture("textures/player_outer0.png"));
-	Node->setMaterialFlag(EMF_LIGHTING, false);
-	Node->setMaterialType(EMT_ONETEXTURE_BLEND);
-	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
+	Node->setMaterialFlag(video::EMF_LIGHTING, false);
+	Node->setMaterialType(video::EMT_ONETEXTURE_BLEND);
+	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(video::EBF_ONE, video::EBF_ONE);
 
 	// Emit Light
 	if(Object.Template->EmitLight) {
-		Light = irrScene->addLightSceneNode(0, vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
+		Light = irrScene->addLightSceneNode(0, core::vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
 		Light->getLightData().Attenuation.set(0.5f, 0.05f, 0.05f);
 		Light->getLightData().DiffuseColor.set(0.0f, 0.75f, 0.75f, 1.0f);
 	}
 
 	// Add glow
-	ISceneNode *InnerNode;
-	InnerNode = irrScene->addBillboardSceneNode(Node, dimension2df(1.5f, 1.5f));
-	InnerNode->setMaterialFlag(EMF_LIGHTING, false);
-	InnerNode->setMaterialFlag(EMF_ZBUFFER, false);
+	scene::ISceneNode *InnerNode;
+	InnerNode = irrScene->addBillboardSceneNode(Node, core::dimension2df(1.5f, 1.5f));
+	InnerNode->setMaterialFlag(video::EMF_LIGHTING, false);
+	InnerNode->setMaterialFlag(video::EMF_ZBUFFER, false);
 	InnerNode->setMaterialTexture(0, irrDriver->getTexture("textures/player_glow0.png"));
-	InnerNode->setMaterialType(EMT_ONETEXTURE_BLEND);
-	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(EBF_ONE, EBF_ONE);
+	InnerNode->setMaterialType(video::EMT_ONETEXTURE_BLEND);
+	InnerNode->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(video::EBF_ONE, video::EBF_ONE);
 
 	if(Physics.IsEnabled()) {
 
@@ -107,7 +108,7 @@ void _Player::Update(float FrameTime) {
 
 	// Update light
 	if(Light) {
-		Light->setPosition(vector3df(Position[0], Position[1], Position[2]));
+		Light->setPosition(core::vector3df(Position[0], Position[1], Position[2]));
 	}
 
 	// Get pitch for player idle sound
@@ -137,7 +138,7 @@ void _Player::Update(float FrameTime) {
 
 // Processes input from the keyboard
 void _Player::HandleInput() {
-	vector3df Push(0.0f, 0.0f, 0.0f);
+	core::vector3df Push(0.0f, 0.0f, 0.0f);
 	
 	// Get input direction
 	Push.X += -Actions.GetState(_Actions::MOVE_LEFT);
@@ -150,16 +151,16 @@ void _Player::HandleInput() {
 	}
 
 	// Push the player
-	if(!Push.equals(vector3df())) {
+	if(!Push.equals(core::vector3df())) {
 
 		// Get push direction relative to camera
-		matrix4 DirectionTransform;
+		core::matrix4 DirectionTransform;
 		DirectionTransform.makeIdentity();
-		DirectionTransform.setRotationDegrees(vector3df(0.0f, Camera->GetYaw(), 0.0f)); 
+		DirectionTransform.setRotationDegrees(core::vector3df(0.0f, Camera->GetYaw(), 0.0f)); 
 		DirectionTransform.transformVect(Push);
 
 		// Apply torque
-		vector3df RotationAxis = Push.crossProduct(vector3df(0.0f, -1.0f, 0.0f)) * TorqueFactor;
+		core::vector3df RotationAxis = Push.crossProduct(core::vector3df(0.0f, -1.0f, 0.0f)) * TorqueFactor;
 		RigidBody->activate();
 		RigidBody->applyTorque(btVector3(RotationAxis.X, RotationAxis.Y, RotationAxis.Z));
 	}
