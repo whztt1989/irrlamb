@@ -12,3 +12,4 @@ codelite/Makefile
 codelite/cscope*
 codelite/irrlamb.workspace.*
 codelite/irrlamb.mk
+codelite/*.json
