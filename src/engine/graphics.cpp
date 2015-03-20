@@ -25,17 +25,19 @@
 #include <engine/config.h>
 #include <irrlicht.h>
 #include <irrb/CIrrBMeshFileLoader.h>
-#include <engine/namespace.h>
 #include <string>
 #include <sstream>
+
+using namespace irr;
 
 _Graphics Graphics;
 
 // Initializes the graphics system
-int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {
+int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE DriverType, IEventReceiver *EventReceiver) {
 	ShowCursor = true;
 	ShadersSupported = false;
-	CustomMaterial = -1;
+	CustomMaterial[0] = -1;
+	CustomMaterial[1] = -1;
 	LightCount = 0;
 
 	// irrlicht parameters
@@ -69,7 +71,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 	VideoModes.clear();
 
 	// Generate a list of video modes
-	IVideoModeList *VideoModeList = irrDevice->getVideoModeList();
+	video::IVideoModeList *VideoModeList = irrDevice->getVideoModeList();
 	VideoModeStruct VideoMode;
 	for(int i = 0; i < VideoModeList->getVideoModeCount(); i++) {
 		VideoMode.Width = VideoModeList->getVideoModeResolution(i).Width;
@@ -90,15 +92,15 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, E_DRIVER_TYPE Driver
 	ScreenshotRequested = false;
 
 	// Load custom loader
-	CIrrBMeshFileLoader *Loader = new CIrrBMeshFileLoader(irrScene, irrFile);
+	scene::CIrrBMeshFileLoader *Loader = new scene::CIrrBMeshFileLoader(irrScene, irrFile);
 	irrScene->addExternalMeshLoader(Loader);
 	Loader->drop();
 
 	// Check for shader support
-	if(irrDriver->queryFeature(EVDF_PIXEL_SHADER_1_1) 
-	&& irrDriver->queryFeature(EVDF_ARB_FRAGMENT_PROGRAM_1) 
-	&& irrDriver->queryFeature(EVDF_VERTEX_SHADER_1_1) 
-	&& irrDriver->queryFeature(EVDF_ARB_VERTEX_PROGRAM_1)) {
+	if(irrDriver->queryFeature(video::EVDF_PIXEL_SHADER_1_1) 
+	&& irrDriver->queryFeature(video::EVDF_ARB_FRAGMENT_PROGRAM_1) 
+	&& irrDriver->queryFeature(video::EVDF_VERTEX_SHADER_1_1) 
+	&& irrDriver->queryFeature(video::EVDF_ARB_VERTEX_PROGRAM_1)) {
 		ShadersSupported = true;
 
 		if(Config.Shaders)
@@ -130,9 +132,21 @@ int _Graphics::Close() {
 void _Graphics::LoadShaders() {
 	
 	// Create shader materials
-	if(ShadersSupported && CustomMaterial == -1) {
+	if(ShadersSupported) {
+		
 		ShaderCallback *Shader = new ShaderCallback();
-		CustomMaterial = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles("shaders/lighting.vert", "main", EVST_VS_1_1, "shaders/lighting.frag", "main", EPST_PS_1_1, Shader, EMT_SOLID);
+		if(CustomMaterial[0] == -1) {
+			CustomMaterial[0] = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
+				"shaders/lighting.vert", "main", video::EVST_VS_1_1,
+				"shaders/lighting.frag", "main", video::EPST_PS_1_1,
+				Shader,	video::EMT_SOLID);
+		}
+		if(CustomMaterial[1] == -1) {
+			CustomMaterial[1] = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
+				"shaders/lighting.vert", "main", video::EVST_VS_1_1,
+				"shaders/lighting.frag", "main", video::EPST_PS_1_1,
+				Shader,	video::EMT_TRANSPARENT_ALPHA_CHANNEL);
+		}
 		Shader->drop();
 	}
 }
@@ -189,7 +203,7 @@ void _Graphics::CreateScreenshot() {
 	strftime(Filename, 32, "%Y%m%d-%H%M%S.jpg", localtime(&Now)); 
 
 	// Create image
-	IImage *Image = irrDriver->createScreenShot();
+	video::IImage *Image = irrDriver->createScreenShot();
 	std::string FilePath = Save.GetScreenshotsPath() + Filename;
 	irrDriver->writeImageToFile(Image, FilePath.c_str()); 
 	Image->drop();
@@ -200,8 +214,8 @@ void _Graphics::CreateScreenshot() {
 
 // Update the internal light count variable
 void _Graphics::SetLightCount() {
-	array<scene::ISceneNode *> LightNodes;
-	irrScene->getSceneNodesFromType(ESNT_LIGHT, LightNodes);
+	core::array<scene::ISceneNode *> LightNodes;
+	irrScene->getSceneNodesFromType(scene::ESNT_LIGHT, LightNodes);
 
 	LightCount = LightNodes.size();
 }

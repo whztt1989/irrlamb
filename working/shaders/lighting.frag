@@ -6,7 +6,7 @@ uniform int light_count;
 void main(void) {
 
 	// Get distance from light
-	vec4 light_color = vec4(0, 0, 0, 1);
+	vec4 light_color = vec4(0, 0, 0, 0);
 	for(int i = 0; i < light_count; i++) {
 		float distance = length(gl_LightSource[i].position.xyz - vertex);
 		

@@ -25,8 +25,8 @@
 		<object name="player" template="player">
 			<position x="0.71" y="2.5" z="0.800" />
 		</object>
-		<object name="a" template="box">
+		<!--<object name="a" template="box">
 			<position x="0" y="4.5" z="0" />
-		</object>
+		</object>-->
 	</objects>
 </level>

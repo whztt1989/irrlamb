@@ -182,11 +182,17 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			}
 
 			// Set texture filters on meshes in the scene
-			array<ISceneNode *> MeshNodes;
+			array<irr::scene::ISceneNode *> MeshNodes;
 				irrScene->getSceneNodesFromType(ESNT_MESH, MeshNodes);
 			for(u32 i = 0; i < MeshNodes.size(); i++) {
-				if(EmitLight && Config.Shaders)
-					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics.GetCustomMaterial());
+				if(EmitLight && Config.Shaders) {
+					video::SMaterial &Material = MeshNodes[i]->getMaterial(0);
+					int ShaderType = 0;
+					if(Material.MaterialType == EMT_TRANSPARENT_ALPHA_CHANNEL) {
+						ShaderType = 1;
+					}
+					MeshNodes[i]->setMaterialType((E_MATERIAL_TYPE)Graphics.GetCustomMaterial(ShaderType));
+				}
 
 				MeshNodes[i]->setMaterialFlag(EMF_TRILINEAR_FILTER, Config.TrilinearFiltering);
 				for(u32 j = 0; j < MeshNodes[i]->getMaterialCount(); j++) {
@@ -258,7 +264,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 				
 				// Use shaders on materials that receive light
 				if(Config.Shaders)
-					Template->CustomMaterial = Graphics.GetCustomMaterial();
+					Template->CustomMaterial = Graphics.GetCustomMaterial(0);
 
 				// Set the player to emit light
 				if(Template->Type == _Object::PLAYER || Template->Type == _Object::ORB)

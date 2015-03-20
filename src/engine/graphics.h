@@ -50,7 +50,7 @@ class _Graphics {
 		void EndFrame();
 
 		void LoadShaders();
-		int GetCustomMaterial() { return CustomMaterial; }
+		int GetCustomMaterial(int Type) { return CustomMaterial[Type]; }
 		bool GetShadersSupported() { return ShadersSupported; }
 
 		void SaveScreenshot();
@@ -72,7 +72,7 @@ class _Graphics {
 		bool DrawScene, ShowCursor;
 
 		// Shaders
-		int CustomMaterial;
+		int CustomMaterial[2];
 		bool ShadersSupported;
 		int LightCount;
 
