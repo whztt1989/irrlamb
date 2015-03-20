@@ -28,12 +28,12 @@
 #include <objects/template.h>
 #include <engine/namespace.h>
 #include <BulletCollision/CollisionShapes/btSphereShape.h>
-#include <irrlicht/IAnimatedMesh.h>
-#include <irrlicht/IAnimatedMeshSceneNode.h>
-#include <irrlicht/ISceneManager.h>
-#include <irrlicht/ISceneNode.h>
-#include <irrlicht/IMeshSceneNode.h>
-#include <irrlicht/IBillboardSceneNode.h>
+#include <IAnimatedMesh.h>
+#include <IAnimatedMeshSceneNode.h>
+#include <ISceneManager.h>
+#include <ISceneNode.h>
+#include <IMeshSceneNode.h>
+#include <IBillboardSceneNode.h>
 
 // Constructor
 _Player::_Player(const SpawnStruct &Object)

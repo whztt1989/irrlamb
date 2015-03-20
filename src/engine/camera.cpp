@@ -21,7 +21,7 @@
 #include <engine/audio.h>
 #include <engine/physics.h>
 #include <engine/namespace.h>
-#include <irrlicht/ISceneManager.h>
+#include <ISceneManager.h>
 
 // Constructor
 _Camera::_Camera()

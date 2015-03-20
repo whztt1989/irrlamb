@@ -26,8 +26,8 @@
 #include <objects/template.h>
 #include <engine/namespace.h>
 #include <BulletCollision/CollisionShapes/btSphereShape.h>
-#include <irrlicht/ISceneManager.h>
-#include <irrlicht/IMeshSceneNode.h>
+#include <ISceneManager.h>
+#include <IMeshSceneNode.h>
 
 // Constructor
 _Orb::_Orb(const SpawnStruct &Object)

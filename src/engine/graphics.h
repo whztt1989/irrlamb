@@ -16,10 +16,10 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <irrlicht/IEventReceiver.h>
-#include <irrlicht/IShaderConstantSetCallBack.h>
-#include <irrlicht/EDriverTypes.h>
-#include <irrlicht/SColor.h>
+#include <IEventReceiver.h>
+#include <IShaderConstantSetCallBack.h>
+#include <EDriverTypes.h>
+#include <SColor.h>
 #include <vector>
 #include <string>
 

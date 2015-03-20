@@ -19,9 +19,9 @@
 #include <LinearMath/btMotionState.h>
 #include <BulletDynamics/Dynamics/btRigidBody.h>
 #include <BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
-#include <irrlicht/irrTypes.h>
-#include <irrlicht/vector3d.h>
-#include <irrlicht/ISceneNode.h>
+#include <irrTypes.h>
+#include <vector3d.h>
+#include <ISceneNode.h>
 #include <string>
 
 // Forward Declarations

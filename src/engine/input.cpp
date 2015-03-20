@@ -25,7 +25,7 @@
 #include <engine/actions.h>
 #include <engine/log.h>
 #include <irrlicht.h>
-#include <irrlicht/SIrrCreationParameters.h>
+#include <SIrrCreationParameters.h>
 
 _Input Input;
 

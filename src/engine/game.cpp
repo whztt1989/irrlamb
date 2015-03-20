@@ -37,7 +37,7 @@
 #include <menu.h>
 #include <null.h>
 #include <engine/namespace.h>
-#include <irrlicht/IFileSystem.h>
+#include <IFileSystem.h>
 
 _Game Game;
 

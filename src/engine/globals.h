@@ -16,7 +16,7 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <irrlicht/IrrlichtDevice.h>
+#include <IrrlichtDevice.h>
 extern irr::IrrlichtDevice *irrDevice;
 extern irr::video::IVideoDriver *irrDriver;
 extern irr::scene::ISceneManager *irrScene;

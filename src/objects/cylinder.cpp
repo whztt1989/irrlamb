@@ -22,9 +22,9 @@
 #include <engine/namespace.h>
 #include <objects/template.h>
 #include <BulletCollision/CollisionShapes/btCylinderShape.h>
-#include <irrlicht/IAnimatedMesh.h>
-#include <irrlicht/IAnimatedMeshSceneNode.h>
-#include <irrlicht/ISceneManager.h>
+#include <IAnimatedMesh.h>
+#include <IAnimatedMeshSceneNode.h>
+#include <ISceneManager.h>
 
 // Constructor
 _Cylinder::_Cylinder(const SpawnStruct &Object)

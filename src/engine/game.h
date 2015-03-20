@@ -17,7 +17,7 @@
 **************************************************************************************/
 #pragma once
 #include <string>
-#include <irrlicht/irrTypes.h>
+#include <irrTypes.h>
 
 // Forward Declarations
 class _State;

@@ -36,7 +36,7 @@
 #include <play.h>
 #include <menu.h>
 #include <null.h>
-#include <irrlicht/ISceneManager.h>
+#include <ISceneManager.h>
 #include <engine/namespace.h>
 
 _ViewReplayState ViewReplayState;

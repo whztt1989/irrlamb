@@ -39,8 +39,8 @@
 #include <menu.h>
 #include <viewreplay.h>
 #include <engine/namespace.h>
-#include <irrlicht/ISceneManager.h>
-#include <irrlicht/IFileSystem.h>
+#include <ISceneManager.h>
+#include <IFileSystem.h>
 
 _PlayState PlayState;
 

@@ -20,7 +20,7 @@
 // Libraries
 #include <objects/object.h>
 #include <engine/camera.h>
-#include <irrlicht/ILightSceneNode.h>
+#include <ILightSceneNode.h>
 
 // Classes
 class _Player : public _Object {

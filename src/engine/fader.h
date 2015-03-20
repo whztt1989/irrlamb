@@ -16,7 +16,7 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <irrlicht/ITexture.h>
+#include <ITexture.h>
 
 // Classes
 class _Fader {

@@ -16,8 +16,8 @@
 *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **************************************************************************************/
 #pragma once
-#include <irrlicht/vector3d.h>
-#include <irrlicht/ICameraSceneNode.h>
+#include <vector3d.h>
+#include <ICameraSceneNode.h>
 
 // Classes
 class _Camera {

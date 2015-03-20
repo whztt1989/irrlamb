@@ -21,9 +21,9 @@
 #include <engine/config.h>
 #include <engine/namespace.h>
 #include <objects/template.h>
-#include <irrlicht/IAnimatedMesh.h>
-#include <irrlicht/IAnimatedMeshSceneNode.h>
-#include <irrlicht/ISceneManager.h>
+#include <IAnimatedMesh.h>
+#include <IAnimatedMeshSceneNode.h>
+#include <ISceneManager.h>
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 // Constructor

@@ -20,7 +20,7 @@
 // Libraries
 #include <string>
 #include <list>
-#include <irrlicht/irrTypes.h>
+#include <irrTypes.h>
 
 // Forward Declarations
 class _Object;

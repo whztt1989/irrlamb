@@ -19,8 +19,8 @@
 
 // Libraries
 #include <objects/object.h>
-#include <irrlicht/IBillboardSceneNode.h>
-#include <irrlicht/ILightSceneNode.h>
+#include <IBillboardSceneNode.h>
+#include <ILightSceneNode.h>
 
 // Classes
 class _Orb : public _Object {

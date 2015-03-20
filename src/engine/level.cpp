@@ -40,8 +40,8 @@
 #include <objects/springjoint.h>
 #include <tinyxml/tinyxml2.h>
 #include <engine/namespace.h>
-#include <irrlicht/ISceneManager.h>
-#include <irrlicht/IFileSystem.h>
+#include <ISceneManager.h>
+#include <IFileSystem.h>
 
 _Level Level;
 

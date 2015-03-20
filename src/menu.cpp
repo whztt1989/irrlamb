@@ -32,12 +32,12 @@
 #include <null.h>
 #include <engine/namespace.h>
 #include <font/CGUITTFont.h>
-#include <irrlicht/IGUIElement.h>
-#include <irrlicht/IGUIListBox.h>
-#include <irrlicht/IGUIComboBox.h>
-#include <irrlicht/IGUICheckBox.h>
-#include <irrlicht/IGUIEditBox.h>
-#include <irrlicht/IFileSystem.h>
+#include <IGUIElement.h>
+#include <IGUIListBox.h>
+#include <IGUIComboBox.h>
+#include <IGUICheckBox.h>
+#include <IGUIEditBox.h>
+#include <IFileSystem.h>
 
 _Menu Menu;
 

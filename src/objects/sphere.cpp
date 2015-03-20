@@ -22,9 +22,9 @@
 #include <engine/namespace.h>
 #include <objects/template.h>
 #include <BulletCollision/CollisionShapes/btSphereShape.h>
-#include <irrlicht/IAnimatedMesh.h>
-#include <irrlicht/IAnimatedMeshSceneNode.h>
-#include <irrlicht/ISceneManager.h>
+#include <IAnimatedMesh.h>
+#include <IAnimatedMeshSceneNode.h>
+#include <ISceneManager.h>
 
 // Constructor
 _Sphere::_Sphere(const SpawnStruct &Object)

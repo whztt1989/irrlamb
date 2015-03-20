@@ -17,8 +17,8 @@
 **************************************************************************************/
 #pragma once
 #include <string>
-#include <irrlicht/IEventReceiver.h>
-#include <irrlicht/irrArray.h>
+#include <IEventReceiver.h>
+#include <irrArray.h>
 
 // Classes
 class _Input : public irr::IEventReceiver  {

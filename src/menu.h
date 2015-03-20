@@ -21,7 +21,7 @@
 #include <engine/state.h>
 #include <engine/actions.h>
 #include <engine/interface.h>
-#include <irrlicht/IGUIButton.h>
+#include <IGUIButton.h>
 #include <vector>
 
 // Forward Declarations
