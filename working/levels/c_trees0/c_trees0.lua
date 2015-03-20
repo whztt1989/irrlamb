@@ -12,8 +12,6 @@ function OnHitZone(HitType, Zone, HitObject)
 	if HitObject == Player then
 		Level.Lose()
 		return 1
-	else
-		Object.SetLifetime(HitObject, 2);
 	end
 	
 	return 0
