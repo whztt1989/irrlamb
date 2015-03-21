@@ -14,9 +14,6 @@
 	<templates>
 		<player name="player" />
 		<orb name="orb" />
-		<hinge name="constraint_z">
-			<axis y="1" />
-		</hinge>
 		<cylinder name="log">
 			<mesh file="cylinder.irrbmesh" scale="2.5" />
 			<shape w="2.5" h="5" l="2.5" />
@@ -24,6 +21,10 @@
 			<damping angular="0" linear="0" />
 			<texture t1="woodfloor0.jpg" />
 		</cylinder>
+		<box name="floor">
+			<shape w="35" h="0.5" l="0.5" />
+			<physics mass="0" />
+		</box>
 		<zone name="losezone">
 			<shape w="100" h="5" l="100" />
 		</zone>
