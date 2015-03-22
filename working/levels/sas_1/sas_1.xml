@@ -19,6 +19,9 @@
 		<object name="player" template="player">
 			<position x="-0.478" y="-1.468" z="0" />
 		</object>
+		<object name="orb0" template="orb">
+			<position x="64.953" y="42.5" z="104.361" />
+		</object>
 		<!--
 
 		<object name="player" template="player">
