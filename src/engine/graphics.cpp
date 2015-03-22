@@ -45,7 +45,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE
 	Parameters.DriverType = DriverType;
 	Parameters.Fullscreen = Fullscreen;
 	Parameters.Bits = 32;
-	Parameters.Vsync = 0;
+	Parameters.Vsync = Config.Vsync;
 	Parameters.Stencilbuffer = Config.Shadows;
 	Parameters.AntiAlias = Config.AntiAliasing;
 	Parameters.WindowSize.set(Width, Height);

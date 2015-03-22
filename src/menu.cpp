@@ -79,7 +79,7 @@ enum GUIElements {
 	LEVELINFO_DESCRIPTION, LEVELINFO_ATTEMPTS, LEVELINFO_WINS, LEVELINFO_LOSSES, LEVELINFO_PLAYTIME, LEVELINFO_BESTTIME,
 	REPLAYS_FILES, REPLAYS_GO, REPLAYS_DELETE, REPLAYS_BACK,
 	OPTIONS_VIDEO, OPTIONS_AUDIO, OPTIONS_CONTROLS, OPTIONS_BACK,
-	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS, VIDEO_ANISOTROPY, VIDEO_ANTIALIASING,
+	VIDEO_SAVE, VIDEO_CANCEL, VIDEO_VIDEOMODES, VIDEO_FULLSCREEN, VIDEO_SHADOWS, VIDEO_SHADERS, VIDEO_VSYNC, VIDEO_ANISOTROPY, VIDEO_ANTIALIASING,
 	AUDIO_ENABLED, AUDIO_SAVE, AUDIO_CANCEL,
 	CONTROLS_SAVE, CONTROLS_CANCEL, CONTROLS_INVERTMOUSE, CONTROLS_INVERTGAMEPADY, CONTROLS_KEYMAP,
 	PAUSE_RESUME=(CONTROLS_KEYMAP + _Actions::COUNT), PAUSE_SAVEREPLAY, PAUSE_RESTART, PAUSE_OPTIONS, PAUSE_QUITLEVEL,
@@ -341,6 +341,10 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Ele
 					Config.Shaders = Shaders->isChecked();
 					if(Config.Shaders)
 						Graphics.LoadShaders();
+						
+					// Save vsync
+					gui::IGUICheckBox *Vsync = static_cast<gui::IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_VSYNC));
+					Config.Vsync = Vsync->isChecked();
 
 					// Write config
 					Config.WriteConfig();
@@ -704,7 +708,7 @@ void _Menu::InitVideo() {
 	AddMenuText(core::position2di(X, Y), L"Video");
 
 	// Video modes
-	Y += TITLE_SPACING;
+	Y += TITLE_SPACING - 40;
 	const std::vector<VideoModeStruct> &ModeList = Graphics.GetVideoModes();
 	if(ModeList.size() > 0) {
 		AddMenuText(core::position2di(X, Y), L"Screen Resolution", _Interface::FONT_MEDIUM, -1, gui::EGUIA_LOWERRIGHT);
@@ -732,7 +736,12 @@ void _Menu::InitVideo() {
 	gui::IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_SHADERS);
 	if(!Graphics.GetShadersSupported())
 		CheckBoxShaders->setEnabled(false);
-
+	
+	// Vsync
+	Y += 40;
+	AddMenuText(core::position2di(X, Y), L"V-sync", _Interface::FONT_MEDIUM, -1, gui::EGUIA_LOWERRIGHT);
+	gui::IGUICheckBox *CheckBoxVsync = irrGUI->addCheckBox(Config.Vsync, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_VSYNC);
+		
 	// Anisotropic Filtering
 	Y += 40;
 	int MaxAnisotropy = irrDriver->getDriverAttributes().getAttributeAsInt("MaxAnisotropy");

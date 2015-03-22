@@ -54,6 +54,7 @@ void _Config::Reset() {
 	TrilinearFiltering = true;
 	AnisotropicFiltering = 0;
 	AntiAliasing = 0;
+	Vsync = false;
 
 	// Audio
 	AudioEnabled = 1;
@@ -215,6 +216,12 @@ int _Config::ReadConfig() {
 		if(Element) {
 			Element->QueryBoolAttribute("enabled", &Shaders);
 		}
+		
+		// Check for the vsync tag
+		Element = VideoElement->FirstChildElement("vsync");
+		if(Element) {
+			Element->QueryBoolAttribute("enabled", &Vsync);
+		}
 	}
 
 	// Check for the audio tag
@@ -311,6 +318,11 @@ int _Config::WriteConfig() {
 	XMLElement *ShadersElement = Document.NewElement("shaders");
 	ShadersElement->SetAttribute("enabled", Shaders);
 	VideoElement->LinkEndChild(ShadersElement);
+	
+	// Vsync
+	XMLElement *VsyncElement = Document.NewElement("vsync");
+	VsyncElement->SetAttribute("enabled", Vsync);
+	VideoElement->LinkEndChild(VsyncElement);
 
 	// Create audio element
 	XMLElement *AudioElement = Document.NewElement("audio");

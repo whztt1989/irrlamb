@@ -43,6 +43,7 @@ class _Config {
 		bool Shadows;
 		bool TrilinearFiltering;
 		bool Shaders;
+		bool Vsync;
 		int AnisotropicFiltering;
 		int AntiAliasing;		
 
