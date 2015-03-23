@@ -61,7 +61,12 @@ int _Audio::Init(bool Enabled) {
 int _Audio::Close() {
 	if(!Enabled)
 		return 1;
-
+	
+	// Remove playing sounds
+	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ++Iterator)
+		delete *Iterator;
+	Sources.clear();
+	
 	// Free loaded sounds
 	FreeAllBuffers();
 	
@@ -83,6 +88,43 @@ int _Audio::Close() {
 	Enabled = false;
 
 	return 1;
+}
+
+// Update all audio sources
+void _Audio::Update() {
+	if(!Enabled)
+		return;
+	
+	// Update sources
+	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ) {
+		_AudioSource *Source = *Iterator;
+		bool NeedsDelete = false;
+		
+		// Check conditions for deletion
+		if(!Source->IsPlaying()) {
+			NeedsDelete = true;
+		}
+		
+		// Delete source
+		if(NeedsDelete) {
+			delete Source;
+			Iterator = Sources.erase(Iterator);
+		}
+		else {
+			++Iterator;
+		}
+	}
+}
+
+// Stop all sounds from the audio manager and remove them
+void _Audio::StopSounds() {
+	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ++Iterator) {
+		_AudioSource *Source = *Iterator;
+		Source->Stop();
+		
+		delete Source;
+	}
+	Sources.clear();
 }
 
 // Loads an ogg file into memory
@@ -148,6 +190,17 @@ bool _Audio::LoadBuffer(const std::string &File) {
 	return true;
 }
 
+// Play an audio source and add it to the audio manager
+void _Audio::Play(_AudioSource *AudioSource, float X, float Y, float Z) {
+	if(!Enabled)
+		return;
+	
+	AudioSource->SetPosition(X, Y, Z);
+	Sources.push_back(AudioSource);
+	
+	AudioSource->Play();
+}
+
 // Get a loaded buffer
 const AudioBufferStruct *_Audio::GetBuffer(const std::string &File) {
 	if(!Enabled)
@@ -162,6 +215,24 @@ const AudioBufferStruct *_Audio::GetBuffer(const std::string &File) {
 		return NULL;
 
 	return &BuffersIterator->second;
+}
+
+// Free buffer
+void _Audio::CloseBuffer(const std::string &File) {
+	if(!Enabled)
+		return;
+	
+	// Get path
+	std::string Path = std::string("sounds/") + File;
+
+	// Find buffer in map
+	BuffersIterator = Buffers.find(Path);
+	if(BuffersIterator == Buffers.end())
+		return;
+	
+	AudioBufferStruct &Buffer = BuffersIterator->second;
+	alDeleteBuffers(1, &Buffer.ID);
+	Buffers.erase(BuffersIterator);
 }
 
 // Free all loaded buffers
@@ -248,6 +319,23 @@ void _AudioSource::Play() {
 		// Play sound
 		alSourcePlay(ID);
 	}
+}
+
+// Play
+void _AudioSource::Stop() {
+	if(Loaded) {
+		alSourceStop(ID);
+	}
+}
+
+
+// Returns true if the source is playing
+bool _AudioSource::IsPlaying() {
+	ALenum State;
+    
+    alGetSourcei(ID, AL_SOURCE_STATE, &State);
+	
+	return State == AL_PLAYING;
 }
 
 // Set pitch

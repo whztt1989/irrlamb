@@ -19,6 +19,7 @@
 #include <al.h>
 #include <alc.h>
 #include <string>
+#include <list>
 #include <map>
 
 // Struct for OpenAL buffers
@@ -36,9 +37,12 @@ class _AudioSource {
 		~_AudioSource();
 
 		void Play();
+		void Stop();
 		void SetPitch(float Value);
 		void SetGain(float Value);
 		void SetPosition(float X, float Y, float Z);
+		
+		bool IsPlaying();
 
 	private:
 
@@ -56,9 +60,15 @@ class _Audio {
 
 		bool IsEnabled() { return Enabled; }
 
+		// Manager
+		void Update();
+		void Play(_AudioSource *AudioSource, float X, float Y, float Z);
+		void StopSounds();
+
 		// Buffers
 		bool LoadBuffer(const std::string &File);
 		const AudioBufferStruct *GetBuffer(const std::string &File);
+		void CloseBuffer(const std::string &File);
 		void FreeAllBuffers();
 
 		// 3D Audio
@@ -74,6 +84,9 @@ class _Audio {
 		// Buffers
 		std::map<std::string, AudioBufferStruct>::iterator BuffersIterator;
 		std::map<std::string, AudioBufferStruct> Buffers;
+		
+		// Sources
+		std::list<_AudioSource *> Sources;
 };
 
 // Singletons

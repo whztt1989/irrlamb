@@ -85,6 +85,7 @@ int _PlayState::Close() {
 	ObjectManager.ClearObjects();
 	Interface.Clear();
 	irrScene->clear();
+	Audio.StopSounds();
 
 	// Save stats
 	if(TestLevel == "") {
@@ -104,7 +105,10 @@ void _PlayState::ResetLevel() {
 		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
 		Save.SaveLevelStats(Level.GetLevelName());
 	}
-
+	
+	// Stop sounds
+	Audio.StopSounds();
+	
 	// Stop recording
 	Replay.StopRecording();
 

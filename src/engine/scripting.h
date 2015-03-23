@@ -57,7 +57,7 @@ class _Scripting {
 	private:
 
 		static luaL_Reg CameraFunctions[], ObjectFunctions[], OrbFunctions[], TimerFunctions[], LevelFunctions[],
-						GUIFunctions[], RandomFunctions[], ZoneFunctions[];
+						GUIFunctions[], AudioFunctions[], RandomFunctions[], ZoneFunctions[];
 
 		static bool CheckArguments(lua_State *LuaObject, int Required);
 
@@ -86,6 +86,8 @@ class _Scripting {
 		static int LevelCreateSpring(lua_State *LuaObject);
 
 		static int GUITutorialText(lua_State *LuaObject);
+		
+		static int AudioPlay(lua_State *LuaObject);
 
 		static int RandomSeed(lua_State *LuaObject);
 		static int RandomGetFloat(lua_State *LuaObject);

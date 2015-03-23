@@ -10,6 +10,7 @@
 		<script file="c_trees0.lua" />
 		<scene file="c_trees0.irr" />
 		<collision file="c_trees0.col" />
+		<sound file="splash.ogg" />
 	</resources>
 	<templates>
 		<player name="player" />

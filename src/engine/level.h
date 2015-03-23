@@ -80,6 +80,7 @@ class _Level {
 
 		// Resources
 		std::vector<std::string> Scripts;
+		std::vector<std::string> Sounds;
 
 		// Objects
 		std::vector<TemplateStruct *> Templates;

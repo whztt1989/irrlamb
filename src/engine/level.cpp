@@ -26,6 +26,7 @@
 #include <engine/log.h>
 #include <engine/physics.h>
 #include <engine/input.h>
+#include <engine/audio.h>
 #include <engine/filestream.h>
 #include <engine/config.h>
 #include <objects/template.h>
@@ -242,6 +243,23 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 			Scripts.push_back(DataPath + File);
 		}
+		
+		// Load sounds
+		Sounds.clear();
+		for(XMLElement *SoundElement = ResourcesElement->FirstChildElement("sound"); SoundElement != 0; SoundElement = SoundElement->NextSiblingElement("sound")) {
+			
+			// Get file
+			std::string File = SoundElement->Attribute("file");
+			if(File == "") {
+				Log.Write("Could not find file attribute on sound");
+				Close();
+				return 0;
+			}
+			
+			// Attempt to load sound
+			if(Audio.LoadBuffer(File))
+				Sounds.push_back(File);
+		}
 	}
 
 	// Load templates
@@ -302,6 +320,12 @@ int _Level::Close() {
 
 	// Clear scripts
 	Scripts.clear();
+	
+	// Clear sounds
+	for(size_t i = 0; i < Sounds.size(); i++) {
+		Audio.CloseBuffer(Sounds[i]);
+	}
+	Sounds.clear();
 
 	// Delete templates
 	for(size_t i = 0; i < Templates.size(); i++) {

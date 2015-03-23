@@ -242,6 +242,7 @@ void _Game::Update() {
 		break;
 	}
 
+	Audio.Update();
 	State->Draw();
 	Graphics.EndFrame();
 }

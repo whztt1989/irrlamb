@@ -22,6 +22,7 @@
 #include <engine/objectmanager.h>
 #include <engine/level.h>
 #include <engine/campaign.h>
+#include <engine/audio.h>
 #include <objects/template.h>
 #include <objects/player.h>
 #include <objects/orb.h>
@@ -84,6 +85,12 @@ luaL_Reg _Scripting::GUIFunctions[] = {
 	{NULL, NULL}
 };
 
+// Functions for audio
+luaL_Reg _Scripting::AudioFunctions[] = {
+	{"Play", &_Scripting::AudioPlay},
+	{NULL, NULL}
+};
+
 // Functions for random number generation
 luaL_Reg _Scripting::RandomFunctions[] = {
 	{"Seed", &_Scripting::RandomSeed},
@@ -142,6 +149,7 @@ void _Scripting::Reset() {
 	luaL_register(LuaObject, "Timer", TimerFunctions);
 	luaL_register(LuaObject, "Level", LevelFunctions);
 	luaL_register(LuaObject, "GUI", GUIFunctions);
+	luaL_register(LuaObject, "Audio", AudioFunctions);
 	luaL_register(LuaObject, "Random", RandomFunctions);
 	luaL_register(LuaObject, "Zone", ZoneFunctions);
 
@@ -605,6 +613,42 @@ int _Scripting::GUITutorialText(lua_State *LuaObject) {
 	Interface.SetTutorialText(Text, Length);
 
 	return 0;
+}
+
+// Plays a sound buffer
+int _Scripting::AudioPlay(lua_State *LuaObject) {
+
+	// Validate arguments
+	int ArgumentCount = lua_gettop(LuaObject);
+	if(ArgumentCount < 4 || ArgumentCount > 7)
+		return 0;
+
+	// Get parameters
+	std::string File(lua_tostring(LuaObject, 1));
+	float PositionX = (float)lua_tonumber(LuaObject, 2);
+	float PositionY = (float)lua_tonumber(LuaObject, 3);
+	float PositionZ = (float)lua_tonumber(LuaObject, 4);
+	
+	int Looping = 0;
+	if(ArgumentCount > 4)
+		Looping = (int)lua_tonumber(LuaObject, 5);
+		
+	float MinGain = 0.0f;
+	if(ArgumentCount > 5)
+		MinGain = (float)lua_tonumber(LuaObject, 6);
+
+	float MaxGain = 1.0f;
+	if(ArgumentCount > 6)
+		MaxGain = (float)lua_tonumber(LuaObject, 7);
+
+	// Play sound
+	_AudioSource *Source = new _AudioSource(Audio.GetBuffer(File), Looping, MinGain, MaxGain);
+	Audio.Play(Source, PositionX, PositionY, PositionZ);
+
+	// Return audio source
+	lua_pushlightuserdata(LuaObject, static_cast<void *>(Source));
+	
+	return 1;
 }
 
 // Sets the random seed
