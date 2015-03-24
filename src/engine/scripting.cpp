@@ -496,6 +496,12 @@ int _Scripting::TimerDelayedFunction(lua_State *LuaObject) {
 
 // Restarts the level
 int _Scripting::LevelLose(lua_State *LuaObject) {
+	int ArgumentCount = lua_gettop(LuaObject);
+	
+	if(ArgumentCount == 1) {
+		std::string Message = lua_tostring(LuaObject, 1);
+		Menu.SetLoseMessage(Message);
+	}
 
 	PlayState.LoseLevel();
 	

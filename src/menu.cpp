@@ -859,6 +859,7 @@ void _Menu::InitPlay() {
 
 	Graphics.SetClearColor(Level.GetClearColor());
 	Input.SetMouseLocked(true);
+	LoseMessage = "You died!";
 
 	PreviousState = State;
 	State = STATE_NONE;
@@ -1165,8 +1166,7 @@ void _Menu::DrawLoseScreen() {
 	// Draw header
 	int X = Interface.GetCenterX();
 	int Y = Interface.GetCenterY() - WIN_HEIGHT / 2 - 40;
-	//Interface.DrawTextBox(Interface.GetCenterX(), Interface.GetCenterY(), WIN_WIDTH, WIN_HEIGHT);
-	Interface.RenderText("You died!", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
+	Interface.RenderText(LoseMessage.c_str(), X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_LARGE);
 }
 
 // Cancels the key bind state

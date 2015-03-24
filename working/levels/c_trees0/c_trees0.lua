@@ -16,7 +16,7 @@ function OnHitZone(HitType, Zone, HitObject)
 	end
 		
 	if HitObject == Player then
-		Level.Lose()
+		Level.Lose("You drowned!")
 		return 1
 	end
 	

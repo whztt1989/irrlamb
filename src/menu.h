@@ -79,6 +79,7 @@ class _Menu {
 		void DrawLoseScreen();
 		void DrawWinScreen();
 		void ClearCurrentLayout();
+		void SetLoseMessage(const std::string &Message) { LoseMessage = Message; }
 
 	private:
 
@@ -104,6 +105,7 @@ class _Menu {
 		// Level info
 		std::vector<const SaveLevelStruct *> LevelStats;
 		const SaveLevelStruct *WinStats;
+		std::string LoseMessage;
 
 		// Key mapping
 		int CurrentKeys[_Actions::COUNT];

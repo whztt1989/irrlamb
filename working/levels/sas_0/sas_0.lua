@@ -21,7 +21,7 @@ end
 function OnHitZone(HitType, Zone, HitObject)
 
 	if HitObject == Player then
-		Level.Lose()
+		Level.Lose("You flew off into space!")
 		return 1
 	end
 	
