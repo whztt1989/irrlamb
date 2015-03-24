@@ -17,5 +17,16 @@ function ShowLastOrb()
 	GUI.TutorialText("Now, enter the cave of the Sasquatch to begin your adventure.", 12)
 end
 
+-- Display lose message
+function OnHitZone(HitType, Zone, HitObject)
+
+	if HitObject == Player then
+		Level.Lose()
+		return 1
+	end
+	
+	return 0
+end
+
 -- Set up goal
 GoalCount = 5

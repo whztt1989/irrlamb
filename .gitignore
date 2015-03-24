@@ -5,6 +5,8 @@ build
 *.swp
 deployment/*.exe
 deployment/*-src
+working/*.log
+working/*.irr
 codelite/debug
 codelite/release
 codelite/.codelite

@@ -531,7 +531,7 @@ void _Menu::InitSinglePlayer() {
 	AddMenuText(core::position2di(X, Y), L"Level Sets");
 
 	// Campaigns
-	Y += TITLE_SPACING;
+	Y += TITLE_SPACING - 30;
 	const std::vector<CampaignStruct> &Campaigns = Campaign.GetCampaigns();
 	for(u32 i = 0; i < Campaigns.size(); i++) {
 		irr::core::stringw Name(Campaigns[i].Name.c_str());

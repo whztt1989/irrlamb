@@ -2656,9 +2656,8 @@ class iScene:
             amb[1], amb[2], 1.0)))
 
         file.write('<?xml version="1.0"?>\n')
-        file.write('<!-- Created {} by irrb {} - "Irrlicht/Blender ' \
-                'Exporter" -->\n'.format(datetime2str(time.localtime()),
-                getversion()))
+        file.write('<!-- Created by irrb {} - "Irrlicht/Blender ' \
+                'Exporter" -->\n'.format(getversion()))
         file.write('<irr_scene>\n')
         file.write('   <attributes>\n')
         file.write('      <string name="Name" value="root"/>\n')

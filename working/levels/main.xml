@@ -17,10 +17,10 @@
 		<level>tut_jump4</level>
 		<level>tut_longjump0</level>
 	</campaign>
-	<!--<campaign name="Cave I">
+	<campaign name="Caves">
 		<level unlocked="1">sas_0</level>
 		<level>sas_1</level>
-	</campaign>-->
+	</campaign>
 	<campaign name="Skate Set">
 		<level unlocked="1">skate_0</level>
 		<level>skate_1</level>
