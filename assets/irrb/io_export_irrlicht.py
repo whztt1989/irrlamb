@@ -3148,7 +3148,7 @@ class iScene:
         if len(bObject.material_slots) > 0:
             bMaterial = bObject.material_slots[0].material
 
-        material = iMaterial(bObject, 'skybox', self.exporter, bMaterial)
+        material = iMaterial(bObject, 'skybox', bMaterial.name, self.exporter, bMaterial)
         topImage = sImages['top'].image
         botImage = sImages['bottom'].image
         leftImage = sImages['left'].image
