@@ -1082,7 +1082,7 @@ void _Menu::Draw() {
 
 							// Date
 							char DateString[32];
-							strftime(DateString, 32, "%m-%d-%Y", localtime(&Stats->HighScores[i].DateStamp));
+							strftime(DateString, 32, "%Y-%m-%d", localtime(&Stats->HighScores[i].DateStamp));
 							Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, video::SColor(255, 255, 255, 255));
 
 							HighY += 18;
@@ -1152,7 +1152,7 @@ void _Menu::DrawWinScreen() {
 
 		// Date
 		char DateString[32];
-		strftime(DateString, 32, "%m-%d-%Y", localtime(&WinStats->HighScores[i].DateStamp));
+		strftime(DateString, 32, "%Y-%m-%d", localtime(&WinStats->HighScores[i].DateStamp));
 		Interface.RenderText(DateString, HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, video::SColor(200, 255, 255, 255));
 
 		HighY += 17;
