@@ -95,9 +95,6 @@ include_directories(${SQLITE3_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIRS})
 include_directories("src")
 
-# preprocessor definitions
-add_definitions("-DTIXML_USE_STL")
-
 # add source code
 file(GLOB SRC_MAIN src/*.cpp src/*.h)
 file(GLOB SRC_ENGINE src/engine/*.cpp src/engine/*.h)
