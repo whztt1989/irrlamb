@@ -23,7 +23,7 @@ make -j`nproc`
 cd ../working && ../bin/Release/irrlamb
 
 Building in Codelite:
-Open codelite/emptyclip.workspace with codelite. Run the custom build target 'CMake', then build with F7.
+Open codelite/irrlamb.workspace with codelite. Run the custom build target 'CMake', then build with F7.
 
 Installing:
 run "sudo make install" from the build directory.
