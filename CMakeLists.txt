@@ -18,7 +18,7 @@ add_definitions("-DLUA_COMPAT_ALL")
 if(MSVC)
 	set(FREETYPE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extlibs/include")
 	set(LUA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/lua5.2")
-	
+
 	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
 	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
@@ -26,35 +26,35 @@ if(MSVC)
 	set(VORBISFILE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile.lib)
 	set(OGG_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg.lib)
 	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/debug/lua52_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/release/lua52.lib)
-	
+
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 	link_directories("${PROJECT_SOURCE_DIR}/extlibs/")
-	
+
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)
 else()
 	if(NOT CMAKE_BUILD_TYPE)
 		set(CMAKE_BUILD_TYPE Release)
 	endif()
-	
+
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
 	set(SQLITE3_LIBRARIES sqlite3)
 	set(SQLITE3_INCLUDE_DIR "/usr/include")
 	set(VORBISFILE_LIBRARY vorbisfile)
-	
+
 	# x11
 	find_package(X11 REQUIRED)
 	set(EXTRA_LIBS ${EXTRA_LIBS} ${X11_X11_LIB} ${X11_Xrandr_LIB} ${X11_Xext_LIB} ${X11_Xxf86vm_LIB})
 	include_directories(${X11_Xrandr_INCLUDE_PATH})
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
-	
-	find_package(Lua REQUIRED)
+
+	find_package(Lua 5.2 REQUIRED)
 	if(NOT LUA_FOUND)
 		message(SEND_ERROR "Could not find Lua 5.2!")
 	endif()
-	
+
 	if(PANDORA)
 		add_definitions("-DPANDORA")
 		add_definitions("-DLUA_USE_LINUX")
@@ -135,7 +135,7 @@ if(WIN32)
 	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win32-VisualStudio/Irrlicht.dll" ${PROJECT_SOURCE_DIR}/working)
 	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win32-VisualStudio/Irrlicht_d.dll" ${PROJECT_SOURCE_DIR}/working)
 else()
-	
+
 	# linux installation
 	install(TARGETS ${CMAKE_PROJECT_NAME} RUNTIME DESTINATION share/games/${CMAKE_PROJECT_NAME})
 	install(DIRECTORY ${PROJECT_SOURCE_DIR}/working/art DESTINATION share/games/${CMAKE_PROJECT_NAME})
@@ -151,7 +151,7 @@ else()
 	install(FILES ${PROJECT_SOURCE_DIR}/CHANGELOG DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 	install(FILES ${PROJECT_SOURCE_DIR}/LICENSE DESTINATION share/doc/${CMAKE_PROJECT_NAME})
 	install(FILES ${PROJECT_SOURCE_DIR}/README DESTINATION share/doc/${CMAKE_PROJECT_NAME})
-	
+
 	# generate the script to launch the program
 	configure_file(${PROJECT_SOURCE_DIR}/deployment/${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles)
 	install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${CMAKE_PROJECT_NAME} DESTINATION bin)

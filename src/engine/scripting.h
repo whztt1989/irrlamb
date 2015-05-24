@@ -54,10 +54,10 @@ class _Scripting {
 		void HandleMousePress(int Button, int MouseX, int MouseY);
 		void UpdateTimedCallbacks();
 
-	private:
-
 		static luaL_Reg CameraFunctions[], ObjectFunctions[], OrbFunctions[], TimerFunctions[], LevelFunctions[],
 						GUIFunctions[], AudioFunctions[], RandomFunctions[], ZoneFunctions[];
+
+	private:
 
 		static bool CheckArguments(lua_State *LuaObject, int Required);
 
@@ -86,16 +86,16 @@ class _Scripting {
 		static int LevelCreateSpring(lua_State *LuaObject);
 
 		static int GUITutorialText(lua_State *LuaObject);
-		
+
 		static int AudioPlay(lua_State *LuaObject);
 
 		static int RandomSeed(lua_State *LuaObject);
 		static int RandomGetFloat(lua_State *LuaObject);
 		static int RandomGetInt(lua_State *LuaObject);
-		
+
 		void AddTimedCallback(const std::string &FunctionName, float Time);
 		void AttachKeyToFunction(int Key, const std::string &FunctionName);
-		
+
 		std::list<TimedCallbackStruct> TimedCallbacks;
 
 		std::map<int, std::string> KeyCallbacks;

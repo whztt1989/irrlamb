@@ -75,7 +75,7 @@ luaL_Reg _Scripting::LevelFunctions[] = {
 	{"GetTemplate", &_Scripting::LevelGetTemplate},
 	{"CreateObject", &_Scripting::LevelCreateObject},
 	{"CreateConstraint", &_Scripting::LevelCreateConstraint},
-	{"CreateSpring", &_Scripting::LevelCreateSpring},	
+	{"CreateSpring", &_Scripting::LevelCreateSpring},
 	{NULL, NULL}
 };
 
@@ -101,14 +101,60 @@ luaL_Reg _Scripting::RandomFunctions[] = {
 
 // Functions for manipulating zones
 luaL_Reg _Scripting::ZoneFunctions[] = {
-	
+
 	{NULL, NULL}
 };
+
+// Lua library functions
+int luaopen_Camera(lua_State *State) {
+	luaL_newlib(State, _Scripting::CameraFunctions);
+	return 1;
+}
+
+int luaopen_Object(lua_State *State) {
+	luaL_newlib(State, _Scripting::ObjectFunctions);
+	return 1;
+}
+
+int luaopen_Orb(lua_State *State) {
+	luaL_newlib(State, _Scripting::OrbFunctions);
+	return 1;
+}
+
+int luaopen_Timer(lua_State *State) {
+	luaL_newlib(State, _Scripting::TimerFunctions);
+	return 1;
+}
+
+int luaopen_Level(lua_State *State) {
+	luaL_newlib(State, _Scripting::LevelFunctions);
+	return 1;
+}
+
+int luaopen_GUI(lua_State *State) {
+	luaL_newlib(State, _Scripting::GUIFunctions);
+	return 1;
+}
+
+int luaopen_Audio(lua_State *State) {
+	luaL_newlib(State, _Scripting::AudioFunctions);
+	return 1;
+}
+
+int luaopen_Random(lua_State *State) {
+	luaL_newlib(State, _Scripting::RandomFunctions);
+	return 1;
+}
+
+int luaopen_Zone(lua_State *State) {
+	luaL_newlib(State, _Scripting::ZoneFunctions);
+	return 1;
+}
 
 // Constructor
 _Scripting::_Scripting()
 :	LuaObject(NULL) {
-	
+
 }
 
 // Initializes the scripting interface
@@ -132,26 +178,26 @@ int _Scripting::Close() {
 
 // Resets the scripting state
 void _Scripting::Reset() {
-	
+
 	// Close old lua state
 	if(LuaObject != NULL)
 		lua_close(LuaObject);
-	
+
 	// Initialize Lua object
 	LuaObject = luaL_newstate();
 	luaopen_base(LuaObject);
 	luaopen_math(LuaObject);
 
 	// Register C++ functions used by Lua
-	luaL_register(LuaObject, "Camera", CameraFunctions);
-	luaL_register(LuaObject, "Object", ObjectFunctions);
-	luaL_register(LuaObject, "Orb", OrbFunctions);
-	luaL_register(LuaObject, "Timer", TimerFunctions);
-	luaL_register(LuaObject, "Level", LevelFunctions);
-	luaL_register(LuaObject, "GUI", GUIFunctions);
-	luaL_register(LuaObject, "Audio", AudioFunctions);
-	luaL_register(LuaObject, "Random", RandomFunctions);
-	luaL_register(LuaObject, "Zone", ZoneFunctions);
+	luaL_requiref(LuaObject, "Camera", luaopen_Camera, 1);
+	luaL_requiref(LuaObject, "Object", luaopen_Object, 1);
+	luaL_requiref(LuaObject, "Orb", luaopen_Orb, 1);
+	luaL_requiref(LuaObject, "Timer", luaopen_Timer, 1);
+	luaL_requiref(LuaObject, "Level", luaopen_Level, 1);
+	luaL_requiref(LuaObject, "GUI", luaopen_GUI, 1);
+	luaL_requiref(LuaObject, "Audio", luaopen_Audio, 1);
+	luaL_requiref(LuaObject, "Random", luaopen_Random, 1);
+	luaL_requiref(LuaObject, "Zone", luaopen_Zone, 1);
 
 	// Clean up
 	KeyCallbacks.clear();
@@ -175,7 +221,7 @@ int _Scripting::LoadFile(const std::string &FilePath) {
 
 // Defines a variable in Lua
 void _Scripting::DefineLuaVariable(const char *VariableName, const char *Value) {
-	
+
 	lua_pushstring(LuaObject, Value);
 	lua_setglobal(LuaObject, VariableName);
 }
@@ -200,12 +246,12 @@ bool _Scripting::CheckArguments(lua_State *LuaObject, int Required) {
 
 // Calls a Lua function by name
 void _Scripting::CallFunction(const std::string &FunctionName) {
-	
+
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
 	if(!lua_isfunction(LuaObject, -1)) {
 		lua_pop(LuaObject, 1);
-		return;	
+		return;
 	}
 
 	lua_call(LuaObject, 0, 0);
@@ -213,14 +259,14 @@ void _Scripting::CallFunction(const std::string &FunctionName) {
 
 // Passes collision events to Lua
 void _Scripting::CallCollisionHandler(const std::string &FunctionName, _Object *BaseObject, _Object *OtherObject) {
-	
+
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
 	if(!lua_isfunction(LuaObject, -1)) {
 		lua_pop(LuaObject, 1);
-		return;	
+		return;
 	}
-	
+
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(BaseObject));
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(OtherObject));
 	lua_call(LuaObject, 2, 0);
@@ -228,14 +274,14 @@ void _Scripting::CallCollisionHandler(const std::string &FunctionName, _Object *
 
 // Calls a zone enter/exit event
 void _Scripting::CallZoneHandler(const std::string &FunctionName, int Type, _Object *Zone, _Object *Object) {
-	
+
 	// Check for the function name
 	lua_getglobal(LuaObject, FunctionName.c_str());
 	if(!lua_isfunction(LuaObject, -1)) {
 		lua_pop(LuaObject, 1);
-		return;	
+		return;
 	}
-	
+
 	// Set parameters
 	lua_pushinteger(LuaObject, Type);
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Zone));
@@ -277,16 +323,16 @@ void _Scripting::HandleMousePress(int Button, int MouseX, int MouseY) {
 	lua_pushnumber(LuaObject, Button);
 	lua_pushnumber(LuaObject, MouseX);
 	lua_pushnumber(LuaObject, MouseY);
-	lua_call(LuaObject, 3, 0);		
+	lua_call(LuaObject, 3, 0);
 }
 
 // Sets the camera's yaw value
 int _Scripting::CameraSetYaw(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
-	
+
 	float Yaw = (float)lua_tonumber(LuaObject, 1);
 
 	if(PlayState.GetCamera())
@@ -297,11 +343,11 @@ int _Scripting::CameraSetYaw(lua_State *LuaObject) {
 
 // Sets the camera's yaw value
 int _Scripting::CameraSetPitch(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
-	
+
 	float Pitch = (float)lua_tonumber(LuaObject, 1);
 
 	if(PlayState.GetCamera())
@@ -312,7 +358,7 @@ int _Scripting::CameraSetPitch(lua_State *LuaObject) {
 
 // Gets a pointer to an object from a name
 int _Scripting::ObjectGetPointer(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
@@ -329,13 +375,13 @@ int _Scripting::ObjectGetPointer(lua_State *LuaObject) {
 
 // Gets the name of an object
 int _Scripting::ObjectGetName(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
 
 	_Object *Object = (_Object *)(lua_touserdata(LuaObject, 1));
-	
+
 	if(Object != NULL)
 		lua_pushstring(LuaObject, Object->GetName().c_str());
 
@@ -364,7 +410,7 @@ int _Scripting::ObjectSetPosition(lua_State *LuaObject) {
 
 // Gets the object's position
 int _Scripting::ObjectGetPosition(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
@@ -384,7 +430,7 @@ int _Scripting::ObjectGetPosition(lua_State *LuaObject) {
 
 // Sets the object's lifetime
 int _Scripting::ObjectSetLifetime(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 2))
 		return 0;
@@ -402,7 +448,7 @@ int _Scripting::ObjectSetLifetime(lua_State *LuaObject) {
 
 // Stops an object's movement
 int _Scripting::ObjectStop(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
@@ -417,7 +463,7 @@ int _Scripting::ObjectStop(lua_State *LuaObject) {
 
 // Sets an object's angular velocity
 int _Scripting::ObjectSetAngularVelocity(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 4))
 		return 0;
@@ -436,7 +482,7 @@ int _Scripting::ObjectSetAngularVelocity(lua_State *LuaObject) {
 
 // Deletes an object
 int _Scripting::ObjectDelete(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 1))
 		return 0;
@@ -451,7 +497,7 @@ int _Scripting::ObjectDelete(lua_State *LuaObject) {
 
 // Deactivates an orb
 int _Scripting::OrbDeactivate(lua_State *LuaObject) {
-	
+
 	// Validate arguments
 	if(!CheckArguments(LuaObject, 3))
 		return 0;
@@ -497,14 +543,14 @@ int _Scripting::TimerDelayedFunction(lua_State *LuaObject) {
 // Restarts the level
 int _Scripting::LevelLose(lua_State *LuaObject) {
 	int ArgumentCount = lua_gettop(LuaObject);
-	
+
 	if(ArgumentCount == 1) {
 		std::string Message = lua_tostring(LuaObject, 1);
 		Menu.SetLoseMessage(Message);
 	}
 
 	PlayState.LoseLevel();
-	
+
 	return 0;
 }
 
@@ -512,7 +558,7 @@ int _Scripting::LevelLose(lua_State *LuaObject) {
 int _Scripting::LevelWin(lua_State *LuaObject) {
 
 	PlayState.WinLevel();
-	
+
 	return 0;
 }
 
@@ -528,7 +574,7 @@ int _Scripting::LevelGetTemplate(lua_State *LuaObject) {
 
 	// Send template to Lua
 	lua_pushlightuserdata(LuaObject, Level.GetTemplate(TemplateName));
-	
+
 	return 1;
 }
 
@@ -634,11 +680,11 @@ int _Scripting::AudioPlay(lua_State *LuaObject) {
 	float PositionX = (float)lua_tonumber(LuaObject, 2);
 	float PositionY = (float)lua_tonumber(LuaObject, 3);
 	float PositionZ = (float)lua_tonumber(LuaObject, 4);
-	
+
 	int Looping = 0;
 	if(ArgumentCount > 4)
 		Looping = (int)lua_tonumber(LuaObject, 5);
-		
+
 	float MinGain = 0.0f;
 	if(ArgumentCount > 5)
 		MinGain = (float)lua_tonumber(LuaObject, 6);
@@ -653,7 +699,7 @@ int _Scripting::AudioPlay(lua_State *LuaObject) {
 
 	// Return audio source
 	lua_pushlightuserdata(LuaObject, static_cast<void *>(Source));
-	
+
 	return 1;
 }
 
@@ -718,7 +764,7 @@ void _Scripting::AddTimedCallback(const std::string &FunctionName, float Time) {
 	TimedCallbackStruct Callback;
 	Callback.TimeStamp = PlayState.GetTimer() + Time;
 	Callback.Function = FunctionName;
-	
+
 	// Insert in order
 	std::list<TimedCallbackStruct>::iterator Iterator;
 	for(Iterator = TimedCallbacks.begin(); Iterator != TimedCallbacks.end(); ++Iterator) {

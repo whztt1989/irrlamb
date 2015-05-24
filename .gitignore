@@ -3,15 +3,8 @@ build
 *.blend[0-9]
 *.dll
 *.swp
+CMakeLists.txt.user
 deployment/*.exe
 deployment/*-src
 working/*.log
 working/*.irr
-codelite/debug
-codelite/release
-codelite/.codelite
-codelite/Makefile
-codelite/cscope*
-codelite/irrlamb.workspace.*
-codelite/irrlamb.mk
-codelite/*.json
