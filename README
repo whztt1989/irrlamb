@@ -46,8 +46,7 @@ F11                       Toggle HUD
 F12                       Screenshot
 
 
-Save data is in %APPDATA%/irrlamb for windows and
-~/.irrlamb for linux.
+Save data is in ~/.local/share/irrlamb for linux and %APPDATA%/irrlamb for windows.
 
 
 Setting up blender for exporting:

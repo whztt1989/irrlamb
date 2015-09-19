@@ -37,8 +37,12 @@ int _Save::Init() {
 		SavePath = std::string(getenv("APPDATA")) + "/irrlamb/";
 		CreateDirectory(SavePath.c_str(), NULL);
 	#else
-		SavePath = std::string(getenv("HOME")) + std::string("/.irrlamb/");
-		mkdir(SavePath.c_str(), S_IRWXU | S_IXGRP | S_IRGRP | S_IXOTH | S_IROTH);
+		SavePath = std::string(getenv("HOME")) + std::string("/.local/");
+		mkdir(SavePath.c_str(), 0755);
+		SavePath += "share/";
+		mkdir(SavePath.c_str(), 0755);
+		SavePath += "irrlamb/";
+		mkdir(SavePath.c_str(), 0755);
 	#endif
 
 	ReplayPath = SavePath + std::string("replays/");
