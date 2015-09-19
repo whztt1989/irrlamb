@@ -6,9 +6,9 @@ https://github.com/jazztickets/irrlamb
 
 Linux dependencies:
 cmake 3.0+
-irrlicht
-bullet
-freetype
+irrlicht 1.8
+bullet 2.83
+freetype2
 sqlite3
 lua 5.3
 openal
@@ -27,7 +27,7 @@ run "sudo make install" from the build directory.
 
 Command-line arguments
 -level [.xml file]        Test a level
--replay [.replay file]    Views a replay directly
+-replay [.replay file]    View a replay
 -noaudio                  Disable audio
 
 Keys

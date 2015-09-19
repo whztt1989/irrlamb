@@ -1,7 +1,7 @@
-irrlamb 0.2.0 -
-- Added joystick support
+irrlamb 0.2.0 - 2015-09-19
+- Added gamepad support
 - Added per-pixel lighting
-- Added three new levels
+- Added new levels
 - Made menus and fonts bigger
 - Can access options in-game now
 - Added shaders, anisotropic filtering, V-sync, and MSAA to video options
@@ -9,7 +9,7 @@ irrlamb 0.2.0 -
 - Fixed replay bug
 - Fixed memory leaks
 
-irrlamb 0.1.1 - 3/3/2013
+irrlamb 0.1.1 - 2013-03-03
 - Added audio (OpenAL)
 - Added screen fading
 - Added shader support
@@ -20,7 +20,7 @@ irrlamb 0.1.1 - 3/3/2013
 - Fixed a Lua API bug in Object.GetPosition
 - Removed scons, added cmake.
 
-irrlamb 0.1.0 - 1/6/2010
+irrlamb 0.1.0 - 2010-01-06
 - Completely updated the game's graphics
 - Added 12 tutorial levels + 2 skate levels
 - Added ability to set shadows, filtering, and AA in config file
@@ -37,7 +37,7 @@ irrlamb 0.1.0 - 1/6/2010
 - Removed audio, old levels, and grapple for now
 - Refactored lots of code
 
-irrlamb 0.0.5 - 8/27/2007
+irrlamb 0.0.5 - 2007-08-27
 - New gameplay mechanic: grapple
 - Added more levels
 - Added springs
@@ -45,7 +45,7 @@ irrlamb 0.0.5 - 8/27/2007
 - Added code to limit frame rate
 - Changed replay file structure. Old replays are incompatible
 
-irrlamb 0.0.4 - 7/9/2007
+irrlamb 0.0.4 - 2007-07-09
 - Added level unlocking
 - Added high score list
 - Added support for constraints/joints
@@ -59,14 +59,14 @@ irrlamb 0.0.4 - 7/9/2007
 - Fixed some compile/scons issues
 - Upgraded to GPL version 3
 
-irrlamb 0.0.3 - 6/17/2007
+irrlamb 0.0.3 - 2007-06-17
 - Added replays
 - Added pause and win screen
 - Added two new levels
 - Levels are now stored as xml files
 - Fixed some bugs
 
-irrlamb 0.0.2 - 6/3/2007
+irrlamb 0.0.2 - 2007-06-03
 - Added video and control options
 - Added level selection menu
 - Added one new level
@@ -76,5 +76,5 @@ irrlamb 0.0.2 - 6/3/2007
 - Added more scripting functions
 - Misc. bug fixes
 
-irrlamb 0.0.1 - 5/22/2007
+irrlamb 0.0.1 - 2007-05-22
 - First release
