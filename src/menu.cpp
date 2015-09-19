@@ -582,7 +582,7 @@ void _Menu::InitLevels() {
 				Save.UnlockLevel(CampaignData.Levels[i].File);
 				Unlocked = true;
 			}
-		}				
+		}
 
 		// Add button
 		gui::IGUIButton *Level = irrGUI->addButton(Interface.GetCenteredRect(X + Column * 80, Y + Row * 80, 64, 64), CurrentLayout, CAMPAIGN_LEVELID + i);

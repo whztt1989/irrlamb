@@ -63,7 +63,7 @@ _Constraint::_Constraint(const ConstraintStruct &Object)
 				btPoint2PointConstraint *NewConstraint = new btPoint2PointConstraint(*Object.BodyA->GetBody(), btVector3(0.0f, 0.0f, 0.0f));
 				Constraint = NewConstraint;
 			}
-*/		
+*/
 		}
 
 	}

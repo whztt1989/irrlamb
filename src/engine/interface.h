@@ -48,7 +48,7 @@ class CGUIEmptyElement : public irr::gui::IGUIElement {
 		virtual bool isPointInside(const irr::core::position2d<irr::s32> &Point) const { return false; }
 		virtual bool bringToFront(IGUIElement *Element) {
 			bool Result = irr::gui::IGUIElement::bringToFront(Element);
-			if(Parent) 
+			if(Parent)
 				Parent->bringToFront(this);
 			return Result;
 		}

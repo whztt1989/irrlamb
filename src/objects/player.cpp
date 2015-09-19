@@ -133,7 +133,7 @@ void _Player::Update(float FrameTime) {
 			RigidBody->applyCentralImpulse(btVector3(0.0f, JUMP_POWER, 0.0f));
 			JumpTimer = 0.0f;
 		}
-	}	
+	}
 }
 
 // Processes input from the keyboard
@@ -156,7 +156,7 @@ void _Player::HandleInput() {
 		// Get push direction relative to camera
 		core::matrix4 DirectionTransform;
 		DirectionTransform.makeIdentity();
-		DirectionTransform.setRotationDegrees(core::vector3df(0.0f, Camera->GetYaw(), 0.0f)); 
+		DirectionTransform.setRotationDegrees(core::vector3df(0.0f, Camera->GetYaw(), 0.0f));
 		DirectionTransform.transformVect(Push);
 
 		// Apply torque

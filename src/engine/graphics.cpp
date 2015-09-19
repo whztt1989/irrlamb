@@ -97,9 +97,9 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE
 	Loader->drop();
 
 	// Check for shader support
-	if(irrDriver->queryFeature(video::EVDF_PIXEL_SHADER_1_1) 
-	&& irrDriver->queryFeature(video::EVDF_ARB_FRAGMENT_PROGRAM_1) 
-	&& irrDriver->queryFeature(video::EVDF_VERTEX_SHADER_1_1) 
+	if(irrDriver->queryFeature(video::EVDF_PIXEL_SHADER_1_1)
+	&& irrDriver->queryFeature(video::EVDF_ARB_FRAGMENT_PROGRAM_1)
+	&& irrDriver->queryFeature(video::EVDF_VERTEX_SHADER_1_1)
 	&& irrDriver->queryFeature(video::EVDF_ARB_VERTEX_PROGRAM_1)) {
 		ShadersSupported = true;
 
@@ -200,12 +200,12 @@ void _Graphics::CreateScreenshot() {
 
 	// Get filename
 	char Filename[32];
-	strftime(Filename, 32, "%Y%m%d-%H%M%S.jpg", localtime(&Now)); 
+	strftime(Filename, 32, "%Y%m%d-%H%M%S.jpg", localtime(&Now));
 
 	// Create image
 	video::IImage *Image = irrDriver->createScreenShot();
 	std::string FilePath = Save.GetScreenshotsPath() + Filename;
-	irrDriver->writeImageToFile(Image, FilePath.c_str()); 
+	irrDriver->writeImageToFile(Image, FilePath.c_str());
 	Image->drop();
 
 	// Drop request

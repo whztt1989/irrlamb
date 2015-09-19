@@ -66,7 +66,7 @@ int _Database::OpenDatabaseCreate(const char *Filename) {
 	return 1;
 }
 
-// Runs a query 
+// Runs a query
 int _Database::RunQuery(const char *QueryString) {
 	
 	sqlite3_stmt *NewQueryHandle;

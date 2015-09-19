@@ -61,7 +61,7 @@ void _Camera::Update(const core::vector3df &Target) {
 	
 	// Get camera rotation
 	Transform.makeIdentity();
-    Transform.setRotationDegrees(core::vector3df(Pitch, Yaw, 0.0f)); 
+    Transform.setRotationDegrees(core::vector3df(Pitch, Yaw, 0.0f));
 
 	// Set distance from object
 	Distance = MaxDistance;

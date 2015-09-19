@@ -56,7 +56,7 @@ namespace irr
         class IMeshBuffer;
 
         // byte-align structures
-        #if defined(_MSC_VER) ||  defined(__BORLANDC__) || defined (__BCPLUSPLUS__) 
+        #if defined(_MSC_VER) ||  defined(__BORLANDC__) || defined (__BCPLUSPLUS__)
         #	pragma pack( push, packing )
         #	pragma pack( 1 )
         #	define PACK_STRUCT
@@ -203,7 +203,7 @@ namespace irr
         };
 
         // Default alignment
-#if defined(_MSC_VER) ||  defined(__BORLANDC__) || defined (__BCPLUSPLUS__) 
+#if defined(_MSC_VER) ||  defined(__BORLANDC__) || defined (__BCPLUSPLUS__)
 #	pragma pack( pop, packing )
 #endif
 
@@ -223,10 +223,10 @@ namespace irr
             //! Returns the type of the mesh writer
             virtual EMESH_WRITER_TYPE getType() const;
 
-            //! writes a mesh 
+            //! writes a mesh
             virtual bool writeMesh(io::IWriteFile* file, scene::IMesh* mesh, s32 flags=EMWF_NONE);
 
-            void setVersion(u16 value) 
+            void setVersion(u16 value)
             {
                 Version = value;
                 VMajor = (Version & 0xFF00) >> 8;

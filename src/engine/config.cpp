@@ -71,7 +71,7 @@ void _Config::Reset() {
 	MouseScaleY = 1.0f;
 
 	InvertMouse = false;
-	InvertGamepadY = false; 
+	InvertGamepadY = false;
 
 	// Replays
 	ReplayInterval = 0.02f;

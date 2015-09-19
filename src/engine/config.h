@@ -45,7 +45,7 @@ class _Config {
 		bool Shaders;
 		bool Vsync;
 		int AnisotropicFiltering;
-		int AntiAliasing;		
+		int AntiAliasing;
 
 		// Audio
 		bool AudioEnabled;

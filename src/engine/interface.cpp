@@ -117,7 +117,7 @@ void _Interface::ChangeSkin(SkinType Type) {
 
 	gui::IGUISkin *Skin = irrGUI->getSkin();
 	Skin->setColor(gui::EGDC_BUTTON_TEXT, video::SColor(255, 255, 255, 255));
-	Skin->setColor(gui::EGDC_WINDOW, video::SColor(255, 0, 0, 20));	
+	Skin->setColor(gui::EGDC_WINDOW, video::SColor(255, 0, 0, 20));
 	Skin->setColor(gui::EGDC_WINDOW_SYMBOL, video::SColor(255, 255, 255, 255));
 	Skin->setColor(gui::EGDC_GRAY_WINDOW_SYMBOL, video::SColor(255, 128, 128, 128));
 	Skin->setColor(gui::EGDC_GRAY_EDITABLE, video::SColor(255, 0, 0, 0));

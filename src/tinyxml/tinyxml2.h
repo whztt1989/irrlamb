@@ -1456,13 +1456,13 @@ public:
     /// Convenience method for setting text inside and element. See SetText() for important limitations.
     void SetText( int value );
     /// Convenience method for setting text inside and element. See SetText() for important limitations.
-    void SetText( unsigned value );  
+    void SetText( unsigned value );
     /// Convenience method for setting text inside and element. See SetText() for important limitations.
-    void SetText( bool value );  
+    void SetText( bool value );
     /// Convenience method for setting text inside and element. See SetText() for important limitations.
-    void SetText( double value );  
+    void SetText( double value );
     /// Convenience method for setting text inside and element. See SetText() for important limitations.
-    void SetText( float value );  
+    void SetText( float value );
 
     /**
     	Convenience method to query the value of a child text node. This is probably best
@@ -1583,7 +1583,7 @@ public:
 
     /**
     	Load an XML file from disk. You are responsible
-    	for providing and closing the FILE*. 
+    	for providing and closing the FILE*.
      
         NOTE: The file should be opened as binary ("rb")
         not text in order for TinyXML-2 to correctly

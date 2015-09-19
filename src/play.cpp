@@ -263,7 +263,7 @@ bool _PlayState::HandleMousePress(int Button, int MouseX, int MouseY) {
 		return false;
 
 	if(!IsPaused()) {
-		Scripting.HandleMousePress(Button, MouseX, MouseY); 
+		Scripting.HandleMousePress(Button, MouseX, MouseY);
 	}
 
 	return false;

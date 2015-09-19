@@ -28,8 +28,8 @@ namespace irr
 
         CIrrBMeshWriter::CIrrBMeshWriter(video::IVideoDriver* driver,
             io::IFileSystem* fs, core::array<SCustomMaterial>* customMaterials)
-            : FileSystem(fs), VideoDriver(driver), CustomMaterials(customMaterials), 
-            Writer(0), Version(IRRB_VERSION), 
+            : FileSystem(fs), VideoDriver(driver), CustomMaterials(customMaterials),
+            Writer(0), Version(IRRB_VERSION),
             VMajor(IRRLICHT_VERSION_MAJOR), VMinor(IRRLICHT_VERSION_MINOR), Creator("unknown"),
             RelativeBase("")
         {
@@ -79,7 +79,7 @@ namespace irr
             writeHeader(mesh);
 
             // write mesh
-            // todo: check the mesh type, cast it, 
+            // todo: check the mesh type, cast it,
             // and add appropriate animation extensions...
 
             rc = _writeMesh(mesh);
@@ -156,7 +156,7 @@ namespace irr
             {
                 result = irr::video::sBuiltInMaterialTypeNames[material.MaterialType];
             }
-            else 
+            else
             {
                 for(u32 i=0; i < CustomMaterials->size(); i++)
                 {
@@ -213,7 +213,7 @@ namespace irr
 
             //
             // write mesh info struct
-            //                       
+            //
             mi.iMeshBufferCount = mesh->getMeshBufferCount();
             mi.iVertexCount = vcount;
             mi.iIndexCount = icount;
@@ -229,7 +229,7 @@ namespace irr
 
             //
             // build and write vertex & index buffers
-            // 
+            //
             u32 vbufsize,ibufsize;
             vbufsize = sizeof(struct IrrbVertex) * vcount;
             ibufsize = sizeof(u32) * icount;
@@ -299,7 +299,7 @@ namespace irr
                     core::stringc mname = getMaterialName(buffer->getMaterial());
                     strncpy(mbi.iMaterialName, mname.c_str(), sizeof(mbi.iMaterialName)-1);
 
-                    video::IMaterialRenderer* mr = 
+                    video::IMaterialRenderer* mr =
                         VideoDriver->getMaterialRenderer(mbi.iMaterialIndex);
 
                     buffer->recalculateBoundingBox();
@@ -342,7 +342,7 @@ namespace irr
             strcpy(h.hCreator,Creator.c_str());
             h.hMeshCount = 1;  // 1 mesh for now, todo: add ability to include lod mesh data...
             h.hMeshBufferCount = mesh->getMeshBufferCount();
-            Writer->write(&h,sizeof(h));            
+            Writer->write(&h,sizeof(h));
         }
 
         void CIrrBMeshWriter::updateBuffers(const scene::IMesh* mesh,
@@ -506,7 +506,7 @@ namespace irr
             mat.mThickness = material.Thickness;
             mat.mZBuffer = material.ZBuffer;
             mat.mAntiAliasing = material.AntiAliasing;
-            mat.mColorMask = material.ColorMask;  
+            mat.mColorMask = material.ColorMask;
             mat.mColorMaterial = material.ColorMaterial;
             mat.mBlendOperation = material.BlendOperation;
             mat.mPolygonOffsetFactor = material.PolygonOffsetFactor;

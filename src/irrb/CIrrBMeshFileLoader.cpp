@@ -232,7 +232,7 @@ SMesh* CIrrBMeshFileLoader::_readMesh(u32 index)
 
     //
     // todo add bounding box to irrbmesh format...
-    // 
+    //
     core::aabbox3df mbb(mi.ibbMin.x,mi.ibbMin.y,mi.ibbMin.z,
         mi.ibbMax.x,mi.ibbMax.y,mi.ibbMax.z);
     mesh->setBoundingBox(mbb);
@@ -275,7 +275,7 @@ void CIrrBMeshFileLoader::setMaterialLayer(video::SMaterial& material, u8 layerN
 }
 
 void CIrrBMeshFileLoader::setMaterial(video::SMaterial& material, struct IrrbMaterial& mat)
-{    
+{
     material.MaterialType = (irr::video::E_MATERIAL_TYPE)mat.mType;
     material.AmbientColor.color = mat.mAmbient;
     material.DiffuseColor.color= mat.mDiffuse;

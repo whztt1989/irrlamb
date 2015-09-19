@@ -206,7 +206,7 @@ void _Save::SaveLevelStats(const std::string &Level) {
 					Stat.PlayTime,
 					Stat.ID);
 
-	Database->RunQuery(Query);	
+	Database->RunQuery(Query);
 }
 
 // Updates a level stat

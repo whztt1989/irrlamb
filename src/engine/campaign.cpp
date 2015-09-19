@@ -87,7 +87,7 @@ int _Campaign::Close() {
 }
 
 // Get the level count for the campaign
-int _Campaign::GetLevelCount(int Campaign) { 
+int _Campaign::GetLevelCount(int Campaign) {
 	if(Campaign < 0 || Campaign >= (int)Campaigns.size())
 		return 0;
 	
