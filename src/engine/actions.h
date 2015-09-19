@@ -38,11 +38,16 @@ struct _ActionMap {
 	float Scale;
 };
 
+struct _ActionState {
+	float Value;
+	int Source;
+};
+
 // Handles actions
 class _Actions {
 
 	public:
-	
+
 		enum Types {
 			MOVE_LEFT,
 			MOVE_RIGHT,
@@ -93,7 +98,7 @@ class _Actions {
 
 		std::list<_ActionMap> InputMap[_Input::INPUT_COUNT][ACTIONS_MAXINPUTS];
 
-		float State[COUNT];
+		_ActionState State[COUNT];
 		std::string Names[COUNT];
 };
 

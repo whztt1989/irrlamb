@@ -102,10 +102,10 @@ int _Game::Init(int Count, char **Arguments) {
 	DriverType = (video::E_DRIVER_TYPE)Config.DriverType;
 	if(!Graphics.Init(Config.ScreenWidth, Config.ScreenHeight, Config.Fullscreen, DriverType, &Input))
 		return 0;
-	
+
 	// Initialize the joysticks with the real device
 	Input.InitializeJoysticks();
-	
+
 	// Save working path
 	WorkingPath = std::string(irrFile->getWorkingDirectory().c_str()) + "/";
 
@@ -230,7 +230,7 @@ void _Game::Update() {
 				State->Update(TimeStep);
 				TimeStepAccumulator -= TimeStep;
 			}
-			
+
 			State->UpdateRender(TimeStepAccumulator * TimeScale);
 		break;
 		case STATE_CLOSE:
@@ -249,7 +249,7 @@ void _Game::Update() {
 
 // Shuts down the system
 void _Game::Close() {
-	
+
 	// Close the state
 	State->Close();
 
@@ -269,7 +269,7 @@ void _Game::Close() {
 
 // Resets the game timer
 void _Game::ResetTimer() {
-	
+
 	irrTimer->setTime(0);
 	TimeStamp = irrTimer->getTime();
 }

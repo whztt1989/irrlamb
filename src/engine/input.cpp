@@ -52,7 +52,7 @@ bool _Input::OnEvent(const SEvent &Event) {
 
 	switch(Event.EventType) {
 		case EET_KEY_INPUT_EVENT:
-			
+
 			// Send key press events
 			if(Event.KeyInput.PressedDown && !GetKeyState(Event.KeyInput.Key)) {
 				Processed = Game.GetState()->HandleKeyPress(Event.KeyInput.Key);
@@ -88,7 +88,7 @@ bool _Input::OnEvent(const SEvent &Event) {
 					Game.GetState()->HandleMouseLift(Event.MouseInput.Event - MOUSE_COUNT, Event.MouseInput.X, Event.MouseInput.Y);
 				break;
 				case EMIE_MOUSE_MOVED:
-				
+
 					// False means the real mouse moved
 					if(!VirtualMouseMoved) {
 						//printf("here %d %d %d\n", VirtualMouseMoved, Event.MouseInput.X, Event.MouseInput.Y);
@@ -96,15 +96,15 @@ bool _Input::OnEvent(const SEvent &Event) {
 						MouseY = (float)Event.MouseInput.Y;
 					}
 					VirtualMouseMoved = false;
-				
+
 					// Check for mouse locking
 					if(MouseLocked) {
 						core::position2df MouseUpdate = irrDevice->getCursorControl()->getRelativePosition();
 
 						// Center the cursor
 						if(!(core::equals(MouseUpdate.X, 0.5f) && core::equals(MouseUpdate.Y, 0.5f)))
-							irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);						
-						
+							irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);
+
 						// Invert mouse
 						float MouseScaleY = Config.MouseScaleY;
 						if(Config.InvertMouse)
@@ -134,10 +134,10 @@ bool _Input::OnEvent(const SEvent &Event) {
 		case EET_JOYSTICK_INPUT_EVENT: {
 			if(!Config.JoystickEnabled || Event.JoystickEvent.Joystick > 0)
 				return false;
-			
+
 			int OldMouseX = (int)MouseX;
 			int OldMouseY = (int)MouseY;
-			
+
 			LastJoystickButtonState = JoystickState.ButtonStates;
 			JoystickState = Event.JoystickEvent;
 
@@ -163,12 +163,12 @@ bool _Input::OnEvent(const SEvent &Event) {
 					Actions.InputEvent(_Input::JOYSTICK_AXIS, i * 2 + 1, 0.0f);
 				}
 			}
-			
+
 			//for(u32 i = 0; i < Joysticks[JoystickState.Joystick].Axes; i++) {
 			//	printf("%f\t", GetAxis(i));
 			//}
 			//printf("\n");
-			
+
 			// Set flag if joystick moved the mouse cursor
 			if(OldMouseX != (int)MouseX || OldMouseY != (int)MouseY) {
 				irrDevice->getCursorControl()->setPosition((int)MouseX, (int)MouseY);
@@ -184,7 +184,7 @@ bool _Input::OnEvent(const SEvent &Event) {
 
 // Set up joysticks
 void _Input::InitializeJoysticks(bool ShowLog) {
-	
+
 	// Check to see if the real device has been made yet
 	IrrlichtDevice *Device = irrDevice;
 	if(Device == NULL) {
@@ -193,7 +193,7 @@ void _Input::InitializeJoysticks(bool ShowLog) {
 		Parameters.LoggingLevel = ELL_ERROR;
 		Device = createDeviceEx(Parameters);
 	}
-	
+
 	// Find joysticks
 	if(Device->activateJoysticks(Joysticks) && ShowLog) {
 		Log.Write("%d joystick(s) found.", Joysticks.size());
@@ -218,7 +218,7 @@ void _Input::InitializeJoysticks(bool ShowLog) {
 			}
 		}
 	}
-	
+
 	// Drop the temporary device
 	if(irrDevice == NULL)
 		Device->drop();
@@ -237,7 +237,7 @@ const irr::SJoystickInfo &_Input::GetJoystickInfo() {
 
 // Return the joystick name suitable for a filename
 core::stringc _Input::GetCleanJoystickName() {
-	
+
 	// Get joystick name in lower case
 	core::stringc Name = "";
 	if(Input.HasJoystick()) {
@@ -273,7 +273,7 @@ float _Input::GetAxis(int Axis) {
 
 // Use actions to drive the mouse
 void _Input::DriveMouse(int Action, float Value) {
-	
+
 	if(Action == _Actions::MENU_GO) {
 		//printf("%d %f\n", Action, Value);
 
@@ -288,7 +288,7 @@ void _Input::DriveMouse(int Action, float Value) {
 			NewEvent.MouseInput.Event = EMIE_LMOUSE_LEFT_UP;
 		irrDevice->postEventFromUser(NewEvent);
 	}
-	
+
 	if(Value == 0.0f)
 		return;
 
@@ -320,7 +320,7 @@ void _Input::ResetInputState() {
 
 // Enables mouse locking
 void _Input::SetMouseLocked(bool Value) {
-	
+
 	MouseLocked = Value;
 	if(MouseLocked) {
 		irrDevice->getCursorControl()->setPosition(0.5f, 0.5f);

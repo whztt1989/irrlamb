@@ -55,7 +55,8 @@ _Actions::_Actions() {
 // Reset the state
 void _Actions::ResetState() {
 	for(int i = 0; i < COUNT; i++) {
-		State[i] = 0.0f;
+		State[i].Value = 0.0f;
+		State[i].Source = -1;
 	}
 }
 
@@ -83,14 +84,14 @@ float _Actions::GetState(int Action) {
 	if(Action < 0 || Action >= COUNT)
 		return 0.0f;
 
-	return State[Action];
+	return State[Action].Value;
 }
 
 // Add an input mapping
 void _Actions::AddInputMap(int InputType, int Input, int Action, float Scale, bool IfNone) {
 	if(Action < 0 || Action >= COUNT || Input < 0 || Input >= ACTIONS_MAXINPUTS)
 		return;
-		
+
 	if(!IfNone || (IfNone && GetInputForAction(InputType, Action) == -1)) {
 		InputMap[InputType][Input].push_back(_ActionMap(Action, Scale));
 	}
@@ -115,14 +116,27 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 		return;
 
 	for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][Input].begin(); MapIterator != InputMap[InputType][Input].end(); MapIterator++) {
-		State[MapIterator->Action] = Value;
+
+		// Only let joystick overwrite action state if the keyboard isn't being used
+		if(InputType != _Input::JOYSTICK_AXIS || (InputType == _Input::JOYSTICK_AXIS && (State[MapIterator->Action].Source == -1 || State[MapIterator->Action].Source == _Input::JOYSTICK_AXIS))) {
+
+			// If key was released, set source to -1 so that joystick can overwrite it
+			if(InputType == _Input::KEYBOARD && Value == 0.0f)
+				State[MapIterator->Action].Source = -1;
+			else
+				State[MapIterator->Action].Source = InputType;
+
+			State[MapIterator->Action].Value = Value;
+		}
+
+		// Apply input scale to action
 		float InputValue = Value * MapIterator->Scale;
-		
+
 		// Invert gamepad camera Y
 		if(Config.InvertGamepadY && InputType == _Input::JOYSTICK_AXIS && (MapIterator->Action == _Actions::CAMERA_UP || MapIterator->Action == _Actions::CAMERA_DOWN)) {
 			InputValue = -InputValue;
 		}
-		
+
 		// If true is returned, stop handling the same key
 		if(Game.GetState()->HandleAction(InputType, MapIterator->Action, InputValue))
 			break;
@@ -133,7 +147,7 @@ void _Actions::InputEvent(int InputType, int Input, float Value) {
 void _Actions::Serialize(int InputType, XMLDocument &Document, XMLElement *InputElement) {
 	for(int i = 0; i < ACTIONS_MAXINPUTS; i++) {
 		for(std::list<_ActionMap>::iterator MapIterator = InputMap[InputType][i].begin(); MapIterator != InputMap[InputType][i].end(); MapIterator++) {
-			
+
 			// Insert action name
 			XMLComment *Comment = Document.NewComment(Names[MapIterator->Action].c_str());
 			InputElement->InsertEndChild(Comment);
