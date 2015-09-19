@@ -18,8 +18,8 @@ if(MSVC)
 	set(FREETYPE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extlibs/include")
 	set(LUA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/lua5.2")
 
-	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
-	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
+	set(SQLITE_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
+	set(SQLITE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
 	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/debug/lua52_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/release/lua52.lib)
 
@@ -34,10 +34,6 @@ else()
 		set(CMAKE_BUILD_TYPE Release)
 	endif()
 
-	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
-	set(SQLITE3_LIBRARIES sqlite3)
-	set(SQLITE3_INCLUDE_DIR "/usr/include")
-
 	# x11
 	find_package(X11 REQUIRED)
 	set(EXTRA_LIBS ${EXTRA_LIBS} ${X11_X11_LIB} ${X11_Xrandr_LIB} ${X11_Xext_LIB} ${X11_Xxf86vm_LIB})
@@ -46,9 +42,10 @@ else()
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 
 	# lua
-	find_package(Lua 5.2 REQUIRED)
+	set(Lua_FIND_VERSION_EXACT TRUE)
+	find_package(Lua 5.3 REQUIRED)
 	if(NOT LUA_FOUND)
-		message(SEND_ERROR "Could not find Lua 5.2!")
+		message(SEND_ERROR "Could not find Lua 5.3!")
 	endif()
 
 	if(PANDORA)
@@ -92,6 +89,11 @@ if(NOT OGG_FOUND)
 	message(SEND_ERROR "Could not find libogg!")
 endif()
 
+find_package(SQLite REQUIRED)
+if(NOT SQLITE_FOUND)
+	message(SEND_ERROR "Could not find SQLite3!")
+endif()
+
 # include paths
 include_directories(${BULLET_INCLUDE_DIRS})
 include_directories(${IRRLICHT_INCLUDE_DIRS})
@@ -99,7 +101,7 @@ include_directories(${OPENAL_INCLUDE_DIR})
 include_directories(${VORBIS_INCLUDE_DIR})
 include_directories(${OGG_INCLUDE_DIR})
 include_directories(${LUA_INCLUDE_DIR})
-include_directories(${SQLITE3_INCLUDE_DIR})
+include_directories(${SQLITE_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIRS})
 include_directories("src")
 
@@ -130,7 +132,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 	${BULLET_LIBRARIES}
 	${OPENAL_LIBRARY}
 	${LUA_LIBRARIES}
-	${SQLITE3_LIBRARIES}
+	${SQLITE_LIBRARIES}
 	${FREETYPE_LIBRARIES}
 	${VORBIS_LIBRARIES}
 	${OGG_LIBRARIES}
