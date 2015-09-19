@@ -81,7 +81,7 @@ class _Save {
 
 		// Paths
 		std::string SavePath, ReplayPath, ScreenshotsPath, CustomLevelsPath, ConfigFile, StatsFile;
-		
+
 		// Stats
 		std::map<std::string, SaveLevelStruct> LevelStats;
 		std::map<std::string, SaveLevelStruct>::iterator LevelStatsIterator;

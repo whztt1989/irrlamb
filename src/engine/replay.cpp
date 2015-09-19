@@ -51,7 +51,7 @@ void _Replay::StartRecording() {
 
 // Stops the recording process
 void _Replay::StopRecording() {
-	
+
 	if(State == STATE_RECORDING) {
 		State = STATE_NONE;
 		ReplayStream.Close();
@@ -67,7 +67,7 @@ bool _Replay::SaveReplay(const std::string &PlayerDescription) {
 
 	// Flush current replay file
 	ReplayStream.Flush();
-	
+
 	// Get new file name
 	std::stringstream ReplayFilePath;
 	ReplayFilePath << Save.GetReplayPath() << (unsigned int)TimeStamp << ".replay";
@@ -93,7 +93,7 @@ bool _Replay::SaveReplay(const std::string &PlayerDescription) {
 	ReplayFile.WriteChar(PACKET_INTERVAL);
 	ReplayFile.WriteInt(sizeof(RecordInterval));
 	ReplayFile.WriteFloat(RecordInterval);
-	
+
 	// Write timestep value
 	ReplayFile.WriteChar(PACKET_TIMESTEP);
 	ReplayFile.WriteInt(sizeof(Game.GetTimeStep()));
@@ -195,7 +195,7 @@ void _Replay::Update(float FrameTime) {
 
 // Determines if a packet is required
 bool _Replay::NeedsPacket() {
-	
+
 	return State == STATE_RECORDING && NextPacketTime >= RecordInterval;
 }
 
@@ -231,7 +231,7 @@ bool _Replay::LoadReplay(const std::string &ReplayFile, bool HeaderOnly) {
 
 // Stops replay
 void _Replay::StopReplay() {
-	
+
 	State = STATE_NONE;
 	ReplayStream.Close();
 }

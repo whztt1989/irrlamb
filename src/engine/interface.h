@@ -97,7 +97,7 @@ class _Interface {
 			IMAGE_DECREASE,
 			IMAGE_COUNT,
 		};
-		
+
 		enum SoundType {
 			SOUND_CONFIRM,
 			SOUND_COUNT,
@@ -109,14 +109,14 @@ class _Interface {
 		void Draw(float Time);
 		void Clear();
 		void ChangeSkin(SkinType Type);
-	
+
 		void SetTutorialText(const std::string &Text, float Length);
 		void ConvertSecondsToString(float Time, char *String);
 
 		irr::core::recti GetCenteredRect(int PositionX, int PositionY, int Width, int Height);
 		irr::core::recti GetRightRect(int PositionX, int PositionY, int Width, int Height);
 		irr::core::recti GetRect(int PositionX, int PositionY, int Width, int Height);
-		
+
 		irr::video::ITexture *GetImage(ImageType Image) { return Images[Image]; }
 		irr::gui::CGUITTFont *GetFont(FontType Font) { return Fonts[Font]; }
 

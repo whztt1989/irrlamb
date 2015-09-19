@@ -45,7 +45,7 @@ class _PlayState : public _State {
 		void Update(float FrameTime);
 		void UpdateRender(float TimeStepRemainder);
 		void Draw();
-		
+
 		bool IsPaused();
 		void StartReset();
 		void ResetLevel();

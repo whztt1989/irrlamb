@@ -35,5 +35,5 @@ class _Constraint : public _Object {
 
 		// Attributes
 		btTypedConstraint *Constraint;
-	
+
 };

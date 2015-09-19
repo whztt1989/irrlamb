@@ -47,7 +47,7 @@ _Collision::_Collision(const SpawnStruct &Object)
 	TriangleInfoMap(NULL),
 	VertexList(NULL),
 	FaceList(NULL) {
-	
+
 	gContactAddedCallback = CustomMaterialCallback;
 
 	// Load collision mesh file
@@ -90,7 +90,7 @@ _Collision::_Collision(const SpawnStruct &Object)
 		// Create physics body
 		CreateRigidBody(Object, Shape);
 		SetProperties(Object);
-		
+
 		RigidBody->setCollisionFlags(RigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
 		MeshFile.Close();

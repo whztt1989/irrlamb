@@ -36,6 +36,6 @@ class _SpringJoint : public _Object {
 		btRigidBody *BodyA, *BodyB;
 		btScalar SpringConstant, Distance, Damping;
 		//btTypedConstraint *Joint;
-	
+
 };
 */

@@ -90,7 +90,7 @@ int _Campaign::Close() {
 int _Campaign::GetLevelCount(int Campaign) {
 	if(Campaign < 0 || Campaign >= (int)Campaigns.size())
 		return 0;
-	
+
 	return Campaigns[Campaign].Levels.size();
 }
 

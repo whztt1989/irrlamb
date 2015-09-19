@@ -50,7 +50,7 @@ _Orb::_Orb(const SpawnStruct &Object)
 		Node->setMaterialTexture(0, irrDriver->getTexture("textures/orb_outer0.png"));
 	Node->setMaterialType(video::EMT_ONETEXTURE_BLEND);
 	Node->getMaterial(0).MaterialTypeParam = pack_textureBlendFunc(video::EBF_ONE, video::EBF_ONE);
-	
+
 	// Create glow
 	//GlowColor = video::SColor(255, 255, 240, 130);
 	GlowColor = video::SColor(255, 255, 255, 255);
@@ -64,7 +64,7 @@ _Orb::_Orb(const SpawnStruct &Object)
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture(Template->Textures[1].c_str()));
 	else
 		InnerNode->setMaterialTexture(0, irrDriver->getTexture("textures/orb_glow0.png"));
-	
+
 	// Emit Light
 	if(Object.Template->EmitLight) {
 		Light = irrScene->addLightSceneNode(0, core::vector3df(Object.Position[0], Object.Position[1], Object.Position[2]), video::SColorf(1.0f, 1.0f, 1.0f), 15.0f);
@@ -77,7 +77,7 @@ _Orb::_Orb(const SpawnStruct &Object)
 
 	// Set up physics
 	if(Physics.IsEnabled()) {
-	
+
 		// Create shape
 		btSphereShape *Shape = new btSphereShape(Template->Radius);
 
@@ -173,7 +173,7 @@ void _Orb::UpdateDeactivation(float FrameTime) {
 				Scripting.CallFunction(DeactivationCallback);
 				InnerNode->setVisible(false);
 				State = ORBSTATE_DEACTIVATED;
-				
+
 				if(Sound)
 					Sound->SetGain(0.0f);
 			}

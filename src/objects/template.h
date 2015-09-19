@@ -31,7 +31,7 @@ struct TemplateStruct {
 	std::string Name;
 	int Type;
 	float Lifetime;
-	
+
 	// Collision
 	std::string CollisionCallback;
 	int CollisionGroup, CollisionMask;

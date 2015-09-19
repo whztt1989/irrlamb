@@ -468,10 +468,10 @@ namespace irr
                 int blen = RelativeBase.size();
                 int tlen = textureName.size();
                 int idx = 0;
-                
+
                 const char *bp = RelativeBase.c_str();
                 const char *tp = textureName.c_str();
-                
+
                 while( (idx < blen) & (idx < tlen))
                 {
                     if(bp[idx] != tp[idx])

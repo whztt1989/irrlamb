@@ -32,7 +32,7 @@ int _Audio::Init(bool Enabled) {
 		return 1;
 
 	Log.Write("_Audio::Init - Initializing audio");
-	
+
 	// Create device
 	#ifdef _WIN32
 		ALCdevice *Device = alcOpenDevice(NULL);
@@ -61,15 +61,15 @@ int _Audio::Init(bool Enabled) {
 int _Audio::Close() {
 	if(!Enabled)
 		return 1;
-	
+
 	// Remove playing sounds
 	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ++Iterator)
 		delete *Iterator;
 	Sources.clear();
-	
+
 	// Free loaded sounds
 	FreeAllBuffers();
-	
+
 	// Get active context
 	ALCcontext *Context = alcGetCurrentContext();
 
@@ -94,17 +94,17 @@ int _Audio::Close() {
 void _Audio::Update() {
 	if(!Enabled)
 		return;
-	
+
 	// Update sources
 	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ) {
 		_AudioSource *Source = *Iterator;
 		bool NeedsDelete = false;
-		
+
 		// Check conditions for deletion
 		if(!Source->IsPlaying()) {
 			NeedsDelete = true;
 		}
-		
+
 		// Delete source
 		if(NeedsDelete) {
 			delete Source;
@@ -121,7 +121,7 @@ void _Audio::StopSounds() {
 	for(std::list<_AudioSource *>::iterator Iterator = Sources.begin(); Iterator != Sources.end(); ++Iterator) {
 		_AudioSource *Source = *Iterator;
 		Source->Stop();
-		
+
 		delete Source;
 	}
 	Sources.clear();
@@ -149,7 +149,7 @@ bool _Audio::LoadBuffer(const std::string &File) {
 
 	// Get vorbis file info
 	vorbis_info *Info = ov_info(&VorbisStream, -1);
-	
+
 	// Create new buffer
 	AudioBufferStruct AudioBuffer;
 	switch(Info->channels) {
@@ -176,14 +176,14 @@ bool _Audio::LoadBuffer(const std::string &File) {
 		BytesRead = ov_read(&VorbisStream, Buffer, 4096, 0, 2, 1, &BitStream);
 		Data.insert(Data.end(), Buffer, Buffer + BytesRead);
 	} while(BytesRead > 0);
-	
+
 	// Create buffer
 	alGenBuffers(1, &AudioBuffer.ID);
 	alBufferData(AudioBuffer.ID, AudioBuffer.Format, &Data[0], (ALsizei)Data.size(), Info->rate);
 
 	// Close vorbis file
 	ov_clear(&VorbisStream);
-	
+
 	// Add to map
 	Buffers[Path] = AudioBuffer;
 
@@ -194,10 +194,10 @@ bool _Audio::LoadBuffer(const std::string &File) {
 void _Audio::Play(_AudioSource *AudioSource, float X, float Y, float Z) {
 	if(!Enabled)
 		return;
-	
+
 	AudioSource->SetPosition(X, Y, Z);
 	Sources.push_back(AudioSource);
-	
+
 	AudioSource->Play();
 }
 
@@ -221,7 +221,7 @@ const AudioBufferStruct *_Audio::GetBuffer(const std::string &File) {
 void _Audio::CloseBuffer(const std::string &File) {
 	if(!Enabled)
 		return;
-	
+
 	// Get path
 	std::string Path = std::string("sounds/") + File;
 
@@ -229,7 +229,7 @@ void _Audio::CloseBuffer(const std::string &File) {
 	BuffersIterator = Buffers.find(Path);
 	if(BuffersIterator == Buffers.end())
 		return;
-	
+
 	AudioBufferStruct &Buffer = BuffersIterator->second;
 	alDeleteBuffers(1, &Buffer.ID);
 	Buffers.erase(BuffersIterator);
@@ -271,7 +271,7 @@ void _Audio::SetDirection(float X, float Y, float Z) {
 void _Audio::SetGain(float Value) {
 	if(!Enabled)
 		return;
-	
+
 	alListenerf(AL_GAIN, Value);
 }
 
@@ -307,15 +307,15 @@ _AudioSource::~_AudioSource() {
 // Play
 void _AudioSource::Play() {
 	if(Loaded) {
-		
+
 		// Get state
 		ALint State;
 		alGetSourcei(ID, AL_SOURCE_STATE, &State);
-		
+
 		// If already playing, stop
 		if(State == AL_PLAYING)
 			alSourceStop(ID);
-		
+
 		// Play sound
 		alSourcePlay(ID);
 	}
@@ -332,9 +332,9 @@ void _AudioSource::Stop() {
 // Returns true if the source is playing
 bool _AudioSource::IsPlaying() {
 	ALenum State;
-    
+
     alGetSourcei(ID, AL_SOURCE_STATE, &State);
-	
+
 	return State == AL_PLAYING;
 }
 

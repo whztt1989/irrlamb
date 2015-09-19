@@ -56,7 +56,7 @@ int _PlayState::Init() {
 
 	// Load the level
 	std::string LevelFile;
-	
+
 	// Select a level to load
 	if(TestLevel != "")
 		LevelFile = TestLevel;
@@ -105,10 +105,10 @@ void _PlayState::ResetLevel() {
 		Save.IncrementLevelPlayTime(Level.GetLevelName(), Timer);
 		Save.SaveLevelStats(Level.GetLevelName());
 	}
-	
+
 	// Stop sounds
 	Audio.StopSounds();
-	
+
 	// Stop recording
 	Replay.StopRecording();
 
@@ -156,7 +156,7 @@ void _PlayState::ResetLevel() {
 bool _PlayState::HandleAction(int InputType, int Action, float Value) {
 	if(Resetting)
 		return false;
-		
+
 	//printf("%d %f\n", Action, Value);
 	bool Processed = false;
 	if(!IsPaused()) {
@@ -225,7 +225,7 @@ bool _PlayState::HandleKeyPress(int Key) {
 		return true;
 
 	bool LuaProcessed = false;
-	
+
 	if(Menu.State == _Menu::STATE_NONE) {
 		switch(Key) {
 			case KEY_F1:
@@ -348,7 +348,7 @@ void _PlayState::UpdateRender(float TimeStepRemainder) {
 
 // Draws the current state
 void _PlayState::Draw() {
-	
+
 	// Draw interface elements
 	Interface.Draw(Timer);
 
@@ -370,7 +370,7 @@ bool _PlayState::IsPaused() {
 void _PlayState::StartReset() {
 	if(Resetting)
 		return;
-		
+
 	Fader.Start(-FADE_SPEED);
 	Resetting = true;
 }

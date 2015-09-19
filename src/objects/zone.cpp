@@ -75,14 +75,14 @@ void _Zone::HandleCollision(_Object *OtherObject, const btPersistentManifold *Co
 
 // Removes old objects from the touch list
 void _Zone::EndFrame() {
-	
+
 	if(Active) {
-	
+
 		// Search for old objects
 		for(std::list<ObjectTouchState>::iterator Iterator = TouchState.begin(); Iterator != TouchState.end(); ) {
 			(*Iterator).TouchCount--;
 			if((*Iterator).TouchCount <= 0) {
-				
+
 				// Call Lua function
 				if(CollisionCallback.size())
 					Scripting.CallZoneHandler(CollisionCallback, 1, this, (*Iterator).Object);

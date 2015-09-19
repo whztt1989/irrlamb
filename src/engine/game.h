@@ -35,7 +35,7 @@ class _Game {
 		int Init(int Count, char **Arguments);
 		void Update();
 		void Close();
-		
+
 		bool IsDone() { return Done; }
 		void SetDone(bool Value) { Done = Value; }
 

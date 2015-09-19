@@ -67,7 +67,7 @@ void _UserDataLoader::OnReadUserData(irr::scene::ISceneNode *ForSceneNode, irr::
 int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(!HeaderOnly)
 		Log.Write("_Level::Init - Loading level: %s", LevelName.c_str());
-	
+
 	// Get paths
 	this->LevelName = LevelName;
 	LevelNiceName = "";
@@ -232,7 +232,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 		// Load scripts
 		for(XMLElement *ScriptElement = ResourcesElement->FirstChildElement("script"); ScriptElement != 0; ScriptElement = ScriptElement->NextSiblingElement("script")) {
-			
+
 			// Get file
 			std::string File = ScriptElement->Attribute("file");
 			if(File == "") {
@@ -243,11 +243,11 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 			Scripts.push_back(DataPath + File);
 		}
-		
+
 		// Load sounds
 		Sounds.clear();
 		for(XMLElement *SoundElement = ResourcesElement->FirstChildElement("sound"); SoundElement != 0; SoundElement = SoundElement->NextSiblingElement("sound")) {
-			
+
 			// Get file
 			std::string File = SoundElement->Attribute("file");
 			if(File == "") {
@@ -255,7 +255,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 				Close();
 				return 0;
 			}
-			
+
 			// Attempt to load sound
 			if(Audio.LoadBuffer(File))
 				Sounds.push_back(File);
@@ -267,7 +267,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	if(TemplatesElement) {
 		int TemplateID = 0;
 		for(XMLElement *TemplateElement = TemplatesElement->FirstChildElement(); TemplateElement != 0; TemplateElement = TemplateElement->NextSiblingElement()) {
-			
+
 			// Create a template
 			TemplateStruct *Template = new TemplateStruct;
 			Template->Fog = Fog;
@@ -279,7 +279,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 			// Assign options
 			Template->TemplateID = TemplateID;
 			if(EmitLight) {
-				
+
 				// Use shaders on materials that receive light
 				if(Config.Shaders)
 					Template->CustomMaterial = Graphics.GetCustomMaterial(0);
@@ -299,7 +299,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 	XMLElement *ObjectsElement = LevelElement->FirstChildElement("objects");
 	if(ObjectsElement) {
 		for(XMLElement *ObjectElement = ObjectsElement->FirstChildElement(); ObjectElement != 0; ObjectElement = ObjectElement->NextSiblingElement()) {
-			
+
 			// Create an object spawn
 			SpawnStruct *ObjectSpawn = new SpawnStruct;
 
@@ -320,7 +320,7 @@ int _Level::Close() {
 
 	// Clear scripts
 	Scripts.clear();
-	
+
 	// Clear sounds
 	for(size_t i = 0; i < Sounds.size(); i++) {
 		Audio.CloseBuffer(Sounds[i]);
@@ -477,7 +477,7 @@ int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &O
 		// Prevent collision with other static object
 		Physics.RemoveFilter(Object.CollisionMask, _Physics::FILTER_STATIC);
 	}
-	
+
 	return 1;
 }
 
@@ -506,7 +506,7 @@ int _Level::GetObjectSpawnProperties(XMLElement *ObjectElement, SpawnStruct &Obj
 		return 0;
 	}
 	ObjectSpawn.Template = Template;
-	
+
 	// Get position
 	Element = ObjectElement->FirstChildElement("position");
 	if(Element) {
@@ -537,7 +537,7 @@ void _Level::SpawnObjects() {
 
 // Creates an object from a spawn struct
 _Object *_Level::CreateObject(const SpawnStruct &Object) {
-	
+
 	// Add object
 	_Object *NewObject = NULL;
 	switch(Object.Template->Type) {
@@ -566,7 +566,7 @@ _Object *_Level::CreateObject(const SpawnStruct &Object) {
 
 	// Record replay event
 	if(Replay.IsRecording() && Object.Template->TemplateID != -1) {
-		
+
 		// Write replay information
 		_File &ReplayStream = Replay.GetReplayStream();
 		Replay.WriteEvent(_Replay::PACKET_CREATE);
@@ -575,13 +575,13 @@ _Object *_Level::CreateObject(const SpawnStruct &Object) {
 		ReplayStream.WriteData((void *)&Object.Position, sizeof(btScalar) * 3);
 		ReplayStream.WriteData((void *)&Object.Rotation, sizeof(btScalar) * 3);
 	}
-	
+
 	return NewObject;
 }
 
 // Creates a constraint from a template
 _Object *_Level::CreateConstraint(const ConstraintStruct &Object) {
-	
+
 	// Add object
 	_Object *NewObject = ObjectManager.AddObject(new _Constraint(Object));
 
@@ -616,7 +616,7 @@ TemplateStruct *_Level::GetTemplateFromID(int ID) {
 
 // Runs the level's scripts
 void _Level::RunScripts() {
-	
+
 	// Reset Lua state
 	Scripting.Reset();
 
@@ -630,7 +630,7 @@ void _Level::RunScripts() {
 
 	// Run scripts
 	for(u32 i = 0; i < Scripts.size(); i++) {
-		
+
 		// Load a level
 		Scripting.LoadFile(Scripts[i]);
 	}

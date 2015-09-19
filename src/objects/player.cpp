@@ -91,7 +91,7 @@ _Player::_Player(const SpawnStruct &Object)
 
 // Destructor
 _Player::~_Player() {
-	
+
 	if(Light)
 		Light->remove();
 
@@ -101,7 +101,7 @@ _Player::~_Player() {
 // Update the player
 void _Player::Update(float FrameTime) {
 	_Object::Update(FrameTime);
-	
+
 	// Update audio
 	const btVector3 &Position = GetPosition();
 	Sound->SetPosition(Position[0], Position[1], Position[2]);
@@ -139,7 +139,7 @@ void _Player::Update(float FrameTime) {
 // Processes input from the keyboard
 void _Player::HandleInput() {
 	core::vector3df Push(0.0f, 0.0f, 0.0f);
-	
+
 	// Get input direction
 	Push.X += -Actions.GetState(_Actions::MOVE_LEFT);
 	Push.X += Actions.GetState(_Actions::MOVE_RIGHT);

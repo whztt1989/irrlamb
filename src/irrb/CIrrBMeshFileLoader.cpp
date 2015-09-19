@@ -209,7 +209,7 @@ SMesh* CIrrBMeshFileLoader::_readMesh(u32 index)
     }
 
 	SMesh* mesh = new SMesh();
-    
+
     u32 mbiSize = mi.iMeshBufferCount * sizeof(struct IrrbMeshBufInfo);
 
     MBuffer = (IrrbMeshBufInfo*) malloc(mbiSize);
@@ -228,7 +228,7 @@ SMesh* CIrrBMeshFileLoader::_readMesh(u32 index)
     free(MBuffer);
     free(VBuffer);
     free(IBuffer);
-        
+
 
     //
     // todo add bounding box to irrbmesh format...

@@ -61,7 +61,7 @@ class _Menu {
 		void InitVideo();
 		void InitAudio();
 		void InitControls();
-		
+
 		void InitPlay();
 		void InitLose();
 		void InitWin();
@@ -97,7 +97,7 @@ class _Menu {
 
 		// Replays
 		std::vector<std::string> ReplayFiles;
-		
+
 		// Campaigns
 		int CampaignIndex, SelectedLevel;
 		float DoubleClickTimer;

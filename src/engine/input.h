@@ -31,7 +31,7 @@ class _Input : public irr::IEventReceiver  {
 			MOUSE_MIDDLE,
 			MOUSE_COUNT,
 		};
-	
+
 		enum InputType {
 			KEYBOARD,
 			MOUSE_BUTTON,
@@ -40,7 +40,7 @@ class _Input : public irr::IEventReceiver  {
 			JOYSTICK_AXIS,
 			INPUT_COUNT,
 		};
-		
+
 		_Input();
 		bool OnEvent(const irr::SEvent &Event);
 

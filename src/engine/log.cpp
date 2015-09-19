@@ -37,7 +37,7 @@ int _Log::Close() {
 
 	// Close file
 	FileStream.close();
-	
+
 	return 1;
 }
 

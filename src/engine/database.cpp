@@ -68,7 +68,7 @@ int _Database::OpenDatabaseCreate(const char *Filename) {
 
 // Runs a query
 int _Database::RunQuery(const char *QueryString) {
-	
+
 	sqlite3_stmt *NewQueryHandle;
 	const char *Tail;
 	int Result = sqlite3_prepare_v2(Database, QueryString, strlen(QueryString), &NewQueryHandle, &Tail);
@@ -95,7 +95,7 @@ int _Database::RunQuery(const char *QueryString) {
 // Runs a query that returns data
 int _Database::RunDataQuery(const char *QueryString, int Handle) {
 	assert(QueryHandle[Handle] == NULL);
-	
+
 	const char *Tail;
 	int Result = sqlite3_prepare_v2(Database, QueryString, strlen(QueryString), &QueryHandle[Handle], &Tail);
 	if(Result != SQLITE_OK) {
@@ -137,7 +137,7 @@ int _Database::FetchRow(int Handle) {
 
 // Closes a query
 int _Database::CloseQuery(int Handle) {
-	
+
 	int Result = sqlite3_finalize(QueryHandle[Handle]);
 	if(Result != SQLITE_OK) {
 		Log.Write("_Database::CloseQuery - %s", sqlite3_errmsg(Database));
@@ -150,7 +150,7 @@ int _Database::CloseQuery(int Handle) {
 
 // Gets the last insert id
 sqlite3_int64 _Database::GetLastInsertID() {
-	
+
 	return sqlite3_last_insert_rowid(Database);
 }
 

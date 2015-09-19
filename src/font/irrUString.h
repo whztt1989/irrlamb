@@ -258,7 +258,7 @@ public:
 				_set(c);
 				return *this;
 			}
-			
+
 			//! Increments the value by 1.
 			//! \return Myself.
 			_ustring16_iterator_access& operator++()
@@ -393,7 +393,7 @@ public:
 					return unicode::toUTF32(a[pos], a[pos + 1]);
 				}
 			}
-			
+
 			//! Sets a uchar32_t at our current position.
 			void _set(uchar32_t c)
 			{
@@ -736,7 +736,7 @@ public:
 			typedef typename _Base::distance_type distance_type;
 			typedef access pointer;
 			typedef access reference;
-			
+
 			using _Base::pos;
 			using _Base::ref;
 
@@ -2034,7 +2034,7 @@ public:
 
 		// TODO: Check for near overflow values.
 		//if (begin > ustring16<TAlloc>::npos - length)
-		
+
 		// Clamp to the string length.
 		if ((length + begin) > len)
 			length = len - begin;
@@ -2115,7 +2115,7 @@ public:
 	}
 #endif
 
-	
+
 	//! Appends a number to this ustring16.
 	//! \param c Number to append.
 	//! \return A reference to our current string.
@@ -2247,7 +2247,7 @@ public:
 
 			return *this;
 		}
-		
+
 		// Determine the delta.
 		size_t delta = replace_size - other_size;
 

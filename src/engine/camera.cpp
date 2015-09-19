@@ -58,7 +58,7 @@ void _Camera::HandleMouseMotion(float UpdateX, float UpdateY) {
 
 // Updates the camera
 void _Camera::Update(const core::vector3df &Target) {
-	
+
 	// Get camera rotation
 	Transform.makeIdentity();
     Transform.setRotationDegrees(core::vector3df(Pitch, Yaw, 0.0f));
@@ -84,11 +84,11 @@ void _Camera::Update(const core::vector3df &Target) {
 	RayEnd[0] += Offset.X;
 	RayEnd[1] += Offset.Y;
 	RayEnd[2] += Offset.Z;
-	
+
 	// Get point on wall where ray collides
 	btVector3 HitNormal;
 	Physics.RaycastWorld(RayStart, RayEnd, HitNormal);
-	
+
 	// Shorten the offset a little bit
 	btVector3 NewOffset = RayEnd - RayStart;
 	NewOffset *= 0.9f;
@@ -110,7 +110,7 @@ void _Camera::Update(const core::vector3df &Target) {
 
 // Record the camera
 void _Camera::RecordReplay() {
-	
+
 	// Write replay
 	if(Replay.NeedsPacket() && MovementChanged) {
 		MovementChanged = false;

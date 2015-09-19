@@ -69,18 +69,18 @@ void _SpringJoint::Update(float FrameTime) {
 				RelativeVelocity = BodyA->getLinearVelocity() - BodyB->getLinearVelocity();
 			else
 				RelativeVelocity = BodyB->getLinearVelocity() - BodyA->getLinearVelocity();
-			
+
 			Force += -RelativeVelocity * Damping;
 		}
 
 		// Apply force to the first object
 		BodyA->applyCentralForce(Force);
-		
+
 		// Apply force to the second object
 		Force *= -1;
 		BodyB->applyCentralForce(Force);
 	}
-	
+
 }
 
 */

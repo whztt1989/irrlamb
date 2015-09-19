@@ -60,7 +60,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE
 	irrDevice->getCursorControl()->setVisible(false);
 	irrDevice->getLogger()->setLogLevel(ELL_ERROR);
 	irrDevice->setResizable(false);
-	
+
 	// Save off global pointers
 	irrDriver = irrDevice->getVideoDriver();
 	irrScene = irrDevice->getSceneManager();
@@ -77,7 +77,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE
 		VideoMode.Width = VideoModeList->getVideoModeResolution(i).Width;
 		VideoMode.Height = VideoModeList->getVideoModeResolution(i).Height;
 		VideoMode.BPP = VideoModeList->getVideoModeDepth(i);
-		
+
 		// Add the video mode
 		if((VideoMode.BPP == 32 || VideoMode.BPP == 24) && VideoMode.Width >= 800) {
 			std::wstringstream Stream;
@@ -121,7 +121,7 @@ int _Graphics::Init(int Width, int Height, bool Fullscreen, video::E_DRIVER_TYPE
 
 // Closes the graphics system
 int _Graphics::Close() {
-	
+
 	// Close irrlicht
 	irrDevice->drop();
 
@@ -130,10 +130,10 @@ int _Graphics::Close() {
 
 // Load all shaders
 void _Graphics::LoadShaders() {
-	
+
 	// Create shader materials
 	if(ShadersSupported) {
-		
+
 		ShaderCallback *Shader = new ShaderCallback();
 		if(CustomMaterial[0] == -1) {
 			CustomMaterial[0] = irrDriver->getGPUProgrammingServices()->addHighLevelShaderMaterialFromFiles(
@@ -154,21 +154,21 @@ void _Graphics::LoadShaders() {
 // Erases the buffer and sets irrlicht up for the next frame
 void _Graphics::BeginFrame() {
 	irrDriver->beginScene(true, true, ClearColor);
-	
+
 	if(DrawScene)
 		irrScene->drawAll();
 }
 
 // Draws the buffer to the screen
 void _Graphics::EndFrame() {
-	
+
 	// Draw cursor
 	if(ShowCursor)
 		Interface.DrawImage(_Interface::IMAGE_MOUSECURSOR, (int)Input.GetMouseX(), (int)Input.GetMouseY(), 16, 16);
 
 	Fader.Draw();
 	irrDriver->endScene();
-	
+
 	// Handle screenshots
 	if(ScreenshotRequested)
 		CreateScreenshot();

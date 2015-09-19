@@ -45,7 +45,7 @@ _Object::_Object()
 
 // Destructor
 _Object::~_Object() {
-	
+
 	if(Node)
 		Node->remove();
 
@@ -96,7 +96,7 @@ void _Object::Update(float FrameTime) {
 
 // Updates while replaying
 void _Object::UpdateReplay(float FrameTime) {
-	
+
 	Timer += FrameTime;
 }
 
@@ -155,7 +155,7 @@ void _Object::setWorldTransform(const btTransform &Transform) {
 		// Set position
 		const btVector3 &Position = CenterOfMassTransform.getOrigin();
 		Node->setPosition(core::vector3df((f32)Position.x(), (f32)Position.y(), (f32)Position.z()));
-		
+
 		// Rotation
 		btVector3 EulerRotation;
 		btQuaternion RigidRotation = CenterOfMassTransform.getRotation();
@@ -179,7 +179,7 @@ void _Object::SetPosition(const btVector3 &Position) {
 
 // Collision callback
 void _Object::HandleCollision(_Object *OtherObject, const btPersistentManifold *ContactManifold, float NormalScale) {
-	
+
 	// Get touching states
 	if(OtherObject->GetType() != ZONE) {
 		for(int i = 0; i < ContactManifold->getNumContacts(); i++) {

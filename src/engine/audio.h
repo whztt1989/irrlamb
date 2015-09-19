@@ -41,7 +41,7 @@ class _AudioSource {
 		void SetPitch(float Value);
 		void SetGain(float Value);
 		void SetPosition(float X, float Y, float Z);
-		
+
 		bool IsPlaying();
 
 	private:
@@ -75,7 +75,7 @@ class _Audio {
 		void SetPosition(float X, float Y, float Z);
 		void SetDirection(float X, float Y, float Z);
 		void SetGain(float Value);
-		
+
 	private:
 
 		// State
@@ -84,7 +84,7 @@ class _Audio {
 		// Buffers
 		std::map<std::string, AudioBufferStruct>::iterator BuffersIterator;
 		std::map<std::string, AudioBufferStruct> Buffers;
-		
+
 		// Sources
 		std::list<_AudioSource *> Sources;
 };

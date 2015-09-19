@@ -31,10 +31,10 @@ using namespace irr;
 _Cylinder::_Cylinder(const SpawnStruct &Object)
 :	_Object() {
 	TemplateStruct *Template = Object.Template;
-	
+
 	// Check for mesh file
 	if(Template->Mesh != "") {
-		
+
 		// Get file path
 		std::string MeshPath = std::string("meshes/") + Template->Mesh;
 
@@ -54,7 +54,7 @@ _Cylinder::_Cylinder(const SpawnStruct &Object)
 			}
 		}
 	}
-	
+
 	// Set up physics
 	if(Physics.IsEnabled()) {
 

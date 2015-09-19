@@ -65,7 +65,7 @@ int _NullState::Init() {
 
 // Shuts the state down
 int _NullState::Close() {
-	
+
 	return 1;
 }
 
@@ -77,19 +77,19 @@ bool _NullState::HandleAction(int InputType, int Action, float Value) {
 
 // Key presses
 bool _NullState::HandleKeyPress(int Key) {
-	
+
 	return Menu.HandleKeyPress(Key);
 }
 
 // GUI events
 void _NullState::HandleGUI(gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Element) {
-	
+
 	Menu.HandleGUI(EventType, Element);
 }
 
 // Updates the current state
 void _NullState::Update(float FrameTime) {
-	
+
 }
 
 // Interpolate object positions

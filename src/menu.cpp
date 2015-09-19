@@ -51,7 +51,7 @@ const int BUTTON_SPACING = 70;
 const int CAMPAIGN_SPACING = 60;
 const int BACK_Y = 220;
 const int SAVE_X = 60;
-				
+
 const int STATS_MIN_WIDTH = 250;
 const int STATS_MIN_HEIGHT = 330;
 const int STATS_PADDING = 15;
@@ -189,7 +189,7 @@ bool _Menu::HandleKeyPress(int Key) {
 					// Swap if the key already exists
 					for(int i = 0; i <= _Actions::RESET; i++) {
 						if(CurrentKeys[KeyMapOrder[i]] == Key) {
-							
+
 							// Get button
 							gui::IGUIButton *SwapButton = static_cast<gui::IGUIButton *>(CurrentLayout->getElementFromId(CONTROLS_KEYMAP + KeyMapOrder[i]));
 
@@ -301,7 +301,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Ele
 						InitMain();
 				break;
 				case VIDEO_SAVE: {
-					
+
 					// Save the video mode
 					gui::IGUIComboBox *VideoModes = static_cast<gui::IGUIComboBox *>(CurrentLayout->getElementFromId(VIDEO_VIDEOMODES));
 					if(VideoModes != NULL) {
@@ -341,7 +341,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Ele
 					Config.Shaders = Shaders->isChecked();
 					if(Config.Shaders)
 						Graphics.LoadShaders();
-						
+
 					// Save vsync
 					gui::IGUICheckBox *Vsync = static_cast<gui::IGUICheckBox *>(CurrentLayout->getElementFromId(VIDEO_VSYNC));
 					Config.Vsync = Vsync->isChecked();
@@ -384,7 +384,7 @@ void _Menu::HandleGUI(irr::gui::EGUI_EVENT_TYPE EventType, gui::IGUIElement *Ele
 				case CONTROLS_SAVE: {
 
 					// Write config
-					
+
 					for(int i = 0; i <= _Actions::RESET; i++) {
 						Actions.ClearMappingsForAction(_Input::KEYBOARD, KeyMapOrder[i]);
 						Actions.AddInputMap(_Input::KEYBOARD, CurrentKeys[KeyMapOrder[i]], KeyMapOrder[i], 1.0f, false);
@@ -521,7 +521,7 @@ void _Menu::InitMain() {
 // Create the single player menu
 void _Menu::InitSinglePlayer() {
 	ClearCurrentLayout();
-	
+
 	// Reset menu variables
 	CampaignIndex = 0;
 	SelectedLevel = -1;
@@ -568,7 +568,7 @@ void _Menu::InitLevels() {
 	int Column = 0, Row = 0;
 	for(u32 i = 0; i < CampaignData.Levels.size(); i++) {
 		bool Unlocked = true;
-				
+
 		// Get level stats
 		const SaveLevelStruct *Stats = Save.GetLevelStats(CampaignData.Levels[i].File);
 		LevelStats.push_back(Stats);
@@ -679,11 +679,11 @@ void _Menu::InitReplays() {
 void _Menu::InitOptions() {
 	Interface.ChangeSkin(_Interface::SKIN_MENU);
 	ClearCurrentLayout();
-			
+
 	// Text
 	int X = Interface.GetCenterX(), Y = Interface.GetCenterY() - TITLE_Y;
 	AddMenuText(core::position2di(X, Y), L"Options");
-	
+
 	Y += TITLE_SPACING;
 
 	// Buttons
@@ -719,7 +719,7 @@ void _Menu::InitVideo() {
 			ListScreenResolution->addItem(ModeList[i].String.c_str());
 		ListScreenResolution->setSelected(Graphics.GetCurrentVideoModeIndex());
 	}
-				
+
 	// Full Screen
 	Y += 40;
 	AddMenuText(core::position2di(X, Y), L"Fullscreen", _Interface::FONT_MEDIUM, -1, gui::EGUIA_LOWERRIGHT);
@@ -736,12 +736,12 @@ void _Menu::InitVideo() {
 	gui::IGUICheckBox *CheckBoxShaders = irrGUI->addCheckBox(Config.Shaders, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_SHADERS);
 	if(!Graphics.GetShadersSupported())
 		CheckBoxShaders->setEnabled(false);
-	
+
 	// Vsync
 	Y += 40;
 	AddMenuText(core::position2di(X, Y), L"V-sync", _Interface::FONT_MEDIUM, -1, gui::EGUIA_LOWERRIGHT);
 	gui::IGUICheckBox *CheckBoxVsync = irrGUI->addCheckBox(Config.Vsync, Interface.GetCenteredRect(X + 20, Y, 18, 18), CurrentLayout, VIDEO_VSYNC);
-		
+
 	// Anisotropic Filtering
 	Y += 40;
 	int MaxAnisotropy = irrDriver->getDriverAttributes().getAttributeAsInt("MaxAnisotropy");
@@ -768,7 +768,7 @@ void _Menu::InitVideo() {
 		if(Config.AntiAliasing == Level)
 			Antialiasing->setSelected(i+1);
 	}
-	
+
 	// Save
 	Y = Interface.GetCenterY() + BACK_Y;
 	AddMenuButton(Interface.GetCenteredRect(X - SAVE_X, Y, 108, 44), VIDEO_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
@@ -824,7 +824,7 @@ void _Menu::InitControls() {
 	Y = Interface.GetCenterY() - TITLE_Y + TITLE_SPACING - 40;
 	KeyButton = NULL;
 	for(int i = 0; i <= _Actions::RESET; i++) {
-				
+
 		CurrentKeys[KeyMapOrder[i]] = Actions.GetInputForAction(_Input::KEYBOARD, KeyMapOrder[i]);
 		AddMenuText(core::position2di(X - 25, Y), core::stringw(Actions.GetName(KeyMapOrder[i]).c_str()).c_str(), _Interface::FONT_MEDIUM, -1, gui::EGUIA_LOWERRIGHT);
 		AddMenuButton(Interface.GetCenteredRect(X + 50, Y, 130, 44), CONTROLS_KEYMAP + KeyMapOrder[i], core::stringw(Input.GetKeyName(CurrentKeys[KeyMapOrder[i]])).c_str(), _Interface::IMAGE_BUTTON_MEDIUM);
@@ -844,7 +844,7 @@ void _Menu::InitControls() {
 	// Save
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() - SAVE_X, Interface.GetCenterY() + BACK_Y, 108, 44), CONTROLS_SAVE, L"Save", _Interface::IMAGE_BUTTON_SMALL);
 	AddMenuButton(Interface.GetCenteredRect(Interface.GetCenterX() + SAVE_X, Interface.GetCenterY() + BACK_Y, 108, 44), CONTROLS_CANCEL, L"Cancel", _Interface::IMAGE_BUTTON_SMALL);
-	
+
 	// Play sound
 	Interface.PlaySound(_Interface::SOUND_CONFIRM);
 
@@ -910,7 +910,7 @@ void _Menu::InitSaveReplay() {
 // Create the lose screen
 void _Menu::InitLose() {
 	Interface.Clear();
-	
+
 	// Clear interface
 	ClearCurrentLayout();
 
@@ -921,7 +921,7 @@ void _Menu::InitLose() {
 	gui::IGUIButton *Button = AddMenuButton(Interface.GetCenteredRect(X + Spacing * 0, Y, 130, 44), LOSE_RESTARTLEVEL, L"Retry Level", _Interface::IMAGE_BUTTON_MEDIUM);
 	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 1, Y, 130, 44), LOSE_SAVEREPLAY, L"Save Replay", _Interface::IMAGE_BUTTON_MEDIUM);
 	AddMenuButton(Interface.GetCenteredRect(X + Spacing * 2, Y, 130, 44), LOSE_MAINMENU, L"Main Menu", _Interface::IMAGE_BUTTON_MEDIUM);
-	
+
 	Input.SetMouseLocked(false);
 	core::vector2di Position = Button->getAbsolutePosition().getCenter();
 	irrDevice->getCursorControl()->setPosition(Position.X, Position.Y);
@@ -933,10 +933,10 @@ void _Menu::InitLose() {
 // Create the win screen
 void _Menu::InitWin() {
 	Interface.Clear();
-	
+
 	// Get level stats
 	WinStats = Save.GetLevelStats(Level.GetLevelName());
-	
+
 	// Clear interface
 	ClearCurrentLayout();
 
@@ -972,14 +972,14 @@ void _Menu::SaveReplay() {
 	switch(PreviousState) {
 		case STATE_WIN: {
 			InitWin();
-			
+
 			gui::IGUIButton *ButtonSaveReplay = static_cast<gui::IGUIButton *>(CurrentLayout->getElementFromId(WIN_SAVEREPLAY));
 			ButtonSaveReplay->setEnabled(false);
 		}
 		break;
 		case STATE_LOSE: {
 			InitLose();
-			
+
 			gui::IGUIButton *ButtonSaveReplay = static_cast<gui::IGUIButton *>(CurrentLayout->getElementFromId(LOSE_SAVEREPLAY));
 			ButtonSaveReplay->setEnabled(false);
 		}
@@ -1006,15 +1006,15 @@ void _Menu::Draw() {
 				char Buffer[256];
 				const SaveLevelStruct *Stats = LevelStats[SelectedLevel];
 				const std::string &NiceName = Campaign.GetLevelNiceName(CampaignIndex, SelectedLevel);
-				
+
 				// Get text dimensions
 				core::dimension2du NiceNameSize = Interface.GetFont(_Interface::FONT_MEDIUM)->getDimension(core::stringw(NiceName.c_str()).c_str());
-	
+
 				// Get box position
 				int Width = NiceNameSize.Width + STATS_PADDING * 2, Height = STATS_MIN_HEIGHT + STATS_PADDING, X, Y;
 				int Left = (int)Input.GetMouseX() + STATS_MOUSE_OFFSETX;
 				int Top = (int)Input.GetMouseY() + STATS_MOUSE_OFFSETY;
-				
+
 				if(Width < STATS_MIN_WIDTH)
 					Width = STATS_MIN_WIDTH;
 
@@ -1071,7 +1071,7 @@ void _Menu::Draw() {
 						HighY += 19;
 
 						for(size_t i = 0; i < Stats->HighScores.size(); i++) {
-						
+
 							// Number
 							char SmallBuffer[32];
 							sprintf(SmallBuffer, "%d", (int)i+1);
@@ -1091,7 +1091,7 @@ void _Menu::Draw() {
 					}
 				}
 				else {
-				
+
 					// Locked
 					Interface.RenderText("Level Locked", X, Y, _Interface::ALIGN_CENTER, _Interface::FONT_MEDIUM, video::SColor(255, 255, 255, 255));
 				}
@@ -1141,7 +1141,7 @@ void _Menu::DrawWinScreen() {
 	Interface.RenderText("Date", HighX + 110, HighY, _Interface::ALIGN_LEFT, _Interface::FONT_SMALL, video::SColor(255, 255, 255, 255));
 	HighY += 17;
 	for(u32 i = 0; i < WinStats->HighScores.size(); i++) {
-				
+
 		// Number
 		char SmallBuffer[32];
 		sprintf(SmallBuffer, "%d", i+1);
@@ -1182,7 +1182,7 @@ std::string _Menu::GetReplayFile() {
 	gui::IGUIListBox *ReplayList = static_cast<gui::IGUIListBox *>(CurrentLayout->getElementFromId(REPLAYS_FILES));
 	if(!ReplayList)
 		return "";
-	
+
 	int SelectedIndex = ReplayList->getSelected();
 	if(SelectedIndex != -1) {
 		return ReplayFiles[SelectedIndex];
@@ -1193,7 +1193,7 @@ std::string _Menu::GetReplayFile() {
 
 // Launchs a level
 void _Menu::LaunchLevel() {
-	
+
 	SaveLevelStruct Stats;
 	Save.GetLevelStats(Campaign.GetCampaign(CampaignIndex).Levels[SelectedLevel].File, Stats);
 	if(Stats.Unlocked == 0)
@@ -1231,11 +1231,11 @@ gui::IGUIButton *_Menu::AddMenuButton(const irr::core::recti &Rectangle, int ID,
 
 // Add menu text label
 gui::IGUIStaticText *_Menu::AddMenuText(const core::position2di &CenterPosition, const wchar_t *Text, _Interface::FontType Font, int ID, gui::EGUI_ALIGNMENT HorizontalAlign) {
-	
+
 	// Get text dimensions
 	core::dimension2du Size = Interface.GetFont(Font)->getDimension(Text);
 	Size.Width++;
-	
+
 	core::recti Rectangle;
 	switch(HorizontalAlign) {
 		case gui::EGUIA_UPPERLEFT:
@@ -1248,11 +1248,11 @@ gui::IGUIStaticText *_Menu::AddMenuText(const core::position2di &CenterPosition,
 			Rectangle = Interface.GetRightRect(CenterPosition.X, CenterPosition.Y, Size.Width, Size.Height);
 		break;
 	}
-	
+
 	// Add text
 	gui::IGUIStaticText *NewText = irrGUI->addStaticText(Text, Rectangle, false, false, CurrentLayout);
 	NewText->setOverrideFont(Interface.GetFont(Font));
-	
+
 	return NewText;
 }
 

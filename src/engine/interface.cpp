@@ -52,7 +52,7 @@ CGUIEmptyElement::CGUIEmptyElement(irr::gui::IGUIEnvironment *Environment, irr::
 // Initializes the graphics system
 int _Interface::Init() {
 	DrawHUD = true;
-		
+
 	// Get skin
 	gui::IGUISkin *Skin = irrGUI->getSkin();
 
@@ -67,7 +67,7 @@ int _Interface::Init() {
 		}
 	}
 	Skin->setFont(Fonts[FONT_MEDIUM]);
-	
+
 	// Load images
 	Images[IMAGE_MOUSECURSOR] = irrDriver->getTexture("art/cursor.png");
 	Images[IMAGE_FADE] = irrDriver->getTexture("art/fade.png");
@@ -87,7 +87,7 @@ int _Interface::Init() {
 	// Set sounds to NULL
 	for(int i = 0; i < SOUND_COUNT; i++)
 		Sounds[i] = NULL;
-	
+
 	// Set up skins
 	ChangeSkin(SKIN_MENU);
 	Timer = 0.0f;
@@ -105,10 +105,10 @@ int _Interface::Init() {
 
 // Closes the graphics system
 int _Interface::Close() {
-	
+
 	for(int i = 0; i < FONT_COUNT; i++)
 		Fonts[i]->drop();
-	
+
 	return 1;
 }
 
@@ -123,7 +123,7 @@ void _Interface::ChangeSkin(SkinType Type) {
 	Skin->setColor(gui::EGDC_GRAY_EDITABLE, video::SColor(255, 0, 0, 0));
 	Skin->setColor(gui::EGDC_FOCUSED_EDITABLE, video::SColor(255, 0, 0, 0));
 	Skin->setColor(gui::EGDC_EDITABLE, video::SColor(255, 0, 0, 0));
-	
+
 	switch(Type) {
 		case SKIN_MENU:
 			Skin->setColor(gui::EGDC_3D_FACE, video::SColor(255, 32, 32, 32));
@@ -157,7 +157,7 @@ void _Interface::SetTutorialText(const std::string &Text, float Length) {
 		TutorialText.Text->remove();
 		TutorialText.Text = NULL;
 	}
-		
+
 	TutorialText.Text = irrGUI->addStaticText(core::stringw(Text.c_str()).c_str(), GetCenteredRect(TutorialText.MessageX, TutorialText.MessageY, MESSAGE_WIDTH - MESSAGE_PADDING, MESSAGE_HEIGHT), false, true);
 	TutorialText.Text->setTextAlignment(gui::EGUIA_CENTER, gui::EGUIA_CENTER);
 	TutorialText.DeleteTime = Length + Timer;
@@ -177,7 +177,7 @@ void _Interface::Update(float FrameTime) {
 
 // Draw interface elements
 void _Interface::Draw(float Time) {
-	
+
 	// Draw timer
 	char TimeString[32];
 	ConvertSecondsToString(Time, TimeString);

@@ -50,7 +50,7 @@ class _ViewReplayState : public _State {
 
 		void Update(float FrameTime);
 		void Draw();
-		
+
 		void SetCurrentReplay(const std::string &File) { CurrentReplay = File; }
 
 	private:
@@ -66,7 +66,7 @@ class _ViewReplayState : public _State {
 
 		// Objects
 		_Camera *Camera;
-	
+
 		// Replay information
 		ReplayEventStruct NextEvent;
 		float PauseSpeed;

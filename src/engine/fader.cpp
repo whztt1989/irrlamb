@@ -42,13 +42,13 @@ int _Fader::Init() {
 
 // Closes the fader system
 int _Fader::Close() {
-	
+
 	return 1;
 }
 
 // Update fader
 void _Fader::Update(float FrameTime) {
-	
+
 	// Update fading
 	switch(State) {
 		case STATE_NONE:

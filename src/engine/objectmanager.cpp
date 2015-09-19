@@ -51,7 +51,7 @@ int _ObjectManager::Close() {
 _Object *_ObjectManager::AddObject(_Object *Object) {
 
 	if(Object != NULL) {
-		
+
 		// Set replay ID
 		Object->SetID(NextObjectID);
 		NextObjectID++;
@@ -94,7 +94,7 @@ _Object *_ObjectManager::GetObjectByType(int Type) {
 
 // Deletes all of the objects
 void _ObjectManager::ClearObjects() {
-	
+
 	// Delete constraints first
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ) {
 		_Object *Object = *Iterator;
@@ -118,7 +118,7 @@ void _ObjectManager::ClearObjects() {
 
 // Performs start frame operations on the objects
 void _ObjectManager::BeginFrame() {
-	
+
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		_Object *Object = *Iterator;
 
@@ -161,7 +161,7 @@ void _ObjectManager::EndFrame() {
 			if(Object->ReadyForReplayUpdate()) {
 				btVector3 EulerRotation;
 				Physics.QuaternionToEuler(Object->GetRotation(), EulerRotation);
-				
+
 				// Write object update
 				ReplayStream.WriteShortInt(Object->GetID());
 				ReplayStream.WriteData((void *)&Object->GetPosition(), sizeof(btScalar) * 3);
@@ -223,7 +223,7 @@ void _ObjectManager::UpdateFromReplay() {
 	int ObjectID = ReplayStream.ReadShortInt();
 	ReplayStream.ReadData(&Position.X, sizeof(float) * 3);
 	ReplayStream.ReadData(&Rotation.X, sizeof(float) * 3);
-	
+
 	// Loop through the rest of the objects
 	int UpdatedObjectCount = 0;
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
@@ -248,7 +248,7 @@ void _ObjectManager::UpdateFromReplay() {
 
 // Returns an object by an index, NULL if no such index
 _Object *_ObjectManager::GetObjectByID(int ID) {
-	
+
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetID() == ID)
 			return *Iterator;
@@ -259,7 +259,7 @@ _Object *_ObjectManager::GetObjectByID(int ID) {
 
 // Deletes an object by its ID
 void _ObjectManager::DeleteObjectByID(int ID) {
-	
+
 	for(std::list<_Object *>::iterator Iterator = Objects.begin(); Iterator != Objects.end(); ++Iterator) {
 		if((*Iterator)->GetID() == ID) {
 			delete (*Iterator);

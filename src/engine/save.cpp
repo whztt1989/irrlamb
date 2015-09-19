@@ -122,7 +122,7 @@ int _Save::InitStatsDatabase() {
 						", 'Date' INTEGER"
 						")");
 		Database->RunQuery("CREATE INDEX StatsLevelFile on stats (LevelFile ASC)");
-		
+
 		// Add version number
 		char Buffer[256];
 		sprintf(Buffer, "INSERT INTO DatabaseInfo(Version) VALUES(%d)", STATS_VERSION);
@@ -170,7 +170,7 @@ int _Save::LoadLevelStats() {
 			Stat.HighScores.push_back(HighScore);
 		}
 		Database->CloseQuery(1);
-		
+
 		// Add record to map
 		LevelStats[LevelFile] = Stat;
 	}

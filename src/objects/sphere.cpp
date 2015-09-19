@@ -34,7 +34,7 @@ _Sphere::_Sphere(const SpawnStruct &Object)
 
 	// Check for mesh file
 	if(Template->Mesh != "") {
-		
+
 		// Get file path
 		std::string MeshPath = std::string("meshes/") + Template->Mesh;
 
@@ -54,7 +54,7 @@ _Sphere::_Sphere(const SpawnStruct &Object)
 			}
 		}
 	}
-	
+
 	// Set up physics
 	if(Physics.IsEnabled()) {
 

@@ -48,7 +48,7 @@ int _ViewReplayState::Init() {
 	Layout = new CGUIEmptyElement(irrGUI, irrGUI->getRootGUIElement());
 	Layout->drop();
 	Camera = NULL;
-	
+
 	// Set up state
 	PauseSpeed = 1.0f;
 	Game.SetTimeScale(1.0f);
@@ -81,7 +81,7 @@ int _ViewReplayState::Init() {
 
 	// Initialize controls
 	SetupGUI();
-	
+
 	// Set fog background color
 	Graphics.SetClearColor(Level.GetClearColor());
 
@@ -101,7 +101,7 @@ int _ViewReplayState::Close() {
 	Interface.Clear();
 	irrScene->clear();
 	Layout->remove();
-	
+
 	return 1;
 }
 
@@ -195,7 +195,7 @@ void _ViewReplayState::Update(float FrameTime) {
 	Timer += FrameTime;
 	while(!Replay.ReplayStopped() && Timer >= NextEvent.TimeStamp) {
 		//printf("Processing header packet: type=%d time=%f\n", NextEvent.Type, NextEvent.TimeStamp);
-		
+
 		switch(NextEvent.Type) {
 			case _Replay::PACKET_MOVEMENT:
 				ObjectManager.UpdateFromReplay();
@@ -216,7 +216,7 @@ void _ViewReplayState::Update(float FrameTime) {
 					_Object *NewObject = Level.CreateObject(Spawn);
 					NewObject->SetID(ObjectID);
 				}
-			
+
 				// Update number of lights
 				Graphics.SetLightCount();
 			}
@@ -232,7 +232,7 @@ void _ViewReplayState::Update(float FrameTime) {
 			}
 			break;
 			case _Replay::PACKET_CAMERA: {
-				
+
 				// Read replay
 				core::vector3df Position, LookAt;
 				_File &ReplayStream = Replay.GetReplayStream();
@@ -243,7 +243,7 @@ void _ViewReplayState::Update(float FrameTime) {
 				Camera->GetNode()->setPosition(Position);
 				Camera->GetNode()->setTarget(LookAt);
 				Graphics.SetDrawScene(true);
-				
+
 				//printf("Camera Position=%f %f %f Target=%f %f %f\n", Position.X, Position.Y, Position.Z, LookAt.X, LookAt.Y, LookAt.Z);
 			}
 			break;
@@ -268,7 +268,7 @@ void _ViewReplayState::Update(float FrameTime) {
 
 		Replay.ReadEvent(NextEvent);
 	}
-	
+
 	ObjectManager.UpdateReplay(FrameTime);
 	Interface.Update(FrameTime);
 }

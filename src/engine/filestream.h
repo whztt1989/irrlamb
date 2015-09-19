@@ -49,7 +49,7 @@ class _File {
 		void ReadData(void *Data, unsigned int Size) { File.read(reinterpret_cast<char *>(Data), Size); }
 		void ReadString(char *Data);
 		void ReadString(char *Data, unsigned int Size) { File.read(reinterpret_cast<char *>(Data), Size); }
-		
+
 	private:
 
 		std::fstream File;

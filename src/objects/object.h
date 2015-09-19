@@ -54,7 +54,7 @@ class _Object : public btMotionState {
 		virtual void Update(float FrameTime);
 		void BeginFrame();
 		virtual void EndFrame();
-		
+
 		// Replays
 		virtual void UpdateReplay(float FrameTime);
 		bool ReadyForReplayUpdate() const { return NeedsReplayPacket; }
@@ -76,7 +76,7 @@ class _Object : public btMotionState {
 		// Rigid body
 		bool IsHookable() const { return Hookable; }
 		void Stop();
-		
+
 		void CalculateInterpolatedPosition(float BlendFactor);
 		void SetPosition(const btVector3 &Position);
 		virtual void SetPositionFromReplay(const irr::core::vector3df &Position);
@@ -118,7 +118,7 @@ class _Object : public btMotionState {
 
 		// Life
 		float Timer, Lifetime;
-		
+
 		// Physics and graphics
 		irr::scene::ISceneNode *Node;
 		btRigidBody *RigidBody;

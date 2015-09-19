@@ -31,12 +31,12 @@ public:
 
 	void setTimeStepRemainder(btScalar time) { m_localTime = time; }
 	int stepSimulation(btScalar timeStep, int maxSubSteps=0, btScalar fixedTimeStep=0) {
-		
+
 		saveKinematicState(timeStep);
 		applyGravity();
 		internalSingleStepSimulation(timeStep);
 		clearForces();
-		
+
 		return 1;
 	}
 

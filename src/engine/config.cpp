@@ -26,7 +26,7 @@ using namespace irr;
 _Config Config;
 
 using namespace tinyxml2;
- 
+
 // Initializes the config system
 int _Config::Init() {
 
@@ -37,13 +37,13 @@ int _Config::Init() {
 
 // Closes the config system
 int _Config::Close() {
-	
+
 	return 1;
 }
 
 // Resets the configuration to the default values
 void _Config::Reset() {
-	
+
 	// Video
 	DriverType = video::EDT_OPENGL;
 	ScreenWidth = 800;
@@ -89,12 +89,12 @@ void _Config::Reset() {
 
 // Add default actions
 void _Config::AddDefaultActionMap(bool Force) {
-	
+
 	if(Force) {
 		for(int i = 0; i < _Input::INPUT_COUNT; i++)
 			Actions.ClearMappings(i);
 	}
-	
+
 #ifdef PANDORA
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_UP, _Actions::MOVE_FORWARD);
 	Actions.AddInputMap(_Input::KEYBOARD, KEY_DOWN, _Actions::MOVE_BACK);
@@ -216,7 +216,7 @@ int _Config::ReadConfig() {
 		if(Element) {
 			Element->QueryBoolAttribute("enabled", &Shaders);
 		}
-		
+
 		// Check for the vsync tag
 		Element = VideoElement->FirstChildElement("vsync");
 		if(Element) {
@@ -228,7 +228,7 @@ int _Config::ReadConfig() {
 	XMLElement *AudioElement = ConfigElement->FirstChildElement("audio");
 	if(AudioElement) {
 		AudioElement->QueryBoolAttribute("enabled", &AudioEnabled);
-		
+
 		/*
 		// Get sound element
 		XMLElement *SoundElement = AudioElement->FirstChildElement("sound");
@@ -263,10 +263,10 @@ int _Config::ReadConfig() {
 	Actions.ClearMappings(_Input::MOUSE_BUTTON);
 	Actions.ClearMappings(_Input::MOUSE_AXIS);
 	Actions.Unserialize(InputElement);
-	
+
 	// Read the joystick config file if it exists
 	int HasJoystickConfig = ReadJoystickConfig();
-	
+
 	// Add missing mappings
 	AddDefaultActionMap();
 
@@ -284,12 +284,12 @@ int _Config::WriteConfig() {
 
 	XMLDocument Document;
 	Document.InsertEndChild(Document.NewDeclaration());
-	
+
 	// Config
 	XMLElement *ConfigElement = Document.NewElement("config");
 	ConfigElement->SetAttribute("version", "1.0");
 	Document.InsertEndChild(ConfigElement);
-	
+
 	// Create video element
 	XMLElement *VideoElement = Document.NewElement("video");
 	//VideoElement->SetAttribute("driver", DriverType);
@@ -318,7 +318,7 @@ int _Config::WriteConfig() {
 	XMLElement *ShadersElement = Document.NewElement("shaders");
 	ShadersElement->SetAttribute("enabled", Shaders);
 	VideoElement->LinkEndChild(ShadersElement);
-	
+
 	// Vsync
 	XMLElement *VsyncElement = Document.NewElement("vsync");
 	VsyncElement->SetAttribute("enabled", Vsync);
@@ -360,10 +360,10 @@ int _Config::WriteConfig() {
 
 	// Write file
 	Document.SaveFile(Save.GetConfigFile().c_str());
-	
+
 	// Write joystick config to its own file based on name
 	WriteJoystickConfig();
-	
+
 	return 1;
 }
 
@@ -402,12 +402,12 @@ int _Config::WriteJoystickConfig() {
 
 	XMLDocument Document;
 	Document.InsertEndChild(Document.NewDeclaration());
-	
+
 	// Config
 	XMLElement *InputMapElement = Document.NewElement("inputmap");
 	InputMapElement->SetAttribute("name", Input.GetJoystickInfo().Name.c_str());
 	Document.InsertEndChild(InputMapElement);
-	
+
 	// Write action map
 	Actions.Serialize(_Input::JOYSTICK_BUTTON, Document, InputMapElement);
 	Actions.Serialize(_Input::JOYSTICK_AXIS, Document, InputMapElement);

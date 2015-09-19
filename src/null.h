@@ -27,7 +27,7 @@ class _NullState : public _State {
 	friend class _ViewReplayState;
 
 	public:
-	
+
 		int Init();
 		int Close();
 
@@ -42,7 +42,7 @@ class _NullState : public _State {
 		void Draw();
 
 	private:
-		
+
 		int State;
 };
 

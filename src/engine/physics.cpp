@@ -62,7 +62,7 @@ int _Physics::Init() {
 	btContactSolverInfo &SolverInfo = World->getSolverInfo();
 	SolverInfo.m_timeStep = PHYSICS_TIMESTEP;
 	SolverInfo.m_solverMode |= SOLVER_USE_2_FRICTION_DIRECTIONS;
-	
+
 	DebugDrawer.setDebugMode(btIDebugDraw::DBG_DrawText|btIDebugDraw::DBG_NoHelpText+btIDebugDraw::DBG_DrawWireframe+btIDebugDraw::DBG_DrawContactPoints);
 
 	Enabled = false;
@@ -96,7 +96,7 @@ void _Physics::Update(float FrameTime) {
 			if(ContactManifold->getNumContacts() > 0) {
 				const btCollisionObject *CollisionObject0 = static_cast<const btCollisionObject *>(ContactManifold->getBody0());
 				const btCollisionObject *CollisionObject1 = static_cast<const btCollisionObject *>(ContactManifold->getBody1());
-				
+
 				_Object *Object0 = static_cast<_Object *>(CollisionObject0->getUserPointer());
 				_Object *Object1 = static_cast<_Object *>(CollisionObject1->getUserPointer());
 
