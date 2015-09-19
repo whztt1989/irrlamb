@@ -5,12 +5,12 @@ Source code at:
 https://github.com/jazztickets/irrlamb
 
 Linux dependencies:
-cmake
+cmake 3.0+
 irrlicht
 bullet
 freetype
 sqlite3
-lua
+lua5.2
 openal
 libvorbis
 libogg
@@ -21,9 +21,6 @@ cd build
 cmake ..
 make -j`nproc`
 cd ../working && ../bin/Release/irrlamb
-
-Building in Codelite:
-Open codelite/irrlamb.workspace with codelite. Run the custom build target 'CMake', then build with F7.
 
 Installing:
 run "sudo make install" from the build directory.
@@ -57,7 +54,7 @@ Setting up blender for exporting:
 
 In blender, select File -> User Preferences -> Add-ons -> Install from File...
 
-Select the file irrlamb/assets/irrb/io_export_irrlicht.py 
+Select the file irrlamb/assets/irrb/io_export_irrlicht.py
 
 Enable the add-on by checking the checkbox.
 

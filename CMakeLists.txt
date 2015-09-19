@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 # define constants
 add_definitions(-DGAME_VERSION="0.2.0")
@@ -12,7 +12,6 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
 # set default build type
 set(EXTRA_LIBS)
-add_definitions("-DLUA_COMPAT_ALL")
 
 # windows only options
 if(MSVC)
@@ -22,9 +21,6 @@ if(MSVC)
 	set(SQLITE3_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
 	set(SQLITE3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
 	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
-	set(VORBIS_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbis.lib)
-	set(VORBISFILE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libvorbisfile.lib)
-	set(OGG_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/vorbis/libogg.lib)
 	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/debug/lua52_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/release/lua52.lib)
 
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -41,7 +37,6 @@ else()
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -H")
 	set(SQLITE3_LIBRARIES sqlite3)
 	set(SQLITE3_INCLUDE_DIR "/usr/include")
-	set(VORBISFILE_LIBRARY vorbisfile)
 
 	# x11
 	find_package(X11 REQUIRED)
@@ -50,6 +45,7 @@ else()
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 
+	# lua
 	find_package(Lua 5.2 REQUIRED)
 	if(NOT LUA_FOUND)
 		message(SEND_ERROR "Could not find Lua 5.2!")
@@ -76,20 +72,32 @@ if(NOT BULLET_FOUND)
 	message(SEND_ERROR "Could not find Bullet!")
 endif()
 
+find_package(Freetype REQUIRED)
+if(NOT FREETYPE_FOUND)
+	message(SEND_ERROR "Could not find Freetype 2!")
+endif()
+
 find_package(OpenAL REQUIRED)
 if(NOT OPENAL_FOUND)
 	message(SEND_ERROR "Could not find OpenAL!")
 endif()
 
-find_package(Freetype REQUIRED)
-if(NOT FREETYPE_FOUND)
-	message(SEND_ERROR "Could not find Freetype 2!")
+find_package(Vorbis REQUIRED)
+if(NOT VORBIS_FOUND)
+	message(SEND_ERROR "Could not find libvorbis or libvorbisfile!")
+endif()
+
+find_package(Ogg REQUIRED)
+if(NOT OGG_FOUND)
+	message(SEND_ERROR "Could not find libogg!")
 endif()
 
 # include paths
 include_directories(${BULLET_INCLUDE_DIRS})
 include_directories(${IRRLICHT_INCLUDE_DIRS})
 include_directories(${OPENAL_INCLUDE_DIR})
+include_directories(${VORBIS_INCLUDE_DIR})
+include_directories(${OGG_INCLUDE_DIR})
 include_directories(${LUA_INCLUDE_DIR})
 include_directories(${SQLITE3_INCLUDE_DIR})
 include_directories(${FREETYPE_INCLUDE_DIRS})
@@ -119,15 +127,14 @@ add_executable(${CMAKE_PROJECT_NAME} ${SRC_ALL} src/resource.rc)
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
 	${IRRLICHT_LIBRARIES}
-	${EXTRA_LIBS}
 	${BULLET_LIBRARIES}
 	${OPENAL_LIBRARY}
 	${LUA_LIBRARIES}
 	${SQLITE3_LIBRARIES}
 	${FREETYPE_LIBRARIES}
-	${VORBIS_LIBRARY}
-	${VORBISFILE_LIBRARY}
-	${OGG_LIBRARY}
+	${VORBIS_LIBRARIES}
+	${OGG_LIBRARIES}
+	${EXTRA_LIBS}
 	)
 
 # copy irrlicht DLLs to working directory
