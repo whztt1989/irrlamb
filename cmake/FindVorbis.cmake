@@ -31,7 +31,7 @@ find_path(
 
 # find debug library
 find_library(
-		VORBIS_DEBUG_LIBRARY vorbis_d libvorbis_d
+		VORBIS_DEBUG_LIBRARY vorbis_d libvorbis_d vorbis libvorbis
 	HINTS
 		ENV VORBIS_ROOT
 		ENV VORBISDIR
@@ -59,7 +59,7 @@ find_library(
 
 # find debug vorbisfile library
 find_library(
-		VORBISFILE_DEBUG_LIBRARY vorbisfile_d libvorbisfile_d
+		VORBISFILE_DEBUG_LIBRARY vorbisfile_d libvorbisfile_d vorbisfile libvorbisfile
 	HINTS
 		ENV VORBIS_ROOT
 		ENV VORBISDIR

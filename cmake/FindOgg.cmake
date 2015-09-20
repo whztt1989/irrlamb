@@ -31,7 +31,7 @@ find_path(
 
 # find debug library
 find_library(
-		OGG_DEBUG_LIBRARY ogg_d libogg_d
+		OGG_DEBUG_LIBRARY ogg_d libogg_d ogg libogg
 	HINTS
 		ENV OGG_ROOT
 		ENV OGGDIR
