@@ -25,6 +25,8 @@
 #include <engine/log.h>
 #include <irrlicht.h>
 #include <SIrrCreationParameters.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 using namespace irr;
 

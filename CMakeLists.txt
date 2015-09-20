@@ -10,8 +10,9 @@ subdirs(tools)
 # add extra find modules
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
-# set default build type
+# set default values
 set(EXTRA_LIBS)
+set(BULLET_ROOT "$ENV{BULLET_ROOT}")
 
 # check for -DLUA_VERSION=x.x
 if(NOT LUA_VERSION)
@@ -37,12 +38,6 @@ else()
 	include_directories(${X11_X11_INCLUDE_PATH})
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 
-	# lua
-	find_package(Lua ${LUA_VERSION} REQUIRED)
-	if(NOT LUA_FOUND)
-		message(SEND_ERROR "Could not find Lua " ${LUA_VERSION} "!")
-	endif()
-
 	if(PANDORA)
 		add_definitions("-DPANDORA")
 		add_definitions("-DLUA_USE_LINUX")
@@ -53,7 +48,6 @@ else()
 endif()
 
 # find libraries
-set(BULLET_ROOT "$ENV{BULLET_ROOT}")
 find_package(Irrlicht 1.8 REQUIRED)
 if(NOT IRRLICHT_FOUND)
 	message(SEND_ERROR "Could not find Irrlicht!")
@@ -87,6 +81,11 @@ endif()
 find_package(SQLite REQUIRED)
 if(NOT SQLITE_FOUND)
 	message(SEND_ERROR "Could not find SQLite3!")
+endif()
+
+find_package(Lua ${LUA_VERSION} REQUIRED)
+if(NOT LUA_FOUND)
+	message(SEND_ERROR "Could not find Lua " ${LUA_VERSION} "!")
 endif()
 
 # include paths
@@ -134,10 +133,17 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 	${EXTRA_LIBS}
 	)
 
-# copy irrlicht DLLs to working directory
 if(WIN32)
-	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win32-VisualStudio/Irrlicht.dll" ${PROJECT_SOURCE_DIR}/working)
-	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win32-VisualStudio/Irrlicht_d.dll" ${PROJECT_SOURCE_DIR}/working)
+
+	# copy libraries to working directory
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win64-VisualStudio/Irrlicht.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{IRRLICHT_ROOT}/bin/Win64-VisualStudio/Irrlicht_d.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{OGG_ROOT}/win32/VS2010/x64/Release/libogg.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{OGG_ROOT}/win32/VS2010/x64/Debug/libogg_d.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{VORBIS_ROOT}/win32/VS2010/x64/Release/libvorbis.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{VORBIS_ROOT}/win32/VS2010/x64/Debug/libvorbis_d.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{VORBIS_ROOT}/win32/VS2010/x64/Release/libvorbisfile.dll" ${PROJECT_SOURCE_DIR}/working)
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "$ENV{VORBIS_ROOT}/win32/VS2010/x64/Debug/libvorbisfile_d.dll" ${PROJECT_SOURCE_DIR}/working)
 else()
 
 	# linux installation

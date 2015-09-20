@@ -145,10 +145,10 @@ void _Config::AddDefaultActionMap(bool Force) {
 	#ifdef WIN32
 
 		// Assume xbox or similar controller
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_LEFT, AxisScaleX);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_RIGHT, AxisScaleX);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_UP, AxisScaleY);
-		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_DOWN, AxisScaleY);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, AxisScaleX);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 7, _Actions::CAMERA_RIGHT, AxisScaleX);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 8, _Actions::CAMERA_UP, AxisScaleY);
+		Actions.AddInputMap(_Input::JOYSTICK_AXIS, 9, _Actions::CAMERA_DOWN, AxisScaleY);
 	#else
 		if(Name.find("x-box", 0) || Name.find("xbox", 0)) {
 			Actions.AddInputMap(_Input::JOYSTICK_AXIS, 6, _Actions::CAMERA_LEFT, AxisScaleX);
