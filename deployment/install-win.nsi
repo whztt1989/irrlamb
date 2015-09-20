@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "irrlamb"
-!define PRODUCT_VERSION "0.2.0"
+!define PRODUCT_VERSION "0.2.1"
 !define PRODUCT_PUBLISHER "Alan Witkowski"
 !define PRODUCT_WEB_SITE "https://github.com/jazztickets/irrlamb"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\irrlamb.exe"
@@ -20,7 +20,7 @@
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "license.txt"
+!insertmacro MUI_PAGE_LICENSE "..\LICENSE"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
@@ -57,7 +57,9 @@ Section "MainSection" SEC01
   CreateShortCut "$SMPROGRAMS\irrlamb\irrlamb.lnk" "$INSTDIR\irrlamb.exe"
   CreateShortCut "$DESKTOP\irrlamb.lnk" "$INSTDIR\irrlamb.exe"
   File "..\working\Irrlicht.dll"
-  File "..\working\OpenAL32.dll"
+  File "..\working\libogg.dll"
+  File "..\working\libvorbis.dll"
+  File "..\working\libvorbisfile.dll"
   File /r "..\working\art"
   File /r "..\working\fonts"
   File /r "..\working\levels"
@@ -86,7 +88,6 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
-
 Function un.onUninstSuccess
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
@@ -99,32 +100,15 @@ FunctionEnd
 
 Section Uninstall
   SetShellVarContext all
-  Delete "$INSTDIR\${PRODUCT_NAME}.url"
-  Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\Irrlicht.dll"
-  Delete "$INSTDIR\OpenAL32.dll"
-  Delete "$INSTDIR\irrlamb.exe"
-  Delete "$INSTDIR\LICENSE"
-  Delete "$INSTDIR\CHANGELOG"
-  Delete "$INSTDIR\README"
-  
+
   Delete "$SMPROGRAMS\irrlamb\Uninstall.lnk"
   Delete "$SMPROGRAMS\irrlamb\Website.lnk"
   Delete "$DESKTOP\irrlamb.lnk"
   Delete "$SMPROGRAMS\irrlamb\irrlamb.lnk"
-  
+
   RMDir "$SMPROGRAMS\irrlamb"
-  RMDir /r "$INSTDIR\art"
-  RMDir /r "$INSTDIR\fonts"
-  RMDir /r "$INSTDIR\levels"
-  RMDir /r "$INSTDIR\meshes"
-  RMDir /r "$INSTDIR\scripts"
-  RMDir /r "$INSTDIR\shaders"
-  RMDir /r "$INSTDIR\sounds"
-  RMDir /r "$INSTDIR\textures"
-  
-  RMDir "$INSTDIR"
-  
+  RMDir /r "$INSTDIR"
+
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   SetAutoClose true

@@ -25,6 +25,10 @@ cd ../working && ../bin/Release/irrlamb
 Installing:
 run "sudo make install" from the build directory.
 
+Windows users will need:
+https://www.openal.org/downloads/oalinst.zip
+https://www.microsoft.com/en-us/download/details.aspx?id=48145
+
 Command-line arguments
 -level [.xml file]        Test a level
 -replay [.replay file]    View a replay
