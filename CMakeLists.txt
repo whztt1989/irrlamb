@@ -13,6 +13,11 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 # set default build type
 set(EXTRA_LIBS)
 
+# check for -DLUA_VERSION=x.x
+if(NOT LUA_VERSION)
+	set(LUA_VERSION "5.3")
+endif()
+
 # windows only options
 if(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
@@ -33,10 +38,9 @@ else()
 	include_directories(${X11_xf86vmode_INCLUDE_PATH})
 
 	# lua
-	set(Lua_FIND_VERSION_EXACT TRUE)
-	find_package(Lua 5.3 REQUIRED)
+	find_package(Lua ${LUA_VERSION} REQUIRED)
 	if(NOT LUA_FOUND)
-		message(SEND_ERROR "Could not find Lua 5.3!")
+		message(SEND_ERROR "Could not find Lua " ${LUA_VERSION} "!")
 	endif()
 
 	if(PANDORA)
