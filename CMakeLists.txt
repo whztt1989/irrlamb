@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 # define constants
-add_definitions(-DGAME_VERSION="0.2.0")
+add_definitions(-DGAME_VERSION="0.2.1")
 
 # projects
 project(irrlamb)
@@ -15,17 +15,8 @@ set(EXTRA_LIBS)
 
 # windows only options
 if(MSVC)
-	set(FREETYPE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/extlibs/include")
-	set(LUA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/include/lua5.2")
-
-	set(SQLITE_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/sqlite3/sqlite3.lib)
-	set(SQLITE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/extlibs/sqlite3/include")
-	set(FREETYPE_LIBRARY debug ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/freetype/freetype.lib)
-	set(LUA_LIBRARIES debug ${PROJECT_SOURCE_DIR}/extlibs/debug/lua52_d.lib optimized ${PROJECT_SOURCE_DIR}/extlibs/release/lua52.lib)
-
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
-	link_directories("${PROJECT_SOURCE_DIR}/extlibs/")
 
 	# set output path
 	set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/)
