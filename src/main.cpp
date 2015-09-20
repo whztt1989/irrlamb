@@ -17,7 +17,11 @@
 **************************************************************************************/
 #include <engine/game.h>
 
-//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#if defined(_WIN32) && defined(NDEBUG)
+
+    // Remove console in windows release mode
+    #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
 
 int main(int ArgumentCount, char **Arguments) {
 

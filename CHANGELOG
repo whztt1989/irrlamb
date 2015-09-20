@@ -1,5 +1,6 @@
 irrlamb 0.2.1 -
--
+- Added installer for windows
+- Various fixes to build system
 
 irrlamb 0.2.0 - 2015-09-19
 - Added gamepad support
