@@ -62,7 +62,7 @@ _Terrain::_Terrain(const SpawnStruct &Object)
 
 		if(Physics.IsEnabled()) {
 			CollisionMesh = new btTriangleMesh();
-			scene::CDynamicMeshBuffer MeshBuffer(video::EVT_STANDARD, video::EIT_16BIT);
+			scene::CDynamicMeshBuffer MeshBuffer(video::EVT_STANDARD, video::EIT_32BIT);
 			Terrain->getMeshBufferForLOD(MeshBuffer, 0);
 			u16 *Indices = MeshBuffer.getIndices();
 

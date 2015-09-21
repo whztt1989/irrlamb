@@ -22,6 +22,9 @@ cmake ..
 make -j`nproc`
 cd ../working && ../bin/Release/irrlamb
 
+Lua 5.2 can be used by setting LUA_VERSION
+cmake .. -DLUA_VERSION=5.2
+
 Installing:
 run "sudo make install" from the build directory.
 
