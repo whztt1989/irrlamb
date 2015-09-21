@@ -35,6 +35,7 @@
 #include <objects/box.h>
 #include <objects/orb.h>
 #include <objects/cylinder.h>
+#include <objects/terrain.h>
 #include <objects/zone.h>
 #include <objects/collision.h>
 #include <objects/constraint.h>
@@ -184,7 +185,7 @@ int _Level::Init(const std::string &LevelName, bool HeaderOnly) {
 
 			// Set texture filters on meshes in the scene
 			core::array<irr::scene::ISceneNode *> MeshNodes;
-				irrScene->getSceneNodesFromType(scene::ESNT_MESH, MeshNodes);
+			irrScene->getSceneNodesFromType(scene::ESNT_MESH, MeshNodes);
 			for(u32 i = 0; i < MeshNodes.size(); i++) {
 				if(EmitLight && Config.Shaders) {
 					video::SMaterial &Material = MeshNodes[i]->getMaterial(0);
@@ -457,6 +458,10 @@ int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &O
 	else if(ObjectType == "cylinder") {
 		Object.Type = _Object::CYLINDER;
 	}
+	else if(ObjectType == "terrain") {
+		Object.Type = _Object::TERRAIN;
+		Object.Mass = 0.0f;
+	}
 	else if(ObjectType == "zone") {
 		Object.Type = _Object::ZONE;
 		Object.Mass = 0.0f;
@@ -558,6 +563,9 @@ _Object *_Level::CreateObject(const SpawnStruct &Object) {
 		break;
 		case _Object::CYLINDER:
 			NewObject = ObjectManager.AddObject(new _Cylinder(Object));
+		break;
+		case _Object::TERRAIN:
+			NewObject = ObjectManager.AddObject(new _Terrain(Object));
 		break;
 		case _Object::ZONE:
 			NewObject = ObjectManager.AddObject(new _Zone(Object));

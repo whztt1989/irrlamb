@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<level version="0" gameversion="0.2.1">
+	<info>
+		<name>Terrain</name>
+	</info>
+	<options>
+		<emitlight enabled="1" />
+	</options>
+	<resources>
+		<script file="terrain.lua" />
+		<scene file="terrain.irr" />
+	</resources>
+	<templates>
+		<player name="player" />
+		<orb name="orb" />
+		<terrain name="terrain">
+			<mesh file="height0.png" />
+			<shape w="1" h="0.1" l="1" />
+		</terrain>
+		<box name="box">
+			<mesh file="cube.irrbmesh" scale="1" />
+			<shape w="1" h="1" l="1" />
+			<texture t1="crate0.jpg" />
+			<physics mass="0.5" />
+		</box>
+	</templates>
+	<objects>
+		<object name="player" template="player">
+			<position x="0.0" y="52.5" z="0.0" />
+		</object>
+		<object name="terrain" template="terrain">
+			<position x="-50.0" y="30.0" z="-50.0" />
+		</object>
+		<object name="a" template="box">
+			<position x="0" y="50.5" z="0" />
+		</object>
+	</objects>
+</level>

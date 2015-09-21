@@ -42,6 +42,7 @@ class _Object : public btMotionState {
 			SPHERE,
 			BOX,
 			CYLINDER,
+			TERRAIN,
 			CONSTRAINT_HINGE,
 			CONSTRAINT_D6,
 			ZONE,
