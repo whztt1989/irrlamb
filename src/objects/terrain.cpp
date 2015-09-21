@@ -43,23 +43,28 @@ _Terrain::_Terrain(const SpawnStruct &Object)
 			-1,
 			core::vector3df(0.0f, 0.0f, 0.0f),
 			core::vector3df(0.0f, 0.0f, 0.0f),
-			core::vector3df(Template->Shape[0], Template->Shape[1], Template->Shape[2]),
+			core::vector3df(1.0f, 1.0f, 1.0f),
 			video::SColor(255, 255, 255, 255),
 			5,
 			scene::ETPS_17,
-			10);
+			Template->Smooth);
 
-		Terrain->setMaterialTexture(0, irrDriver->getTexture(HeightMap.c_str()));
+		// Set node transform
+		Terrain->setPosition(core::vector3df(Object.Position[0], Object.Position[1], Object.Position[2]));
+		Terrain->setScale(core::vector3df(Template->Shape[0], Template->Shape[1], Template->Shape[2]));
+
+		// Set textures
+		for(int i = 0; i < 2; i++) {
+			if(Template->Textures[i] != "")
+				Terrain->setMaterialTexture(i, irrDriver->getTexture(Template->Textures[i].c_str()));
+		}
+		Terrain->scaleTexture(Template->TextureScale[0], Template->TextureScale[1]);
+
+		//Terrain->setMaterialType(video::EMT_DETAIL_MAP);
 		if(Template->CustomMaterial != -1)
 			Terrain->setMaterialType((video::E_MATERIAL_TYPE)Template->CustomMaterial);
 
-		//Terrain->setMaterialType(video::EMT_DETAIL_MAP);
-		//Terrain->scaleTexture(1.0f, 12.0f);
-		//Terrain->setMaterialTexture(0, irrDriver->getTexture(HeightMap.c_str()));
-		//Terrain->setMaterialTexture(1, irrDriver->getTexture(HeightMap.c_str()));
-
 		Node = Terrain;
-
 		if(Physics.IsEnabled()) {
 			CollisionMesh = new btTriangleMesh();
 			scene::CDynamicMeshBuffer MeshBuffer(video::EVT_STANDARD, video::EIT_32BIT);

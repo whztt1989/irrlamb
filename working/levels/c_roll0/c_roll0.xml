@@ -19,7 +19,7 @@
 			<shape w="2.5" h="5" l="2.5" />
 			<physics mass="7.0" restitution="0" />
 			<damping angular="0" linear="0" />
-			<texture t1="woodfloor0.jpg" />
+			<texture file="woodfloor0.jpg" />
 		</cylinder>
 		<box name="floor">
 			<shape w="35" h="0.5" l="0.5" />

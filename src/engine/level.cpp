@@ -359,8 +359,9 @@ int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &O
 	}
 	Object.Name = String;
 
-	// Get lifetime
+	// Get attributes
 	TemplateElement->QueryFloatAttribute("lifetime", &Object.Lifetime);
+	TemplateElement->QueryIntAttribute("smooth", &Object.Smooth);
 
 	// Get scale
 	Element = TemplateElement->FirstChildElement("shape");
@@ -422,20 +423,27 @@ int _Level::GetTemplateProperties(XMLElement *TemplateElement, TemplateStruct &O
 		Element->QueryFloatAttribute("z", &Object.ConstraintData[1][2]);
 	}
 
-	// Get texture
-	Element = TemplateElement->FirstChildElement("texture");
-	if(Element) {
-		for(int i = 0; i < 4; i++) {
-			char AttributeName[16];
-			sprintf(AttributeName, "t%d", i+1);
+	// Get textures
+	for(XMLElement *Element = TemplateElement->FirstChildElement("texture"); Element != 0; Element = TemplateElement->NextSiblingElement("texture")) {
 
-			const char *Attribute = Element->Attribute(AttributeName);
-			if(Attribute) {
-				Object.Textures[i] = Game.GetWorkingPath() + std::string("textures/") + Attribute;
-				if(!irrFile->existFile(Object.Textures[i].c_str())) {
-					Log.Write("Texture file does not exist: %s", Object.Textures[i].c_str());
-					return 0;
-				}
+		// Get texture index
+		int Index = 0;
+		Element->QueryIntAttribute("index", &Index);
+		if(Index > 3) {
+			Log.Write("Texture index out of bounds! %d > 3", Index);
+			return 0;
+		}
+
+		// Get texture scale
+		Element->QueryFloatAttribute("scale", &Object.TextureScale[Index]);
+
+		// Get filename
+		const char *Filename = Element->Attribute("file");
+		if(Filename) {
+			Object.Textures[Index] = Game.GetWorkingPath() + std::string("textures/") + Filename;
+			if(!irrFile->existFile(Object.Textures[Index].c_str())) {
+				Log.Write("Texture file does not exist: %s", Filename);
+				return 0;
 			}
 		}
 	}

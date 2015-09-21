@@ -29,8 +29,8 @@ TemplateStruct::TemplateStruct() {
 
 	// Collisions
 	CollisionCallback = "";
-    CollisionGroup = _Physics::FILTER_RIGIDBODY | _Physics::FILTER_CAMERA;
-    CollisionMask = _Physics::FILTER_BASICBODIES | _Physics::FILTER_ZONE;
+	CollisionGroup = _Physics::FILTER_RIGIDBODY | _Physics::FILTER_CAMERA;
+	CollisionMask = _Physics::FILTER_BASICBODIES | _Physics::FILTER_ZONE;
 
 	// Physical properties
 	CollisionFile = "";
@@ -46,6 +46,10 @@ TemplateStruct::TemplateStruct() {
 	for(int i = 0; i < 4; i++)
 		ConstraintData[i].setValue(0.0f, 0.0f, 0.0f);
 
+	// Textures
+	for(int i = 0; i < 4; i++)
+		TextureScale[i] = 1.0f;
+
 	// Graphics
 	Scale = 1.0f;
 	Mesh = "";
@@ -55,6 +59,9 @@ TemplateStruct::TemplateStruct() {
 
 	// Zones
 	Active = true;
+
+	// Terrain
+	Smooth = 5;
 }
 
 SpawnStruct::SpawnStruct() {

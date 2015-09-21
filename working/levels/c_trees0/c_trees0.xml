@@ -20,7 +20,7 @@
 			<shape w="2" h="12" l="2" />
 			<physics mass="6.0" restitution="0" />
 			<damping angular="0.4" linear="0.2" />
-			<texture t1="bark0.jpg" />
+			<texture file="bark0.jpg" />
 		</cylinder>
 		<box name="floor">
 			<shape w="100" h="10" l="100" />

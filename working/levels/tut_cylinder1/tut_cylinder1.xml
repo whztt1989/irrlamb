@@ -19,7 +19,7 @@
 			<shape w="5" h="10" l="5" />
 			<physics mass="15.0" />
 			<damping angular="0" />
-			<texture t1="woodfloor0.jpg" />
+			<texture file="woodfloor0.jpg" />
 		</cylinder>
 	</templates>
 	<objects>

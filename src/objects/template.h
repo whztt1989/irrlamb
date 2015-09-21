@@ -50,12 +50,16 @@ struct TemplateStruct {
 	std::string Mesh;
 	float Scale;
 	std::string Textures[4];
+	float TextureScale[4];
 	bool Fog;
 	bool EmitLight;
 	int CustomMaterial;
 
 	// Zones
 	bool Active;
+
+	// Terrain
+	int Smooth;
 };
 
 struct SpawnStruct {

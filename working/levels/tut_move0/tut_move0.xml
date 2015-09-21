@@ -14,7 +14,7 @@
 		<box name="crate_medium">
 			<mesh file="cube.irrbmesh" scale="1.5" />
 			<shape w="1.5" h="1.5" l="1.5" />
-			<texture t1="crate0.jpg" />
+			<texture file="crate0.jpg" />
 		</box>
 		<box name="floor">
 			<shape w="100" h="2" l="100" />
@@ -24,7 +24,7 @@
 			<mesh file="cylinder.irrbmesh" scale="1" />
 			<shape w="1" h="2" />
 			<physics mass="0.25" />
-			<texture t1="woodfloor0.jpg" />
+			<texture file="woodfloor0.jpg" />
 		</cylinder>
 	</templates>
 	<objects>
