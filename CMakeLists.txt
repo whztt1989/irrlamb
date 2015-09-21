@@ -31,6 +31,9 @@ else()
 		set(CMAKE_BUILD_TYPE Release)
 	endif()
 
+	# compiler flags
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+
 	# x11
 	find_package(X11 REQUIRED)
 	set(EXTRA_LIBS ${EXTRA_LIBS} ${X11_X11_LIB} ${X11_Xrandr_LIB} ${X11_Xext_LIB} ${X11_Xxf86vm_LIB})
